@@ -1,0 +1,28 @@
+# Maximim number of Forceload Blocks per player (default 20)
+techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 20
+
+# Enable Basalt Stone (and disable ore generation via cobble generator)
+techage_basalt_stone_enabled (Basalt Stone enabled) bool false
+
+# Rarity factor to find ores when sieving with the Gravel Sieve
+# 1.0 is according to the mapgen generator 
+# 2.0 means half as many ores as result
+# 0.5 means twice as many ores as result
+techage_ore_rarity (Rarity factor to find ores) float 1.0
+
+# Enable alternative recipes for steel and bronze.
+# Instead of the furnace the player has to use the Coal Burner.
+techage_modified_recipes_enabled (Enable alternative recipes for steel and bronze) bool false
+
+# Seed for the oil exploration random function.
+# Change this for your server in order not to be able to predict the oil reserves!
+techage_oil_exploration_seed (techage oil exploration seed) int 1234
+
+
+# Use the external Lua library 'lua-marshal' for faster serialization/deserialization 
+# of node meta data. See also 'README.md'.
+techage_use_marshal (use lua-marshal as serialize/deserialize functions) bool false
+
+# Use the external library 'lsqlite3' for for faster storing of data. 
+# See also 'README.md'.
+techage_use_sqlite (use sqlite database) bool false

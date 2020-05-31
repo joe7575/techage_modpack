@@ -1,0 +1,111 @@
+# textdomain: hyperloop
+
+
+### booking.lua ###
+Station data is corrupted. Please rebuild the station!=Stationsdaten sind beschädigt. Bitte die Station neu bauen!
+Station is still blocked. Please try again in a few seconds!=Die Station ist noch blockiert. Bitte versuche es in ein paar Sekunden wieder!
+
+### booking_node.lua ###
+Additional station information=Zusätzliche Stationsinformationen
+Hyperloop Booking Machine=Hyperloop Fahrkartenautomat
+Invalid station name!=Ungültiger Stationsname!
+Please enter the station name to@nwhich this booking machine belongs.=Bitte gib den Stationsnamen ein@nzu dem dieser Fahrkartenautomat gehört.
+Station has already a booking machine!=Station hat bereits einen Fahrkartenautomat!
+Station name=Stationsname
+
+### elevator.lua ###
+Select your destination=Wähle dein Ziel
+
+### migrate.lua ###
+<unknown>=<unbekannt>
+
+### deco.lua ###
+Hyperloop Promo Poster =Hyperloop Werbeposter 
+Hyperloop Station Sign=Hyperloop Stationszeichen
+Hyperloop Station Sign Left=Hyperloop Stationszeichen links
+Hyperloop Station Sign Right=Hyperloop Stationszeichen rechts
+
+### door.lua ###
+Hyperloop Door Bottom=Hyperloop Tür Unterteil
+Hyperloop Door Top=Hyperloop Tür Oberteil
+The Booking Machine for this station is missing!=Der Fahrkartenautomat für die Station fehlt!
+
+### elevator.lua ###
+(current position)=(aktuelle Position)
+Base=Basis
+Destination=Ziel
+Floor=Stockwerk
+Floor name=Stockwerkname
+Hyperloop Elevator=Hyperloop Aufzug
+Hyperloop Elevator Shaft=Hyperloop Aufzugsschacht
+Please insert floor name=Gib den Stockwerknamen ein
+
+### wifi.lua ###
+Save=Speichern
+
+### junction.lua ###
+Hyperloop Junction Block=Hyperloop Anschlussstelle
+Hyperloop Pillar=Hyperloop Stütze
+Junction connected with =Anschlussstelle verbunden mit 
+Station connected with =Station verbunden mit 
+
+### migrate.lua ###
+Junction=Anschlussstelle
+Hyperloop Legacy Tube=Hyperloop veraltetes Rohr
+unknown=unbekant
+
+### lcd.lua ###
+Hyperloop Display=Hyperloop Bildschirm
+
+### map.lua ###
+Close=Schließen
+Conn. with=Verb. mit
+Dist.=Entf.
+Hyperloop Station Book=Hyperloop Stationsbuch
+Owner=Besitzer
+Position=Position
+Station/Junction=Station/Anschlussstelle
+
+### seat.lua ###
+Hyperloop Pod Seat=Hyperloop Sitz
+[Hyperloop] No booking entered!=[Hyperloop] Keine Buchung eingegeben!
+
+### station.lua ###
+Hypersteel Ingot=Hyperstahl Barren
+Area is protected!=Die Area ist geschützt!
+Blue Wool=Blaue Wolle
+Build Station=Baue Station
+Destroy Station=Zerstöre Station
+Glass=Glas
+Hyperloop Pod Shell=Hyperloop Kabinenwand
+Hyperloop Station Block=Hyperloop Stations Block
+Hyperloop Station Pod Builder=Hyperloop Stations Ersteller
+Not enough inventory items to build the station!=Nicht ausreichend Inventory Items um die Station zu bauen!
+Not enough space to build the station!=Nicht ausreichend Platz um die Station zu errichten!
+Station=Station
+Station completed. Now place the Booking Machine!=Station fertig. Setze nun den Fahrkartenautomat!
+
+### tube.lua ###
+Do you really want to start a new network?!=Willst du wirklich ein neues Liniennetz beginnen?!
+Hyperloop Tube=Hyperloop Röhre
+Junction at =Anschlussstelle bei 
+Open end at =Offenes Ende bei 
+Station '=Station '
+Station at =Station bei 
+There is no station/junction on this level. =Es gibt keine Station/Anschlussstelle auf dieser Höhe. 
+
+### tubecrowbar.lua ###
+    left: remove node@n=    links: entferne Block@n
+    right: repair tube/shaft line@n=    rechts: repariere Röhre/Schacht@n
+Hyperloop Tube Crowbar=Hyperloop Brecheisen
+Repair via WorldEdit placed Hyperloop tubes by reusing WorldEdit pos1/pos2=Reparatur über WorldEdit platzierte Hyperloop-Röhren durch Wiederverwendung von WorldEdit pos1/pos2
+Rights to remove tube nodes by means of the crowbar=Rechte zur Entfernung von Rohrknoten mit Hilfe der Brechstange
+You don't have the necessary privs!=Du hast nicht die notwendigen Rechte!
+[Crowbar Help]@n=[Brecheisen Hilfe]@n
+
+### waypoint.lua ###
+Hyperloop Waypoint=Hyperloop Wegpunkt
+
+### wifi.lua ###
+Enter channel string=Kanalname eingeben
+Hyperloop WiFi Tube=Hyperloop Wifi Röhre

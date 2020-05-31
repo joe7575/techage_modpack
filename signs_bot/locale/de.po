@@ -1,0 +1,1671 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-30 15:09+0200\n"
+"PO-Revision-Date: 2020-05-30 15:14+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: basis.lua
+msgid "Off"
+msgstr "Aus"
+
+#: basis.lua
+msgid "On"
+msgstr "An"
+
+#: basis.lua
+msgid "Signs"
+msgstr "Zeichen"
+
+#: basis.lua
+msgid "Other items"
+msgstr "Andere Gegenstände"
+
+#: basis.lua
+msgid "Config"
+msgstr "Konfig."
+
+#: basis.lua
+msgid "Preassign slots items"
+msgstr "Vorbelegungen"
+
+#: basis.lua
+msgid "Back"
+msgstr "Zurück"
+
+#: basis.lua
+msgid "Robot Box "
+msgstr "Roboter Box "
+
+#: basis.lua
+msgid "running"
+msgstr "läuft"
+
+#: basis.lua
+msgid "charging"
+msgstr "aufladen"
+
+#: basis.lua
+msgid "stopped"
+msgstr "gestoppt"
+
+#: basis.lua
+msgid "Signs Bot Box"
+msgstr "Roboter Box"
+
+#: basis.lua
+msgid "no power"
+msgstr "kein Strom"
+
+#: basis.lua
+msgid "The Box is the housing of the bot."
+msgstr "Die Box ist das Gehäuse des Roboters."
+
+#: basis.lua
+msgid "Place the box and start the bot by means of the 'On' button."
+msgstr "Platziere die Box und starte den Roboter über den \"An\" Button."
+
+#: basis.lua
+msgid "If the mod techage is installed, the bot needs electrical power."
+msgstr ""
+"Wenn die Mod techage installiert ist, benötigt der Roboter elektrischen "
+"Strom."
+
+#: basis.lua
+msgid "The bot leaves the box on the right side."
+msgstr "Der Roboter verlässt die Box auf der rechten Seite."
+
+#: basis.lua
+msgid "It will not start, if this position is blocked."
+msgstr "Er startet nicht, wenn diese Position belegt ist."
+
+#: basis.lua
+msgid "To stop and remove the bot, press the 'Off' button."
+msgstr ""
+"Um den Roboter zu stoppen bzw. zu entfernen, drücke den \"Aus\" Button."
+
+#: basis.lua
+msgid "The box inventory simulates the inventory of the bot."
+msgstr "Das Inventar der Box simuliert das Roboter Inventar."
+
+#: basis.lua
+msgid "You will not be able to access the inventory, if the bot is running."
+msgstr ""
+"Du hast keinen Zugriff auf das Inventar, sofern der Roboter unterwegs ist."
+
+#: basis.lua
+msgid "The bot can carry up to 8 stacks and 6 signs with it."
+msgstr "Der Roboter kann 8 Stapel von Blöcken und 6 Zeichen transportieren."
+
+#: bot_flap.lua
+msgid "Exit"
+msgstr "Beenden"
+
+#: bot_flap.lua
+msgid "Bot Flap"
+msgstr "Roboterklappe"
+
+#: bot_flap.lua
+msgid "The flap is a simple block used as door for the bot."
+msgstr ""
+"Die Klappe ist ein einfacher Block, welcher vom Roboter als Tür genutzt wird."
+
+#: bot_flap.lua
+msgid "Place the flap in any wall, and the bot will automatically open"
+msgstr ""
+"Platziere die Klappe in eine Mauer und der Roboter wird die Klappe "
+"automatisch öffnen"
+
+#: bot_flap.lua
+msgid "and close the flap as it passes through it."
+msgstr "und wieder schließen, wenn er durchgegangen ist."
+
+#: bot_sensor.lua
+msgid "Bot Sensor: Connected with "
+msgstr "Bot Sensor: Verbunden mit "
+
+#: bot_sensor.lua
+msgid "Bot Sensor"
+msgstr "Bot Sensor"
+
+#: bot_sensor.lua
+msgid "Bot Sensor: Not connected"
+msgstr "Bot Sensor: Nicht verbunden"
+
+#: bot_sensor.lua
+msgid "The Bot Sensor detects any bot and sends a signal, if a bot is nearby."
+msgstr ""
+"Der Roboter Sensor entdeckt jeden Roboter und sendet ein Signal, sofern ein "
+"Roboter in der Nähe ist."
+
+#: bot_sensor.lua cart_sensor.lua
+msgid "the sensor range is one node/meter."
+msgstr "Der Sensorbereich ist einen Block/Meter groß."
+
+#: bot_sensor.lua
+msgid "The sensor direction does not care."
+msgstr "Die Ausrichtung des Sensor spielt keine Rolle."
+
+#: cart_sensor.lua
+msgid "Cart Sensor: Connected with "
+msgstr "Wagen Sensor: Verbunden mit "
+
+#: cart_sensor.lua
+msgid "Cart Sensor"
+msgstr "Wagen Sensor"
+
+#: cart_sensor.lua
+msgid ""
+"The Cart Sensor detects and sends a signal, if a cart (Minecart) is nearby."
+msgstr "Der Wagen Sensor sendet ein Signal, sofern ein Wagen in der Nähe ist."
+
+#: cart_sensor.lua
+msgid "The sensor has an active side (red) that must point to the rail/cart."
+msgstr ""
+"Der Sensor hat eine aktive Seite (rot), welche zu den Schienen zeigen muss."
+
+#: changer.lua
+msgid "Signs:"
+msgstr "Zeichen:"
+
+#: changer.lua
+msgid "Bot Control Unit"
+msgstr "Roboter Steuerungseinheit"
+
+#: changer.lua
+msgid "The Bot Control Unit is used to lead the bot by means of signs."
+msgstr ""
+"Die Roboter Steuerungseinheit dient zur Steuerung des Roboters über Zeichen."
+
+#: changer.lua
+msgid ""
+"The unit can be loaded with up to 4 different signs and can be programmed by "
+"means of sensors."
+msgstr ""
+"Die Einheit kann mit bis zu 4 verschiedenen Zeichen geladen und über "
+"Sensoren programmiert werden."
+
+#: changer.lua
+msgid ""
+"To load the unit, place a sign on the red side of the unit and click on the "
+"unit."
+msgstr ""
+"Um die Steuerungseinheit zu laden, platziere ein Zeichen auf die rote Seite "
+"der Einheit und klicke auf die Einheit."
+
+#: changer.lua
+msgid "The sign disappears / is moved to the inventory of the unit."
+msgstr "Das Zeichen verschwindet/ist in die Steuerungseinheit verschoben."
+
+#: changer.lua
+msgid "This can be repeated 3 times."
+msgstr "Dies kann bis zu 3 mal wiederholt werden."
+
+#: changer.lua
+msgid ""
+"Use the connection tool to connect up to 4 sensors with the Bot Control Unit."
+msgstr ""
+"Benutze das Verbinde-Werkzeug um die bis zu 4 Sensoren mit der "
+"Steuerungseinheit zu verbinden."
+
+#: chest.lua
+msgid "Bot Chest: Sends signal to "
+msgstr "Roboter Kiste: Sende Signal zu "
+
+#: chest.lua
+msgid "Signs Bot Chest"
+msgstr "Signs Bot Kiste"
+
+#: chest.lua
+msgid "The Signs Bot Chest is a special chest with sensor function."
+msgstr ""
+"Die Roboter Kiste ist eine spezielle Kiste mit zusätzlicher Sensor-Funktion."
+
+#: chest.lua
+msgid "It sends a signal depending on the chest state."
+msgstr "Sie sendet ein Signal abhängig vom Zustand der Kiste."
+
+#: chest.lua
+msgid "Possible states are 'empty', 'not empty', 'almost full'"
+msgstr "Mögliche Zustände sind \"leer\", \"nicht leer\" und \"fast voll\""
+
+#: chest.lua
+msgid ""
+"A typical use case is to turn off the bot, when the chest is almost full or "
+"empty."
+msgstr ""
+"Ein typischer Anwendungsfall ist den Roboter zu stoppen, wenn die Kiste fast "
+"voll oder leer ist."
+
+#: cmd_farming.lua
+msgid ""
+"Sow farming seeds\n"
+"in front of the robot"
+msgstr ""
+"Sähe Saatgut\n"
+"vor dem Roboter"
+
+#: cmd_farming.lua
+msgid ""
+"Harvest farming products\n"
+"in front of the robot\n"
+"on a 3x3 field."
+msgstr ""
+"Ernte Früchte/Getreide\n"
+"in einem 3x3 großem Feld\n"
+"vor dem Roboter."
+
+#: cmd_farming.lua
+msgid ""
+"Plant a sapling\n"
+"in front of the robot"
+msgstr ""
+"Pflanze einen Setzling\n"
+"vor den Roboter"
+
+#: cmd_farming.lua
+msgid "Sign \"farming\""
+msgstr "Zeichen \"Farming\""
+
+#: cmd_farming.lua
+msgid "Sign 'farming'"
+msgstr "Zeichen 'Farming'"
+
+#: cmd_farming.lua
+msgid "Used to harvest and seed a 3x3 field."
+msgstr "Benötigt um ein 3x3 Feld zu ernten und wieder zu sähen."
+
+#: cmd_farming.lua cmd_flowers.lua
+msgid "Place the sign in front of the field."
+msgstr "Platziere das Zeichen vor das Feld."
+
+#: cmd_farming.lua
+msgid "The seed to be placed has to be in the first inventory slot of the bot."
+msgstr ""
+"Das Saatgut, dass gesät werden soll, muss sich an der 1. Position im "
+"Inventar befinden."
+
+#: cmd_farming.lua cmd_flowers.lua
+msgid "When finished, the bot turns."
+msgstr "Der Roboter dreht um, wenn er fertig ist."
+
+#: cmd_flowers.lua
+msgid ""
+"Cutting flowers\n"
+"in front of the robot\n"
+"on a 3x3 field."
+msgstr ""
+"Schneide Blumen\n"
+"in einem 3x3 großem Feld\n"
+"vor dem Roboter."
+
+#: cmd_flowers.lua
+msgid "Sign \"flowers\""
+msgstr "Zeichen \"Blumen\""
+
+#: cmd_flowers.lua
+msgid "Sign 'flowers'"
+msgstr "Zeichen 'Blumen'"
+
+#: cmd_flowers.lua
+msgid "Used to cut flowers on a 3x3 field."
+msgstr "Benötigt um ein 3x3 Blumenfeld zu ernten."
+
+#: cmd_item.lua
+msgid ""
+"Take <num> items from a chest like node\n"
+"and put it into the item inventory.\n"
+"<slot> is the inventory slot (1..8) or 0 for any one"
+msgstr ""
+"Nehme <num> Gegenstände aus der\n"
+"Kiste oder dem Kisten-ähnlichen Block\n"
+"und tue diese in das eigene Inventar\n"
+"an der Position <slot>. Slot = (1..8)\n"
+"oder 0 für irgend eine Position"
+
+#: cmd_item.lua
+msgid ""
+"Add <num> items to a chest like node\n"
+"taken from the item inventory.\n"
+"<slot> is the inventory slot (1..8) or 0 for any one"
+msgstr ""
+"Lege <num> Gegenstände aus dem\n"
+"eigenen Inventar in die andere Kiste.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"oder 0 für irgend eine Position"
+
+#: cmd_item.lua
+msgid ""
+"Add <num> fuel to a furnace like node\n"
+"taken from the item inventory.\n"
+"<slot> is the inventory slot (1..8) or 0 for any one"
+msgstr ""
+"Lege <num> Brennstoffe aus dem\n"
+"eigenen Inventar in den anderen Block.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"oder 0 für irgend eine Position"
+
+#: cmd_item.lua
+msgid "deprecated, use bot inventory configuration instead"
+msgstr "veraltet, benutze stattdessen die Inventar Konfigurationsmöglichkeit"
+
+#: cmd_item.lua
+msgid ""
+"Pick up all objects\n"
+"in a 3x3 field.\n"
+"<slot> is the inventory slot (1..8) or 0 for any one"
+msgstr ""
+"Hebe alle Objekte in einem\n"
+"3x3 Blöcke großen Feld auf\n"
+"und lege diese in das eigene\n"
+"Inventar an Position <slot> (1-8)\n"
+"oder 0 für irgend eine Position"
+
+#: cmd_item.lua
+msgid ""
+"Drop items in front of the bot.\n"
+"<slot> is the inventory slot (1..8) or 0 for any one"
+msgstr ""
+"Lasse ein Objekt aus dem eigenen\n"
+"Inventar vor dem Roboter fallen.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"oder 0 für irgend eine Position"
+
+#: cmd_item.lua
+msgid "Punch a rail cart to start it"
+msgstr "Schlage den Wagen um ihn zu starten"
+
+#: cmd_move.lua
+msgid "Move the robot one step back"
+msgstr ""
+"Bewege den Roboter\n"
+"einen Schritt zurück"
+
+#: cmd_move.lua
+msgid "Turn the robot to the left"
+msgstr ""
+"Drehe den Roboter\n"
+"nach links"
+
+#: cmd_move.lua
+msgid "Turn the robot to the right"
+msgstr ""
+"Drehe den Roboter\n"
+"nach rechts"
+
+#: cmd_move.lua
+msgid "Turn the robot around"
+msgstr ""
+"Drehe den Roboter\n"
+"um (180 Grad)"
+
+#: cmd_move.lua
+msgid "Move the robot upwards"
+msgstr ""
+"Bewege den Roboter\n"
+"nach oben"
+
+#: cmd_move.lua
+msgid "Move the robot down"
+msgstr ""
+"Bewege den Roboter\n"
+"nach unten"
+
+#: cmd_move.lua
+msgid ""
+"Stop the robot for <sec> seconds\n"
+"(1..9999)"
+msgstr ""
+"Stoppe den Roboter\n"
+"für <sec> Sekunden (1.9999)"
+
+#: cmd_move.lua
+msgid "Stop the robot."
+msgstr "Stoppe den Roboter."
+
+#: cmd_move.lua
+msgid ""
+"Turn the robot off\n"
+"and put it back in the box."
+msgstr ""
+"Schalte den Roboter aus und\n"
+"setze ihn damit zurück in\n"
+"seine Box."
+
+#: cmd_pattern.lua
+msgid "Store pattern to be cloned."
+msgstr ""
+"Speichere die Vorlage\n"
+"die kopiert werden soll."
+
+#: cmd_pattern.lua
+msgid ""
+"Copy the nodes from\n"
+"the stored pattern position\n"
+"<size> is: 3x1, 3x2, 3x3,\n"
+"5x1, 5x2, 5x3 (wide x deep)\n"
+"<lvl> pattern level offset (0..4)"
+msgstr ""
+"Kopiere die Blöcke von der\n"
+"\"Vorlage\" Position.\n"
+"<size> ist: 3x1, 3x2, 3x3,\n"
+"5x1, 5x2, 5x3 (Breite x Tiefe)\n"
+"<lvl> Vorlagenebene (0..4)"
+
+#: cmd_pattern.lua
+msgid "Sign \"pattern\""
+msgstr "Zeichen \"Vorlage\""
+
+#: cmd_pattern.lua
+msgid "Sign \"copy 3x3x3\""
+msgstr "Zeichen \"kopiere 3x3x3\""
+
+#: cmd_pattern.lua
+msgid "Sign 'pattern'"
+msgstr "Zeichen 'Vorlage'"
+
+#: cmd_pattern.lua
+msgid "Used to make a copy of a 3x3x3 cube."
+msgstr "Benötigt um eine Kopie eines 3x3x3 Quadrats zu machen."
+
+#: cmd_pattern.lua
+msgid "Place the sign in front of the pattern to be copied."
+msgstr "Platziere das Zeichen vor die Vorlage, die kopiert werden soll."
+
+#: cmd_pattern.lua
+msgid ""
+"Use the copy sign to make the copy of this pattern on a different location."
+msgstr ""
+"Benutze das Kopier-Zeichen, um eine Kopie dieser Vorlage an einer anderen "
+"Stelle zu machen."
+
+#: cmd_pattern.lua
+msgid "The bot must first reach the pattern sign, then the copy sign."
+msgstr ""
+"Der Roboter muss zuerst das Vorlage-Zeichen und dann das Kopier-Zeichen "
+"erreichen."
+
+#: cmd_pattern.lua
+msgid "Sign 'copy3x3x3'"
+msgstr "Zeichen 'kopiere 3x3x3'"
+
+#: cmd_pattern.lua
+msgid "Place the sign in front of the location, where the copy should be made."
+msgstr ""
+"Platziere das Zeichen vor die Stelle, wo die Kopie hergestellt werden soll."
+
+#: cmd_pattern.lua
+msgid "Use the pattern sign to mark the pattern."
+msgstr "Benutze das Vorlage-Zeichen und die Vorlage zu markieren."
+
+#: cmd_place.lua
+msgid "Error: Position protected"
+msgstr "Fehler: Position geschützt"
+
+#: cmd_place.lua
+msgid ""
+"Place a block in front of the robot\n"
+"<slot> is the inventory slot (1..8)\n"
+"<lvl> is one of: -1   0   +1"
+msgstr ""
+"Setze einen Block vor den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"Für <lvl> ist zulässig: -1   0   +1"
+
+#: cmd_place.lua
+msgid ""
+"Place a block on the left side\n"
+"<slot> is the inventory slot (1..8)\n"
+"<lvl> is one of: -1   0   +1"
+msgstr ""
+"Setze einen Block links vorne.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"Für <lvl> ist zulässig: -1   0   +1"
+
+#: cmd_place.lua
+msgid ""
+"Place a block on the right side\n"
+"<slot> is the inventory slot (1..8)\n"
+"<lvl> is one of: -1   0   +1"
+msgstr ""
+"Setze einen Block rechts vorne.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"Für <lvl> ist zulässig: -1   0   +1"
+
+#: cmd_place.lua
+msgid ""
+"Place a block under the robot.\n"
+"Hint: use 'move_up' first.\n"
+"<slot> is the inventory slot (1..8)"
+msgstr ""
+"Setze einen Block unter den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8)."
+
+#: cmd_place.lua
+msgid ""
+"Place a block above the robot.\n"
+"<slot> is the inventory slot (1..8)"
+msgstr ""
+"Setze einen Block über den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8)."
+
+#: cmd_place.lua
+msgid "Error: No free inventory space"
+msgstr "Fehler: Kein freier Inventarplatz"
+
+#: cmd_place.lua
+msgid ""
+"Dig the block in front of the robot\n"
+"<slot> is the inventory slot (1..8)\n"
+"<lvl> is one of: -1   0   +1"
+msgstr ""
+"Entferne einen Block vor den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"Für <lvl> ist zulässig: -1   0   +1"
+
+#: cmd_place.lua
+msgid ""
+"Dig the block on the left side\n"
+"<slot> is the inventory slot (1..8)\n"
+"<lvl> is one of: -1   0   +1"
+msgstr ""
+"Entferne einen links vorne.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"Für <lvl> ist zulässig: -1   0   +1"
+
+#: cmd_place.lua
+msgid ""
+"Dig the block on the right side\n"
+"<slot> is the inventory slot (1..8)\n"
+"<lvl> is one of: -1   0   +1"
+msgstr ""
+"Entferne einen rechts vorne.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8).\n"
+"Für <lvl> ist zulässig: -1   0   +1"
+
+#: cmd_place.lua
+msgid ""
+"Dig the block under the robot.\n"
+"<slot> is the inventory slot (1..8)"
+msgstr ""
+"Entferne einen Block unter dem\n"
+"Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8)."
+
+#: cmd_place.lua
+msgid ""
+"Dig the block above the robot.\n"
+"<slot> is the inventory slot (1..8)"
+msgstr ""
+"Entferne einen Block über dem\n"
+"Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--8)."
+
+#: cmd_place.lua
+msgid ""
+"Rotate the block in front of the robot\n"
+"<lvl> is one of:  -1   0   +1\n"
+"<steps> is one of:  1   2   3"
+msgstr ""
+"Rotiere den Block vor dem Roboter.\n"
+"Für <lvl> ist zulässig: -1   0   +1\n"
+"Für <steps> ist zulässig: 1   2   3"
+
+#: cmd_sign.lua
+msgid "Commands,Help"
+msgstr "Kommandos,Hilfe"
+
+#: cmd_sign.lua
+msgid "Sign name:"
+msgstr "Zeichenname:"
+
+#: cmd_sign.lua
+msgid "Cancel"
+msgstr "Abbruch"
+
+#: cmd_sign.lua
+msgid "Check"
+msgstr "Prüfen"
+
+#: cmd_sign.lua
+msgid "Copy Cmnd"
+msgstr "Kopiere Kommando"
+
+#: cmd_sign.lua
+msgid "Sign \"command\""
+msgstr "Zeichen \"Kommando\""
+
+#: cmd_sign.lua
+msgid "-- enter or copy commands from help page"
+msgstr "-- Kommandos eingeben oder von der Hilfeseite kopieren"
+
+#: cmd_sign.lua
+msgid "Error: Signs inventory empty"
+msgstr "Fehler: Zeichen Inventar ist leer"
+
+#: cmd_sign.lua
+msgid "Error: Position protected or occupied"
+msgstr "Fehler: Position ist geschützt oder belegt"
+
+#: cmd_sign.lua
+msgid ""
+"Place a sign in front of the robot\n"
+"taken from the signs inventory\n"
+"<slot> is the inventory slot (1..6)"
+msgstr ""
+"Setze ein Zeichen vor den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--6)."
+
+#: cmd_sign.lua
+msgid ""
+"Place a sign behind the robot\n"
+"taken from the signs inventory\n"
+"<slot> is the inventory slot (1..6)"
+msgstr ""
+"Setze ein Zeichen hinter den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--6)."
+
+#: cmd_sign.lua
+msgid "Error: No sign available"
+msgstr "Fehler: Kein Zeichen verfügar"
+
+#: cmd_sign.lua
+msgid "Error: Signs inventory slot is occupied"
+msgstr "Fehler: Die Zeicheninventar Position ist belegt"
+
+#: cmd_sign.lua
+msgid "Error: Position is protected"
+msgstr "Fehler: Die Position ist geschützt"
+
+#: cmd_sign.lua
+msgid ""
+"Dig the sign in front of the robot\n"
+"and add it to the signs inventory.\n"
+"<slot> is the inventory slot (1..6)"
+msgstr ""
+"Entferne das Zeichen vor den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--6)."
+
+#: cmd_sign.lua
+msgid ""
+"Dig the sign in front of the robot\n"
+"and add the cleared sign to\n"
+"the item iventory.\n"
+"<slot> is the inventory slot (1..8)"
+msgstr ""
+"Entferne das Zeichen vor den Roboter.\n"
+"<slot> ist die Position im\n"
+"eigenen Inventar (1--6)."
+
+#: cmd_sign.lua
+msgid "Sign 'command'"
+msgstr "Zeichen 'Kommando'"
+
+#: cmd_sign.lua
+msgid "The 'command' sign can be programmed by the player."
+msgstr "Das 'Kommando' Zeichen kann vom Spieler programmiert werden."
+
+#: cmd_sign.lua
+msgid ""
+"Place the sign in front of you and use the node menu to program your "
+"sequence of bot commands."
+msgstr ""
+"Platziere das Zeichen vor dir und nutze das Zeichen-Menü, um die Kommando-"
+"Sequenz zu programmieren."
+
+#: cmd_sign.lua
+msgid ""
+"The menu has an edit field for your commands and a help page with all "
+"available commands."
+msgstr ""
+"Das Menü hat ein Eingabefeld für deine Kommandos und eine Hilfeseite zu "
+"allen Kommandos."
+
+#: cmd_sign.lua doc.lua
+msgid "The help page has a copy button to simplify the programming."
+msgstr ""
+"Die Hilfeseite hat einen Kopier-Button um die Programmierung zu erleichtern."
+
+#: commands.lua
+msgid "commands:"
+msgstr "Kommandos:"
+
+#: commands.lua
+msgid "unknown command"
+msgstr "unbekanntes Kommando"
+
+#: commands.lua
+msgid "start of a 'repeat..end' block"
+msgstr "Anfang eines 'repeat..end' Blocks"
+
+#: commands.lua
+msgid "end command of a 'repeat..end' block"
+msgstr "Ende Kommando eines 'repeat..end' Blocks"
+
+#: commands.lua
+msgid "call a subroutine (with 'return' statement)"
+msgstr "Aufruf einer Unterfunktion (mit 'return' Anweisung)"
+
+#: commands.lua
+msgid "return from a subroutine"
+msgstr "Rückkehr von einer Unterfunktion"
+
+#: commands.lua
+msgid "jump to a label"
+msgstr "Sprung zu einer Marke"
+
+#: commands.lua
+#, fuzzy
+msgid ""
+"Move the robot 1..999 steps forward\n"
+"without paying attention to any signs.\n"
+"Up and down movements also become\n"
+"counted as steps."
+msgstr ""
+"Bewege den Roboter 1..99 Schritte\n"
+"vorwärts ohne auf Zeichen zu achten.\n"
+"Auf- und Ab-Bewegungen werden auch\n"
+"als Schritte gezählt."
+
+#: commands.lua
+msgid ""
+"Walk until a sign or obstacle is\n"
+"reached. Then continue with the next command.\n"
+"When a sign has been reached, \n"
+"the current program is ended\n"
+"and the bot executes the\n"
+"new program from the sign"
+msgstr ""
+"Gehe bis ein Zeichen oder Hindernis\n"
+"erreicht wurde. Führe dann das nächste\n"
+"Kommando aus. \n"
+"Wurde ein Zeichen erreicht, so arbeite\n"
+"die Kommandos des Zeichens als\n"
+"Unter-Prozess ab"
+
+#: crop_sensor.lua
+msgid "Crop Sensor: Connected with "
+msgstr "Ernte Sensor: Verbunden mit "
+
+#: crop_sensor.lua
+msgid "Crop Sensor"
+msgstr "Ernte Sensor"
+
+#: crop_sensor.lua
+msgid "The Crop Sensor sends a signal when, for example wheat is fully grown."
+msgstr ""
+"Der Ernte Sensor sendet ein Signal, wenn bspw. der Weizen voll ausgewachsen "
+"ist."
+
+#: crop_sensor.lua
+msgid "The sensor range is one node/meter."
+msgstr "Der Sensorbereich beträgt einen Block/Meter."
+
+#: crop_sensor.lua
+msgid "The sensor has an active side (red) that must point to the crop/field."
+msgstr ""
+"Der Sensor hat eine aktive Seite (rot), welche zur der Pflanze zeigen muss."
+
+#: doc.lua
+msgid ""
+"After you have placed the Signs Bot Box, you can start the bot by means of "
+"the 'On' button in the box menu."
+msgstr ""
+"Nachdem du die Roboter-Kiste platziert hast, kannst du den Roboter über den "
+"\"An\" Button im Kistenmenü starten."
+
+#: doc.lua
+msgid ""
+"The bot then runs straight up until it reaches an obstacle (a step with two "
+"or more blocks up or down or a sign.)"
+msgstr ""
+"Der Roboter läuft dann geradeaus, bis er ein Hindernis erreicht (eine Stufe "
+"mit zwei oder mehr Blöcken, auf oder ab)."
+
+#: doc.lua
+msgid ""
+"If the bot first reaches a sign it will execute the commands on the sign."
+msgstr ""
+"Falls der Roboter zuerst ein Zeichen erreicht, wird er die Kommandos auf dem "
+"Zeichen ausführen."
+
+#: doc.lua
+msgid ""
+"If the command(s) on the sign is e.g. 'turn_around', the bot turns and goes "
+"back."
+msgstr ""
+"Falls das Kommandos auf dem Zeichen bspw. ein 'turn_around' ist, dreht der "
+"Roboter um und geht zurück."
+
+#: doc.lua
+msgid "In this case, the bot reaches his box again and turns off."
+msgstr ""
+"In diesem Fall erreicht der Roboter wieder seine Box und schaltet sich ab."
+
+#: doc.lua
+msgid ""
+"The Signs Bot Box has an inventory with 6 stacks for signs and 8 stacks for "
+"other items (to be placed/dug by the bot)."
+msgstr ""
+"Die Roboter Box hat ein Inventar für 6 Stapel Zeichen und 8 Stapel für "
+"andere Gegenstände (welche platziert oder eingesammelt werden können)."
+
+#: doc.lua
+msgid "This inventory simulates the bot internal inventory."
+msgstr "Das Inventar der Box simuliert das Roboter Inventar."
+
+#: doc.lua
+msgid ""
+"That means you will only have access to the inventory if the bot is turned "
+"off ('sitting' in his box)."
+msgstr ""
+"Das bedeutet, du hast nur Zugriff auf das Inventar, sofern der Roboter "
+"ausgeschaltet ist."
+
+#: doc.lua
+msgid ""
+"You simply control the direction of the bot by means of the 'turn left' and "
+"'turn right' signs (signs with the arrow)."
+msgstr ""
+"Du kannst die Richtung des Roboters ganz einfach über 'turn_left' (drehe "
+"nach links) oder 'turn_right' (drehe nach rechts) Zeichen verändern."
+
+#: doc.lua
+msgid ""
+"The bot can run over steps (one block up/down). But there are also commands "
+"to move the bot up and down."
+msgstr ""
+"Der Roboter kann auch Stufen überwinden (eine Block hoch oder runter). Aber "
+"es gibt auch Kommandos, um den Roboter nach oben oder unten zu bewegen."
+
+#: doc.lua
+msgid "It is not necessary to mark a way back to the box."
+msgstr ""
+"Es ist nicht notwendig, dem Roboter einen Weg zurück zu seiner Box zu "
+"markieren."
+
+#: doc.lua
+msgid ""
+"With the command 'turn_off' the bot will turn off and be back in his box "
+"from every position."
+msgstr ""
+"Mit dem Kommando \"turn_off\" wird der Roboter ausgeschaltet und befindet "
+"sich danach wieder in seiner Box, egal wo er war."
+
+#: doc.lua
+msgid "The same applies if you turn off the bot by the box menu."
+msgstr ""
+"Das gleiche gilt, wenn du den Roboter über den 'Aus' Button ausschaltest."
+
+#: doc.lua
+msgid ""
+"If the bot reaches a sign from the wrong direction (from back or sides) the "
+"sign will be ignored."
+msgstr ""
+"Wenn der Roboter ein Zeichen von der falschen Richtung erreicht (von der "
+"Seite oder von hinten), wird das Zeichen ignoriert."
+
+#: doc.lua
+msgid "The bot will walk over."
+msgstr "Der Roboter läuft einfach hinüber."
+
+#: doc.lua
+msgid "All predefined signs have a menu with a list of the bot commands."
+msgstr ""
+"Alle vordefinierten Zeichen haben ein Menü mit der Liste der Kommandos."
+
+#: doc.lua
+msgid ""
+"These signs can't be changed, but you can craft and program your own signs."
+msgstr ""
+"Diese Zeichen können nicht geändert werden, aber du kannst eigene Zeichen "
+"herstellen und programmieren."
+
+#: doc.lua
+msgid "For this you have to use the 'command' sign."
+msgstr "Dafür kannst du das 'command' Zeichen verwenden."
+
+#: doc.lua
+msgid ""
+"This sign has an edit field for your commands and a help page with all "
+"available commands."
+msgstr ""
+"Das Zeichen hat ein Eingabefeld für deine Kommandos und eine Hilfeseite zu "
+"allen Kommandos."
+
+#: doc.lua
+msgid "Also for your own signs it is important to know:"
+msgstr "Es ist auch für eigene Zeichen wichtig zu wissen:"
+
+#: doc.lua
+msgid ""
+"After the execution of the last command of the sign, the bot falls back into "
+"its default behaviour and runs in its taken direction."
+msgstr ""
+"Nach der Ausführung des letzten Kommandos eines Zeichens fällt der Roboter "
+"immer zurück in sein Standardverhalten und läuft in die eingeschlagene "
+"Richtung weiter."
+
+#: doc.lua
+msgid "A standard job for the bot is to move items from one chest to another"
+msgstr ""
+"Eine Standardaufgabe für den Roboter ist, Gegenstände von einer Kiste in "
+"eine andere zu tun"
+
+#: doc.lua
+msgid "(chest or node with a chest like inventory)."
+msgstr "(Kiste oder Block mit Kisten-ähnlichem Inventar)."
+
+#: doc.lua
+msgid "This can be done by means of the two signs 'take item' and 'add item'."
+msgstr ""
+"Das kann mit Hilfe von zwei Zeichen realisiert werden: 'take_item' und "
+"'add_item'."
+
+#: doc.lua
+msgid "These signs have to be placed on top of chest nodes."
+msgstr "Diese Zeichen müssen auf den Kisten platziert werden."
+
+#: doc.lua
+msgid "In addition to the signs the bot can be controlled by means of sensors."
+msgstr ""
+"Zusätzlich zu den Zeichen kann der Roboter auch über Sensoren gesteuert "
+"werden."
+
+#: doc.lua
+msgid "Sensors like the Bot Sensor have two states: on and off."
+msgstr ""
+"Sensoren wie der Roboter-Sensor haben zwei Zustande: on' (an) und "
+"'off' (aus)."
+
+#: doc.lua
+msgid "If the Bot Sensor detects a bot it will switch to the state 'on' and"
+msgstr ""
+"Wenn der Roboter-Sensor einen Roboter erkennt geht er in den Zustand 'on' und"
+
+#: doc.lua
+msgid "sends a signal to a connected block, called an actuator."
+msgstr "sendet ein Signal zu einem verbundenen Block, einem Aktor."
+
+#: doc.lua
+msgid "Sensors are:"
+msgstr "Sensoren sind:"
+
+#: doc.lua
+msgid "- Bot Sensor: Sends a signal when the robot passes by"
+msgstr "- Roboter Sensor: Sendet ein Signal wenn ein Roboter vorbei geht"
+
+#: doc.lua
+msgid "- Node Sensor: Sends a signal when it detects any node"
+msgstr ""
+"- Block Sensor: Sendet ein Signal bei einer Veränderung von Blocken vor sich"
+
+#: doc.lua
+msgid "- Crop Sensor: Sends a signal when, for example wheat is fully grown"
+msgstr ""
+"- Ernte Sensor: Sendet ein Signal, wenn bspw. der Weizen voll ausgewachsen "
+"ist"
+
+#: doc.lua
+msgid "- Bot Chest: Sends a signal depending on the chest state (empty, full)"
+msgstr ""
+"- Roboter-Kiste: Sendet ein Signal abhängig vom Zustand der Kiste (voll, "
+"leer)"
+
+#: doc.lua
+msgid "Actuators are:"
+msgstr "Aktoren sind:"
+
+#: doc.lua
+msgid "- Signs Bot Box: Can turn the bot off and on"
+msgstr "- Roboter-Box: Kann den Roboter ein- und ausschalten"
+
+#: doc.lua
+msgid "- Control Unit: Can be used to exchange the sign to lead the bot"
+msgstr ""
+"- Steuerungseinheit: Wird genutzt um Zeichen auszutauschen und damit den "
+"Roboter zu steuern"
+
+#: doc.lua
+msgid "Additional sensors and actuator can be added by other mods."
+msgstr ""
+"Weitere Sensoren und Aktoren können von weiteren Mods hinzugefügt werden."
+
+#: doc.lua
+msgid ""
+"To send a signal from a sensor to an actuator, the sensor has to be "
+"connected (paired) with actuator."
+msgstr ""
+"Um ein Signal von einem Sensor zu einem Aktor senden zu können, muss der "
+"Sensor mit dem Aktor verbunden werden (Pairing)."
+
+#: doc.lua
+msgid ""
+"To connect sensor and actuator, the Sensor Connection Tool has to be used."
+msgstr ""
+"Das Sensor Verbinde-Werkzeug wir genutzt, um Sensoren mit Aktoren zu "
+"verbinden."
+
+#: doc.lua
+msgid ""
+"Simply click with the tool on both blocks and the sensor will be connected "
+"with the actuator."
+msgstr ""
+"Klicke einfach mit dem Werkzeug nacheinander auf beide Blöcke und der Sensor "
+"wird mit dem Aktor verbunden."
+
+#: doc.lua
+msgid "A successful connection is indicated by a ping/pong noise."
+msgstr ""
+"Eine erfolgreiche Verbindung wird über ein Ping/Pong-Geräusch angezeigt."
+
+#: doc.lua
+msgid ""
+"Before you connect sensor with actuator, take care that the actuator is in "
+"the requested state."
+msgstr ""
+"Bevor du einen Sensor mit einem Aktor verbindest, achte darauf, dass sich "
+"der Aktor im richtigen Zustand befindet."
+
+#: doc.lua
+msgid ""
+"For example: If you want to start the Bot with a sensor, connect the sensor "
+"with the Bot Box,"
+msgstr ""
+"Zum Beispiel: Wenn du den Roboter über einen Sensor starten willst, verbinde "
+"Sensor und Roboter-Kiste nur,"
+
+#: doc.lua
+msgid ""
+"when the Bot is in the state 'on'. Otherwise the sensor signal will stop the "
+"Bot,"
+msgstr ""
+"wenn der Roboter an ist (im Zustand 'on'). Anderenfalls würde der Sensor den "
+"Roboter ausschalten,"
+
+#: doc.lua
+msgid "instead of starting it."
+msgstr "anstatt ihn zu starten."
+
+#: doc.lua
+msgid ""
+"The following applies to all commands that are used to place items in the "
+"bot inventory, like:"
+msgstr ""
+"Das folgende gilt für alle Kommandos, um Items in das Roboter Inventar zu "
+"legen, wie:"
+
+#: doc.lua
+msgid "- take_item <num> <slot>"
+msgstr "- take_item <num> <slot>"
+
+#: doc.lua
+msgid "- pickup_items <slot>"
+msgstr "- pickup_items <slot>"
+
+#: doc.lua
+msgid "- trash_sign <slot>"
+msgstr "- trash_sign <slot>"
+
+#: doc.lua
+msgid "- harvest <slot>"
+msgstr "- harvest <slot>"
+
+#: doc.lua
+msgid "- dig_front <slot> <lvl>"
+msgstr "- dig_front <slot> <lvl>"
+
+#: doc.lua
+msgid "- dig_left <slot> <lvl>"
+msgstr "- dig_left <slot> <lvl>"
+
+#: doc.lua
+msgid "- dig_right <slot> <lvl>"
+msgstr "- dig_right <slot> <lvl>"
+
+#: doc.lua
+msgid "- dig_below <slot> <lvl>"
+msgstr "- dig_below <slot> <lvl>"
+
+#: doc.lua
+msgid "- dig_above <slot> <lvl>"
+msgstr "- dig_above <slot> <lvl>"
+
+#: doc.lua
+msgid ""
+"If no slot or slot 0 was specified with the command (case A), all 8 slots of "
+"the bot inventory "
+msgstr ""
+"Wurde beim Kommando kein Slot oder Slot 0 angegeben (Fall A), werden "
+"nacheinander alle "
+
+#: doc.lua
+msgid ""
+"are checked one after the other. If a slot was specified (case B), only this "
+"slot is checked."
+msgstr ""
+"8 Slots des Bot Inventars geprüft, Wurde ein Slot angegeben (Fall B), wird "
+"nur dieser geprüft."
+
+#: doc.lua
+msgid ""
+"In both cases the following applies: If the slot is preconfigured and fits "
+"the item, "
+msgstr ""
+"In beiden Fällen gilt: Ist der Slot vorkonfiguriert und passt das Item dazu, "
+"oder ist der Slot "
+
+#: doc.lua
+msgid ""
+"or if the slot is not configured and empty, or is only partially filled with "
+"the item type "
+msgstr ""
+"nicht konfiguriert und leer, oder mit dem Item-Typ (das hinzu gefügt werden "
+"soll) nur "
+
+#: doc.lua
+msgid "(which should be added), then the items are added."
+msgstr "teilweise gefüllt, dann werden die Items hinzugefügt."
+
+#: doc.lua
+msgid ""
+"If not all items can be added, the remaining slots will be tried out in case "
+"A."
+msgstr ""
+"Können nicht alle Items hinzugefügt werden, werden im Falle A die restlichen "
+"Slots weiter durchprobiert."
+
+#: doc.lua
+msgid "Anything that could not be added to your own inventory goes back."
+msgstr "Was nicht dem eigenen Inventar hinzugefügt werden konnte, geht zurück."
+
+#: doc.lua
+msgid ""
+"The following applies to all commands that are used to take items from the "
+"bot inventory, like:"
+msgstr ""
+"Das folgende gilt für alle Kommandos, um Items aus dem Roboter Inventar zu "
+"nehmen, wie:"
+
+#: doc.lua
+msgid "- add_item <num> <slot>"
+msgstr "- add_item <num> <slot>"
+
+#: doc.lua
+msgid ""
+"It doesn't matter whether a slot is configured or not. The bot takes the "
+"first stack that "
+msgstr ""
+"Hier ist es egal, ob ein Slot konfiguriert ist, oder nicht. Der Bot nimmt "
+"den ersten Stack, den "
+
+#: doc.lua
+msgid "it can find from its own inventory and tries to use it."
+msgstr ""
+"er finden kann, aus dem eigenen Inventar und versucht diesen zu nutzen."
+
+#: doc.lua
+msgid ""
+"If a slot is specified, it only takes this, if no slot has been specified, "
+"it checks all of "
+msgstr ""
+"Ist ein Slot angegeben, nimmt er nur diesen, wurde kein Slot angegeben, "
+"prüft er alle "
+
+#: doc.lua
+msgid ""
+"them one after the other, starting from slot 1 until it finds something."
+msgstr ""
+"nacheinander, von Slot 1 beginnend, bis er etwas findet. Ist die gefundene "
+"Anzahl kleiner als "
+
+#: doc.lua
+msgid ""
+"If the number found is smaller than requested, he tries to take the rest out "
+"of any slot."
+msgstr "gefordert, versucht er den Rest aus irgend einem Slot zu nehmen."
+
+#: doc.lua
+msgid "Signs Bot"
+msgstr "Signs Bot"
+
+#: doc.lua
+msgid "A robot controlled by signs, used for automated work"
+msgstr "Ein Roboter, gesteuert über Zeichen, für Automatisierungsaufgaben"
+
+#: doc.lua
+msgid "Start the Bot"
+msgstr "Starte den Roboter"
+
+#: doc.lua
+msgid "Control the Bot"
+msgstr "Steuere den Roboter"
+
+#: doc.lua
+msgid "Sensors and Actuators"
+msgstr "Sensoren und Aktoren"
+
+#: doc.lua
+msgid "Connecting sensors and actuator"
+msgstr "Verbinde Sensor mit Aktor"
+
+#: doc.lua
+msgid "Bot inventory behavior"
+msgstr "Verhalten beim Roboter Inventar"
+
+#: duplicator.lua
+msgid "Input:"
+msgstr "Eingabe:"
+
+#: duplicator.lua
+msgid "Template:"
+msgstr "Vorlage:"
+
+#: duplicator.lua
+msgid "Output:"
+msgstr "Ausgabe:"
+
+#: duplicator.lua
+msgid ""
+"1. Place one 'cmnd' sign to be\n"
+"    used as template.\n"
+msgstr ""
+"1. Verwende ein Kommando-\n"
+"     Zeichen als Vorlage.\n"
+
+#: duplicator.lua
+msgid ""
+"2. Add 'blank signs' to\n"
+"    the input inventory.\n"
+msgstr ""
+"2. Füge 'leere Zeichen'\n"
+"     als Eingabe hinzu.\n"
+
+#: duplicator.lua
+msgid ""
+"3. Take the copies\n"
+"    from the output inventory."
+msgstr ""
+"3. Entnehme die Kopieren\n"
+"     aus der Ausgabe."
+
+#: duplicator.lua
+msgid "Signs Duplicator"
+msgstr "Zeichen Kopierer"
+
+#: duplicator.lua
+msgid "Sign \"user\""
+msgstr "Zeichen \"Benutzer\""
+
+#: duplicator.lua
+msgid "Sign \"blank\""
+msgstr "\"Leeres\" Zeichen"
+
+#: duplicator.lua
+msgid "The Duplicator can be used to make copies of signs."
+msgstr ""
+"Der Zeichen Kopierer kann zur Herstellung von Kopien eines Zeichens genutzt "
+"werden."
+
+#: duplicator.lua
+msgid ""
+"1. Put one 'cmnd' sign to be used as template into the 'Template' inventory"
+msgstr "1. Lege ein Kommando-Zeichen als Vorlage in das 'Vorlage' Inventar"
+
+#: duplicator.lua
+msgid "2. Add one or several 'blank signs' to the 'Input' inventory."
+msgstr "2. Füge ein oder mehrere 'leere Zeichen' als Eingabe hinzu."
+
+#: duplicator.lua
+msgid "3. Take the copies from the 'Output' inventory."
+msgstr "3. Entnehme die Kopieren aus der Ausgabe."
+
+#: duplicator.lua
+msgid ""
+"Written books [default:book_written] can alternatively be used as template"
+msgstr ""
+"Alternativ können auch beschriebene Bücher [default:book_written] als "
+"Vorlage verwendet werden"
+
+#: duplicator.lua
+msgid "Already written signs can be used as input, too."
+msgstr ""
+"Bereits beschriebene Zeichen können auch als Eingabe-Zeichen genutzt werden."
+
+#: duplicator.lua
+msgid "Needed as input for the Duplicator."
+msgstr "Wird als Eingabe für den Zeichen Kopierer benötigt."
+
+#: extender.lua
+msgid "Sensor Extender: Connected with "
+msgstr "Sensor Erweiterung: Verbunden mit "
+
+#: extender.lua
+msgid "Sensor Extender"
+msgstr "Sensor Erweiterung"
+
+#: extender.lua
+msgid "Sensor Extender: Not connected"
+msgstr "Sensor Erweiterung: Nicht verbunden"
+
+#: extender.lua
+msgid ""
+"With the Sensor Extender, sensor signals can be sent to more than one "
+"actuator."
+msgstr ""
+"Mit Hilfe der Sensor-Erweiterung können weitere Aktoren mit dem Sensor "
+"verbunden werden."
+
+#: extender.lua
+msgid "Place one or more extender nearby the sensor and connect each extender"
+msgstr ""
+"Platziere ein oder mehrere Sensor-Erweiterungen neben einen Sensor und "
+"verbinde diese"
+
+#: extender.lua
+msgid "with one further actuator by means of the Connection Tool."
+msgstr "mit weiteren Aktoren mit Hilfe des Verbinde-Werkzeuges."
+
+#: node_sensor.lua
+msgid "Node Sensor: Connected with "
+msgstr "Block Sensor: Verbunden mit "
+
+#: node_sensor.lua
+msgid "added"
+msgstr "hinzukommen"
+
+#: node_sensor.lua
+msgid "removed"
+msgstr "fehlen"
+
+#: node_sensor.lua
+msgid "added or removed"
+msgstr "hinzukommen oder fehlen"
+
+#: node_sensor.lua
+msgid "Send signal if nodes have been:"
+msgstr "Sende ein Signal wenn Blöcke:"
+
+#: node_sensor.lua
+msgid "accept"
+msgstr "übernehmen"
+
+#: node_sensor.lua
+msgid "Node Sensor"
+msgstr "Block Sensor"
+
+#: node_sensor.lua
+msgid ""
+"The node sensor can send a signal when it detects that nodes appear or "
+"disappear,"
+msgstr ""
+"Der Block Sensor kann ein Signal senden, wenn er eine Veränderung von "
+"Blöcken vor sich entdeckt (ein Block erscheint oder verschwindet),"
+
+#: node_sensor.lua
+msgid "but has to be configured accordingly."
+msgstr "aber muss entsprechend konfiguriert werden."
+
+#: node_sensor.lua
+msgid "Valid nodes are all kind of blocks and plants."
+msgstr "Gültig sind alle Arten von Blöcken oder Pflanzen."
+
+#: node_sensor.lua
+msgid "The sensor range is 3 nodes/meters in one direction."
+msgstr "Die Sensor-Reichweite beträgt 3 Blöcke/Meter in eine Richtung."
+
+#: node_sensor.lua
+msgid ""
+"The sensor has an active side (red) that must point to the observed area."
+msgstr ""
+"Der Sensor hat eine aktive Seite (rot) welche zu dem zu überwachenden "
+"Bereich zeigen muss."
+
+#: signs.lua
+msgid "Sign \"turn right\""
+msgstr "Zeichen \"rechts drehen\""
+
+#: signs.lua
+msgid "Sign \"turn left\""
+msgstr "Zeichen \"links drehen\""
+
+#: signs.lua
+msgid "Sign \"take item\""
+msgstr "Zeichen \"Nehme Gegenstand\""
+
+#: signs.lua
+msgid "Sign \"add item\""
+msgstr "Zeichen \"Lege Gegenstand\""
+
+#: signs.lua
+msgid "Sign \"stop\""
+msgstr "Zeichen \"Stopp\""
+
+#: signs.lua
+msgid "Sign \"add to cart\""
+msgstr "Zeichen \"Lege in den Wagen\""
+
+#: signs.lua
+msgid "Sign \"take from cart\""
+msgstr "Zeichen \"Nehme aus dem Wagen\""
+
+#: signs.lua
+msgid "The Bot turns right when it detects this sign in front of it."
+msgstr "Der Roboter dreht nach rechts, wenn er dieses Zeichen vor sich hat."
+
+#: signs.lua
+msgid "The Bot turns left when it detects this sign in front of it."
+msgstr "Der Roboter dreht nach links, wenn er dieses Zeichen vor sich hat."
+
+#: signs.lua
+msgid ""
+"The Bot takes items out of a chest in front of it and then turns around."
+msgstr ""
+"Der Roboter nimmt Gegenstände aus einer Kiste vor sich und dreht dann um."
+
+#: signs.lua
+msgid "This sign has to be placed on top of the chest."
+msgstr "Das Zeichen muss auf der Kiste platziert werden."
+
+#: signs.lua
+msgid "The Bot puts items into a chest in front of it and then turns around."
+msgstr "Der Roboter legt Gegenstände in eine Kiste vor sich und dreht dann um."
+
+#: signs.lua
+msgid ""
+"The Bot will stop in front of this sign until the sign is removed or the bot "
+"is turned off."
+msgstr ""
+"Der Roboter stoppt vor diesem Zeichen, bis das Zeichen entfernt, oder der "
+"Roboter ausgeschaltet wird."
+
+#: signs.lua
+msgid ""
+"The Bot puts items into a minecart in front of it, pushes the cart and then "
+"turns around."
+msgstr ""
+"Der Roboter legt Gegenstände in den Wagen vor sich, startet den Wagen und "
+"dreht dann um."
+
+#: signs.lua
+msgid "This sign has to be placed on top of the rail at the cart end position."
+msgstr ""
+"Das Zeichen muss auf dem Gleis und damit über dem Wagen platziert werden."
+
+#: signs.lua
+msgid ""
+"The Bot takes items out of a minecart in front of it, pushes the cart and "
+"then turns around."
+msgstr ""
+"Der Roboter nimmt Gegenstände aus dem Wagen vor sich, startet den Wagen und "
+"dreht dann um."
+
+#: tool.lua
+msgid "Sensor Connection Tool"
+msgstr "Sensor Verbindungswerkzeug"
+
+#: timer.lua
+msgid "Bot Timer"
+msgstr "Roboter Timer"
+
+#: timer.lua logic_and.lua
+msgid "Connected with"
+msgstr "Verbunden mit"
+
+#: timer.lua
+msgid "Cycle time [min]:"
+msgstr "Zykluszeit [min]:"
+
+#: timer.lua delayer.lua
+msgid "Start"
+msgstr "Start"
+
+#: timer.lua
+msgid "Special kind of sensor."
+msgstr "Spezielle Form eines Sensors."
+
+#: timer.lua
+msgid ""
+"Can be programmed with a time in seconds, e.g. to start the bot cyclically."
+msgstr ""
+"Kann mit einer Zeit in Sekunden programmiert werden, um bspw. den Roboter "
+"zyklisch zu starten."
+
+#: delayer.lua
+msgid "Signal Delayer: Connected with "
+msgstr "Sensor Verzögerer: Verbunden mit "
+
+#: delayer.lua
+msgid "Delay time [sec]:"
+msgstr "Verzögerungszeit [s]:"
+
+#: delayer.lua
+msgid "Signal Delayer"
+msgstr "Signal Verzögerer"
+
+#: delayer.lua
+msgid "Signals are forwarded delayed. Subsequent signals are queued."
+msgstr ""
+"Signale werden verzögert weitergeleitet. Nachfolgende Signale werden in die "
+"Warteschlange gestellt."
+
+#: delayer.lua
+msgid "The delay time can be configured."
+msgstr "Die Verzögerungszeit kann eingestellt werden."
+
+#: logic_and.lua
+msgid "Signal AND with"
+msgstr "Signal UND mit"
+
+#: logic_and.lua
+msgid "inputs"
+msgstr "Eingängen"
+
+#: logic_and.lua
+msgid "Signal AND"
+msgstr "Signal UND"
+
+#: logic_and.lua
+msgid "Signal is sent, if all input signals are received."
+msgstr "Signal wird gesendet, wenn all Eingangssignale empfangen wurden."
+
+#: interpreter.lua
+msgid "Maximum programm size exceeded"
+msgstr "Maximale Programmlänge überschritten"
+
+#: interpreter.lua
+msgid "Parameter error"
+msgstr "Parameter Fehler"
+
+#: interpreter.lua
+msgid "Command error"
+msgstr "Kommandozeilen Fehler"
+
+#: interpreter.lua
+msgid "'repeat' missing"
+msgstr "Es fehlt ein 'repeat'"
+
+#: interpreter.lua
+msgid "'end' missing"
+msgstr "Es fehlt ein 'end'"
+
+#: interpreter.lua
+msgid "'return' missing"
+msgstr "Es fehlt ein 'return'"
+
+#: interpreter.lua
+msgid "'call' missing"
+msgstr "Es fehlt ein 'call'"
+
+#: interpreter.lua
+msgid "Checked and approved"
+msgstr "Geprüft und genehmigt"
+
+#~ msgid ""
+#~ "Take <num> items from a chest like node\n"
+#~ "and put it into the item inventory.\n"
+#~ "Take care that at least one more\n"
+#~ "item of this type is available.\n"
+#~ "<slot> is the inventory slot (1..8)"
+#~ msgstr ""
+#~ "Nehme <num> Gegenstände aus der\n"
+#~ "Kiste oder dem Kisten-ähnlichen Block\n"
+#~ "und tue diese in das eigene Inventar.\n"
+#~ "Achte darauf, dass mindestens ein\n"
+#~ "weiterer Gegenstand von diesem Typ\n"
+#~ "verfügbar ist.\n"
+#~ "<slot> ist die Inventar Position (1..8)"
+
+#~ msgid ""
+#~ "Add <num> items to a chest like node\n"
+#~ "taken from the item inventory,\n"
+#~ "but only if at least one item\n"
+#~ "of this type is already available.\n"
+#~ "<slot> is the inventory slot (1..8)"
+#~ msgstr ""
+#~ "Lege <num> Gegenstände aus dem\n"
+#~ "eigenen Inventar in die andere Kiste,\n"
+#~ "aber nur, wenn bereits mindestens ein\n"
+#~ "Gegenstand von gleichen Typ verfügbar\n"
+#~ "ist. <slot> ist die Position im\n"
+#~ "eigenen Inventar (1--8)."
+
+#~ msgid ""
+#~ "Go to the next sign\n"
+#~ "to be executed as a sub-process.\n"
+#~ "After that it will go on with the next command\n"
+#~ "on this sign."
+#~ msgstr ""
+#~ "Gehe bis zum nächsten Zeichen,\n"
+#~ "das dann als Unterprogramm\n"
+#~ "bearbeitet wird. Mache danach mit\n"
+#~ "dem nächsten Kommando weiter."
