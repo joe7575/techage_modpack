@@ -28,10 +28,27 @@ or use the manual on [GitHub](https://github.com/joe7575/techage/wiki).
 
 
 ### Licenses
+
 All mods have their own licenses. See the license files in the subfoldes.
 
 
 ### Further Dependencies  
+
 Required: Minetest Game
 
+
+### History
+
+#### 2020-06-04
+
+- techage v0.10
+  - minor changes and bugfixes
+  - stone hammer added
+  - quarry 'depth' command added
+  - manuals adapted
+  - QSG added
+
+#### 2020-05-31
+
+- first commit
 
