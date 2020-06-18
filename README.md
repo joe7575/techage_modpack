@@ -39,6 +39,22 @@ Required: Minetest Game
 
 ### History
 
+#### 2020-06-18
+
+- techage v0.12 
+  - cart commands added for both controllers
+  - support for moreores added
+  - Ethereal support added, manual correction
+  - tin ingot recipe bugfix
+  
+- minecart v1.06 
+  - API changed and chat command added
+  
+- signs_bot v1.02
+  - some bugfixes
+  
+  
+
 #### 2020-06-04
 
 - techage v0.10
