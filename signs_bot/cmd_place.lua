@@ -203,7 +203,7 @@ signs_bot.register_botcommand("place_above", {
 
 local function dig_item(base_pos, robot_pos, param2, slot, route, level)
 	local pos1 = lib.dest_pos(robot_pos, param2, route)
-	pos1.y = pos1.y + level
+	pos1.y = pos1.y + (level or 0)
 	local node = lib.get_node_lvm(pos1)
 	local dug_name = lib.is_simple_node(node)
 	if not lib.not_protected(base_pos, pos1) then

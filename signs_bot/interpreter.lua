@@ -41,8 +41,10 @@ end
 
 local function get_line_tokens(script)
 	local idx = 0
-	local lines = string.split(script or ""
-		, "\n", true)
+	script = script or ""
+	script = script:gsub("\r\n", "\n")
+	script = script:gsub("\r", "\n")
+	local lines = string.split(script, "\n", true)
     return function()
 		while idx < #lines do
 			idx = idx + 1
@@ -95,6 +97,7 @@ end
 
 local function pass1(tokens)
 	local pc = 1
+	tSymbolTbl = {}
 	for _, token in ipairs(tokens) do
 		if token:find("%w+:") then
 			tSymbolTbl[token] = pc
@@ -129,6 +132,9 @@ end
 -- Commands
 -------------------------------------------------------------------------------
 local function register_command(cmnd_name, num_param, cmnd_func, check_func)
+	assert(num_param, cmnd_name..": num_param = "..dump(num_param))
+	assert(cmnd_func, cmnd_name..": cmnd_func = "..dump(cmnd_func))
+	assert(check_func or num_param == 0, cmnd_name..": check_func = "..dump(check_func))
 	lCmdLookup[#lCmdLookup + 1] = {num_param, cmnd_func, cmnd_name}
 	tCmdDef[cmnd_name] = {
 		num_param = num_param, 
@@ -174,6 +180,9 @@ register_command("call", 1,
 		mem.Stack[#mem.Stack + 1] = mem.pc + 2
 		mem.pc = addr - 2
 		return api.DONE
+	end,
+	function(addr)
+		return tSymbolTbl[addr..":"]
 	end
 )	
 
@@ -192,6 +201,9 @@ register_command("jump", 1,
 	function(base_pos, mem, addr)
 		mem.pc = addr - 2
 		return api.DONE
+	end,
+	function(addr)
+		return tSymbolTbl[addr..":"]
 	end
 )	
 
@@ -205,14 +217,19 @@ register_command("exit", 0,
 -- API functions
 -------------------------------------------------------------------------------
 
-function api.register_command(cmnd_name, num_param, cmnd_func)
-	register_command(cmnd_name, num_param, cmnd_func)
+function api.register_command(cmnd_name, num_param, cmnd_func, check_func)
+	register_command(cmnd_name, num_param, cmnd_func, check_func)
 end
 
 -- function returns: true/false, error_string, line-num
 function api.check_script(script)
 	local tbl = {}
 	local num_token = 0
+	
+	-- to fill the symbol table
+	local tokens = tokenizer(script)
+	pass1(tokens)
+	
 	for idx, cmnd, param1, param2, param3 in get_line_tokens(script) do
 		if tCmdDef[cmnd] then
 			num_token = num_token + 1 + tCmdDef[cmnd].num_param
@@ -222,7 +239,11 @@ function api.check_script(script)
 			param1 = tonumber(param1) or param1
 			param2 = tonumber(param2) or param2
 			param3 = tonumber(param3) or param3
-			if tCmdDef[cmnd].check and not tCmdDef[cmnd].check(param1, param2, param3) then
+			local num_param = (param1 and 1 or 0) + (param2 and 1 or 0) + (param3 and 1 or 0)
+			if tCmdDef[cmnd].num_param ~= num_param then
+				return false, I("Wrong number of parameters"), idx
+			end
+			if tCmdDef[cmnd].num_param > 0 and not tCmdDef[cmnd].check(param1, param2, param3) then
 				return false, I("Parameter error"), idx
 			end
 		elseif not cmnd:find("%w+:") then

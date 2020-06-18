@@ -26,13 +26,15 @@ local summary_doc = table.concat({
 	S("1. Place your rails and build a route with two endpoints. Junctions are allowed as long as each route has its own start and endpoint."),
 	S("2. Place a Railway Buffer at both endpoints (buffers are always needed, they store the route and timing information)."),
 	S("3. Give both Railway Buffers unique station names, like Oxford and Cambridge."),
-	S("4. Drive from buffer to buffer in both directions using a Minecart(!) to record the routes (use 'right-left' keys to control the Minecart)."),
-	S("5. Punch the buffers to check the connection data (e.g. 'Oxford: connected to Cambridge')."),
-	S("6. Optional: Configure the Minecart stop time in one or both buffers. The Minecart will then start automatically after the configured time."),
-	S("7. Optional: Protect your rail network with the Protection Landmarks (one Landmark at least every 16 nodes/meters)."),
-	S("8. Place a Minecart in front of the buffer and check whether it starts after the configured time."),
-	S("9. Drop items into the Minecart and punch the cart to start it, or 'sneak+click' the Minecart to get the items back."),
-	S("10. Dig the empty cart with a second 'sneak+click' (as usual)."),
+	S("4. Place a Minecart at a buffer and give it a cart number (1..999)"),
+	S("5. Drive from buffer to buffer in both directions using the Minecart(!) to record the routes (use 'right-left' keys to control the Minecart)."),
+	S("6. Punch the buffers to check the connection data (e.g. 'Oxford: connected to Cambridge')."),
+	S("7. Optional: Configure the Minecart stop time in one or both buffers. The Minecart will then start automatically after the configured time."),
+	S("8. Optional: Protect your rail network with the Protection Landmarks (one Landmark at least every 16 nodes/meters)."),
+	S("9. Place a Minecart in front of the buffer and check whether it starts after the configured time."),
+	S("10. Check the cart state via the chat command: /mycart <num>\n   '<num>' is the cart number"),
+	S("11. Drop items into the Minecart and punch the cart to start it, or 'sneak+click' the Minecart to get the items back."),
+	S("12. Dig the empty cart with a second 'sneak+click' (as usual)."),
 }, "\n")
 
 local cart_doc = S("Primary used to transport items. You can drop items into the Minecart and punch the cart to get started. Sneak+click the cart to get the items back")

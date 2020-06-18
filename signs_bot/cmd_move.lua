@@ -279,6 +279,9 @@ signs_bot.register_botcommand("pause", {
 			mem.steps = nil
 			return signs_bot.DONE
 		end
+		if mem.capa then
+			mem.capa = mem.capa + 1
+		end
 		return signs_bot.BUSY
 	end,
 })
@@ -289,6 +292,9 @@ signs_bot.register_botcommand("stop", {
 	num_param = 0,
 	description = I("Stop the robot."),
 	cmnd = function(base_pos, mem, slot)
+		if mem.capa then
+			mem.capa = mem.capa + 2
+		end
 		return signs_bot.DONE
 	end,
 })

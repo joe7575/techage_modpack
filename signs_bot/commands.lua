@@ -233,6 +233,8 @@ local function move(mem, any_sensor)
 			activate_sensor(mem.robot_pos, (mem.robot_param2 + 1) % 4)
 			activate_sensor(mem.robot_pos, (mem.robot_param2 + 3) % 4)
 		end
+	elseif mem.capa then
+		mem.capa = mem.capa + 1
 	end
 end
 

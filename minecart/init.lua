@@ -13,7 +13,7 @@
 minecart = {}
 
 -- Version for compatibility checks, see readme.md/history
-minecart.version = 1.05
+minecart.version = 1.06
 
 minecart.hopper_enabled = minetest.settings:get_bool("minecart_hopper_enabled") ~= false
 
@@ -23,11 +23,11 @@ minecart.S = minetest.get_translator("minecart")
 local MP = minetest.get_modpath("minecart")
 dofile(MP.."/storage.lua")
 dofile(MP.."/lib.lua")
-dofile(MP.."/routes.lua")
-dofile(MP.."/cart_entity.lua")
+dofile(MP.."/monitoring.lua")
+dofile(MP.."/recording.lua")
+dofile(MP.."/minecart.lua")
 dofile(MP.."/buffer.lua")
 dofile(MP.."/protection.lua")
-dofile(MP.."/cart_api.lua")
 
 if minecart.hopper_enabled then
 	dofile(MP.."/hopper.lua")

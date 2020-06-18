@@ -1,16 +1,17 @@
 # textdomain: minecart
 
 1. Place your rails and build a route with two endpoints. Junctions are allowed as long as each route has its own start and endpoint.=1. Baue eine Schienenstrecke mit zwei Enden. Kreuzungen sind zulässig, solange jede Route ihre eigenen Start- und Endpunkte hat.
-10. Dig the empty cart with a second 'sneak+click' (as usual).=10. Klicke erneut mit gedrückter Shift-Taste auf den Wagen, um diesen zu entfernen.
+10. Check the cart state via the chat command: /mycart <num>@n   '<num>' is the cart number=Prüfe den Status des Wagen mit dem Chat Kommando: /mycart <num>@n    <num> ist die Wagennummer
+11. Drop items into the Minecart and punch the cart to start it, or 'sneak+click' the Minecart to get the items back.=11: Lege Gegenstände in ein Wagen (Taste Q) und starte dann den Wagen durch Anklicken. Klicke mit gedrückter Shift-Taste auf den Wagen, um Gegenstände wieder auszuladen.
+12. Dig the empty cart with a second 'sneak+click' (as usual).=10. Klicke erneut mit gedrückter Shift-Taste auf den Wagen, um diesen zu entfernen.
 2. Place a Railway Buffer at both endpoints (buffers are always needed, they store the route and timing information).=2. Platziere einen Prellbock an beide Schienenenden (Prellböcke sind zwingend notwendig, sie speichern die Routen- und Zeit-Informationen).
 3. Give both Railway Buffers unique station names, like Oxford and Cambridge.=3. Gib beiden Prellböcken eindeutige Stationsnamen wie: Stuttgart und München.
-4. Drive from buffer to buffer in both directions using a Minecart(!) to record the routes (use 'right-left' keys to control the Minecart).=4. Um eine Route aufzuzeichnen, fahre die Route in beide Richtungen von Prellbock zu Prellbock mit einem Minecart Wagen(!). Nutze 'links-rechts' Tasten zur Steuerung.
-5. Punch the buffers to check the connection data (e.g. 'Oxford: connected to Cambridge').=5. Schlage auf die Prellböcke um die Verbindungsdaten zu prüfen (bspw.: 'München: verbunden mit Stuttgart')
-6. Optional: Configure the Minecart stop time in one or both buffers. The Minecart will then start automatically after the configured time.=6. Optional: Konfiguriere die Wagenwartezeit in einem oder in beiden Prellböcken. Der Wagen startet dann nach dieser Zeit automatisch.
-7. Optional: Protect your rail network with the Protection Landmarks (one Landmark at least every 16 nodes/meters).=7. Optional: Schütze deine Schienen mit Hilfe der Meilensteine (ein Meilenstein mindestens alle 16 Blöcke).
-8. Place a Minecart in front of the buffer and check whether it starts after the configured time.=8. Platziere einen Wagen direkt vor einem Prellbock und prüfe, ob er nach der konfigurierten Zeit startet.
-9. Drop items into the Minecart and punch the cart to start it, or 'sneak+click' the Minecart to get the items back.=9: Lege Gegenstände in ein Wagen (Taste Q) und starte dann den Wagen durch Anklicken. Klicke mit gedrückter Shift-Taste auf den Wagen, um Gegenstände wieder auszuladen.
-A minecart running through unloaded areas, mainly used for item transportation=Ein Wagen, welcher auch durch nicht geladene Kartenbereiche fährt, primär für den Transport von Gegenständen genutzt (Lore)
+4. Place a Minecart at a buffer and give it a cart number (1..999)=4. Platziere einen Minecart Wagen an einem Prellbock und gib dem Wagen eine Wagennummer (1..999)
+5. Drive from buffer to buffer in both directions using the Minecart(!) to record the routes (use 'right-left' keys to control the Minecart).=5. Um eine Route aufzuzeichnen, fahre die Route in beide Richtungen von Prellbock zu Prellbock mit dem Minecart Wagen(!). Nutze 'links-rechts' Tasten zur Steuerung.
+6. Punch the buffers to check the connection data (e.g. 'Oxford: connected to Cambridge').=6. Schlage auf die Prellböcke um die Verbindungsdaten zu prüfen (bspw.: 'München: verbunden mit Stuttgart')
+7. Optional: Configure the Minecart stop time in one or both buffers. The Minecart will then start automatically after the configured time.=7. Optional: Konfiguriere die Wagenwartezeit in einem oder in beiden Prellböcken. Der Wagen startet dann nach dieser Zeit automatisch.
+8. Optional: Protect your rail network with the Protection Landmarks (one Landmark at least every 16 nodes/meters).=8. Optional: Schütze deine Schienen mit Hilfe der Meilensteine (ein Meilenstein mindestens alle 16 Blöcke).
+9. Place a Minecart in front of the buffer and check whether it starts after the configured time.=9. Platziere einen Wagen direkt vor einem Prellbock und prüfe, ob er nach der konfigurierten Zeit startet.
 Allow to dig/place rails in Minecart Landmark areas=Erlaubt dir, Schienen in Meilensteinbereichen zu setzen/zu entfernen
 Minecart=Minecart
 Minecart (Sneak+Click to pick up)=Minecart (Shift+Klick zum Entfernen des Carts)
@@ -27,9 +28,10 @@ Summary=Zusammenfassung
 Used as buffer on both rail ends. Needed to be able to record the cart routes=Preckblöcke müssen an beiden Schienenenden platziert sein, so dass Aufzeichnungen der Strecke gemacht werden können.
 Used to load/unload Minecart. The Hopper can push/pull items to/from chests and drop/pickup items to/from Minecarts. To unload a Minecart place the hopper below the rail. To load the Minecart, place the hopper right next to the Minecart.=Um Wagen zu be- und entladen. Der Hopper kann Gegenstände aus Kisten Holen und legen, sowie diese in Wagen fallen lassen bzw. aus Wagen entnehmen. Um einen Wagen zu entladen, muss der Hopper unter die Schiene platziert werden. Um einen Wagen zu beladen, muss der Hopper direkt neben die Schiene platziert werden.
 [minecart] Area is protected!=[minecart] Bereich ist geschützt!
-[minecart] Please start at a Railway Buffer!=[minecart] Bitte starte beim Prellbock!
+[minecart] Cart is protected by = Wagen ist geschützt durch 
 [minecart] Recording canceled!=[minecart] Aufzeichnung abgebrochen!
 [minecart] Route stored!=[minecart] Strecke gespeichert
 [minecart] Start route recording!=[minecart] Starte die Streckenaufzeichnung!
 connected to=verbunden mit
+##### not used anymore #####
 

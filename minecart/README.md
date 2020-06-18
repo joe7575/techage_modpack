@@ -48,6 +48,8 @@ The mod features are:
 - Minecarts run through unloaded areas (only the stations/hopper have to be loaded)
 - Extra Minecart privs for rail workers
 - Ingame documentation (German and English), based on the mod "doc"
+- API to register carts from other mods
+- chat command '/mycart <num>' to output cart state and location
 
 
 Technical Background
@@ -67,18 +69,21 @@ Introduction
 2. Place a Railway Buffer at both endpoints. (buffers are always needed, 
    they store the route and timing information)
 3. Give both Railway Buffers unique station names, like Oxford and Cambridge
-4. Drive from buffer to buffer in both directions using a Minecart(!) to record the 
+4. Place a Minecart at a buffer and give it a cart number (1..999)
+5. Drive from buffer to buffer in both directions using the Minecart(!) to record the 
    routes (use 'right-left' keys to control the Minecart)
-5. Punch the buffers to check the connection data (e.g. "Oxford: connected to Cambridge")
-6. Optional: Configure the Minecart stop time in one or both buffers. The Minecart 
+6. Punch the buffers to check the connection data (e.g. "Oxford: connected to Cambridge")
+7. Optional: Configure the Minecart stop time in one or both buffers. The Minecart 
    will then start automatically after the configured time
-7. Optional: Protect your rail network with the Protection Landmarks (one Landmark 
+8. Optional: Protect your rail network with the Protection Landmarks (one Landmark 
    at least every 16 nodes/meters)
-8. Place a Minecart in front of the buffer and check whether it starts after the 
+9. Place a Minecart in front of the buffer and check whether it starts after the 
    configured time
-9. Drop items into the Minecart and punch the cart to start it, or "sneak+click" the 
-   Minecart to get the items back
-10. Dig the empty cart with a second "sneak+click" (as usual)
+10. Check the cart state via the chat command: /mycart <num>
+    '<num>' is the cart number
+11. Drop items into the Minecart and punch the cart to start it, or "sneak+click" the 
+    Minecart to get the items back
+12. Dig the empty cart with a second "sneak+click" (as usual)
 
 
 Hopper
@@ -107,4 +112,6 @@ History
 2020-02-24  v1.02  Hopper improved  
 2020-03-05  v1.03  Hopper again improved  
 2020-03-28  v1.04  cart unloading bugfix
+2020-05-14  v1.05  API changed to be able to register carts
+2020-06-14  v1.06  API changed and chat command added
   

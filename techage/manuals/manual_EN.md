@@ -50,7 +50,7 @@ Techage adds some new items to the game:
 
 ### Meridium
 
-Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel andesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
+Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
 
 [meridium|image]
 
@@ -65,6 +65,8 @@ Usmium only occurs as nuggets and can only be obtained by washing gravel with th
 ### Baborium
 
 Baborium is only extracted in underground mining. Baborium can only be found in stone at an altitude between -250 and -340 meters.
+Baborium can only be melted in the TA3 Industrial Furnace.
+
 
 [baborium|image]
 

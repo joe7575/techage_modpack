@@ -141,6 +141,7 @@ end
 -- Check rights before node is dug or inventory is used
 function signs_bot.lib.not_protected(base_pos, pos)
 	local me = M(base_pos):get_string("owner")
+	minetest.load_area(pos)
 	if minetest.is_protected(pos, me) then
 		return false
 	end
