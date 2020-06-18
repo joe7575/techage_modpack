@@ -111,7 +111,7 @@ History
 2020-02-09  v1.01  cart loading bugfix  
 2020-02-24  v1.02  Hopper improved  
 2020-03-05  v1.03  Hopper again improved  
-2020-03-28  v1.04  cart unloading bugfix
-2020-05-14  v1.05  API changed to be able to register carts
-2020-06-14  v1.06  API changed and chat command added
+2020-03-28  v1.04  cart unloading bugfix  
+2020-05-14  v1.05  API changed to be able to register carts  
+2020-06-14  v1.06  API changed and chat command added  
   
