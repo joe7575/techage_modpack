@@ -49,7 +49,7 @@ local function get_line_tokens(script)
 		while idx < #lines do
 			idx = idx + 1
 			-- remove comments
-			local line = string.split(lines[idx], "--")[1] or ""
+			local line = string.split(lines[idx], "--", true, 1)[1] or ""
 			-- remove blanks
 			line = trim(line)
 			if #line > 0 then
@@ -255,10 +255,6 @@ function api.check_script(script)
 		return false, I("'repeat' missing"), 0
 	elseif (tbl["end"] or 0) < (tbl["repeat"] or 0) then
 		return false, I("'end' missing"), 0
-	elseif (tbl["call"] or 0) > (tbl["return"] or 0) then
-		return false, I("'return' missing"), 0
-	elseif (tbl["call"] or 0) < (tbl["return"] or 0) then
-		return false, I("'call' missing"), 0
 	end
 	return true, I("Checked and approved"), 0
 end	

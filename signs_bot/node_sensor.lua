@@ -71,16 +71,12 @@ local function any_node_changed(pos)
 	
 	if mem.num ~= num then
 		if mem.mode == 1 and num < mem.num then 
-			mem.num = num
 			return true
 		elseif mem.mode == 2 and num > mem.num then 
-			mem.num = num
 			return true
 		elseif mem.mode == 3 then
-			mem.num = num
 			return true
 		end
-		mem.num = num
 	end
 	return false
 end
@@ -93,6 +89,9 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	if fields.accept then
 		mem.mode = DropdownValues[fields.mode] or 3
+		mem.num = nil
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		swap_node(pos, "signs_bot:node_sensor")
 	end
 	meta:set_string("formspec", formspec(mem))
 end
@@ -102,9 +101,8 @@ local function node_timer(pos)
 		if swap_node(pos, "signs_bot:node_sensor_on") then
 			signs_bot.send_signal(pos)
 			signs_bot.lib.activate_extender_nodes(pos, true)
+			minetest.after(1, swap_node, pos, "signs_bot:node_sensor")
 		end
-	else
-		swap_node(pos, "signs_bot:node_sensor")
 	end
 	return true
 end
@@ -172,13 +170,14 @@ minetest.register_node("signs_bot:node_sensor_on", {
 			
 	on_timer = node_timer,
 	update_infotext = update_infotext,
+	on_receive_fields = on_receive_fields,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	diggable = false,
-	groups = {sign_bot_sensor = 1, not_in_creative_inventory = 1},
+	drop = "signs_bot:node_sensor",
+	groups = {sign_bot_sensor = 1, cracky = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -211,7 +210,7 @@ if minetest.get_modpath("doc") then
 		data = {
 			item = "signs_bot:node_sensor",
 			text = table.concat({
-				I("The node sensor can send a signal when it detects that nodes appear or disappear,"),
+				I("The node sensor sends cyclical signals when it detects that nodes have appeared or disappeared,"),
 				I("but has to be configured accordingly."),
 				I("Valid nodes are all kind of blocks and plants."),
 				I("The sensor range is 3 nodes/meters in one direction."), 

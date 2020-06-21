@@ -64,9 +64,9 @@ has some risks. Therefore:
 
 ## Configuration
 The following can be changed in the minetest menu (Settings -> Advanced Settings -> Mods -> hyperloop) or directly in 'minetest.conf'
-* "WiFi block enabled" - To enable the usage of WiFi blocks
-* "WiFi block crafting enabled" - To enable the crafting of WiFi blocks
-* "free tube placement enabled" - If enabled Hyperloop Tubes and Elevator Shafts can be build in all directions.  
+* "WiFi block enabled" - To enable the usage of WiFi blocks (default: false)
+* "WiFi block crafting enabled" - To enable the crafting of WiFi blocks (default: false)
+* "free tube placement enabled" - If enabled Hyperloop Tubes and Elevator Shafts can be build in all directions (default: true)
   When this option is disabled, Hyperloop tubes can only be built in the horizontal direction and elevator shafts in the vertical direction.
 
 Example for 'minetest.conf':

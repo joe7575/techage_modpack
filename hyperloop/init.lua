@@ -3,7 +3,7 @@
 	Hyperloop Mod
 	=============
 
-	v2.04 by JoSt
+	v2.06 by JoSt
 
 	Copyright (C) 2017-2019 Joachim Stolberg
 
@@ -33,6 +33,7 @@
 	2019-03-23  v2.03  Elevator duplication bugfix
 	2020-01-03  v2.04  Elevator door bugfix (MT 5+)
 	2020-03-12  v2.05  minetest translator added (thanks to acmgit/Clyde)
+	2020-06-14  v2.06  The default value for `hyperloop_free_tube_placement_enabled` is now true
 
 ]]--
 
@@ -63,7 +64,7 @@ else
 	-- Configuration settings
 	hyperloop.wifi_enabled = minetest.settings:get_bool("hyperloop_wifi_enabled")
 	hyperloop.wifi_crafting_enabled = minetest.settings:get_bool("hyperloop_wifi_crafting_enabled")
-	hyperloop.free_tube_placement_enabled = minetest.settings:get_bool("hyperloop_free_tube_placement_enabled")
+	hyperloop.free_tube_placement_enabled = minetest.settings:get_bool("hyperloop_free_tube_placement_enabled", true)
 	
 	dofile(minetest.get_modpath("hyperloop") .. "/network.lua")
 	dofile(minetest.get_modpath("hyperloop") .. "/data_base.lua")

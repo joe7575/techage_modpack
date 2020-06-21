@@ -46,9 +46,8 @@ local function node_timer(pos)
 		if swap_node(pos, "signs_bot:crop_sensor_on") then
 			signs_bot.send_signal(pos)
 			signs_bot.lib.activate_extender_nodes(pos, true)
+			minetest.after(1, swap_node, pos, "signs_bot:crop_sensor")
 		end
-	else
-		swap_node(pos, "signs_bot:crop_sensor")
 	end
 	return true
 end
@@ -118,8 +117,8 @@ minetest.register_node("signs_bot:crop_sensor_on", {
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	diggable = false,
-	groups = {sign_bot_sensor = 1, not_in_creative_inventory = 1},
+	drop = "signs_bot:crop_sensor",
+	groups = {sign_bot_sensor = 1, cracky = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -152,7 +151,7 @@ if minetest.get_modpath("doc") then
 		data = {
 			item = "signs_bot:crop_sensor",
 			text = table.concat({
-				I("The Crop Sensor sends a signal when, for example wheat is fully grown."),
+				I("The Crop Sensor sends cyclical signals when, for example, wheat is fully grown."),
 				I("The sensor range is one node/meter."), 
 				I("The sensor has an active side (red) that must point to the crop/field."),
 

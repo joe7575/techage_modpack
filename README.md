@@ -39,6 +39,15 @@ Required: Minetest Game
 
 ### History
 
+
+#### 2020-06-21
+
+Updates (see local readme files):
+- signs_bot v1.03
+- techage v0.13
+- hyperloop v2.06
+
+
 #### 2020-06-18
 
 - techage v0.12 
