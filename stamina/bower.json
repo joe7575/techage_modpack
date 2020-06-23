@@ -1,0 +1,14 @@
+{
+    "name": "stamina",
+    "description": "This mod adds a stamina, or hunger mechanic to Minetest. Actions like crafting, walking, digging or fighting make the player exhausted.",
+    "homepage": "https://github.com/minetest-mods/stamina",
+    "authors": [
+        "BlockMen - 2015",
+        "Auke Kok - 2016"
+    ],
+    "license": "LGPL-2.1+",
+    "keywords": [
+        "hunger",
+        "stamina"
+    ]
+}

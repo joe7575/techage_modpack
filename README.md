@@ -13,6 +13,7 @@ This modpack includes:
 - minecart: Techage transportation system for oil and other items
 - towercrane: Simplifies the building of large techage plants
 - basic_materials: Needed items for many recipes
+- stamina: The "hunger" mod from "minetest-mods"
 - doc: Ingame documentation mod, used for minecart and signs_bot
 - unified_inventory: Player's inventory with crafting guide, bags, and more.
 - tubelib2: Necessary library
@@ -38,6 +39,15 @@ Required: Minetest Game
 
 
 ### History
+
+
+#### 2020-06-23
+
+Updates (see local readme files):
+- mod stamina added
+- autobahn, towercrane and stamina now use a commen player physics lockout mechanism
+- signs_bot v1.03 with bugfixes
+- techage manual expanded
 
 
 #### 2020-06-21

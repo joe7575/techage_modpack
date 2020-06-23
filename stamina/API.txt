@@ -1,0 +1,64 @@
+stamina.get_saturation(player)
+    Gets a player's saturation
+
+stamina.set_saturation(player, level)
+    Set a player's saturation.
+    Updates the HUD to reflect saturation level.
+
+stamina.update_saturation(player, level)
+    Update's a player's saturation.
+    Callbacks are processed first.
+
+stamina.change_saturation(player, change)
+    Update a player's saturation by a delta, instead of an absolute value.
+
+stamina.register_on_update_saturation(function(player, level))
+    Register a callback for when saturation is updated.
+    If the callback returns True, no further callbacks are called,
+    and the default behavior is bypassed.
+-----------------------
+stamina.is_poisoned(player)
+    Check if a player is poisoned
+
+stamina.set_poisoned(player, poisoned)
+    Set a player's "poisoned" status (boolean)
+    Updates the HUD to reflect poison status.
+
+stamina.poison(player, ticks, interval)
+    Poison a player for a certain amount of time.
+    Ticks is how many times to poison the player.
+    Interval is the time between poison ticks.
+    Processes callbacks before changing status.
+
+stamina.register_on_poison(function(player, ticks, interval))
+    Register a callback for when a player is poisoned.
+    If the callback returns True, no further callbacks are called,
+    and the default behavior is bypassed.
+-------------------------
+stamina.get_exhaustion(player)
+    Gets a player's exhaustion level.
+    Value is between 0 and `stamina.exhaust_lvl` (default: 160)
+
+stamina.set_exhaustion(player, level)
+    Sets a player's exhaustion level.
+
+stamina.exhaust_player(player, change, cause)
+    Update a player's exhaustion by "change".
+    If the player's exhaustion exceeds `stamina.exhaust_lvl`, stamina
+    is taken and exhaustion is reset.
+    Cause is an optional argument indicating the origin of the exhaustion.
+    Callbacks are processed before exhausting the player.
+
+stamina.register_on_exhaust_player(function(player, change, cause))
+    Register a callback for when exhaustion is updated.
+    If the callback returns True, no further callbacks are called,
+    and the default behavior is bypassed.
+------------------------
+stamina.set_sprinting(name, sprinting)
+    Sets whether a player is sprinting or not.
+    Callbacks are processed before setting sprint status.
+
+stamina.register_on_sprinting(function(player, sprinting))
+    Register a callback for when a player's sprinting status is updated.
+    If the callback returns True, no further callbacks are called,
+    and the default behavior is bypassed.

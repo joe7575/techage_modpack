@@ -71,21 +71,27 @@ local function set_operator_privs(player, pos)
 	local privs = minetest.get_player_privs(player:get_player_name())
 	local physics = player:get_physics_override()
 	local meta = player:get_meta()
-	if pos and meta and privs and physics then
-		meta:set_string("towercrane_pos", P2S(pos))
-		-- store the player privs default values
-		meta:set_string("towercrane_fast", privs["fast"] and "true" or "false")
-		meta:set_string("towercrane_fly", privs["fly"] and "true" or "false")
-		meta:set_int("towercrane_speed", physics.speed)
-		-- set operator privs
-		meta:set_int("towercrane_isoperator", 1)
-		privs["fly"] = true
-		privs["fast"] = nil
-		physics.speed = 0.7
-		-- write back
-		player:set_physics_override(physics)
-		minetest.set_player_privs(player:get_player_name(), privs)
+	-- Check access conflicts with other mods
+	if meta:get_int("player_physics_locked") == 0 then 
+		if pos and meta and privs and physics then
+			meta:set_string("towercrane_pos", P2S(pos))
+			-- store the player privs default values
+			meta:set_string("towercrane_fast", privs["fast"] and "true" or "false")
+			meta:set_string("towercrane_fly", privs["fly"] and "true" or "false")
+			meta:set_int("towercrane_speed", physics.speed)
+			-- set operator privs
+			meta:set_int("towercrane_isoperator", 1)
+			meta:set_int("player_physics_locked", 1)
+			privs["fly"] = true
+			privs["fast"] = nil
+			physics.speed = 0.7
+			-- write back
+			player:set_physics_override(physics)
+			minetest.set_player_privs(player:get_player_name(), privs)
+			return true
+		end
 	end
+	return false
 end
 
 local function reset_operator_privs(player)
@@ -96,6 +102,7 @@ local function reset_operator_privs(player)
 		meta:set_string("towercrane_pos", "")
 		-- restore the player privs default values
 		meta:set_int("towercrane_isoperator", 0)
+		meta:set_int("player_physics_locked", 0)
 		privs["fast"] = meta:get_string("towercrane_fast") == "true" or nil
 		privs["fly"] = meta:get_string("towercrane_fly") == "true" or nil
 		physics.speed = meta:get_int("towercrane_speed")
@@ -275,10 +282,11 @@ minetest.register_node("towercrane:mast_ctrl_off", {
 	on_rightclick = function (pos, node, clicker)
 		if is_my_crane(pos, clicker) and not is_operator(clicker) then
 			start_crane(pos, clicker)
-			set_operator_privs(clicker, pos)
-			local pos1, pos2 = calc_construction_area(pos)
-			-- control player every second
-			minetest.after(1, control_player, pos, pos1, pos2, clicker:get_player_name())
+			if set_operator_privs(clicker, pos) then
+				local pos1, pos2 = calc_construction_area(pos)
+				-- control player every second
+				minetest.after(1, control_player, pos, pos1, pos2, clicker:get_player_name())
+			end
 		end
 	end,
 

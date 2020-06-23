@@ -36,19 +36,23 @@ end
 local function set_player_privs(player)
 	local physics = player:get_physics_override()
 	local meta = player:get_meta()
-	if meta and physics then
-		-- store the player privs default values
-		meta:set_int("autobahn_speed", physics.speed)
-		-- set operator privs
-		meta:set_int("autobahn_isactive", 1)
-		physics.speed = 3.5
-		minetest.sound_play("autobahn_motor", {
-				pos = player:get_pos(),
-				gain = 0.5,
-				max_hear_distance = 5,
-			})
-		-- write back
-		player:set_physics_override(physics)
+	-- Check access conflicts with other mods
+	if meta:get_int("player_physics_locked") == 0 then
+		meta:set_int("player_physics_locked", 1)
+		if meta and physics then
+			-- store the player privs default values
+			meta:set_int("autobahn_speed", physics.speed)
+			-- set operator privs
+			meta:set_int("autobahn_isactive", 1)
+			physics.speed = 3.5
+			minetest.sound_play("autobahn_motor", {
+					pos = player:get_pos(),
+					gain = 0.5,
+					max_hear_distance = 5,
+				})
+			-- write back
+			player:set_physics_override(physics)
+		end
 	end
 end
 
@@ -64,6 +68,7 @@ local function reset_player_privs(player)
 		meta:set_string("autobahn_speed", "")
 		-- write back
 		player:set_physics_override(physics)
+		meta:set_int("player_physics_locked", 0)
 	end
 end
 
@@ -79,6 +84,11 @@ minetest.register_on_leaveplayer(function(player)
 	end
 end)
 
+minetest.register_on_respawnplayer(function(player)
+	if is_active(player) then
+		reset_player_privs(player)
+	end
+end)
 
 local function control_player(player)
 	local player_name = player:get_player_name()
@@ -152,7 +162,7 @@ local function update_node(pos)
 	local nnode
 	local npos
 	-- check case 1
-	facedir = (2 + node.param2) % 4
+	local facedir = (2 + node.param2) % 4
 	npos = vector.add(pos, Facedir2Dir[facedir])
 	npos.y = npos.y - 1
 	nnode = minetest.get_node(npos)
