@@ -46,7 +46,7 @@ Required: Minetest Game
 #### 2020-06-29
 
 Updates (see local readme files):
-- autobahn, towercrane, ta4_jetpack, 3d_armor, and stamina now use a commen player physics lockout mechanism
+- autobahn, towercrane, ta4_jetpack, 3d_armor, and stamina now use a common player physics lockout mechanism
 - the new mod ta4_jetpack added
 - mod stamina added (adapted to the player physics lockout mechanism)
 - mod 3d_armor added (needed for ta4_jetpack, adapted to the player physics lockout mechanism) 
