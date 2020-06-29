@@ -26,7 +26,7 @@ if minetest.global_exists("techage") then
 	minetest.register_craft({
 		output = "hyperloop:hypersteel_ingot 4",
 		recipe = {
-			{"techage:aluminum", "default:tin_ingot"},
+			{"default:steel_ingot", "default:tin_ingot"},
 			{"techage:aluminum", "dye:cyan"},
 		},
 	})

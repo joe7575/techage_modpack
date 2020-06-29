@@ -5,6 +5,7 @@ All mods have the own README.txt. For further information please consult these f
 
 This modpack includes:
 - techage: The main mod
+- ta4_jetpack: A Jetpack for techage with hydrogen as fuel and TA4 recipe
 - autobahn: Street blocks and slopes with stripes for faster traveling (the only need of bitumen from techage)
 - compost: The garden soil is needed for the TA4 LED Grow Light based flower bed
 - signs_bot: For many automation tasks in TA3/TA4 like farming, mining, and item transportation
@@ -14,6 +15,7 @@ This modpack includes:
 - towercrane: Simplifies the building of large techage plants
 - basic_materials: Needed items for many recipes
 - stamina: The "hunger" mod from "minetest-mods"
+- 3d_armor: Visible player armor & wielded items for minetest (needed for ta4_jetpack)
 - doc: Ingame documentation mod, used for minecart and signs_bot
 - unified_inventory: Player's inventory with crafting guide, bags, and more.
 - tubelib2: Necessary library
@@ -41,13 +43,17 @@ Required: Minetest Game
 ### History
 
 
-#### 2020-06-23
+#### 2020-06-29
 
 Updates (see local readme files):
-- mod stamina added
-- autobahn, towercrane and stamina now use a commen player physics lockout mechanism
-- signs_bot v1.03 with bugfixes
-- techage manual expanded
+- autobahn, towercrane, ta4_jetpack, 3d_armor, and stamina now use a commen player physics lockout mechanism
+- the new mod ta4_jetpack added
+- mod stamina added (adapted to the player physics lockout mechanism)
+- mod 3d_armor added (needed for ta4_jetpack, adapted to the player physics lockout mechanism) 
+- minecart v1.07 with many improvements
+- techage v0.14 with many improvements
+- hyperloop v2.06 update
+- autobahn update
 
 
 #### 2020-06-21

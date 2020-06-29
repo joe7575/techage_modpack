@@ -51,7 +51,7 @@ end
 function minecart.stop_recording(self, pos, vel, puncher)	
 	local dest_pos = lib.get_route_key(pos, self.driver)
 	if dest_pos then
-		if self.start_key ~= dest_pos then
+		if self.start_key and self.start_key ~= dest_pos then
 			local route = {
 				waypoints = self.waypoints,
 				dest_pos = dest_pos,

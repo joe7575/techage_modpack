@@ -284,7 +284,7 @@ minetest.register_craftitem("autobahn:stripes", {
 
 if minetest.global_exists("techage") then	
 	minetest.register_craft({
-		output = "autobahn:node1 9",
+		output = "autobahn:node1 12",
 		recipe = {
 			{"techage:sieved_basalt_gravel", "techage:sieved_basalt_gravel", "techage:sieved_basalt_gravel"},
 			{"techage:sieved_basalt_gravel", "techage:ta3_barrel_bitumen", "techage:sieved_basalt_gravel"},
@@ -293,7 +293,7 @@ if minetest.global_exists("techage") then
 		replacements = {{"techage:ta3_barrel_bitumen", "techage:ta3_barrel_empty"}},
 	})
 	minetest.register_craft({
-		output = "autobahn:node1 9",
+		output = "autobahn:node1 12",
 		recipe = {
 			{"techage:sieved_gravel", "techage:sieved_gravel", "techage:sieved_gravel"},
 			{"techage:sieved_gravel", "techage:ta3_barrel_bitumen", "techage:sieved_gravel"},
@@ -301,13 +301,34 @@ if minetest.global_exists("techage") then
 		},
 		replacements = {{"techage:ta3_barrel_bitumen", "techage:ta3_barrel_empty"}},
 	})
-elseif minetest.global_exists("moreblocks") then
+end
+if minetest.global_exists("moreblocks") then
 	minetest.register_craft({
 		output = "autobahn:node1 4",
 		recipe = {
 			{"moreblocks:tar", "moreblocks:tar"},
 			{"default:cobble", "default:cobble"},
 		},
+	})
+else
+	minetest.register_craft({
+		output = "autobahn:node1 4",
+		recipe = {
+			{"autobahn:tar", "autobahn:tar"},
+			{"default:cobble", "default:cobble"},
+		},
+	})
+	minetest.register_craft({
+		type = "cooking", 
+		output = "autobahn:tar",
+		recipe = "default:pine_tree",
+	})
+	minetest.register_node("autobahn:tar", {
+		description = "Tar",
+		tiles = {"autobahn1.png^[colorize:#000000:80"},
+		is_ground_content = false,
+		groups = {cracky = 2},
+		sounds = default.node_sound_stone_defaults(),
 	})
 end
 
