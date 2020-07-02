@@ -10,6 +10,7 @@
 	2017-11-11  v0.01  first version
 	2019-09-13  v0.02  adapted to 5.0.0
 	2020-03-19  v0.03  recipe added for techage bitumen
+	2020-07-02  v0.04  further slope nodes added
 
 ]]--
 
@@ -122,16 +123,26 @@ local NodeTbl1 = {
 	["autobahn:node2"] = true,
 	["autobahn:node3"] = true,
 	["autobahn:node4"] = true,
+	["autobahn:node5"] = true,
 	["autobahn:node12"] = true,
 	["autobahn:node22"] = true,
 	["autobahn:node32"] = true,
 	["autobahn:node42"] = true,
+	["autobahn:node52"] = true,
 }
 local NodeTbl2 = {
 	["autobahn:node11"] = true,
 	["autobahn:node21"] = true,
 	["autobahn:node31"] = true,
 	["autobahn:node41"] = true,
+	["autobahn:node51"] = true,
+}
+local NodeTbl3 = {
+	["autobahn:node1"] = true,
+	["autobahn:node2"] = true,
+	["autobahn:node3"] = true,
+	["autobahn:node4"] = true,
+	["autobahn:node5"] = true,
 }
 
 --  1)   _o_
@@ -166,7 +177,7 @@ local function update_node(pos)
 	npos = vector.add(pos, Facedir2Dir[facedir])
 	npos.y = npos.y - 1
 	nnode = minetest.get_node(npos)
-	if NodeTbl1[nnode.name] then
+	if NodeTbl1[nnode.name] and NodeTbl3[node.name] then
 		node.name = node.name .. "1"
 		minetest.swap_node(pos, node)
 		return
@@ -184,7 +195,7 @@ local function update_node(pos)
 	npos = vector.add(pos, Facedir2Dir[facedir])
 	npos.y = npos.y - 1
 	nnode = minetest.get_node(npos)
-	if NodeTbl1[nnode.name] then
+	if NodeTbl1[nnode.name] and NodeTbl3[node.name] then
 		node.name = node.name .. "1"
 		node.param2 = 3
 		minetest.swap_node(pos, node)
@@ -264,11 +275,13 @@ local Nodes = {
 	{name="node21", tiles={"autobahn2.png","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp1.obj", box=sb1, drop="node2"},
 	{name="node31", tiles={"autobahn3.png","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp1.obj", box=sb1, drop="node3"},
 	{name="node41", tiles={"autobahn2.png^[transformR180]","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp1.obj", box=sb1, drop="node4"},
+	{name="node51", tiles={"autobahn4.png^[transformR90]","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp1.obj", box=sb1, drop="node5"},
 	
 	{name="node12", tiles={"autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp2.obj", box=sb2, drop="node1"},
 	{name="node22", tiles={"autobahn2.png","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp2.obj", box=sb2, drop="node2"},
 	{name="node32", tiles={"autobahn3.png","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp2.obj", box=sb2, drop="node3"},
 	{name="node42", tiles={"autobahn2.png^[transformR180]","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp2.obj", box=sb2, drop="node4"},
+	{name="node52", tiles={"autobahn4.png^[transformR90]","autobahn1.png"}, drawtype="mesh", mesh="autobahn_ramp2.obj", box=sb2, drop="node5"},
 }
 
 for _,item in ipairs(Nodes) do

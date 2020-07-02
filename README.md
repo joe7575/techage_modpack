@@ -15,7 +15,6 @@ This modpack includes:
 - towercrane: Simplifies the building of large techage plants
 - basic_materials: Needed items for many recipes
 - stamina: The "hunger" mod from "minetest-mods"
-- 3d_armor: Visible player armor & wielded items for minetest (needed for ta4_jetpack)
 - doc: Ingame documentation mod, used for minecart and signs_bot
 - unified_inventory: Player's inventory with crafting guide, bags, and more.
 - tubelib2: Necessary library
@@ -39,9 +38,17 @@ All mods have their own licenses. See the license files in the subfoldes.
 
 Required: Minetest Game
 
+ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can't be integrated into the techage modpack.
+
 
 ### History
 
+
+#### 2020-07-02
+Updates (see local readme files):
+- mod 3d_armor removed again (please install separately) 
+- techage v0.15 improvements and bugfixes
+- autobahn v0.04 improvements
 
 #### 2020-06-29
 
