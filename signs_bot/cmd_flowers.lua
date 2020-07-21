@@ -40,6 +40,14 @@ minetest.after(1, function()
 			end
 		end
 	end
+	for name,ndef in pairs(minetest.registered_nodes) do
+		if type(name) == "string" then
+			local mod = string.split(name, ":")[1]
+			if mod == "flowers" then
+				signs_bot.register_flower(name)
+			end
+		end
+	end
 end)
 
 local function soil_availabe(pos)

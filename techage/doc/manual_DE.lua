@@ -253,7 +253,7 @@ techage.manual_DE.aText = {
   "\n",
   "Basalt entsteht nur\\, wenn Lava und Wasser zusammenkommen.\n"..
   "Dazu sollte man am besten eine Anlage aufbauen\\, bei der eine Lava- und eine Wasserquelle zusammenfließen.\n"..
-  "Dort wo sich beide Flüssigkeiten treffen\\, entsteht Lava.\n"..
+  "Dort wo sich beide Flüssigkeiten treffen\\, entsteht Basalt.\n"..
   "Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.\n"..
   "\n"..
   "\n"..
@@ -1233,6 +1233,12 @@ techage.manual_DE.aText = {
   "\n"..
   "Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.\n"..
   "\n"..
+  "Beim Cracken werden lange Kette von Kohlenwasserstoffen unter Verwendung eines Katalysator in kurze Ketten gebrochen.\n"..
+  "Als Katalysator dient Gibbsitpulver (wird nicht verbraucht). Damit kann Bitumen in Schweröl\\, Schweröl in Naphtha und Naphtha in Benzin umgewandelt werden.\n"..
+  "\n"..
+  "Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt\\, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln. Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Benzin in Naphtha\\, \n"..
+  "Naphtha in Schweröl und Schweröl in Bitumen umgewandelt werden.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Teil des Chemischen Reaktors.\n"..
@@ -1249,7 +1255,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Teil des Chemischen Reaktors.\n"..
+  "Teil des Chemischen Reaktors. Der Reaktor verfügt über ein Inventar für die Katalysator \n"..
+  "Gegenstände (für Cracking- und Hydrierungs-Rezepte).\n"..
   "\n"..
   "\n"..
   "\n",

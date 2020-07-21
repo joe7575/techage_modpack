@@ -158,6 +158,23 @@ if minetest.get_modpath("techage") then
 			end
 		end,
 	})	
+	techage.register_node({"signs_bot:chest"}, {
+		on_pull_item = function(pos, in_dir, num)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return techage.get_items(pos, inv, "main", num)
+		end,
+		on_push_item = function(pos, in_dir, stack)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return techage.put_items(inv, "main", stack)
+		end,
+		on_unpull_item = function(pos, in_dir, stack)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return techage.put_items(inv, "main", stack)
+		end,
+	})	
 	
 else
 	function signs_bot.formspec_battery_capa(max_capa, current_capa)

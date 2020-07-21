@@ -240,8 +240,8 @@ function api.check_script(script)
 			param2 = tonumber(param2) or param2
 			param3 = tonumber(param3) or param3
 			local num_param = (param1 and 1 or 0) + (param2 and 1 or 0) + (param3 and 1 or 0)
-			if tCmdDef[cmnd].num_param ~= num_param then
-				return false, I("Wrong number of parameters"), idx
+			if tCmdDef[cmnd].num_param < num_param then
+				return false, I("Too many parameters"), idx
 			end
 			if tCmdDef[cmnd].num_param > 0 and not tCmdDef[cmnd].check(param1, param2, param3) then
 				return false, I("Parameter error"), idx

@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.14
+techage.version = 0.18
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -300,6 +300,7 @@ dofile(MP.."/items/hydrogen.lua")
 dofile(MP.."/items/electronic.lua")
 dofile(MP.."/items/redstone.lua")
 dofile(MP.."/items/cement.lua")
+dofile(MP.."/items/cracking.lua")
 
 if techage.basalt_stone_enabled then
 	dofile(MP.."/items/basalt.lua")

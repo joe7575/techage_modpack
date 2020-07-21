@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-30 15:09+0200\n"
-"PO-Revision-Date: 2020-05-30 15:14+0200\n"
+"POT-Creation-Date: 2020-06-23 17:16+0200\n"
+"PO-Revision-Date: 2020-06-23 17:19+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -784,14 +784,13 @@ msgid "jump to a label"
 msgstr "Sprung zu einer Marke"
 
 #: commands.lua
-#, fuzzy
 msgid ""
 "Move the robot 1..999 steps forward\n"
 "without paying attention to any signs.\n"
 "Up and down movements also become\n"
 "counted as steps."
 msgstr ""
-"Bewege den Roboter 1..99 Schritte\n"
+"Bewege den Roboter 1..999 Schritte\n"
 "vorwärts ohne auf Zeichen zu achten.\n"
 "Auf- und Ab-Bewegungen werden auch\n"
 "als Schritte gezählt."
@@ -821,10 +820,12 @@ msgid "Crop Sensor"
 msgstr "Ernte Sensor"
 
 #: crop_sensor.lua
-msgid "The Crop Sensor sends a signal when, for example wheat is fully grown."
+msgid ""
+"The Crop Sensor sends cyclical signals when, for example, wheat is fully "
+"grown."
 msgstr ""
-"Der Ernte Sensor sendet ein Signal, wenn bspw. der Weizen voll ausgewachsen "
-"ist."
+"Der Ernte Sensor sendet zyklisch ein Signal, wenn bspw. der Weizen voll "
+"ausgewachsen ist."
 
 #: crop_sensor.lua
 msgid "The sensor range is one node/meter."
@@ -1425,10 +1426,10 @@ msgstr "Block Sensor"
 
 #: node_sensor.lua
 msgid ""
-"The node sensor can send a signal when it detects that nodes appear or "
-"disappear,"
+"The node sensor sends cyclical signals when it detects that nodes have "
+"appeared or disappeared,"
 msgstr ""
-"Der Block Sensor kann ein Signal senden, wenn er eine Veränderung von "
+"Der Block Sensor sendet zyklisch ein Signal, wenn er eine Veränderung von "
 "Blöcken vor sich entdeckt (ein Block erscheint oder verschwindet),"
 
 #: node_sensor.lua
@@ -1603,6 +1604,10 @@ msgid "Maximum programm size exceeded"
 msgstr "Maximale Programmlänge überschritten"
 
 #: interpreter.lua
+msgid "Too many parameters"
+msgstr "Zu viele Parameter"
+
+#: interpreter.lua
 msgid "Parameter error"
 msgstr "Parameter Fehler"
 
@@ -1619,16 +1624,14 @@ msgid "'end' missing"
 msgstr "Es fehlt ein 'end'"
 
 #: interpreter.lua
-msgid "'return' missing"
-msgstr "Es fehlt ein 'return'"
-
-#: interpreter.lua
-msgid "'call' missing"
-msgstr "Es fehlt ein 'call'"
-
-#: interpreter.lua
 msgid "Checked and approved"
 msgstr "Geprüft und genehmigt"
+
+#~ msgid "'return' missing"
+#~ msgstr "Es fehlt ein 'return'"
+
+#~ msgid "'call' missing"
+#~ msgstr "Es fehlt ein 'call'"
 
 #~ msgid ""
 #~ "Take <num> items from a chest like node\n"

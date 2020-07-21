@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-30 15:09+0200\n"
+"POT-Creation-Date: 2020-06-23 17:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -665,7 +665,9 @@ msgid "Crop Sensor"
 msgstr ""
 
 #: crop_sensor.lua
-msgid "The Crop Sensor sends a signal when, for example wheat is fully grown."
+msgid ""
+"The Crop Sensor sends cyclical signals when, for example, wheat is fully "
+"grown."
 msgstr ""
 
 #: crop_sensor.lua
@@ -1168,8 +1170,8 @@ msgstr ""
 
 #: node_sensor.lua
 msgid ""
-"The node sensor can send a signal when it detects that nodes appear or "
-"disappear,"
+"The node sensor sends cyclical signals when it detects that nodes have "
+"appeared or disappeared,"
 msgstr ""
 
 #: node_sensor.lua
@@ -1330,6 +1332,10 @@ msgid "Maximum programm size exceeded"
 msgstr ""
 
 #: interpreter.lua
+msgid "Too many parameters"
+msgstr ""
+
+#: interpreter.lua
 msgid "Parameter error"
 msgstr ""
 
@@ -1343,14 +1349,6 @@ msgstr ""
 
 #: interpreter.lua
 msgid "'end' missing"
-msgstr ""
-
-#: interpreter.lua
-msgid "'return' missing"
-msgstr ""
-
-#: interpreter.lua
-msgid "'call' missing"
 msgstr ""
 
 #: interpreter.lua

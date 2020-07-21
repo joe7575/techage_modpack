@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-30 14:59+0200\n"
-"PO-Revision-Date: 2020-05-30 15:01+0200\n"
+"POT-Creation-Date: 2020-05-30 15:09+0200\n"
+"PO-Revision-Date: 2020-05-30 15:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -797,7 +797,6 @@ msgstr ""
 "als Schritte gezählt."
 
 #: commands.lua
-#, fuzzy
 msgid ""
 "Walk until a sign or obstacle is\n"
 "reached. Then continue with the next command.\n"
@@ -811,7 +810,7 @@ msgstr ""
 "Kommando aus. \n"
 "Wurde ein Zeichen erreicht, so arbeite\n"
 "die Kommandos des Zeichens als\n"
-"Unter-Prozess ab."
+"Unter-Prozess ab"
 
 #: crop_sensor.lua
 msgid "Crop Sensor: Connected with "
@@ -1599,14 +1598,37 @@ msgstr "Signal UND"
 msgid "Signal is sent, if all input signals are received."
 msgstr "Signal wird gesendet, wenn all Eingangssignale empfangen wurden."
 
-#~ msgid "Parameter error in line "
-#~ msgstr "Parameter Fehler in Zeile "
+#: interpreter.lua
+msgid "Maximum programm size exceeded"
+msgstr "Maximale Programmlänge überschritten"
 
-#~ msgid "Command error in line "
-#~ msgstr "Kommandozeilen Fehler in Zeile "
+#: interpreter.lua
+msgid "Parameter error"
+msgstr "Parameter Fehler"
 
-#~ msgid "Checked and approved"
-#~ msgstr "Geprüft und genehmigt"
+#: interpreter.lua
+msgid "Command error"
+msgstr "Kommandozeilen Fehler"
+
+#: interpreter.lua
+msgid "'repeat' missing"
+msgstr "Es fehlt ein 'repeat'"
+
+#: interpreter.lua
+msgid "'end' missing"
+msgstr "Es fehlt ein 'end'"
+
+#: interpreter.lua
+msgid "'return' missing"
+msgstr "Es fehlt ein 'return'"
+
+#: interpreter.lua
+msgid "'call' missing"
+msgstr "Es fehlt ein 'call'"
+
+#: interpreter.lua
+msgid "Checked and approved"
+msgstr "Geprüft und genehmigt"
 
 #~ msgid ""
 #~ "Take <num> items from a chest like node\n"

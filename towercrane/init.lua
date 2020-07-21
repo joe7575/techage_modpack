@@ -268,6 +268,28 @@ minetest.register_node("towercrane:base", {
 		meta:set_string("dir", P2S(dir))
 	end,
 
+	on_rotate = function(pos, node, player, mode, new_facedir)
+		-- check whether crane is built up
+		local pos_above = {x=pos.x, y=pos.y+1, z=pos.z}
+		local node_above = minetest.get_node(pos_above)
+
+		if node_above.name == "towercrane:mast_ctrl_on"
+				or node_above.name == "towercrane:mast_ctrl_off" then
+			return false
+		end
+
+		-- only allow rotation around y-axis
+		new_facedir = new_facedir % 4
+
+		local dir = minetest.facedir_to_dir(new_facedir)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("dir", P2S(dir))
+
+		node.param2 = new_facedir
+		minetest.swap_node(pos, node)
+		return true
+	end,
+
 	-- evaluate user input (height, width), 
 	-- destroy old crane and build a new one with
 	-- the given size
