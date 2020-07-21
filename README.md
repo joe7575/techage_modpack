@@ -44,6 +44,14 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2020-07-21
+Updated Mods:
+- signs_bot
+- techage v0.18
+- towercrane
+- unified_inventory
+- basic_materials
+
 #### 2020-07-02
 Updates (see local readme files):
 - mod 3d_armor removed again (please install separately) 
