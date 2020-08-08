@@ -309,7 +309,7 @@ local function rail_on_step(self, dtime)
 		end
 
 		-- Slow down or speed up..
-		local acc = dir.y * -2.0
+		local acc = dir.y * -1.5
 
 		-- Get rail for corrected position
 		railparams = get_railparams(pos)

@@ -68,7 +68,7 @@ local function get_next_char(text, pos)
 	end
 		
 	-- 2 bytes char (little endian)
-	if char >= 0xC2 then
+	if char >= 0xC2 and #text > pos then
 		pos = pos + 1
 		return (char - 0xC2) * 0x40 + text:sub(pos, pos):byte(), pos
 	end

@@ -69,7 +69,7 @@ if minetest.get_modpath("techage") then
 		mod = "techage",
 		params = "<percent>",	
 		num_param = 1,
-		description = S("Turn the bot off if the\nbattery power is below the\ngiven value (1..99)"),
+		description = S("Turns the bot off if the\nbattery power is below the\ngiven value in percent (1..99)"),
 		check = function(val)
 			val = tonumber(val) or 5
 			return val and val > 0 and val < 100
@@ -81,7 +81,7 @@ if minetest.get_modpath("techage") then
 				signs_bot.stop_robot(base_pos, mem)
 				return signs_bot.TURN_OFF
 			end
-			return true
+			return signs_bot.DONE
 		end,
 	})
 	

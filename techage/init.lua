@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.18
+techage.version = 0.21
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -27,8 +27,8 @@ elseif minetest.global_exists("techpack") then
 elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.9 then
 	minetest.log("error", "[techage] Techage requires tubelib2 version 1.9 or newer!")
 	return
-elseif minetest.global_exists("minecart") and minecart.version < 1.06 then
-	minetest.log("error", "[techage] Techage requires minecart version 1.06 or newer!")
+elseif minetest.global_exists("minecart") and minecart.version < 1.08 then
+	minetest.log("error", "[techage] Techage requires minecart version 1.08 or newer!")
 	return
 elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires lcdlib version 1.0 or newer!")
@@ -54,6 +54,14 @@ techage.S = minetest.get_translator("techage")
 
 -- Load mod storage
 techage.storage = minetest.get_mod_storage()
+
+-- Ensure compatibility with older Minetest versions by providing
+-- a dummy implementation of `minetest.get_translated_string`.
+if not minetest.get_translated_string then
+	minetest.get_translated_string = function(lang_code, string)
+		return string
+	end
+end
 
 -- Basis features
 local MP = minetest.get_modpath("techage")
@@ -205,6 +213,11 @@ dofile(MP.."/oil/reboiler.lua")
 -- TA3 power based
 dofile(MP.."/ta3_power/tiny_generator.lua")
 dofile(MP.."/ta3_power/akkubox.lua")
+
+-- Digtron
+if minetest.global_exists("digtron") then
+	dofile(MP.."/digtron/battery.lua")
+end
 
 -- Logic
 dofile(MP.."/logic/lib.lua")

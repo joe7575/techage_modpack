@@ -47,6 +47,7 @@ local function formspec1(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[textarea,table;font=mono]"..
 	"tabheader[0,0;tab;"..I("Commands,Help")..";1;;true]"..
 	"field[0.3,0.5;9,1;name;"..I("Sign name:")..";"..name.."]"..
 	"textarea[0.3,1.2;9,7.2;cmnd;;"..cmnd.."]"..
@@ -60,6 +61,7 @@ local function formspec2(pos, text)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[textarea,table;font=mono]"..
 	"tabheader[0,0;tab;"..I("Commands,Help")..";2;;true]"..
 	"table[0.1,0;8.6,4;command;"..sCmnds..";"..pos.."]"..
 	"textarea[0.3,4.5;9,3.5;help;Help:;"..text.."]"..

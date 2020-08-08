@@ -13,6 +13,7 @@
 	2020-07-02  v0.04  further slope nodes added
 
 ]]--
+local S = minetest.get_translator("autobahn")
 
 autobahn = {}
 
@@ -215,7 +216,7 @@ end
 
 local function register_node(name, tiles, drawtype, mesh, box, drop)
 	minetest.register_node("autobahn:"..name, {
-		description = "Autobahn",
+		description = S("Autobahn"),
 		tiles = tiles,
 		drawtype = drawtype,
 		mesh = mesh,
@@ -290,7 +291,7 @@ end
 
 
 minetest.register_craftitem("autobahn:stripes", {
-	description = "Autobahn Stripe",
+	description = S("Autobahn Stripe"),
 	inventory_image = 'autobahn_stripes.png',
 })
 
@@ -337,7 +338,7 @@ else
 		recipe = "default:pine_tree",
 	})
 	minetest.register_node("autobahn:tar", {
-		description = "Tar",
+		description = S("Tar"),
 		tiles = {"autobahn1.png^[colorize:#000000:80"},
 		is_ground_content = false,
 		groups = {cracky = 2},

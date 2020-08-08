@@ -288,10 +288,15 @@ minetest.register_on_mods_loaded(function()
 				local number = tonumber(data.number) or 0
 				return 'cart_state('..number..')'
 			end,
-			code = function(data, environ) 
-				local s = 'minecart.cmnd_cart_state("%s", %u)'
-				local number = tonumber(data.number) or 0
-				return string.format(s, environ.owner, number),	"~= 0"
+			code = function(data, environ)
+				local condition = function(env, idx)
+					local number = tonumber(data.number) or 0
+					return minecart.cmnd_cart_state(environ.owner, number)
+				end
+				local result = function(val)
+					return val ~= 0
+				end
+				return condition, result
 			end,
 		})
 		techage.icta_register_condition("cart_location", {
@@ -313,10 +318,15 @@ minetest.register_on_mods_loaded(function()
 				local number = tonumber(data.number) or 0
 				return 'cart_loc('..number..')'
 			end,
-			code = function(data, environ) 
-				local s = 'minecart.cmnd_cart_location("%s", %u, env.pos)'
-				local number = tonumber(data.number) or 0
-				return string.format(s, environ.owner, number),	"~= 0"
+			code = function(data, environ)
+				local condition = function(env, idx)
+					local number = tonumber(data.number) or 0
+					return minecart.cmnd_cart_location(environ.owner, number, env.pos)
+				end
+				local result = function(val)
+					return val ~= 0
+				end
+				return condition, result
 			end,
 		})
 		techage.lua_ctlr.register_function("cart_state", {

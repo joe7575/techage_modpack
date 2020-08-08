@@ -1,3 +1,5 @@
+local S = minetest.get_translator("compost")
+
 compost = {}
 
 -- Version for compatibility checks
@@ -112,7 +114,7 @@ local function minecart_hopper_untakeitem(pos, in_dir, stack)
 end
 
 minetest.register_node("compost:wood_barrel", {
-	description = "Wood Barrel",
+	description = S("Wood Barrel"),
 	tiles = {"default_wood.png"},
 	drawtype = "nodebox",
 	node_box = {
@@ -143,7 +145,7 @@ minetest.register_node("compost:wood_barrel", {
 })
 
 minetest.register_node("compost:wood_barrel_1", {
-	description = "Wood Barrel with compost",
+	description = S("Wood Barrel with compost"),
 	tiles = {"default_wood.png^compost_compost_1.png", "default_wood.png"},
 	drawtype = "nodebox",
 	node_box = {
@@ -164,7 +166,7 @@ minetest.register_node("compost:wood_barrel_1", {
 })
 
 minetest.register_node("compost:wood_barrel_2", {
-	description = "Wood Barrel with compost",
+	description = S("Wood Barrel with compost"),
 	tiles = {"default_wood.png^compost_compost_2.png", "default_wood.png"},
 	drawtype = "nodebox",
 	node_box = {
@@ -185,7 +187,7 @@ minetest.register_node("compost:wood_barrel_2", {
 })
 
 minetest.register_node("compost:wood_barrel_3", {
-	description = "Wood Barrel",
+	description = S("Wood Barrel"),
 	tiles = {"default_wood.png^compost_compost_3.png", "default_wood.png"},
 	drawtype = "nodebox",
 	node_box = {
@@ -238,14 +240,14 @@ minetest.register_craft({
 })
 
 minetest.register_node("compost:compost", {
-	description = "Compost",
+	description = S("Compost"),
 	tiles = {"compost_compost.png"},
 	groups = {crumbly = 3},
 	sounds =  default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node("compost:garden_soil", {
-	description = "Garden Soil",
+	description = S("Garden Soil"),
 	tiles = {"compost_garden_soil.png"},
 	groups = {crumbly = 3, soil=3, grassland = 1, wet = 1},
 	sounds =  default.node_sound_dirt_defaults(),

@@ -115,4 +115,5 @@ History
 2020-05-14  v1.05  API changed to be able to register carts  
 2020-06-14  v1.06  API changed and chat command added  
 2020-06-27  v1.07  Route storage and cart command bugfixes  
+2020-07-24  V1.08  Adapted to new techage ICTA style  
   

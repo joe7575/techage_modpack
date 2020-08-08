@@ -14,7 +14,7 @@
 
 safer_lua.MaxCodeSize = 5000    -- size if source code in bytes
 safer_lua.MaxTableSize = 1000   -- sum over all table sizes
-safer_lua.MaxExeTime = 5000   -- max. execution time in us
+safer_lua.MaxExeTime = 20000   -- max. execution time in us
 
 local function memsize()
 	return safer_lua.MaxTableSize
@@ -57,7 +57,10 @@ local BASE_ENV = {
 		rep = string.rep,
 		sub = string.sub,
 		upper = string.upper,
-		split = string.split,
+		split = function(str, separator, include_empty, max_splits, sep_is_pattern) 
+			if separator == "" then separator = " " end
+			return safer_lua.Array(unpack(string.split(str, separator, include_empty, max_splits, sep_is_pattern))) 
+		end,
 		trim = string.trim,
 	},
 	tonumber = tonumber,

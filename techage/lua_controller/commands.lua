@@ -39,16 +39,17 @@ techage.lua_ctlr.register_function("get_input", {
 })
 
 techage.lua_ctlr.register_function("read_data", {
-	cmnd = function(self, num, ident, add_data) 
+	cmnd = function(self, num, cmnd, data)
 		num = tostring(num or "")
-		return techage.send_single(self.meta.number, num, ident, add_data)
+		cmnd = tostring(cmnd or "")
+		if not_protected(self.meta.owner, num) then
+			return techage.send_single(self.meta.number, num, cmnd, data)
+		end
 	end,
-	help = " $read_data(num, ident, add_data)\n"..
-		" Read any kind of data from another block.\n"..
-		' "num" is the block number\n'..
-		' "ident" specifies the data to be read\n'..
-		' "add_data" is additional data (optional)\n'..
-		' example: sts = $read_data("1234", "state")'
+	help = " $read_data(num, cmnd, add_data)\n"..
+		" This function is deprecated.\n"..
+		" It will be removed in future releases.\n"..
+		" Use $send_cmnd(num, cmnd, add_data) instead."
 })
 
 techage.lua_ctlr.register_function("time_as_str", {
@@ -96,7 +97,7 @@ techage.lua_ctlr.register_action("set_filter", {
 		slot = tostring(slot or "red")
 		val = tostring(val or "on")
 		if not_protected(self.meta.owner, num) then
-			techage.send_single(self.meta.number, num, "filter", {slot=slot, val=val})
+			techage.send_single(self.meta.number, num, "port", slot.."="..val)
 		end
 	end,
 	help = " $set_filter(num, slot, val)\n"..
@@ -119,7 +120,10 @@ techage.lua_ctlr.register_action("display", {
 			if row == 0 then -- add line?
 				techage.send_single(self.meta.number, num, "add", text)
 			else
-				techage.send_single(self.meta.number, num, "set", {row = row, str = text})
+				local payload = safer_lua.Store()
+				payload.set("row", row)
+				payload.set("str", text)
+				techage.send_single(self.meta.number, num, "set", payload)
 			end
 		end
 	end,
@@ -179,6 +183,19 @@ techage.lua_ctlr.register_action("door", {
 		' Open/Close a door at position "pos"\n'..
 		' example: $door("123,7,-1200", "close")\n'..
 		" Hint: Use the Techage Programmer to\ndetermine the door position."
+})
+
+techage.lua_ctlr.register_function("item_description", {
+	cmnd = function(self, itemstring)
+		local item_def = minetest.registered_items[itemstring]
+		if item_def and item_def.description then
+			return minetest.get_translated_string("en", item_def.description)
+		end
+		return ""
+	end,
+	help = " $item_description(itemstring)\n"..
+			" Get the description for a specified itemstring.\n"..
+			' example: desc = $item_description("default:apple")'
 })
 
 
