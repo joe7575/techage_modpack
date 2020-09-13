@@ -281,8 +281,8 @@ minetest.register_node("towercrane:mast_ctrl_off", {
 	-- switch the crane ON
 	on_rightclick = function (pos, node, clicker)
 		if is_my_crane(pos, clicker) and not is_operator(clicker) then
-			start_crane(pos, clicker)
 			if set_operator_privs(clicker, pos) then
+				start_crane(pos, clicker)
 				local pos1, pos2 = calc_construction_area(pos)
 				-- control player every second
 				minetest.after(1, control_player, pos, pos1, pos2, clicker:get_player_name())

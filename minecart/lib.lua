@@ -147,6 +147,8 @@ function minecart.take_items(pos, param2, num)
 	
 	if def and inv and def.take_listname and (not def.allow_take or def.allow_take(npos, nil, owner)) then
 		return minecart.inv_take_items(inv, def.take_listname, num)
+	elseif def and def.take_item then
+		return def.take_item(npos, num, owner)
 	else
 		local ndef = minetest.registered_nodes[node.name]
 		if ndef and ndef.minecart_hopper_takeitem then
@@ -166,6 +168,8 @@ function minecart.put_items(pos, param2, stack)
 		if leftover:get_count() > 0 then
 			return leftover
 		end
+	elseif def and def.put_item then
+		return def.put_item(npos, stack, owner)
 	elseif is_air_like(node.name) or check_cart_for_loading(npos) then
 		minetest.add_item(npos, stack)
 	else
@@ -191,8 +195,10 @@ function minecart.untake_items(pos, param2, stack)
 	local def = RegisteredInventories[node.name]
 	local inv = minetest.get_inventory({type="node", pos=npos})
 	
-	if def then
-		return inv and inv:add_item(def.put_listname, stack)
+	if def and inv and def.put_listname then
+		return inv:add_item(def.put_listname, stack)
+	elseif def and def.untake_item then
+		return def.untake_item(npos, stack)
 	else
 		local ndef = minetest.registered_nodes[node.name]
 		if ndef and ndef.minecart_hopper_untakeitem then
@@ -230,6 +236,9 @@ function minecart.register_inventory(node_names, def)
 			put_listname = def.put and def.put.listname,
 			allow_take = def.take and def.take.allow_inventory_take,
 			take_listname = def.take and def.take.listname,
+			put_item = def.put and def.put.put_item,
+			take_item = def.take and def.take.take_item,
+			untake_item = def.take and def.take.untake_item,
 		}
 	end
 end
@@ -271,32 +280,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
     return false
 end)
-
-minecart.register_inventory({"default:chest", "default:chest_open"}, {
-	put = {
-		listname = "main",
-	},
-	take = {
-		listname = "main",
-	},
-})
-
-minecart.register_inventory({"default:chest_locked", "default:chest_locked_open"}, {
-	put = {
-		allow_inventory_put = function(pos, stack, player_name)
-			local owner = M(pos):get_string("owner")
-			return owner == player_name
-		end, 
-		listname = "main",
-	},
-	take = {
-		allow_inventory_take = function(pos, stack, player_name)
-			local owner = M(pos):get_string("owner")
-			return owner == player_name
-		end, 
-		listname = "main",
-	},
-})
 
 minecart.register_inventory({"minecart:hopper"}, {
 	put = {

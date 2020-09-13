@@ -116,4 +116,5 @@ History
 2020-06-14  v1.06  API changed and chat command added  
 2020-06-27  v1.07  Route storage and cart command bugfixes  
 2020-07-24  V1.08  Adapted to new techage ICTA style  
-  
+2020-08-14  V1.09  Hopper support for digtron, protector:chest and default:furnace added    
+

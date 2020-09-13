@@ -26,9 +26,10 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	-- check if it is powder
-	local ndef = minetest.registered_craftitems[stack:get_name()] or {}
-	if ndef.groups and ndef.groups.powder == 1 then
+	-- check if it is powder or techage liquid item (migration function)
+	local ndef = minetest.registered_craftitems[stack:get_name()] or 
+			minetest.registered_items[stack:get_name()] or {}
+	if ndef.groups and (ndef.groups.powder == 1 or ndef.groups.ta_liquid == 1) then
 		local nvm = techage.get_nvm(pos)
 		nvm.item_name = nil
 		local inv = minetest.get_meta(pos):get_inventory()
@@ -124,6 +125,15 @@ local tLiquid = {
 			return inv:remove_item("main", stack):get_count(), name
 		end
 		return 0
+	end,
+	untake = function(pos, indir, name, amount)
+		local inv = M(pos):get_inventory()
+		local stack = ItemStack(name.." "..amount)
+		if inv:room_for_item("main", stack) then
+			inv:add_item("main", stack)
+			return 0
+		end
+		return amount
 	end,
 }
 

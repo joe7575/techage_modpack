@@ -147,12 +147,13 @@ end
 
 register_command("repeat", 1,
 	function(base_pos, mem, cnt)
-		mem.Stack[#mem.Stack + 1] = cnt
+		mem.Stack[#mem.Stack + 1] = tonumber(cnt)
 		mem.Stack[#mem.Stack + 1] = mem.pc + 1
 		return api.DONE
 	end,
 	function(cnt)
-		return cnt and cnt > 0 and cnt < 1000
+		cnt = tonumber(cnt) or 0
+		return cnt > 0 and cnt < 1000
 	end
 )	
 

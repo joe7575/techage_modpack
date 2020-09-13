@@ -32,18 +32,11 @@ function signs_bot.register_flower(name)
 end
 
 minetest.after(1, function()
-	for name,_ in pairs(minetest.registered_decorations) do
-		if type(name) == "string" then
+	for _,def in pairs(minetest.registered_decorations) do
+		local name = def.decoration
+		if name and type(name) == "string" then
 			local mod = string.split(name, ":")[1]
-			if mod == "flowers" then
-				signs_bot.register_flower(name)
-			end
-		end
-	end
-	for name,ndef in pairs(minetest.registered_nodes) do
-		if type(name) == "string" then
-			local mod = string.split(name, ":")[1]
-			if mod == "flowers" then
+			if mod == "flowers" or mod == "bakedclay" then -- Bakedclay also registers flowers as decoration.
 				signs_bot.register_flower(name)
 			end
 		end

@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.21
+techage.version = 0.23
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -66,6 +66,7 @@ end
 -- Basis features
 local MP = minetest.get_modpath("techage")
 dofile(MP.."/basis/lib.lua")  -- helper functions
+dofile(MP.."/basis/fake_player.lua")  -- dummy player object
 dofile(MP.."/basis/node_store.lua")
 dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 dofile(MP.."/basis/node_states.lua") -- state model
@@ -144,6 +145,7 @@ dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
 dofile(MP.."/basic_machines/source.lua")
 dofile(MP.."/basic_machines/pusher.lua")
 dofile(MP.."/basic_machines/legacy_nodes.lua")
+dofile(MP.."/basic_machines/mods_support.lua")
 dofile(MP.."/basic_machines/grinder.lua")
 dofile(MP.."/basic_machines/distributor.lua")
 dofile(MP.."/basic_machines/gravelsieve.lua")

@@ -9,7 +9,8 @@ if minetest.get_modpath("techage") then
 	local Cable = techage.ElectricCable
 	local power = techage.power
 	
-	signs_bot.register_inventory({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4"}, {
+	signs_bot.register_inventory({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4",
+			"techage:ta3_silo", "techage:ta4_silo"}, {
 		allow_inventory_put = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
 		end, 
@@ -61,7 +62,7 @@ if minetest.get_modpath("techage") then
 			and minetest.registered_nodes[node.name].on_ignite then
 				minetest.registered_nodes[node.name].on_ignite(pos)
 			end
-			return true
+			return signs_bot.DONE
 		end,
 	})
 
