@@ -44,6 +44,12 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2020-09-13
+Updated Mods:
+- techage v0.23
+- signs_bot
+- minecart
+
 #### 2020-08-08
 Updated Mods:
 - autobahn
