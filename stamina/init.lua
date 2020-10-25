@@ -87,7 +87,7 @@ end
 local hud_ids_by_player_name = {}
 
 local function get_hud_id(player)
-	return hud_ids_by_player_name[player:get_player_name()]
+	return hud_ids_by_player_name[player:get_player_name()] or 0
 end
 
 local function set_hud_id(player, hud_id)
