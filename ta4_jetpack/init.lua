@@ -525,3 +525,11 @@ minetest.register_craft({
 		{"basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet"}
 	},
 })
+
+dofile(minetest.get_modpath("ta4_jetpack") .. "/manual_DE.lua")
+dofile(minetest.get_modpath("ta4_jetpack") .. "/manual_EN.lua")
+
+techage.add_manual_items({
+		ta4_jetpack = "ta4_jetpack.png",
+		ta4_jetpack_controller = 'ta4_jetpack_controller_inv.png'})
+

@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 minecart = {}
@@ -16,6 +16,7 @@ minecart = {}
 minecart.version = 1.09
 
 minecart.hopper_enabled = minetest.settings:get_bool("minecart_hopper_enabled") ~= false
+minecart.teleport_enabled = minetest.settings:get_bool("minecart_teleport_enabled") ~= false
 
 print("minecart_hopper_enabled", dump(minetest.settings:get_bool("minecart_hopper_enabled")))
 

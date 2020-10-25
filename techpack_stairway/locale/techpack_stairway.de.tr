@@ -1,0 +1,21 @@
+# textdomain: techpack_stairway
+
+
+### init.lua ###
+
+TechPack Bridge 1=TechPack Brücke 1
+TechPack Bridge 2=TechPack Brücke 2
+TechPack Bridge 3=TechPack Brücke 3
+TechPack Bridge 4=TechPack Brücke 4
+TechPack Grating=TechPack Gitterrost
+TechPack Handrail 1=TechPack Geländer 1
+TechPack Handrail 2=TechPack Geländer 2
+TechPack Handrail 3=TechPack Geländer 3
+TechPack Handrail 4=TechPack Geländer 4
+TechPack Ladder 1=TechPack Leiter 1
+TechPack Ladder 2=TechPack Leiter 2
+TechPack Ladder 3=TechPack Leiter 3
+TechPack Ladder 4=TechPack Leiter 4
+TechPack Lattice=TechPack Gitterrahmen
+TechPack Lattice Slope=TechPack Gitterrahmenrampe
+TechPack Stairway=TechPack Treppe

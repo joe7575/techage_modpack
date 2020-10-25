@@ -1,0 +1,22 @@
+# textdomain: techpack_stairway
+
+
+
+### init.lua ###
+
+TechPack Bridge 1=
+TechPack Bridge 2=
+TechPack Bridge 3=
+TechPack Bridge 4=
+TechPack Grating=
+TechPack Handrail 1=
+TechPack Handrail 2=
+TechPack Handrail 3=
+TechPack Handrail 4=
+TechPack Ladder 1=
+TechPack Ladder 2=
+TechPack Ladder 3=
+TechPack Ladder 4=
+TechPack Lattice=
+TechPack Lattice Slope=
+TechPack Stairway=

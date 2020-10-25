@@ -170,6 +170,10 @@ techage.manual_EN.aTitel = {
   "3,TA4 LED Grow Light",
   "3,TA4 Street Lamp",
   "3,TA4 LED Industrial Lamp",
+  "2,TA4 Liquid Filter",
+  "3,Base Layer",
+  "3,Gravel Layer",
+  "3,Filling Layer",
   "2,More TA4 Blocks",
   "3,TA4 Tank",
   "3,TA4 Pump",
@@ -180,6 +184,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Chest",
   "3,TA4 8x2000 Chest",
   "3,TA4 Distributor",
+  "3,TA4 High Performance Distributor",
   "3,TA4 Gravel Sieve",
   "3,TA4 Grinder",
   "3,TA4 Quarry",
@@ -285,9 +290,9 @@ techage.manual_EN.aText = {
   "  - Build a 5x5 area of ​​dirt\n"..
   "  - Place a lighter in the middle\n"..
   "  - Build a 3x3x3 cube above it out of wood\n"..
-  "  - Cover everything with a layer of earth to form a 5x5x5 cube\n"..
+  "  - Cover everything with a layer of dirt to form a 5x5x5 cube\n"..
   "  - Leave a hole to the lighter\n"..
-  "  - Light the lighter and immediately close the hole with a block of wood and earth\n"..
+  "  - Light the lighter and immediately close the hole with a block of wood and dirt\n"..
   "  - If you have done everything correctly\\, the coal burner will start smoking after a few seconds\n"..
   "  - Only open the charcoal burner when the smoke has disappeared (approx. 20 min)\n"..
   "\n"..
@@ -305,7 +310,7 @@ techage.manual_EN.aText = {
   "  - Fill the tower with charcoal from the top to the top\n"..
   "  - Light the lighter through the hole\n"..
   "  - Place the melting pot in the flame over the tower\n(one block above the flame)\n"..
-  "  - To stop the burner\\, temporarily close the hole with an earth block\\, for example.\n"..
+  "  - To stop the burner\\, temporarily close the hole with an dirt block\\, for example.\n"..
   "\n"..
   "The melting pot has its own menu of recipes and an inventory where you have to put the ores in.\n"..
   "\n"..
@@ -745,7 +750,7 @@ techage.manual_EN.aText = {
   "If the button on the oil drilling box is clicked\\, the derrick is erected above the box. This takes a few seconds.\n"..
   "The oil drilling box has 4 sides\\, at IN the drill pipe has to be delivered via pusher and at OUT the drilling material has to be removed. The oil drilling box must be supplied with power via one of the other two sides.\n"..
   "\n"..
-  "The oil drilling box drills to the oil field (1 meter in 16 s) and requires 10 ku of electricity.\n"..
+  "The oil drilling box drills to the oil field (1 meter in 16 s) and requires 16 ku of electricity.\n"..
   "Once the oil field has been reached\\, the derrick can be dismantled and the box removed.\n"..
   "\n"..
   "\n"..
@@ -1393,6 +1398,31 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The liquid filter filters red mud.\n"..
+  "A part of the red mud becomes lye\\, which can be collected at the bottom in a tank.\n"..
+  "The other part becomes desert cobblestone and clutters the filter material.\n"..
+  "If the filter is too clogged\\, it has to be cleaned and re-filled.\n"..
+  "The filter consists of a base layer\\, 7 identical filter layers and a filling layer at the top.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "You can see the structure of this layer in the plan.\n"..
+  "\n"..
+  "The lye is collected in the tank.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This layer has to be filled with gravel as shown in the plan.\n"..
+  "In total\\, there must be seven layers of gravel.\n"..
+  "The filter will become cluttered over time\\, so that it has to be cleaned and re-filled.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This layer is used to fill the filter with red mud.\n"..
+  "The red mud must be pumped into the filler pipe.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "See TA3 tank.\n"..
   "\n"..
@@ -1464,6 +1494,12 @@ techage.manual_EN.aText = {
   "\n",
   "The function corresponds to that of TA2.\n"..
   "The processing power is 24 items every 4 s\\, provided TA4 tubes are used on all sides. Otherwise there are only 12 items every 4 s.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The function corresponds to that of the normal TA4 distributor\\, with two differences:\n"..
+  "The processing power is 36 items every 4 s\\, provided TA4 tubes are used on all sides. Otherwise there are only 18 items every 4 s.\n"..
+  "Furthermore\\, up to 8 items can be configured per direction.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1669,6 +1705,10 @@ techage.manual_EN.aItemName = {
   "ta4_growlight",
   "ta4_streetlamp",
   "ta4_industriallamp",
+  "ta4_liquid_filter",
+  "",
+  "",
+  "",
   "",
   "ta4_tank",
   "ta4_pump",
@@ -1679,6 +1719,7 @@ techage.manual_EN.aItemName = {
   "ta4_chest",
   "ta4_8x2000_chest",
   "ta4_distributor",
+  "ta4_high_performance_distributor",
   "ta4_gravelsieve",
   "ta4_grinder",
   "ta4_quarry",
@@ -1855,6 +1896,11 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "ta4_liquid_filter_base",
+  "ta4_liquid_filter_gravel",
+  "ta4_liquid_filter_top",
   "",
   "",
   "",

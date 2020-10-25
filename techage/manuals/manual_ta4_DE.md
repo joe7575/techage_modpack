@@ -134,7 +134,7 @@ Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit 
 - Hülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 2,5 Tage bei 60 ku
 - Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 6,5 Tage bei 60 ku 
 
-In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
+In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
 
 Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.
 Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.
@@ -474,6 +474,42 @@ Die Lampe benötigt 1 ku Strom.
 
 
 
+## TA4 Flüssigkeitsfilter
+
+Im Flüssigkeitsfilter wird Rotschlamm gefiltert.
+Dabei entsteht entweder Lauge, welche unten in einem Tank gesammelt werden kann oder Wüstenkopfsteinpflaster, welches sich im Filter absetzt.
+Wenn der Filter zu sehr verstopft ist, muss er geleert und neu befüllt werden.
+Der Filter besteht aus einer Fundament-Ebene, auf der 7 identische Filterschichten platziert werden. 
+Ganz oben befindet sich die Einfüllebene.
+
+[ta4_liquid_filter|image]
+
+### Fundament-Ebene
+
+Der Aufbau dieser Ebene kann dem Plan entnommen werden.
+
+Im Tank wird die Lauge gesammelt.
+
+[ta4_liquid_filter_base|plan]
+
+### Schotter-Ebene
+
+Diese Ebene muss so wie im Plan gezeigt mit Schotter befüllt werden.
+Insgesamt müssen sieben Lagen Schotter übereinander liegen.
+Dabei wird mit der Zeit der Filter verunreinigt, sodass das Füllmaterial erneuert werden muss.
+
+[ta4_liquid_filter_gravel|plan]
+
+### Einfüll-Ebene
+
+Diese Ebene dient zum Befüllen des Filters mit Rotschlamm.
+In den Einfüllstutzen muss Rotschlamm mittels einer Pumpe geleitet werden.
+
+[ta4_liquid_filter_top|plan]
+
+
+
+
 ## Weitere TA4 Blöcke
 
 ### TA4 Tank / TA4 Tank
@@ -573,6 +609,14 @@ Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 24 Items alle 4 s, sofern auf allen Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 12 Items alle 4 s.
 
 [ta4_distributor|image]
+
+### TA4 Hochleistungs-Verteiler / High Performance Distributor
+
+Die Funktion entspricht dem normalen TA4 Verteiler, mit zwei Unterschieden:
+Die Verarbeitungsleistung beträgt 36 Items alle 4 s, sofern auf allen Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 18 Items alle 4 s.
+Außerdem können pro Ausgang bis zu 8 Items konfiguriert werden.
+
+[ta4_high_performance_distributor|image]
 
 ### TA4 Kiessieb / Gravel Sieve
 

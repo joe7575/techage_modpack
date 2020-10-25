@@ -167,4 +167,5 @@ optional: farming redo, node_io, doc, techage, minecart
 - 2020-03-27  v1.01  * flower command and sign added
 - 2020-03-30  v1.02  * Program flow control commands added
 - 2020-06-21  v1.03  * Interpreter bugfixes, node and crop sensors changed
+- 2020-10-01  v1.04  * Many improvements and bugfixes (Thanks toThomas-S)
 

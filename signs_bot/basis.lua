@@ -189,7 +189,7 @@ local function reset_robot(pos, mem)
 	signs_bot.place_robot(mem.robot_pos, pos_below, mem.robot_param2)	
 end
 
-local function start_robot(base_pos)
+function signs_bot.start_robot(base_pos)
 	local mem = tubelib2.get_mem(base_pos)
 	mem.steps = nil
 	mem.script = "cond_move"
@@ -232,7 +232,7 @@ function signs_bot.stop_robot(base_pos, mem)
 		signs_bot.remove_robot(mem)
 	else
 		mem.signal_request = false
-		start_robot(base_pos)
+		signs_bot.start_robot(base_pos)
 	end
 end
 
@@ -250,7 +250,7 @@ end
 local function signs_bot_on_signal(pos, node, signal)
 	local mem = tubelib2.get_mem(pos)
 	if signal == "on" and not mem.running then
-		start_robot(pos)
+		signs_bot.start_robot(pos)
 	elseif signal == "off" and mem.running then
 		signs_bot.stop_robot(pos, mem)
 --	else
@@ -289,7 +289,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	elseif fields.back then
 		meta:set_string("formspec", formspec(pos, mem))
 	elseif fields.start then
-		start_robot(pos)
+		signs_bot.start_robot(pos)
 	elseif fields.stop then
 		signs_bot.stop_robot(pos, mem)
 	end

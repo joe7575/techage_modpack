@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	TA Items Table
@@ -161,6 +161,7 @@ techage.Items = {
 	ta4_collector = "techage:ta4_collector",
 	ta4_pusher = "techage:ta4_pusher_pas",
 	ta4_distributor = "techage:ta4_distributor_pas",
+	ta4_high_performance_distributor = "techage:ta4_high_performance_distributor_pas",
 	ta4_gravelsieve = "techage:ta4_gravelsieve_pas",
 	ta4_grinder = "techage:ta4_grinder_pas",
 	ta4_detector = "techage:ta4_detector_off",
@@ -172,5 +173,12 @@ techage.Items = {
 	ta4_quarry = "techage:ta4_quarry_pas",
 	ta4_electronicfab = "techage:ta4_electronic_fab_pas",
 	ta4_injector = "techage:ta4_injector_pas",
+	ta4_liquid_filter = "techage_ta4_filter.png",
 	--ta4_ "", 
 }
+
+function techage.add_manual_items(table_with_items)
+	for name, tbl in pairs(table_with_items) do
+		techage.Items[name] = tbl
+	end
+end

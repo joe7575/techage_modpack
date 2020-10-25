@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019-2020 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	TA4 Water Pump
@@ -126,6 +126,7 @@ end
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
 	Cable:after_dig_node(pos)
+	liquid.after_dig_pump(pos)
 	techage.del_mem(pos)
 end
 

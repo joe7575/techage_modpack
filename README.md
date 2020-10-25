@@ -6,6 +6,7 @@ All mods have the own README.txt. For further information please consult these f
 This modpack includes:
 - techage: The main mod
 - ta4_jetpack: A Jetpack for techage with hydrogen as fuel and TA4 recipe
+- ta4_paraglider: A Paraglider for techage with TA4 recipe
 - autobahn: Street blocks and slopes with stripes for faster traveling (the only need of bitumen from techage)
 - compost: The garden soil is needed for the TA4 LED Grow Light based flower bed
 - signs_bot: For many automation tasks in TA3/TA4 like farming, mining, and item transportation
@@ -44,13 +45,22 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
-#### 2020-09-13
+#### 2020-10-25
 Updated Mods:
+- techage v0.25
+- signs_bot
+- minecart
+
+#### 2020-09-13
+
+Updated Mods:
+
 - techage v0.23
 - signs_bot
 - minecart
 
 #### 2020-08-08
+
 Updated Mods:
 - autobahn
 - compost
@@ -105,6 +115,7 @@ Updates (see local readme files):
   - tin ingot recipe bugfix
   
 - minecart v1.06 
+  
   - API changed and chat command added
   
 - signs_bot v1.02

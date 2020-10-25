@@ -1,4 +1,4 @@
-# Player Physics Design Pattern
+# Player Physics Access Control
 
 To be able to control the access to player physics (like speed, gravity) and privs (like fast, fly)
 a common design pattern is used for the following mod-pack mods:
@@ -6,12 +6,13 @@ a common design pattern is used for the following mod-pack mods:
 - autobahn (fast, speed)
 - towercrane (fly, speed)
 - ta4_jetpack (gravity, speed)
+- ta4_paraglider
 - stamina (resets the gravity/speed cyclically)
 - 3d_armor (changes physics based on APi calls)
 
 All of these mods try to change the player physics, which is a common resource and should only be changed by one mod.
 
-This lockout design pattern takes care that only one mod at a time is able to change physics or privs.
+This access control design pattern takes care that only one mod at a time is able to change physics or privs.
 
 ```lua
 local function change_player_physics(player)

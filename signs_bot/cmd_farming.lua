@@ -45,12 +45,12 @@ local function planting(base_pos, mem, slot)
 			local plant = stack:get_name()
 			if plant then
 				local item = signs_bot.FarmingSeed[plant]
-				if item and item.seed then
-					if minetest.registered_nodes[plant] then
-						local p2 = minetest.registered_nodes[plant].place_param2 or 1
-						minetest.set_node(pos, {name = item.seed, param2 = p2})
+				if item then
+					if minetest.registered_nodes[item] then
+						local p2 = minetest.registered_nodes[item].place_param2 or 1
+						minetest.set_node(pos, {name = item, param2 = p2})
 					else
-						minetest.set_node(pos, {name = item.seed})
+						minetest.set_node(pos, {name = item})
 					end
 					minetest.sound_play("default_place_node", {pos = pos, gain = 1.0})
 				else
@@ -92,15 +92,12 @@ local function harvesting(base_pos, mem)
 	
 	if pos and lib.not_protected(base_pos, pos) then
 		local node = minetest.get_node_or_nil(pos)
-		local item = signs_bot.FarmingCrop[node.name]
-		if item and item.inv_crop and item.inv_seed then
+		if signs_bot.FarmingCrop[node.name] then
 			minetest.remove_node(pos)
-			bot_inv_put_item(base_pos, 0,  ItemStack(item.inv_crop))
-			bot_inv_put_item(base_pos, 0,  ItemStack(item.inv_seed))
-			if math.random(2) == 1 then
-				bot_inv_put_item(base_pos, 0,  ItemStack(item.inv_crop))
-			else
-				bot_inv_put_item(base_pos, 0,  ItemStack(item.inv_seed))
+			-- Do not cache the result of get_node_drops; it is a probabilistic function!
+			local drops = minetest.get_node_drops(node.name)
+			for _,itemstring in ipairs(drops) do
+				bot_inv_put_item(base_pos, 0,  ItemStack(itemstring))
 			end
 		end
 	end

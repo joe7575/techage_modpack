@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019-2020 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 
 	The autocrafter is derived from pipeworks: 
@@ -27,6 +27,13 @@ local S = techage.S
 local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
+
+local UncraftableItems = {}
+
+-- Add all nodes/items which should not be crafted with the autocrafter
+function techage.register_uncraftable_items(item_name)
+	UncraftableItems[item_name] = true
+end
 
 local function formspec(self, pos, nvm)
 	return "size[8,9.2]"..
@@ -71,6 +78,12 @@ local function get_craft(pos, inventory, hash)
 		local recipe = inventory:get_list("recipe")
 		local output, decremented_input = minetest.get_craft_result(
 				{method = "normal", width = 3, items = recipe})
+		
+		-- check if registered item
+		if UncraftableItems[output.item:get_name()] then 
+			output.item = ItemStack()
+		end
+		
 		craft = {recipe = recipe, consumption = count_index(recipe), 
 				output = output, decremented_input = decremented_input}
 		autocrafterCache[hash] = craft

@@ -42,10 +42,12 @@ end
 local old_is_protected = minetest.is_protected
 
 function minetest.is_protected(pos, name)
-	local node = minetest.get_node(pos)
-	if IsNodeUnderObservation[node.name] and is_protected(pos, name, RANGE) then
-        return true
-    end
+	if pos and name then
+		local node = minetest.get_node(pos)
+		if IsNodeUnderObservation[node.name] and is_protected(pos, name, RANGE) then
+			return true
+		end
+	end
 	return old_is_protected(pos, name)
 end
 

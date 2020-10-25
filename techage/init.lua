@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019-2020 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 
 ]]--
@@ -84,6 +84,7 @@ dofile(MP.."/basis/assemble.lua")
 dofile(MP.."/basis/networks.lua")
 dofile(MP.."/basis/recipe_lib.lua")
 dofile(MP.."/basis/formspec_update.lua")
+dofile(MP.."/basis/windturbine_lib.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -91,6 +92,7 @@ dofile(MP.."/doc/manual_EN.lua")
 dofile(MP.."/doc/plans.lua")
 dofile(MP.."/doc/items.lua")
 dofile(MP.."/doc/guide.lua")  -- construction guides
+dofile(MP.."/doc/manual_api.lua")  -- external API
 
 -- Power networks
 dofile(MP.."/power/node_api.lua")
@@ -271,6 +273,7 @@ dofile(MP.."/energy_storage/nodes.lua")
 dofile(MP.."/chemistry/ta4_reactor.lua")
 dofile(MP.."/chemistry/ta4_stand.lua")
 dofile(MP.."/chemistry/ta4_doser.lua")
+dofile(MP.."/chemistry/ta4_liquid_filter.lua")
 
 -- Hydrogen
 dofile(MP.."/hydrogen/fuelcellstack.lua")

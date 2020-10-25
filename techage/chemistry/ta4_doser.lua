@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019-2020 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	TA4 Doser
@@ -153,6 +153,15 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
+local function untake(recipe, pos, liquids)
+	for _,item in pairs(recipe.input) do
+		if item.name ~= "" then
+			local outdir = liquids[item.name] or reload_liquids(pos)[item.name]
+			liquid.untake(pos, outdir, item.name, item.num)
+		end
+	end
+end	
+
 local function dosing(pos, nvm, elapsed)
 	-- trigger reactor (power)
 	if not reactor_cmnd(pos, "power") then
@@ -215,6 +224,7 @@ local function dosing(pos, nvm, elapsed)
 			name = recipe.output.name, 
 			amount = recipe.output.num})
 	if not leftover or (tonumber(leftover) or 1) > 0 then
+		untake(recipe, pos, liquids)
 		State:blocked(pos, nvm)
 		reactor_cmnd(pos, "stop")
 		return
@@ -224,6 +234,7 @@ local function dosing(pos, nvm, elapsed)
 				name = recipe.waste.name, 
 				amount = recipe.waste.num})
 		if not leftover or (tonumber(leftover) or 1) > 0 then
+			untake(recipe, pos, liquids)
 			State:blocked(pos, nvm)
 			reactor_cmnd(pos, "stop")
 			return
@@ -292,6 +303,7 @@ minetest.register_node("techage:ta4_doser", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		Pipe:after_dig_node(pos)
+		liquid.after_dig_pump(pos)
 		techage.del_mem(pos)
 	end,
 	on_receive_fields = on_receive_fields,

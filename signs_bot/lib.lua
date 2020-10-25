@@ -229,10 +229,16 @@ function signs_bot.lib.after_dig_sign_node(pos, oldnode, oldmetadata, digger)
 		smeta:set_int("err_code", tonumber(oldmetadata.fields.err_code))
 		smeta:set_string("err_msg", oldmetadata.fields.err_msg or "")
 	end
-	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
-	local left_over = inv:add_item("main", sign)
-	if left_over:get_count() > 0 then
+	local player_name = digger:get_player_name()
+	-- See https://github.com/minetest/minetest/blob/34e3ede8eeb05e193e64ba3d055fc67959d87d86/doc/lua_api.txt#L6222
+	if player_name == "" then
 		minetest.add_item(pos, sign)
+	else
+		local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
+		local left_over = inv:add_item("main", sign)
+		if left_over:get_count() > 0 then
+			minetest.add_item(pos, sign)
+		end
 	end
 end
 

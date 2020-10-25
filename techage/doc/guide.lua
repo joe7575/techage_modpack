@@ -27,7 +27,7 @@ end
 -- formspec images
 local function plan(images)
 	local tbl = {}
-	if images == "none" then return "label[1,3;"..S("No plan available") end
+	if images == "none" then return "label[1,3;"..S("No plan available") .."]" end
 	for y=1,#images do
 		for x=1,#images[1] do
 			local item = images[y][x] or false
@@ -70,7 +70,7 @@ local function formspec_help(meta, manual)
 			bttn = "image[9.3,1;2,2;"..item.."]"
 		end
 	else
-		bttn = ""
+		bttn = box
 	end
 	return "size[11,10]"..
 	default.gui_bg..

@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019-2020 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	TA4 Reactor Stand and Base
@@ -117,6 +117,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	after_dig_node = function(pos, oldnode)
 		Pipe:after_dig_node(pos)
 		Cable:after_dig_node(pos)
+		liquid.after_dig_pump(pos)
 		techage.del_mem(pos)
 	end,
 	

@@ -85,6 +85,24 @@ if minetest.get_modpath("techage") then
 			return signs_bot.DONE
 		end,
 	})
+
+	signs_bot.register_botcommand("send_cmnd", {
+		mod = "techage",
+		params = "<receiver> <command>",
+		num_param = 2,
+		description = S("Sends a techage command\nto a given node.\nReceiver is addressed by\nthe techage node number."),
+		check = function(address, command)
+			address = tonumber(address)
+			return address ~= nil and command ~= nil and command ~= ""
+		end,
+		cmnd = function(base_pos, mem, address, command)
+			address = tostring(tonumber(address))
+			local meta = minetest.get_meta(base_pos)
+			local number = meta:get_int("number") or 0
+			techage.send_multi(number, address, command)
+			return signs_bot.DONE
+		end,
+	})
 	
 
     -- Bot in the box
@@ -154,6 +172,14 @@ if minetest.get_modpath("techage") then
 				end
 			elseif topic == "load" then
 				return signs_bot.percent_value(signs_bot.MAX_CAPA, mem.capa)
+			elseif topic == "on" then
+				if not mem.running then
+					signs_bot.start_robot(pos)
+				end
+			elseif topic == "off" then
+				if mem.running then
+					signs_bot.stop_robot(pos, mem)
+				end
 			else
 				return "unsupported"
 			end

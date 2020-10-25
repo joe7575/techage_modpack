@@ -34,9 +34,12 @@ local function swap_node(pos, name)
 	if node.name == name then
 		return false
 	end
-	node.name = name
-	minetest.swap_node(pos, node)
-	return true
+	if string.sub(node.name, 1,21) == "signs_bot:crop_sensor" then
+		node.name = name
+		minetest.swap_node(pos, node)
+		return true
+	end
+	return false
 end
 	
 local function node_timer(pos)

@@ -27,8 +27,13 @@ local bot_inv_take_item = signs_bot.bot_inv_take_item
 
 local Flowers = {}
 
+
+-- Special drop handling is necessary because of waterlily.
 function signs_bot.register_flower(name)
-	Flowers[name] = true
+	local drop = signs_bot.lib.is_simple_node({name = name})
+	if drop then
+		Flowers[name] = drop
+	end
 end
 
 minetest.after(1, function()
@@ -43,26 +48,16 @@ minetest.after(1, function()
 	end
 end)
 
-local function soil_availabe(pos)
-	local node = minetest.get_node_or_nil(pos)
-	if node.name == "air" then
-		node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
-		if node and minetest.get_item_group(node.name, "soil") >= 1 then
-			return true
-		end
-	end
-	return false
-end
-
 local function harvesting(base_pos, mem)
 	local pos = mem.pos_tbl and mem.pos_tbl[mem.steps]
 	mem.steps = (mem.steps or 1) + 1
 	
 	if pos and lib.not_protected(base_pos, pos) then
 		local node = minetest.get_node_or_nil(pos)
-		if Flowers[node.name] then
+		local drop = Flowers[node.name]
+		if drop then
 			minetest.remove_node(pos)
-			bot_inv_put_item(base_pos, 0,  ItemStack(node.name))
+			bot_inv_put_item(base_pos, 0,  ItemStack(drop))
 		end
 	end
 end

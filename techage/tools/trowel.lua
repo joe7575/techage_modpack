@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	Trowel tool to hide/open cable/pipe/tube nodes
@@ -67,6 +67,10 @@ end
 local function replace_node(itemstack, placer, pointed_thing)
 	if pointed_thing.type == "node" then
 		local pos = pointed_thing.under
+		local name = placer:get_player_name()
+		if minetest.is_protected(pos, name) then
+			return
+		end
 		local meta = M(pos)
 		local node =  minetest.get_node(pos)
 		if minetest.get_item_group(node.name, "techage_trowel") == 1 then

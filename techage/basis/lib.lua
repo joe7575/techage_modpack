@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	Helper functions
@@ -124,6 +124,14 @@ function techage.is_primary_node(pos, dir)
 	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
 	local param2 = M(npos):get_int("tl2_param2")
 	return param2 ~= 0
+end
+
+function techage.is_air_like(name)
+	local ndef = minetest.registered_nodes[name]
+	if ndef and ndef.buildable_to then
+		return true
+	end
+	return false
 end
 
 -- returns true, if node can be dug, otherwise false
