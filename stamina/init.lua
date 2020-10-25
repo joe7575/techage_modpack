@@ -164,8 +164,9 @@ function stamina.set_poisoned(player, poisoned)
 	end
 end
 
-local function poison_tick(player, ticks, interval, elapsed)
-	if not stamina.is_poisoned(player) then
+local function poison_tick(player_name, ticks, interval, elapsed)
+	local player = minetest.get_player_by_name(player_name)
+	if not player or not stamina.is_poisoned(player) then
 		return
 	elseif elapsed > ticks then
 		stamina.set_poisoned(player, false)
@@ -174,7 +175,7 @@ local function poison_tick(player, ticks, interval, elapsed)
 		if hp > 0 then
 			player:set_hp(hp)
 		end
-		minetest.after(interval, poison_tick, player, ticks, interval, elapsed + 1)
+		minetest.after(interval, poison_tick, player_name, ticks, interval, elapsed + 1)
 	end
 end
 
@@ -194,7 +195,8 @@ function stamina.poison(player, ticks, interval)
 		return
 	end
 	stamina.set_poisoned(player, true)
-	poison_tick(player, ticks, interval, 0)
+	local player_name = player:get_player_name()
+	poison_tick(player_name, ticks, interval, 0)
 end
 --- END POISON API ---
 --- EXHAUSTION API ---
@@ -291,10 +293,7 @@ function stamina.set_sprinting(player, sprinting)
 			def.jump = def.jump + settings.sprint_jump
 		end
 
-		-- Check access conflicts with other mods
-		if player:get_meta():get_int("player_physics_locked") == 0 then
-			player:set_physics_override(def)
-		end
+		player:set_physics_override(def)
 	end
 
 	if settings.sprint_particles and sprinting then

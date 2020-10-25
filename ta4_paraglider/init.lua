@@ -114,14 +114,14 @@ minetest.register_entity(
 				end
 
 				if controls.right then
-					yaw = yaw - math.pi / 96
+					yaw = yaw - math.pi / 60
 					vspeed = -2
 					hspeed = 4
 					player:set_look_vertical(math.tan(-vspeed / hspeed))
 					set_player_yaw(self, player, yaw)
 					self.idle = 1
 				elseif controls.left then
-					yaw = yaw + math.pi / 96
+					yaw = yaw + math.pi / 60
 					vspeed = -2
 					hspeed = 4
 					player:set_look_vertical(math.tan(-vspeed / hspeed))
