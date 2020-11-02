@@ -262,6 +262,10 @@ function stamina.set_sprinting(player, sprinting)
 		end
 	end
 
+	if player and player:get_meta() and player:get_meta():get_int("player_physics_locked") ~= 0 then
+		return
+	end
+	
 	if player_monoids_mod then
 		if sprinting then
 			player_monoids.speed:add_change(player, 1 + settings.sprint_speed, "stamina:physics")
