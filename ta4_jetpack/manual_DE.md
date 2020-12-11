@@ -21,7 +21,7 @@ Das Jetpack ist inspiriert vom Jetpack von spirit689 (https://github.com/spirit6
 ## Was du wissen solltest
 
 - 12 Einheiten Wasserstoff reichen für einen Flug von 6 Minuten
-- Maximal 5 Stapel von Gegenständen im Spieler-Inventar sind zulässig, einschließlich des Controllers
+- Maximal 99 Gegenstände im Spieler-Inventar sind zulässig, einschließlich des Controllers
   (Sonst wärst du zu schwer :-)
 - Das Jetpack nutzt sich ab und kann für ca. 10 Flüge verwendet werden
 - Halte den Controller während des Fluges immer fest, sonst schaltet er sich aus :)

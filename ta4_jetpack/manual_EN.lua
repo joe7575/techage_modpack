@@ -18,7 +18,7 @@ techage.add_to_manual('EN', {
   "\n"..
   "\n",
   "  - 12 units of hydrogen are sufficient for a flight of 6 minutes\n"..
-  "  - Maximum 5 items stacks in your inventory are allowed including the controller.\nOtherwise you would be too heavy :-)\n"..
+  "  - Maximum 99 items in your inventory are allowed including the controller.\nOtherwise you would be too heavy :-)\n"..
   "  - The Jetpack also wears out and can be used for approximately 10 flights\n"..
   "  - Always hold the controller tight during the flight\\, otherwise it will switch off :)\n"..
   "\n"..

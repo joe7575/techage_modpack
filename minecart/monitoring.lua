@@ -33,26 +33,26 @@ local NodesAtStation = {}
 --
 -- Helper functions
 --
-local function calc_pos_and_vel(item)
+local function get_pos_vel_pitch_yaw(item)
 	if item.start_time and item.start_key then  -- cart on recorded route
 		local run_time = minetest.get_gametime() - item.start_time
 		local waypoints = get_route(item.start_key).waypoints
 		local waypoint = waypoints[run_time]
 		if waypoint then
-			return S2P(waypoint[1]), S2P(waypoint[2])
+			return S2P(waypoint[1]), S2P(waypoint[2]), 0, 0
 		end
 	end
 	if item.last_pos then
 		item.last_pos = vector.round(item.last_pos)
 		if carts:is_rail(item.last_pos, minetest.raillike_group("rail")) then
-			return item.last_pos, item.last_vel
+			return item.last_pos, item.last_vel, item.last_pitch or 0, item.last_yaw or 0
 		end
 		item.last_pos.y = item.last_pos.y - 1
 		if carts:is_rail(item.last_pos, minetest.raillike_group("rail")) then
-			return item.last_pos, item.last_vel
+			return item.last_pos, item.last_vel, item.last_pitch or 0, item.last_yaw or 0
 		end
 	end
-	return item.start_pos, {x=0, y=0, z=0}
+	return item.start_pos, {x=0, y=0, z=0}, 0, 0
 end
 
 --
@@ -132,24 +132,29 @@ local function monitoring()
 		if entity then  -- cart entity running
 			local pos = entity.object:get_pos()
 			local vel = entity.object:get_velocity()
+			local rot = entity.object:get_rotation()
 			if not minetest.get_node_or_nil(pos) then  -- unloaded area
 				lib.unload_cart(pos, vel, entity, item)
 				item.stopped = minecart.stopped(vel)
 			end
 			-- store last pos from cart
-			item.last_pos, item.last_vel = pos, vel
+			item.last_pos, item.last_vel, item.last_pitch, item.last_yaw = pos, vel, rot.x, rot.y
+
 		else  -- no cart running
-			local pos, vel = calc_pos_and_vel(item)
+			local pos, vel, pitch, yaw = get_pos_vel_pitch_yaw(item)
 			if pos and vel then
 				if minetest.get_node_or_nil(pos) then  -- loaded area
-					local myID = lib.load_cart(pos, vel, item)
+					if pitch > 0 then 
+						pos.y = pos.y + 0.5 
+					end
+					local myID = lib.load_cart(pos, vel, pitch, yaw, item)
 					if myID then
 						item.stopped = minecart.stopped(vel)
 						to_be_added[myID] = table.copy(item)
 						CartsOnRail[key] = nil  -- invalid old ID 
 					end
 				end
-				item.last_pos, item.last_vel = pos, vel
+				item.last_pos, item.last_vel, item.last_pitch, item.last_yaw = pos, vel, pitch, yaw
 			else
 				-- should never happen
 				minetest.log("error", "[minecart] Cart of owner "..(item.owner or "nil").." got lost")

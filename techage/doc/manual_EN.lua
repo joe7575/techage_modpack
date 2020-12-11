@@ -28,6 +28,7 @@ techage.manual_EN.aTitel = {
   "3,TA2 Flywheel",
   "3,TA2 Steam Pipes",
   "3,TA2 Drive Axle / TA2 Gearbox",
+  "3,TA2 Power Generator",
   "2,Push and sort items",
   "3,TechAge Tube",
   "3,TA2 Pusher",
@@ -66,6 +67,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 Small Power Generator",
   "3,TA3 Battery Block",
   "3,TA3 Power Terminal",
+  "3,TA3 Electric Motor",
   "2,TA3 Industrial Furnace",
   "3,TA3 Furnace Oil Burner",
   "3,TA3 Furnace Top",
@@ -399,6 +401,14 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The TA2 Power Generator is required to operate lamps or other power consumers on a steam engine. The TA2 Power Generator has to be connected to drive axles on one side and then supplies electricity on the other side.\n"..
+  "\n"..
+  "If the Power Generator is not supplied with sufficient power\\, it goes into an error state and must be reactivated with a right-click.\n"..
+  "\n"..
+  "The Power Generator takes max. 25 ku of axle power and provides on the other side max. 24 ku as electricity. So he consumes one ku for the conversion.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "In order to transport objects from one processing station to the next\\, pushers and tubes are used. See plan.\n"..
   "\n"..
   "\n"..
@@ -423,6 +433,8 @@ techage.manual_EN.aText = {
   "The distributor is able to transport the items from his inventory sorted in up to four directions. To do this\\, the distributor must be configured accordingly.\n"..
   "\n"..
   "The distributor has a menu with 4 filters with different colors\\, corresponding to the 4 outputs. If an output is to be used\\, the corresponding filter must be activated via the \"on\" checkbox. All items that are configured for this filter are output via the assigned output. If a filter is activated without items being configured\\, we are talking about an \"unconfigured\"\\, open output.\n"..
+  "\n"..
+  "*Attention: The distributor is also a pusher at its output sides. Therefore\\, never pull items out of the distributor with a pusher!*\n"..
   "\n"..
   "There are two operating modes for a non-configured output:\n"..
   "\n"..
@@ -646,6 +658,13 @@ techage.manual_EN.aText = {
   "Only the data of a selected type are output in the upper half. If\\, for example\\, \"Power station\" is selected as the type\\, only the data from oil and coal-fired power stations are collected and output. The data from generators (power delivery) and the data from energy storage devices (power consumption) are output on the left. In the case of the battery blocl\\, for example\\, both are output because the battery can draw and deliver power.\n"..
   "\n"..
   "In the lower half\\, the data of all generators and storage systems of the entire electricity network are summarized.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA3 Electric Motor is required in order to be able to operate TA2 machines via the power grid. The TA3 Electric Motor converts electricity into axle power.\n"..
+  "If the electric motor is not supplied with sufficient power\\, it goes into an fault state and must be reactivated with a right-click.\n"..
+  "\n"..
+  "The electric motor takes max. 40 ku of electricity and provides on the other side max. 39 ku as axle power. So he consumes one ku for the conversion.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -933,7 +952,9 @@ techage.manual_EN.aText = {
   "  - 'pub' switch to public mode\n"..
   "  - 'priv' switch to private mode\n"..
   "\n"..
-  "In the private mode\\, only the owner can enter commands himself or use keys.\n"..
+  "In private mode\\, the terminal can only be used by players who can build at this location\\, i.e. who have protection rights.\n"..
+  "\n"..
+  "In public mode\\, all players can use the preconfigured keys.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1060,10 +1081,11 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "A wind turbine always delivers electricity when there is wind. There is no wind in the game\\, but the mod simulates this by only turning the wind turbines in the morning (5:00 a.m. - 9:00 a.m.) and in the evening (5:00 p.m. - 9:00 p.m.) and thus supplying electricity\\, provided they are positioned appropriately.\n"..
+  "A wind turbine always supplies electricity when there is wind. There is no wind in the game\\, but the mod simulates this by turning the wind turbines only in the morning (5:00 - 9:00) and in the evening (17:00 - 21:00). A wind turbine only supplies electricity if it is set up in a suitable location.\n"..
   "\n"..
-  "The TA wind turbines are pure offshore plants\\, which means that they have to be installed in the sea (water). This means that there must be in the minimum 20 blocks of water around the mast and at least 2 blocks deep.\n"..
-  "The rotor must be placed at a height (Y coordinate) of 12 to a maximum of 20 m. The distance to other wind turbines must be at least 14 m.\n"..
+  "The TA wind power plants are pure offshore plants\\, which means that they have to be built in the sea. This means that wind turbines can only be build in a sea (occean) biome and that there must be sufficient water and a clear view around the mast.\n"..
+  "\n"..
+  "To find a suitable spot\\, click on the water with the wrench (TechAge Info Tool). A chat message will show you whether this position is suitable for the mast of the wind turbine.\n"..
   "\n"..
   "The current must be led from the rotor block down through the mast. First pull the power line up and then \"plaster\" the power cable with TA4 pillar blocks. A work platform can be built below. The plan on the right shows the structure in the upper part.\n"..
   "\n"..
@@ -1340,9 +1362,9 @@ techage.manual_EN.aText = {
   "If something is put into the box or removed\\, or one of the \"F1\" / \"F2\" keys is pressed\\, an event signal is sent to the Lua controller.\n"..
   "The sensor box supports the following commands:\n"..
   "\n"..
-  "  - The status of the box can be queried via 'state = $read_data(<num>\\, \"state\")'. Possible answers are: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
-  "  - The last player action can be queried via 'name\\, action = $read_data(<num>\\, \"action\")'. 'name' is the player name. One of the following is returned as 'action': \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
-  "  - The contents of the box can be read out via 'stacks = $read_data(<num>\\, \"stacks\")'. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
+  "  - The status of the box can be queried via 'state = $send_cmnd(<num>\\, \"state\")'. Possible answers are: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
+  "  - The last player action can be queried via 'name\\, action = $send_cmnd(<num>\\, \"action\")'. 'name' is the player name. One of the following is returned as 'action': \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
+  "  - The contents of the box can be read out via 'stacks = $send_cmnd(<num>\\, \"stacks\")'. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
   "  - Via '$send_cmnd(<num>\\, \"text\"\\, \"press both buttons andnput something into the chest\")' the text can be set in the menu of the sensor box.\n"..
   "\n"..
   "The checkbox \"Allow public chest access\" can be used to set whether the box can be used by everyone or only by players who have access/protection rights here.\n"..
@@ -1471,7 +1493,7 @@ techage.manual_EN.aText = {
   "\n"..
   "If the chest is filled with a pusher\\, all stores fill from left to right. If all 8 stores are full and no further items can be added\\, further items are rejected.\n"..
   "\n"..
-  "* Row function *\n"..
+  "*Row function*\n"..
   "\n"..
   "Several TA4 8x2000 chests can be connected to a large chest with more content. To do this\\, the chests must be placed in a row one after the other.\n"..
   "\n"..
@@ -1488,7 +1510,7 @@ techage.manual_EN.aText = {
   "\n"..
   "The chest has an additional command for the Lua controller:\n"..
   "\n"..
-  "  - 'count' is used to request how many items are in the chest.\nExample 1: '$read_data(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$read_data(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
+  "  - 'count' is used to request how many items are in the chest.\nExample 1: '$send_cmnd(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$send_cmnd(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1563,6 +1585,7 @@ techage.manual_EN.aItemName = {
   "ta2_flywheel",
   "ta2_steampipe",
   "ta2_driveaxle",
+  "ta2_generator",
   "",
   "tube",
   "ta2_pusher",
@@ -1601,6 +1624,7 @@ techage.manual_EN.aItemName = {
   "ta3_tinygenerator",
   "ta3_akkublock",
   "ta3_powerterminal",
+  "ta3_motor",
   "",
   "ta3_furnacefirebox",
   "ta3_furnace",
@@ -1755,6 +1779,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "itemtransport",
   "",
   "",
@@ -1774,6 +1799,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "coalpowerstation",
+  "",
   "",
   "",
   "",

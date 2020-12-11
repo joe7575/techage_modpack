@@ -148,6 +148,17 @@ function techage.power.power_available(pos, Cable)
 	return netw and netw.on and netw.alive and netw.alive > 0
 end
 
+function techage.power.network_overloaded(pos, Cable)
+	local nvm = techage.get_nvm(pos)
+	local tlib_type = Cable.tube_type
+	local netID = nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"]
+	local netw = networks.has_network(tlib_type, netID)
+	if netw then
+		local sum = (netw.available1 or 0) + (netw.available2 or 0)
+		return sum > 0 and sum < (netw.needed1 or 0)
+	end
+end
+
 -- this is more a try to start, the start will be performed by on_power()
 function techage.power.consumer_start(pos, Cable, cycle_time)
 	local nvm = techage.get_nvm(pos)
@@ -227,6 +238,25 @@ function techage.power.generator_alive(pos, Cable, cycle_time, outdir, curr_powe
 	end
 	return 0
 end
+
+-- Calculate the needed power over all con1 consumers
+function techage.power.needed_power(pos, Cable, outdir)
+	local sum = 0
+	networks.connection_walk(pos, outdir, Cable, function(pos, indir, node)
+		local net = net_def(pos, Cable.tube_type) -- network definition
+		if net.ntype == "con1" then
+			local nvm = techage.get_nvm(pos)
+			local def = nvm[Cable.tube_type] -- power related data
+		
+			if def and def["cstate"] ~= STOPPED then
+				if def["calive"] >= 0 then
+					sum = sum + (net.nominal or def.curr_power or 0)
+				end
+			end
+		end
+	end)
+	return sum
+end	
 
 -- function delete_netID(pos, outdir, Cable)
 techage.power.delete_netID = delete_netID

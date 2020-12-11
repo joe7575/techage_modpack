@@ -71,6 +71,18 @@ The drive axles are used to transmit power from the steam engine to other machin
 
 [ta2_driveaxle|image]
 
+
+### TA2 Power Generator
+
+The TA2 Power Generator is required to operate lamps or other power consumers on a steam engine. The TA2 Power Generator has to be connected to drive axles on one side and then supplies electricity on the other side.
+
+If the Power Generator is not supplied with sufficient power, it goes into an error state and must be reactivated with a right-click.
+
+The Power Generator takes max. 25 ku of axle power and provides on the other side max. 24 ku as electricity. So he consumes one ku for the conversion.
+
+[ta2_generator|image]
+
+
 ## Push and sort items
 
 In order to transport objects from one processing station to the next, pushers and tubes are used. See plan.
@@ -106,6 +118,8 @@ The processing power of a TA2 pusher is 2 items every 2 s.
 The distributor is able to transport the items from his inventory sorted in up to four directions. To do this, the distributor must be configured accordingly.
 
 The distributor has a menu with 4 filters with different colors, corresponding to the 4 outputs. If an output is to be used, the corresponding filter must be activated via the "on" checkbox. All items that are configured for this filter are output via the assigned output. If a filter is activated without items being configured, we are talking about an "unconfigured", open output.
+
+**Attention: The distributor is also a pusher at its output sides. Therefore, never pull items out of the distributor with a pusher!**
 
 There are two operating modes for a non-configured output:
 

@@ -53,8 +53,18 @@ local function on_punch(pos, node, puncher)
 	if not minecart.teleport_enabled then return end
 	local route = minecart.get_route(P2S(pos))
 	if route and route.dest_pos and puncher and puncher:is_player() then
+
+		-- only teleport if the user is not pressing shift
 		if not puncher:get_player_control()['sneak'] then
-			puncher:set_pos(S2P(route.dest_pos))
+			local playername = puncher:get_player_name()
+			local pos = S2P(route.dest_pos)
+
+			local teleport = function()
+				-- Make sure the player object still exists
+				local player = minetest.get_player_by_name(playername)
+				if player and pos then player:set_pos(pos) end
+			end
+			minetest.after(0.25, teleport)
 		end
 	end
 end

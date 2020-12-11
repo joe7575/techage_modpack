@@ -8,7 +8,7 @@ ta4_jetpack_max_vertical_speed (maximum vertical speed) int 20
 ta4_jetpack_max_horizontal_speed (maximum horizontal speed) int 12
 
 # Maximum number of inventory items a player can take
-ta4_jetpack_max_num_inv_items (maximum number of inventory items) int 5
+ta4_jetpack_max_num_inv_items (maximum number of inventory items) int 99
 
 
 

@@ -58,7 +58,7 @@ function tubelib2.get_node_lvm(pos)
 	local data = vm:get_data()
 	local param2_data = vm:get_param2_data()
 	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local idx = area:index(pos.x, pos.y, pos.z)
+	local idx = area:indexp(pos)
 	node = {
 		name = minetest.get_name_from_content_id(data[idx]),
 		param2 = param2_data[idx]

@@ -541,13 +541,9 @@ minetest.register_node("techage:ta4_lua_controller", {
 		end
 	end,
 	
-	on_dig = function(pos, node, puncher, pointed_thing)
-		if minetest.is_protected(pos, puncher:get_player_name()) then
-			return
-		end
-		
-		techage.remove_node(pos)
-		minetest.node_dig(pos, node, puncher, pointed_thing)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
+		techage.del_mem(pos)
 	end,
 	
 	on_timer = on_timer,
@@ -631,7 +627,7 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 		elseif topic == "term" then
 			set_input(pos, number, "term", payload)
 		elseif topic == "msg" then
-			set_input(pos, number, "msg", payload)
+			set_input(pos, number, "msg", {src = src, data = payload})
 		elseif topic == "state" then
 			local running = meta:get_int("running") or STATE_STOPPED
 			return techage.StateStrings[running] or "stopped"

@@ -44,7 +44,7 @@ local function formspec(self, pos, nvm)
 		default.gui_slots..
 		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
 		"label[2.5,-0.1;"..minetest.colorize( "#000000", S("Electrolyzer")).."]"..
-		techage.power.formspec_label_bar(0.1, 0.8, S("Electricity"), PWR_NEEDED, nvm.taken)..
+		techage.power.formspec_label_bar(pos, 0.1, 0.8, S("Electricity"), PWR_NEEDED, nvm.taken)..
 		arrow..
 		"image_button[3,2.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[3,2.5;1,1;"..self:get_state_tooltip(nvm).."]"..
@@ -156,6 +156,15 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Cable:after_dig_node(pos)
 end
 
+local function put(pos, indir, name, amount)
+	local leftover = liquid.srv_put(pos, indir, name, amount)
+	if techage.is_activeformspec(pos) then
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
+	end
+	return leftover
+end
+
 local function tubelib2_on_update2(pos, outdir, tlib2, node) 
 	if tlib2.tube_type == "pipe2" then
 		liquid.update_network(pos, outdir, tlib2)
@@ -182,14 +191,8 @@ local netw_def = {
 local liquid_def = {
 	capa = CAPACITY,
 	peek = liquid.srv_peek,
-	put = function(pos, indir, name, amount)
-		local leftover = liquid.srv_put(pos, indir, name, amount)
-		if techage.is_activeformspec(pos) then
-			local nvm = techage.get_nvm(pos)
-			M(pos):set_string("formspec", formspec(State, pos, nvm))
-		end
-		return leftover
-	end,
+	put = put,
+	untake = put,
 	take = function(pos, indir, name, amount)
 		amount, name = liquid.srv_take(pos, indir, name, amount)
 		if techage.is_activeformspec(pos) then

@@ -13,12 +13,10 @@
 minecart = {}
 
 -- Version for compatibility checks, see readme.md/history
-minecart.version = 1.09
+minecart.version = 1.10
 
 minecart.hopper_enabled = minetest.settings:get_bool("minecart_hopper_enabled") ~= false
-minecart.teleport_enabled = minetest.settings:get_bool("minecart_teleport_enabled") ~= false
-
-print("minecart_hopper_enabled", dump(minetest.settings:get_bool("minecart_hopper_enabled")))
+minecart.teleport_enabled = minetest.settings:get_bool("minecart_teleport_enabled") == true
 
 minecart.S = minetest.get_translator("minecart")
 local MP = minetest.get_modpath("minecart")

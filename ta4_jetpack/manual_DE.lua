@@ -17,7 +17,7 @@ techage.add_to_manual('DE', {
   "\n"..
   "\n",
   "  - 12 Einheiten Wasserstoff reichen für einen Flug von 6 Minuten\n"..
-  "  - Maximal 5 Stapel von Gegenständen im Spieler-Inventar sind zulässig\\, einschließlich des Controllers\n(Sonst wärst du zu schwer :-)\n"..
+  "  - Maximal 99 Gegenstände im Spieler-Inventar sind zulässig\\, einschließlich des Controllers\n(Sonst wärst du zu schwer :-)\n"..
   "  - Das Jetpack nutzt sich ab und kann für ca. 10 Flüge verwendet werden\n"..
   "  - Halte den Controller während des Fluges immer fest\\, sonst schaltet er sich aus :)\n"..
   "\n"..

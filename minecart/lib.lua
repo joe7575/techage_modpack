@@ -51,6 +51,24 @@ function minecart.register_cart_names(cart_name_stopped, cart_name_running)
 	end
 end
 
+function minecart.get_node_lvm(pos)
+	local node = minetest.get_node_or_nil(pos)
+	if node then
+		return node
+	end
+	local vm = minetest.get_voxel_manip()
+	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
+	local data = vm:get_data()
+	local param2_data = vm:get_param2_data()
+	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
+	local idx = area:indexp(pos)
+	node = {
+		name = minetest.get_name_from_content_id(data[idx]),
+		param2 = param2_data[idx]
+	}
+	return node
+end
+
 function minecart.stopped(vel, tolerance)
 	tolerance = tolerance or 0.05
 	return math.abs(vel.x) < tolerance and math.abs(vel.z) < tolerance
@@ -62,6 +80,13 @@ local function is_air_like(name)
 		return true
 	end
 	return false
+end
+
+function minecart.range(val, min, max)
+	val = tonumber(val)
+	if val < min then return min end
+	if val > max then return max end
+	return val
 end
 
 function minecart.get_next_node(pos, param2)

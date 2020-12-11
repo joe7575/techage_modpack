@@ -7,10 +7,11 @@ Renewable energy sources such as wind, sun and biofuels help you to leave the oi
 
 ## Wind Turbine
 
-A wind turbine always delivers electricity when there is wind. There is no wind in the game, but the mod simulates this by only turning the wind turbines in the morning (5:00 a.m. - 9:00 a.m.) and in the evening (5:00 p.m. - 9:00 p.m.) and thus supplying electricity, provided they are positioned appropriately.
+A wind turbine always supplies electricity when there is wind. There is no wind in the game, but the mod simulates this by turning the wind turbines only in the morning (5:00 - 9:00) and in the evening (17:00 - 21:00). A wind turbine only supplies electricity if it is set up in a suitable location.
 
-The TA wind turbines are pure offshore plants, which means that they have to be installed in the sea (water). This means that there must be in the minimum 20 blocks of water around the mast and at least 2 blocks deep.
-The rotor must be placed at a height (Y coordinate) of 12 to a maximum of 20 m. The distance to other wind turbines must be at least 14 m.
+The TA wind power plants are pure offshore plants, which means that they have to be built in the sea. This means that wind turbines can only be build in a sea (occean) biome and that there must be sufficient water and a clear view around the mast.
+
+To find a suitable spot, click on the water with the wrench (TechAge Info Tool). A chat message will show you whether this position is suitable for the mast of the wind turbine.
 
 The current must be led from the rotor block down through the mast. First pull the power line up and then "plaster" the power cable with TA4 pillar blocks. A work platform can be built below. The plan on the right shows the structure in the upper part.
 
@@ -392,9 +393,9 @@ The TA4 sensor box is used to set up automatic warehouses or vending machines in
 If something is put into the box or removed, or one of the "F1" / "F2" keys is pressed, an event signal is sent to the Lua controller.
 The sensor box supports the following commands:
 
-- The status of the box can be queried via `state = $read_data(<num>, "state")`. Possible answers are: "empty", "loaded", "full"
-- The last player action can be queried via `name, action = $read_data(<num>, "action")`. `name` is the player name. One of the following is returned as `action`: "put", "take", "f1", "f2".
-- The contents of the box can be read out via `stacks = $read_data(<num>, "stacks")`. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
+- The status of the box can be queried via `state = $send_cmnd(<num>, "state")`. Possible answers are: "empty", "loaded", "full"
+- The last player action can be queried via `name, action = $send_cmnd(<num>, "action")`. `name` is the player name. One of the following is returned as `action`: "put", "take", "f1", "f2".
+- The contents of the box can be read out via `stacks = $send_cmnd(<num>, "stacks")`. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
 - Via `$send_cmnd(<num>, "text", "press both buttons and\nput something into the chest")` the text can be set in the menu of the sensor box.
 
 The checkbox "Allow public chest access" can be used to set whether the box can be used by everyone or only by players who have access/protection rights here.
@@ -579,7 +580,7 @@ The TA4 8x2000 chest does not have a normal inventory like other chest, but has 
 
 If the chest is filled with a pusher, all stores fill from left to right. If all 8 stores are full and no further items can be added, further items are rejected.
 
-** Row function **
+**Row function**
 
 Several TA4 8x2000 chests can be connected to a large chest with more content. To do this, the chests must be placed in a row one after the other.
 
@@ -597,8 +598,8 @@ The chest can only be used by players who can build at this location, i.e. who h
 The chest has an additional command for the Lua controller:
 
 - `count` is used to request how many items are in the chest.
-  Example 1: `$read_data(CHEST, "count")` -> Sum of items across all 8 stores
-  Example 2: `$read_data(CHEST, "count", 2)` -> number of items in store 2 (second from left)
+  Example 1: `$send_cmnd(CHEST, "count")` -> Sum of items across all 8 stores
+  Example 2: `$send_cmnd(CHEST, "count", 2)` -> number of items in store 2 (second from left)
 
 [ta4_8x2000_chest|image]
 

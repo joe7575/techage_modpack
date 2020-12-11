@@ -49,7 +49,7 @@ function api.get_station_name(pos)
 	end
 end
 
-function api.load_cart(pos, vel, item)
+function api.load_cart(pos, vel, pitch, yaw, item)
 	-- Add cart to map
 	local obj = minetest.add_entity(pos, item.entity_name or "minecart:cart", nil)
 	-- Determine ID
@@ -67,6 +67,7 @@ function api.load_cart(pos, vel, item)
 		item.cargo = nil
 		-- Start cart
 		obj:set_velocity(vel)
+		obj:set_rotation({x = pitch or 0, y = yaw or 0, z = 0})
 		return myID
 	else
 		print("Entity has no ID")

@@ -7,10 +7,11 @@ Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeit
 
 ## Windkraftanlage
 
-Eine Windkraftanlagen liefern immer dann Strom, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind, aber die Mod simuliert dies dadurch, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen und damit Strom liefern, sofern diese an geeigneten Stellen errichtet werden.
+Eine Windkraftanlage liefern immer dann Strom, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind, aber die Mod simuliert dies dadurch, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen. Eine Windkraftanlage liefert nur dann Strom, wenn sie an einer geeigneten Stelle aufgestellt ist.
 
-Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer (Wasser) errichtet werden. Dies bedeutet, dass um den Mast herum mit einem Abstand von 20 Blöcken nur Wasser sein darf und das mindestens 2 Blöcke tief.
-Der Rotor muss in einer Höhe (Y-Koordinate) von 12 bis maximal 20 m platziert werden. Der Abstand zu weiteren Windkraftanlagen muss mindestens 14 m betragen.
+Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer errichtet werden. Dies bedeutet, dass Windkraftanlagen nur in einem Meer (occean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.
+
+Um eine geeignete Stelle zu finden, musst du mit dem Schraubenschlüssel (TechAge Info Werkzeug)  auf das Wasser klicken. Ob diese Stelle für den Mast der Windkraftanlage geeignet ist, wird dir als Chat Nachricht angezeigt.
 
 Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
 
@@ -390,9 +391,9 @@ Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsauto
 Wird etwas in die Kiste gelegt, oder entnommen, oder eine der Tasten "F1"/"F2" gedrückt, so wird ein Event-Signal an den Lua Controller gesendet.
 Die Sensor Kiste unterstützt folgende Kommandos:
 
-- Über `state = $read_data(<num>, "state")` kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: "empty", "loaded", "full"
-- Über `name, action = $read_data(<num>, "action")` kann die letzte Spieleraktion abgefragt werden. `name` ist der Spielername, Als `action` wird zurückgeliefert: "put", "take", "f1", "f2".
-- Über `stacks = $read_data(<num>, "stacks")` kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
+- Über `state = $send_cmnd(<num>, "state")` kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: "empty", "loaded", "full"
+- Über `name, action = $send_cmnd(<num>, "action")` kann die letzte Spieleraktion abgefragt werden. `name` ist der Spielername, Als `action` wird zurückgeliefert: "put", "take", "f1", "f2".
+- Über `stacks = $send_cmnd(<num>, "stacks")` kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
 - Über `$send_cmnd(<num>, "text", "press both buttons and\nput something into the chest")` kann der Text im Menü der Sensor Kiste gesetzt werden.
 
 Über die Checkbox "Erlaube öffentlichen Zugriff" kann eingestellt werden, ob die Kiste von jedem genutzt werden darf, oder nur von Spielern die hier Zugriffsrechte haben.
@@ -596,8 +597,8 @@ Die Kiste kann nur von den Spielern genutzt werden, die an diesem Ort auch bauen
 Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
 
 - `count` dient zur Anfrage, wie viele Items in der Kiste sind.
-  Beispiel 1:  `$read_data(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
-  Beispiel 2:  `$read_data(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
+  Beispiel 1:  `$send_cmnd(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
+  Beispiel 2:  `$send_cmnd(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
 
 [ta4_8x2000_chest|image]
 
