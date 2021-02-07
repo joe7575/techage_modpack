@@ -45,7 +45,23 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2021-02-07
+
+Updated Mods:
+- basic_materials
+- compost
+- hyperloop
+- minecart
+- signs_bot
+- ta4_paraglider
+- techage
+- towercrane
+- tubelib2
+- unified_inventory
+
+
 #### 2020-12-11
+
 Updated Mods:
 - autobahn
 - basic_materials
@@ -54,7 +70,9 @@ Updated Mods:
 - ta4_jetpack
 - tubelib2
 
+
 #### 2020-10-25
+
 Updated Mods:
 - techage v0.24
 - signs_bot
@@ -64,6 +82,7 @@ Updated Mods:
 
 ta4_paraglider newly added
 
+
 #### 2020-09-13
 
 Updated Mods:
@@ -71,6 +90,7 @@ Updated Mods:
 - techage v0.23
 - signs_bot
 - minecart
+
 
 #### 2020-08-08
 
@@ -84,7 +104,9 @@ Updated Mods:
 - signs_bot
 - techage v0.21
 
+
 #### 2020-07-21
+
 Updated Mods:
 - signs_bot
 - techage v0.18
