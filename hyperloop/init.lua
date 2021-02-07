@@ -40,10 +40,10 @@
 hyperloop = {}
 
 -- Version for compatibility checks, see history
-hyperloop.version = 2.05
+hyperloop.version = 2.06
 
 if minetest.global_exists("techage") and techage.version < 0.06 then
-	minetest.log("error", "[hyperloop] Hyperloop requires techage version 0.06 or newer!")
+	error("[hyperloop] Hyperloop requires techage version 0.06 or newer!")
 	return
 end
 
@@ -59,7 +59,7 @@ else
 end
 
 if tubelib2.version < 1.7 then
-	minetest.log("error", "Hyperloop requires tubelib2 version 1.7 or newer!!!")
+	error("Hyperloop requires tubelib2 version 1.7 or newer!!!")
 else
 	-- Configuration settings
 	hyperloop.wifi_enabled = minetest.settings:get_bool("hyperloop_wifi_enabled")

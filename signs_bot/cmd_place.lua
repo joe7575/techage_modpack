@@ -138,7 +138,7 @@ local function place_item_below(base_pos, robot_pos, param2, slot)
 	if not lib.not_protected(base_pos, pos1) then
 		return signs_bot.ERROR, I("Error: Position protected")
 	end
-	local node = lib.get_node_lvm(pos1)
+	local node = tubelib2.get_node_lvm(pos1)
 	if node.name == "signs_bot:robot_foot" then
 		local taken = bot_inv_take_item(base_pos, slot, 1)
 		if taken then
@@ -204,7 +204,7 @@ signs_bot.register_botcommand("place_above", {
 local function dig_item(base_pos, robot_pos, param2, slot, route, level)
 	local pos1 = lib.dest_pos(robot_pos, param2, route)
 	pos1.y = pos1.y + (level or 0)
-	local node = lib.get_node_lvm(pos1)
+	local node = tubelib2.get_node_lvm(pos1)
 	local dug_name = lib.is_simple_node(node)
 	if not lib.not_protected(base_pos, pos1) then
 		return signs_bot.ERROR, I("Error: Position protected")
@@ -287,7 +287,7 @@ signs_bot.register_botcommand("dig_right", {
 
 local function dig_item_below(base_pos, robot_pos, param2, slot)
 	local pos1 = {x=robot_pos.x,y=robot_pos.y-1,z=robot_pos.z}
-	local node = lib.get_node_lvm(pos1)
+	local node = tubelib2.get_node_lvm(pos1)
 	local dug_name = lib.is_simple_node(node)
 	if not lib.not_protected(base_pos, pos1) then
 		return signs_bot.ERROR, I("Error: Position protected")
@@ -321,7 +321,7 @@ signs_bot.register_botcommand("dig_below", {
 
 local function dig_item_above(base_pos, robot_pos, param2, slot)
 	local pos1 = {x=robot_pos.x,y=robot_pos.y+1,z=robot_pos.z}
-	local node = lib.get_node_lvm(pos1)
+	local node = tubelib2.get_node_lvm(pos1)
 	local dug_name = lib.is_simple_node(node)
 	if not lib.not_protected(base_pos, pos1) then
 		return signs_bot.ERROR, I("Error: Position protected")
@@ -356,7 +356,7 @@ signs_bot.register_botcommand("dig_above", {
 local function rotate_item(base_pos, robot_pos, param2, route, level, steps)
 	local pos1 = lib.dest_pos(robot_pos, param2, route)
 	pos1.y = pos1.y + level
-	local node = lib.get_node_lvm(pos1)
+	local node = tubelib2.get_node_lvm(pos1)
 	if not lib.not_protected(base_pos, pos1) then
 		return signs_bot.ERROR, I("Error: Position protected")
 	end

@@ -183,7 +183,7 @@ register_command("call", 1,
 		return api.DONE
 	end,
 	function(addr)
-		return tSymbolTbl[addr..":"]
+		return addr and tSymbolTbl[addr..":"]
 	end
 )	
 
@@ -204,7 +204,7 @@ register_command("jump", 1,
 		return api.DONE
 	end,
 	function(addr)
-		return tSymbolTbl[addr..":"]
+		return addr and tSymbolTbl[addr..":"]
 	end
 )	
 

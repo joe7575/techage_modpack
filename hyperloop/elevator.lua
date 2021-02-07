@@ -368,6 +368,9 @@ local function on_arrival_floor(tDeparture, tArrival, player_name, snd)
 	if player ~= nil then
 		tArrival.pos.y = tArrival.pos.y - kPLAYER_OVER_GROUND
 		player:set_pos(tArrival.pos)
+		if tArrival.attributes then
+			player:set_nametag_attributes(tArrival.attributes)
+		end
 		tArrival.pos.y = tArrival.pos.y + kPLAYER_OVER_GROUND
 	end
 	minetest.sound_stop(snd)
@@ -375,8 +378,15 @@ local function on_arrival_floor(tDeparture, tArrival, player_name, snd)
 end
 
 local function on_travel(tDeparture, tArrival, player_name, seconds)
+	local player = minetest.get_player_by_name(player_name)
 	door_command(tDeparture.pos, tDeparture.facedir, "darken", false)
 	door_command(tArrival.pos, tArrival.facedir, "darken", false)
+	if player ~= nil then
+		tArrival.attributes = player:get_nametag_attributes()
+		player:set_nametag_attributes({text = "     "})
+	else
+		tArrival.attributes = nil
+	end
 	local snd = minetest.sound_play("ele_norm", {
 			pos = tDeparture.pos,
 			gain = 0.5,

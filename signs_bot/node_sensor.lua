@@ -23,7 +23,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local lib = signs_bot.lib
 
-local CYCLE_TIME = 4
+local CYCLE_TIME = 2
 
 local function update_infotext(pos, dest_pos, cmnd)
 	M(pos):set_string("infotext", I("Node Sensor: Connected with ")..S(dest_pos).." / "..cmnd)
@@ -74,12 +74,16 @@ local function any_node_changed(pos)
 	
 	if mem.num ~= num then
 		if mem.mode == 1 and num < mem.num then 
+			mem.num = num
 			return true
 		elseif mem.mode == 2 and num > mem.num then 
+			mem.num = num
 			return true
 		elseif mem.mode == 3 then
+			mem.num = num
 			return true
 		end
+		mem.num = num
 	end
 	return false
 end

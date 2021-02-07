@@ -57,7 +57,7 @@ if minetest.get_modpath("techage") then
 		description = S("Ignite the techage charcoal lighter"),
 		cmnd = function(base_pos, mem)
 			local pos = signs_bot.lib.dest_pos(mem.robot_pos, mem.robot_param2, {0})
-			local node = signs_bot.lib.get_node_lvm(pos)
+			local node = tubelib2.get_node_lvm(pos)
 			if minetest.registered_nodes[node.name]
 			and minetest.registered_nodes[node.name].on_ignite then
 				minetest.registered_nodes[node.name].on_ignite(pos)

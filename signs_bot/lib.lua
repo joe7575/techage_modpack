@@ -53,27 +53,9 @@ function signs_bot.lib.dest_pos(pos, param2, route)
 	return pos, p2
 end
 
-function signs_bot.lib.get_node_lvm(pos)
-	local node = minetest.get_node_or_nil(pos)
-	if node then
-		return node
-	end
-	local vm = minetest.get_voxel_manip()
-	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
-	local data = vm:get_data()
-	local param2_data = vm:get_param2_data()
-	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local idx = area:indexp(pos)
-	node = {
-		name = minetest.get_name_from_content_id(data[idx]),
-		param2 = param2_data[idx]
-	}
-	return node
-end
-
 local next_pos = signs_bot.lib.next_pos
 local dest_pos = signs_bot.lib.dest_pos
-local get_node_lvm = signs_bot.lib.get_node_lvm
+local get_node_lvm = tubelib2.get_node_lvm
 
 local function poke_objects(pos, param2, objects)
 	minetest.sound_play('signs_bot_go_away', {pos = pos})
@@ -124,6 +106,7 @@ end
 
 -- Has to be checked before a node is dug
 function signs_bot.lib.is_simple_node(node)
+	if node.name == "signs_bot:box" then return false end
 	-- don't remove nodes with some intelligence or undiggable nodes
 	local ndef = minetest.registered_nodes[node.name]
 	if not NotSoSimpleNodes[node.name] then

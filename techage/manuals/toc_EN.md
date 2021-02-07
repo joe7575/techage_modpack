@@ -102,6 +102,7 @@
         - [TechAge Signal Lamp](./manual_ta3_EN.md#techage-signal-lamp)
         - [Door/Gate Blocks](./manual_ta3_EN.md#doorgate-blocks)
         - [TA3 Door Controller](./manual_ta3_EN.md#ta3-door-controller)
+        - [TA3 Door Controller II](./manual_ta3_EN.md#ta3-door-controller-ii)
         - [TA3 Mesecons Converter](./manual_ta3_EN.md#ta3-mesecons-converter)
     - [Detectors](./manual_ta3_EN.md#detectors)
         - [TA3 Detector](./manual_ta3_EN.md#ta3-detector)
@@ -191,3 +192,4 @@
         - [TA4 Quarry](./manual_ta4_EN.md#ta4-quarry)
         - [TA4 Electronic Fab](./manual_ta4_EN.md#ta4-electronic-fab)
         - [TA4 Injector](./manual_ta4_EN.md#ta4-injector)
+        - [TA4 recycler](./manual_ta4_EN.md#ta4-recycler)

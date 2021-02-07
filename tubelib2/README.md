@@ -8,9 +8,9 @@ A library for mods which need connecting tubes / pipes / cables or similar.
 This mod is not useful for its own. It does not even have any nodes.
 It only comes with a few test nodes to play around with the tubing algorithm.
 
-Browse on: ![GitHub](https://github.com/joe7575/tubelib2)
+Browse on: [GitHub](https://github.com/joe7575/tubelib2)
 
-Download: ![GitHub](https://github.com/joe7575/tubelib2/archive/master.zip)
+Download: [GitHub](https://github.com/joe7575/tubelib2/archive/master.zip)
 
 
 ## Description
@@ -54,11 +54,17 @@ default
 optional: intllib
 
 
-# License
-Copyright (C) 2017-2020 Joachim Stolberg  
+## License
+Copyright (C) 2017-2021 Joachim Stolberg
 Code: Licensed under the GNU LGPL version 2.1 or later.
       See LICENSE.txt and http://www.gnu.org/licenses/lgpl-2.1.txt  
 Textures: CC0
+
+
+## Credits
+
+### Contributors
+- oversword (PR #5, PR #7, PR #8)
 
 
 ## History
@@ -81,5 +87,6 @@ Textures: CC0
 - 2020-01-03  v1.7  * max_tube_length bugfix
 - 2020-02-02  v1.8  * 'special nodes' as alternative to 'secondary nodes' introduced
 - 2020-05-31  v1.9  * Generator function 'get_tube_line' added, storage improvements
+- 2021-01-23  v2.0  * Add functions for easy & fast 'valid side' checking (PR #8)
 
 

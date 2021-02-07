@@ -30,7 +30,7 @@ local RegisteredInventories = {}
 -- From chest to robot
 function signs_bot.robot_take(base_pos, robot_pos, param2, want_count, slot)
 	local target_pos = lib.next_pos(robot_pos, param2)
-	local node = lib.get_node_lvm(target_pos)
+	local node = tubelib2.get_node_lvm(target_pos)
 	local def = RegisteredInventories[node.name]	
 	local owner = M(base_pos):get_string("owner")
 	
@@ -51,7 +51,7 @@ end
 -- From robot to chest
 function signs_bot.robot_put(base_pos, robot_pos, param2, num, slot)
 	local target_pos = lib.next_pos(robot_pos, param2)
-	local node = lib.get_node_lvm(target_pos)
+	local node = tubelib2.get_node_lvm(target_pos)
 	local def = RegisteredInventories[node.name]
 	local owner = M(base_pos):get_string("owner")
 	local taken = signs_bot.bot_inv_take_item(base_pos, slot, num)
@@ -71,7 +71,7 @@ end
 -- From robot to furnace
 function signs_bot.robot_put_fuel(base_pos, robot_pos, param2, num, slot)
 	local target_pos = lib.next_pos(robot_pos, param2)
-	local node = lib.get_node_lvm(target_pos)
+	local node = tubelib2.get_node_lvm(target_pos)
 	local def = RegisteredInventories[node.name]
 	local owner = M(base_pos):get_string("owner")
 	local taken = signs_bot.bot_inv_take_item(base_pos, slot, num)

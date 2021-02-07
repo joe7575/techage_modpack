@@ -78,8 +78,12 @@ function Tube:del_from_cache(pos, dir)
 		local key2 = S(pos2)
 		if self.connCache[key2] and self.connCache[key2][dir2] then
 			self.connCache[key2][dir2] = nil
+			if self.debug_info then self.debug_info(pos2, "del") end
 		end
 		self.connCache[key][dir] = nil
+		if self.debug_info then self.debug_info(pos, "del") end
+	else
+		if self.debug_info then self.debug_info(pos, "noc") end
 	end
 end
 
@@ -90,6 +94,7 @@ function Tube:add_to_cache(pos1, dir1, pos2, dir2)
 		self.connCache[key] = {}
 	end
 	self.connCache[key][dir1] = {pos2 = pos2, dir2 = dir2}
+	if self.debug_info then self.debug_info(pos1, "add") end
 end
 
 -- pos/dir are the pos of the secondary nodes pointing to the head tube nodes.

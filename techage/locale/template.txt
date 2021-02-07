@@ -244,10 +244,20 @@ TechAge Door Block=
 Insert door/gate block number(s)=
 TA3 Door Controller=
 
-### doorcontroller.lua ###
-### repeater.lua ###
+### doorcontroller2.lua ###
 
-TA3 Repeater=
+Blocks are back=
+Blocks are disappeared=
+Click on all the blocks that are part of the door/gate=
+Ctrl,Inv=
+Done=
+Error: Inventory already in use=
+Record=
+Recording...=
+Remove=
+Set=
+TA3 Door Controller II=
+block positions are stored.=
 
 ### drillbox.lua ###
 
@@ -409,6 +419,8 @@ TA4 LED Grow Light=
 
 No plan available=
 Plan=
+Side view=
+Top view=
 
 ### hammer.lua ###
 
@@ -794,6 +806,10 @@ Position temperature=
 TechAge Info Tool (use @= read status info)=
 TechAge Repair Kit=
 repaired=
+
+### repeater.lua ###
+
+TA3 Repeater=
 
 ### rotor.lua ###
 

@@ -71,6 +71,7 @@ minetest.register_tool(
 			else
 				minetest.chat_send_player(name,
 					minetest.colorize("#FFFF00", S("First jump from a hill and then use the paraglider")))
+				pmeta:set_int("player_physics_locked", 0)
 			end
 		end,
 	

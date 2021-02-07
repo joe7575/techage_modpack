@@ -53,7 +53,7 @@ local function pairing(actuator_pos, sensor_pos)
 	local signal = signs_bot.get_signal(actuator_pos)
 	if signal then
 		signs_bot.store_signal(sensor_pos, actuator_pos, signal)
-		local node = lib.get_node_lvm(sensor_pos)
+		local node = tubelib2.get_node_lvm(sensor_pos)
 		local ndef = minetest.registered_nodes[node.name]
 		if ndef and ndef.update_infotext then
 			ndef.update_infotext(sensor_pos, actuator_pos, signal)

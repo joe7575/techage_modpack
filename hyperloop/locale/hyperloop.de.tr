@@ -1,111 +1,142 @@
 # textdomain: hyperloop
 
 
+
 ### booking.lua ###
+
 Station data is corrupted. Please rebuild the station!=Stationsdaten sind beschädigt. Bitte die Station neu bauen!
 Station is still blocked. Please try again in a few seconds!=Die Station ist noch blockiert. Bitte versuche es in ein paar Sekunden wieder!
 
 ### booking_node.lua ###
-Additional station information=Zusätzliche Stationsinformationen
-Hyperloop Booking Machine=Hyperloop Fahrkartenautomat
-Invalid station name!=Ungültiger Stationsname!
-Please enter the station name to@nwhich this booking machine belongs.=Bitte gib den Stationsnamen ein@nzu dem dieser Fahrkartenautomat gehört.
-Station has already a booking machine!=Station hat bereits einen Fahrkartenautomat!
-Station name=Stationsname
 
+Please enter the station name to@nwhich this booking machine belongs.=Bitte gib den Stationsnamen ein@nzu dem dieser Fahrkartenautomat gehört.
+Station name=Stationsname
+Additional station information=Zusätzliche Stationsinformationen
+Station has already a booking machine!=Station hat bereits einen Fahrkartenautomat!
+Invalid station name!=Ungültiger Stationsname!
+Hyperloop Booking Machine=Hyperloop Fahrkartenautomat
+
+### booking_node.lua ###
 ### elevator.lua ###
+
 Select your destination=Wähle dein Ziel
 
+### booking_node.lua ###
 ### migrate.lua ###
+
 <unknown>=<unbekannt>
 
 ### deco.lua ###
+
 Hyperloop Promo Poster =Hyperloop Werbeposter 
 Hyperloop Station Sign=Hyperloop Stationszeichen
-Hyperloop Station Sign Left=Hyperloop Stationszeichen links
 Hyperloop Station Sign Right=Hyperloop Stationszeichen rechts
+Hyperloop Station Sign Left=Hyperloop Stationszeichen links
 
 ### door.lua ###
-Hyperloop Door Bottom=Hyperloop Tür Unterteil
-Hyperloop Door Top=Hyperloop Tür Oberteil
+
 The Booking Machine for this station is missing!=Der Fahrkartenautomat für die Station fehlt!
+Hyperloop Door Top=Hyperloop Tür Oberteil
+Hyperloop Door Bottom=Hyperloop Tür Unterteil
 
 ### elevator.lua ###
-(current position)=(aktuelle Position)
-Base=Basis
+
+Hyperloop Elevator Shaft=Hyperloop Aufzugsschacht
 Destination=Ziel
 Floor=Stockwerk
-Floor name=Stockwerkname
+(current position)=(aktuelle Position)
 Hyperloop Elevator=Hyperloop Aufzug
-Hyperloop Elevator Shaft=Hyperloop Aufzugsschacht
 Please insert floor name=Gib den Stockwerknamen ein
+Floor name=Stockwerkname
+Base=Basis
 
+### elevator.lua ###
 ### wifi.lua ###
+
 Save=Speichern
 
 ### junction.lua ###
+
+Station connected with =Station verbunden mit 
+Junction connected with =Anschlussstelle verbunden mit 
 Hyperloop Junction Block=Hyperloop Anschlussstelle
 Hyperloop Pillar=Hyperloop Stütze
-Junction connected with =Anschlussstelle verbunden mit 
-Station connected with =Station verbunden mit 
 
+### junction.lua ###
 ### migrate.lua ###
+
 Junction=Anschlussstelle
-Hyperloop Legacy Tube=Hyperloop veraltetes Rohr
-unknown=unbekant
 
 ### lcd.lua ###
+
 Hyperloop Display=Hyperloop Bildschirm
 
 ### map.lua ###
-Close=Schließen
-Conn. with=Verb. mit
+
 Dist.=Entf.
-Hyperloop Station Book=Hyperloop Stationsbuch
-Owner=Besitzer
-Position=Position
 Station/Junction=Station/Anschlussstelle
+Position=Position
+Owner=Besitzer
+Conn. with=Verb. mit
+Close=Schließen
+Hyperloop Station Book=Hyperloop Stationsbuch
+
+### migrate.lua ###
+
+Hyperloop Legacy Tube=Hyperloop veraltetes Rohr
+unknown=unbekant
+
+### recipes.lua ###
+### station.lua ###
+
+Hypersteel Ingot=Hyperstahl Barren
 
 ### seat.lua ###
-Hyperloop Pod Seat=Hyperloop Sitz
+
 [Hyperloop] No booking entered!=[Hyperloop] Keine Buchung eingegeben!
+Hyperloop Pod Seat=Hyperloop Sitz
 
 ### station.lua ###
-Hypersteel Ingot=Hyperstahl Barren
-Area is protected!=Die Area ist geschützt!
-Blue Wool=Blaue Wolle
-Build Station=Baue Station
-Destroy Station=Zerstöre Station
-Glass=Glas
-Hyperloop Pod Shell=Hyperloop Kabinenwand
-Hyperloop Station Block=Hyperloop Stations Block
-Hyperloop Station Pod Builder=Hyperloop Stations Ersteller
-Not enough inventory items to build the station!=Nicht ausreichend Inventory Items um die Station zu bauen!
-Not enough space to build the station!=Nicht ausreichend Platz um die Station zu errichten!
-Station=Station
+
 Station completed. Now place the Booking Machine!=Station fertig. Setze nun den Fahrkartenautomat!
+Area is protected!=Die Area ist geschützt!
+Not enough space to build the station!=Nicht ausreichend Platz um die Station zu errichten!
+Hyperloop Station Pod Builder=Hyperloop Stations Ersteller
+Hyperloop Pod Shell=Hyperloop Kabinenwand
+Blue Wool=Blaue Wolle
+Glass=Glas
+Not enough inventory items to build the station!=Nicht ausreichend Inventory Items um die Station zu bauen!
+Destroy Station=Zerstöre Station
+Build Station=Baue Station
+Hyperloop Station Block=Hyperloop Stations Block
+Station=Station
 
 ### tube.lua ###
-Do you really want to start a new network?!=Willst du wirklich ein neues Liniennetz beginnen?!
-Hyperloop Tube=Hyperloop Röhre
+
 Junction at =Anschlussstelle bei 
-Open end at =Offenes Ende bei 
 Station '=Station '
 Station at =Station bei 
+Open end at =Offenes Ende bei 
 There is no station/junction on this level. =Es gibt keine Station/Anschlussstelle auf dieser Höhe. 
+Do you really want to start a new network?!=Willst du wirklich ein neues Liniennetz beginnen?!
+Hyperloop Tube=Hyperloop Röhre
 
 ### tubecrowbar.lua ###
+
+[Hyperloop] Error: Tube is too long!=[Hyperloop] Fehler: Röhre ist zu lang!
+[Crowbar Help]@n=[Brecheisen Hilfe]@n
     left: remove node@n=    links: entferne Block@n
     right: repair tube/shaft line@n=    rechts: repariere Röhre/Schacht@n
-Hyperloop Tube Crowbar=Hyperloop Brecheisen
-Repair via WorldEdit placed Hyperloop tubes by reusing WorldEdit pos1/pos2=Reparatur über WorldEdit platzierte Hyperloop-Röhren durch Wiederverwendung von WorldEdit pos1/pos2
-Rights to remove tube nodes by means of the crowbar=Rechte zur Entfernung von Rohrknoten mit Hilfe der Brechstange
 You don't have the necessary privs!=Du hast nicht die notwendigen Rechte!
-[Crowbar Help]@n=[Brecheisen Hilfe]@n
+Hyperloop Tube Crowbar=Hyperloop Brecheisen
+Rights to remove tube nodes by means of the crowbar=Rechte zur Entfernung von Rohrknoten mit Hilfe der Brechstange
+Repair via WorldEdit placed Hyperloop tubes by reusing WorldEdit pos1/pos2=Reparatur über WorldEdit platzierte Hyperloop-Röhren durch Wiederverwendung von WorldEdit pos1/pos2
 
 ### waypoint.lua ###
+
 Hyperloop Waypoint=Hyperloop Wegpunkt
 
 ### wifi.lua ###
+
 Enter channel string=Kanalname eingeben
 Hyperloop WiFi Tube=Hyperloop Wifi Röhre

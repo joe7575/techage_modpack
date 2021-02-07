@@ -1,6 +1,7 @@
 # textdomain: hyperloop
 
 
+
 ### booking.lua ###
 
 Station data is corrupted. Please rebuild the station!=
@@ -8,14 +9,12 @@ Station is still blocked. Please try again in a few seconds!=
 
 ### booking_node.lua ###
 
-Additional station information=
-Hyperloop Booking Machine=
-Invalid station name!=
-
 Please enter the station name to@nwhich this booking machine belongs.=
-
-Station has already a booking machine!=
 Station name=
+Additional station information=
+Station has already a booking machine!=
+Invalid station name!=
+Hyperloop Booking Machine=
 
 ### booking_node.lua ###
 ### elevator.lua ###
@@ -31,25 +30,25 @@ Select your destination=
 
 Hyperloop Promo Poster =
 Hyperloop Station Sign=
-Hyperloop Station Sign Left=
 Hyperloop Station Sign Right=
+Hyperloop Station Sign Left=
 
 ### door.lua ###
 
-Hyperloop Door Bottom=
-Hyperloop Door Top=
 The Booking Machine for this station is missing!=
+Hyperloop Door Top=
+Hyperloop Door Bottom=
 
 ### elevator.lua ###
 
-(current position)=
-Base=
+Hyperloop Elevator Shaft=
 Destination=
 Floor=
-Floor name=
+(current position)=
 Hyperloop Elevator=
-Hyperloop Elevator Shaft=
 Please insert floor name=
+Floor name=
+Base=
 
 ### elevator.lua ###
 ### wifi.lua ###
@@ -58,10 +57,10 @@ Save=
 
 ### junction.lua ###
 
+Station connected with =
+Junction connected with =
 Hyperloop Junction Block=
 Hyperloop Pillar=
-Junction connected with =
-Station connected with =
 
 ### junction.lua ###
 ### migrate.lua ###
@@ -72,20 +71,15 @@ Junction=
 
 Hyperloop Display=
 
-### lcd.lua ###
-### seat.lua ###
-
- |  | << Hyperloop >> | be anywhere=
-
 ### map.lua ###
 
-Close=
-Conn. with=
 Dist.=
-Hyperloop Station Book=
-Owner=
-Position=
 Station/Junction=
+Position=
+Owner=
+Conn. with=
+Close=
+Hyperloop Station Book=
 
 ### migrate.lua ###
 
@@ -99,50 +93,44 @@ Hypersteel Ingot=
 
 ### seat.lua ###
 
- | Welcome at | | =
-Arrival in:=
-Destination:=
-Distance:=
-Hyperloop Pod Seat=
-Thank you | for | travelling | with | Hyperloop.=
 [Hyperloop] No booking entered!=
+Hyperloop Pod Seat=
 
 ### station.lua ###
 
-Area is protected!=
-Blue Wool=
-Build Station=
-Destroy Station=
-Glass=
-Hyperloop Pod Shell=
-Hyperloop Station Block=
-Hyperloop Station Pod Builder=
-Not enough inventory items to build the station!=
-Not enough space to build the station!=
-Station=
 Station completed. Now place the Booking Machine!=
+Area is protected!=
+Not enough space to build the station!=
+Hyperloop Station Pod Builder=
+Hyperloop Pod Shell=
+Blue Wool=
+Glass=
+Not enough inventory items to build the station!=
+Destroy Station=
+Build Station=
+Hyperloop Station Block=
+Station=
 
 ### tube.lua ###
 
-Do you really want to start a new network?!=
-Hyperloop Tube=
 Junction at =
-Open end at =
 Station '=
 Station at =
+Open end at =
 There is no station/junction on this level. =
+Do you really want to start a new network?!=
+Hyperloop Tube=
 
 ### tubecrowbar.lua ###
 
+[Hyperloop] Error: Tube is too long!=
+[Crowbar Help]@n=
     left: remove node@n=
     right: repair tube/shaft line@n=
-Hyperloop Tube Crowbar=
-
-Repair via WorldEdit placed Hyperloop tubes by reusing WorldEdit pos1/pos2=
-
-Rights to remove tube nodes by means of the crowbar=
 You don't have the necessary privs!=
-[Crowbar Help]@n=
+Hyperloop Tube Crowbar=
+Rights to remove tube nodes by means of the crowbar=
+Repair via WorldEdit placed Hyperloop tubes by reusing WorldEdit pos1/pos2=
 
 ### waypoint.lua ###
 

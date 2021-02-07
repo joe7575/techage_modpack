@@ -89,7 +89,7 @@ minetest.register_node("signs_bot:bot_sensor_on", {
 	end,
 		
 	on_timer = function(pos)
-		local node = lib.get_node_lvm(pos)
+		local node = tubelib2.get_node_lvm(pos)
 		node.name = "signs_bot:bot_sensor"
 		minetest.swap_node(pos, node)
 		return false

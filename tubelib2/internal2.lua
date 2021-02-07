@@ -3,7 +3,7 @@
 	Tube Library 2
 	==============
 
-	Copyright (C) 2018-2020 Joachim Stolberg
+	Copyright (C) 2018-2021 Joachim Stolberg
 
 	LGPLv2.1+
 	See LICENSE.txt for more information
@@ -284,13 +284,17 @@ function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 	-- Check for secondary nodes (chests and so on)
 	for dir = 1,6 do
 		if allowed[dir] then
-			local _,npos = self:get_secondary_node(pos, dir)
-			if npos then 
-				if preferred_pos and vector.equals(npos, preferred_pos) then
-					preferred_pos = nil
-					table.insert(tbl, 2, dir)
+			local node,npos = self:get_secondary_node(pos, dir)
+			if npos then
+				if self:is_valid_dir(node, Turn180Deg[dir]) == false then
+					allowed[dir] = false
 				else
-					table.insert(tbl, dir)
+					if preferred_pos and vector.equals(npos, preferred_pos) then
+						preferred_pos = nil
+						table.insert(tbl, 2, dir)
+					else
+						table.insert(tbl, dir)
+					end
 				end
 			end
 		end
@@ -332,6 +336,8 @@ function Tube:add_tube_dir(pos, dir)
 	if param2 then
 		local d1, d2, num = self:decode_param2(npos, param2)
 		if not num then return end
+		-- if invalid face, do nothing
+		if self:is_valid_dir_pos(pos, dir) == false then return end
 		-- not already connected to the new tube?
 		dir = Turn180Deg[dir]
 		if d1 ~= dir and dir ~= d2 then
@@ -379,6 +385,9 @@ end
 function Tube:get_next_teleport_node(pos, dir)
 	if pos then
 		local npos = vector.add(pos, Dir6dToVector[dir or 0])
+		if self:is_valid_dir_pos(npos, Turn180Deg[dir]) == false then
+			return
+		end
 		local meta = M(npos)
 		local s = meta:get_string("tele_pos")
 		if s ~= "" then

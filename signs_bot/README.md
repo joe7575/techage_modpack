@@ -3,9 +3,9 @@ Signs Bot [signs_bot]
 
 **A robot controlled by signs.**
 
-Browse on: ![GitHub](https://github.com/joe7575/signs_bot)
+Browse on: [GitHub](https://github.com/joe7575/signs_bot)
 
-Download: ![GitHub](https://github.com/joe7575/signs_bot/archive/master.zip)
+Download: [GitHub](https://github.com/joe7575/signs_bot/archive/master.zip)
 
 ![Signs Bot](https://github.com/joe7575/signs_bot/blob/master/screenshot.png)
 
@@ -105,7 +105,7 @@ For all Inventory commands applies: If the inventory stack specified by <slot> i
     repeat <num>    -- start of a loop block, <num> is a number 1..999
     end             -- end of a loop block
     call <label>    -- call of a function (with return via the command 'return')
-    
+
 Example with a function at the beginning:
 
     jump main       -- jump to the label 'main'
@@ -140,12 +140,12 @@ Or alternatively with the function at the end:
     return          -- end of 'foo'. Jump back
 
 ### License
-Copyright (C) 2019-2020 Joachim Stolberg  
+Copyright (C) 2019-2021 Joachim Stolberg  
 Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
 
 
 ### Dependencies 
-default, farming, basic_materials, tubelib2
+default, farming, basic_materials, tubelib2  
 optional: farming redo, node_io, doc, techage, minecart
 
 
@@ -167,5 +167,6 @@ optional: farming redo, node_io, doc, techage, minecart
 - 2020-03-27  v1.01  * flower command and sign added
 - 2020-03-30  v1.02  * Program flow control commands added
 - 2020-06-21  v1.03  * Interpreter bugfixes, node and crop sensors changed
-- 2020-10-01  v1.04  * Many improvements and bugfixes (Thanks toThomas-S)
+- 2020-10-01  v1.04  * Many improvements and bugfixes (Thanks to Thomas-S)
+- 2021-01-30  v1.05  * Many improvements and bugfixes
 

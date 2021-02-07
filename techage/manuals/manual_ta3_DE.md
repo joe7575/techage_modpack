@@ -224,7 +224,7 @@ In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen d
 Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit "Koch" Rezepten, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte, die nur im Industrieofen hergestellt werden können.
 Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.
 
-Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
+Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
 
 Siehe auch TA4 Ofenheizung.
 
@@ -617,6 +617,14 @@ Damit lassen sich Geheimtüren realisieren, die sich nur bei bestimmten Spielern
 ### TA3 Tür Controller / Door Controller
 
 Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Controller müssen die Nummern der Tür/Tor Blöcke eingegeben werden. Wird ein  `on`/`off` Kommando Kommando an den Tür Controller gesendet, öffnet/schließt dieser die Tür bzw. das Tor.
+
+[ta3_doorcontroller|image]
+
+### TA3 Tür Controller II / Door Controller II
+
+Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert. Über die Tasten "Entfernen" bzw. "Setzen" kann die Funktion des Controllers von Hand getestet werden.
+
+Wird ein  `on` / `off` Kommando an den Tür Controller II gesendet, entfernt bzw. setzt er die Blöcke ebenfalls.
 
 [ta3_doorcontroller|image]
 

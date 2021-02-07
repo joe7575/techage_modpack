@@ -244,10 +244,20 @@ TechAge Door Block=TechAge Türblock
 Insert door/gate block number(s)=Gebe Tür-/Tornummer(n) ein
 TA3 Door Controller=TA3 Tür Controller
 
-### doorcontroller.lua ###
-### repeater.lua ###
+### doorcontroller2.lua ###
 
-TA3 Repeater=TA3 Wiederholer
+Blocks are back=Blöcke sind wieder da
+Blocks are disappeared=Blöcke sind verschwunden
+Click on all the blocks that are part of the door/gate=Klicke auf alle Blöcke, die Teil des Tores sind
+Ctrl,Inv=Ctrl,Inv
+Done=Fertig
+Error: Inventory already in use=Fehler: Inventar wird bereits genutzt
+Record=Aufzeichnen
+Recording...=Aufzeichnung...
+Remove=Entfernen
+Set=Setzen
+TA3 Door Controller II=TA3 Tür Controller II
+block positions are stored.=Block Positionen gespeichert.
 
 ### drillbox.lua ###
 
@@ -409,6 +419,8 @@ TA4 LED Grow Light=TA4 LED Pflanzenlampe
 
 No plan available=Kein Plan verfügar
 Plan=Plan
+Side view=Seitenansicht
+Top view=Draufsicht
 
 ### hammer.lua ###
 
@@ -795,6 +807,10 @@ TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
 TechAge Repair Kit=TechAge Reparaturset
 repaired=repariert
 
+### repeater.lua ###
+
+TA3 Repeater=TA3 Wiederholer
+
 ### rotor.lua ###
 
 Nacelle is missing=Die Gondel fehlt
@@ -1006,6 +1022,3 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 [TA4 Wind Turbine]=[TA4 Windkraftanlage]
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
-
-
-##### not used anymore #####

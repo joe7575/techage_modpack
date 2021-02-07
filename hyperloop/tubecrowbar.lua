@@ -39,6 +39,10 @@ local function repair_tubes(itemstack, placer, pointed_thing)
 		local dir1, dir2, fpos1, fpos2, fdir1, fdir2, cnt1, cnt2 = 
 				Shaft:tool_repair_tube(pos, placer, pointed_thing)
 		if fpos1 and fpos2 then
+			if cnt1 + cnt2 >= Shaft.max_tube_length then
+				minetest.chat_send_player(placer:get_player_name(), string.char(0x1b) .. 
+						"(c@#ff0000)" .. S("[Hyperloop] Error: Tube is too long!"))
+			end
 			minetest.chat_send_player(placer:get_player_name(), chat_message(dir1, cnt1, fpos1, fdir1))
 			minetest.chat_send_player(placer:get_player_name(), chat_message(dir2, cnt2, fpos2, fdir2))
 			minetest.sound_play({
@@ -51,6 +55,10 @@ local function repair_tubes(itemstack, placer, pointed_thing)
 			local dir1, dir2, fpos1, fpos2, fdir1, fdir2, cnt1, cnt2 = 
 					Tube:tool_repair_tube(pos, placer, pointed_thing)
 			if fpos1 and fpos2 then
+				if cnt1 + cnt2 >= Shaft.max_tube_length then
+					minetest.chat_send_player(placer:get_player_name(), string.char(0x1b) .. 
+						"(c@#ff0000)" .. S("[Hyperloop] Error: Tube is too long!"))
+				end
 				minetest.chat_send_player(placer:get_player_name(), chat_message(dir1, cnt1, fpos1, fdir1))
 				minetest.chat_send_player(placer:get_player_name(), chat_message(dir2, cnt2, fpos2, fdir2))
 				minetest.sound_play({
