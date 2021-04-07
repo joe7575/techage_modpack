@@ -75,6 +75,10 @@ local function on_arrival(tDeparture, tArrival, player_name, sound)
 			local yaw = hyperloop.facedir_to_rad(tArrival.facedir) - offs
 			player:set_look_yaw(yaw)
 		end
+		-- set player name again
+		if tArrival.attributes then
+			player:set_nametag_attributes(tArrival.attributes)
+		end
 	end
 	-- play arrival sound
 	minetest.sound_stop(sound)
@@ -156,7 +160,10 @@ local function on_start_travel(pos, node, clicker)
 	clicker:set_pos(pos)
 	-- rotate player to look in move direction
 	clicker:set_look_horizontal(hyperloop.facedir_to_rad(tDeparture.facedir))
-
+    -- hide player name
+	tArrival.attributes = clicker:get_nametag_attributes()
+	clicker:set_nametag_attributes({text = "     "})
+	
 	-- activate display
 	local dist = hyperloop.distance(pos, tArrival.pos) 
 	local text = I("Destination:").." | "..string.sub(tArrival.name, 1, 13).." | "..I("Distance:").." | "..

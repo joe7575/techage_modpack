@@ -21,7 +21,7 @@ local lib = signs_bot.lib
 
 -- Used by the pairing tool
 function signs_bot.get_node_type(pos)
-	local node = lib.get_node_lvm(pos)
+	local node = tubelib2.get_node_lvm(pos)
 	local ndef = minetest.registered_nodes[node.name]
 	local is_sensor = minetest.get_item_group(node.name, "sign_bot_sensor") == 1
 	if ndef then
@@ -38,7 +38,7 @@ end
 -- Used by the pairing tool
 function signs_bot.get_signal(actuator_pos)
 	if actuator_pos then
-		local node = lib.get_node_lvm(actuator_pos)
+		local node = tubelib2.get_node_lvm(actuator_pos)
 		local ndef = minetest.registered_nodes[node.name]
 		if ndef	and ndef.signs_bot_get_signal then
 			return ndef.signs_bot_get_signal(actuator_pos, node)
@@ -65,7 +65,7 @@ function signs_bot.send_signal(sensor_pos)
 		local signal = meta:get_string("signal_data")
 		if dest_pos ~= "" and signal ~= "" then
 			local pos = P(dest_pos)
-			local node = lib.get_node_lvm(pos)
+			local node = tubelib2.get_node_lvm(pos)
 			local ndef = minetest.registered_nodes[node.name]
 			if ndef	and ndef.signs_bot_on_signal then
 				ndef.signs_bot_on_signal(pos, node, signal)

@@ -102,10 +102,10 @@ local function pattern_copy(base_pos, mem)
 	mem.steps = mem.steps + 1
 	
 	if lib.not_protected(base_pos, dst_pos) then
-		local src_node = lib.get_node_lvm(src_pos)
+		local src_node = tubelib2.get_node_lvm(src_pos)
 		src_node.name = inv_get_item(base_pos, src_node.name)
 	
-		local dst_node = lib.get_node_lvm(dst_pos)
+		local dst_node = tubelib2.get_node_lvm(dst_pos)
 		inv_put_item(base_pos, mem, dst_node.name)
 		param2_conversion(src_node, mem.dir_offs)
 		minetest.set_node(dst_pos, src_node)

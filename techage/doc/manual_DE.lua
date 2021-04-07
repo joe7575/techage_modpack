@@ -104,6 +104,7 @@ techage.manual_DE.aTitel = {
   "3,TechAge Signallampe / Signal Lamp",
   "3,Tür/Tor Blöcke / Door/Gate Blocks",
   "3,TA3 Tür Controller / Door Controller",
+  "3,TA3 Tür Controller II / Door Controller II",
   "3,TA3 Mesecons Umsetzer / TA3 Mesecons Converter",
   "2,Detektoren",
   "3,TA3 Detektor / Detector",
@@ -193,6 +194,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Steinbrecher / Quarry",
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
+  "3,TA4 Recycler",
 }
 
 techage.manual_DE.aText = {
@@ -680,7 +682,7 @@ techage.manual_DE.aText = {
   "Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit \"Koch\" Rezepten\\, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte\\, die nur im Industrieofen hergestellt werden können.\n"..
   "Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.\n"..
   "\n"..
-  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
+  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
   "\n"..
   "Siehe auch TA4 Ofenheizung.\n"..
   "\n"..
@@ -983,10 +985,18 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert. Über die Tasten \"Entfernen\" bzw. \"Setzen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
+  "\n"..
+  "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Der Mesecons Umsetzer dient zur Umwandlung von Techage on/off Kommandos in Mesecons Signale und umgekehrt.\n"..
   "Dazu müssen eine oder mehrere Knotennummern eingegeben und der Konverter mit Mesecons Blöcken \n"..
   "über Mesecons Leitungen verbunden werden. Den Mesecons Umsetzer kann man auch mit dem Programmer konfigurieren.\n"..
   "Der Mesecons Umsetzer akzeptiert bis zu 5 Kommandos pro Sekunde\\, bei höherer Belastung schaltet er sich ab.\n"..
+  "\n"..
+  "*Dieser Block existiert aber nur\\, wenn die Mod mesecons aktiv ist!*\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1571,6 +1581,18 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Recycler ist eine Maschine\\, die alle Techage Rezepte rückwärts abarbeitet\\, also Maschinen und Blöcke wieder in die Bestandteile zerlegen kann. Die Maschine kann so ziemlich alle Techage und Hyperloop Blöcke zerlegen.\n"..
+  "Aber nicht alle Materialen lassen sich recyclen:\n"..
+  "\n"..
+  "  - Holz wird zu Sticks\n"..
+  "  - Stein wird zu Sand oder Kies\n"..
+  "  - Halbleiter/Chips können nicht recycelt werden\n"..
+  "  - Werkzeuge können nicht recycelt werden\n"..
+  "\n"..
+  "Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -1677,6 +1699,7 @@ techage.manual_DE.aItemName = {
   "ta3_signallamp",
   "ta3_doorblock",
   "ta3_doorcontroller",
+  "ta3_doorcontroller",
   "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
@@ -1766,6 +1789,7 @@ techage.manual_DE.aItemName = {
   "ta4_quarry",
   "ta4_electronicfab",
   "ta4_injector",
+  "ta4_recycler",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -1894,6 +1918,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -1945,6 +1970,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

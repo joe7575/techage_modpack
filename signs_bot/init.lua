@@ -15,11 +15,14 @@
 signs_bot = {}
 
 -- Version for compatibility checks, see readme.md/history
-signs_bot.version = 1.03
+signs_bot.version = 1.05
 
-if minetest.global_exists("techage") and techage.version < 0.06 then
-	minetest.log("error", "[signs_bot] Signs Bot requires techage version 0.06 or newer!")
-	return
+if minetest.global_exists("techage") and techage.version < 0.25 then
+	error("[signs_bot] Signs Bot requires techage version 0.25 or newer!")
+end
+
+if tubelib2.version < 1.9 then
+	error("[signs_bot] Signs Bot requires tubelib2 version 1.9 or newer!")
 end
 
 signs_bot.S = minetest.get_translator("signs_bot")

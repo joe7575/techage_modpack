@@ -22,7 +22,7 @@ local MP = minetest.get_modpath("signs_bot")
 local I,_ = dofile(MP.."/intllib.lua")
 
 local lib = signs_bot.lib
-local get_node_lvm = lib.get_node_lvm
+local get_node_lvm = tubelib2.get_node_lvm
 
 
 local function node_and_pos(pos)

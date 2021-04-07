@@ -103,6 +103,7 @@ techage.manual_EN.aTitel = {
   "3,TechAge Signal Lamp",
   "3,Door/Gate Blocks",
   "3,TA3 Door Controller",
+  "3,TA3 Door Controller II",
   "3,TA3 Mesecons Converter",
   "2,Detectors",
   "3,TA3 Detector",
@@ -192,6 +193,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Quarry",
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
+  "3,TA4 recycler",
 }
 
 techage.manual_EN.aText = {
@@ -671,7 +673,7 @@ techage.manual_EN.aText = {
   "The TA3 industrial furnace serves as a supplement to normal furnaces. This means that all goods can be produced with \"cooking\" recipes\\, even in an industrial furnace. But there are also special recipes that can only be made in an industrial furnace.\n"..
   "The industrial furnace has its own menu for recipe selection. Depending on the goods in the industrial furnace inventory on the left\\, the output product can be selected on the right.\n"..
   "\n"..
-  "The industrial furnace requires electricity (for the fan) and oil / gasoline for the burner. The industrial furnace and must be assembled as shown in the plan on the right.\n"..
+  "The industrial furnace requires electricity (for the fan) and fuel oil / gasoline for the burner. The industrial furnace and must be assembled as shown in the plan on the right.\n"..
   "\n"..
   "See also TA4 heater.\n"..
   "\n"..
@@ -974,10 +976,16 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Remove\" or \"Set\" buttons. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.\n"..
   "To do this\\, one or more node numbers must be entered and the converter with Mesecons blocks\n"..
   "has to be connected via Mesecons cables. The Mesecons converter can also be configured with the programmer.\n"..
   "The Mesecons converter accepts up to 5 commands per second\\; it switches itself off at higher loads.\n"..
+  "\n"..
+  "*This node only exists if the mod mesecons is active!*\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1555,6 +1563,19 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The recycler is a machine that processes all Techage recipes backwards\\, i.e. it can dismantle machines and blocks back into their components. \n"..
+  "\n"..
+  "The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all materials can be recycled:\n"..
+  "\n"..
+  "  - Wood turns into sticks\n"..
+  "  - Stone turns into sand or gravel\n"..
+  "  - Semiconductors / chips cannot be recycled\n"..
+  "  - Tools cannot be recycled\n"..
+  "\n"..
+  "The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.\n"..
+  "\n"..
+  " \n"..
+  "\n",
 }
 
 techage.manual_EN.aItemName = {
@@ -1660,6 +1681,7 @@ techage.manual_EN.aItemName = {
   "ta3_signallamp",
   "ta3_doorblock",
   "ta3_doorcontroller",
+  "ta3_doorcontroller",
   "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
@@ -1749,6 +1771,7 @@ techage.manual_EN.aItemName = {
   "ta4_quarry",
   "ta4_electronicfab",
   "ta4_injector",
+  "ta4_recycler",
 }
 
 techage.manual_EN.aPlanTable = {
@@ -1876,6 +1899,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -1927,6 +1951,7 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

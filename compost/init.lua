@@ -2,6 +2,8 @@ local S = minetest.get_translator("compost")
 
 compost = {}
 
+local CYCLE_TIME = 10
+
 -- Version for compatibility checks
 compost.version = 1.0
 
@@ -74,43 +76,58 @@ end)
 
 local function next_state(pos, elapsed)
 	local node = minetest.get_node(pos)
+	
 	if node.name == "compost:wood_barrel_1" then
-		minetest.set_node(pos, {name = "compost:wood_barrel_2"})
-		return true
-	end
-	if node.name == "compost:wood_barrel_2" then
-		minetest.set_node(pos, {name = "compost:wood_barrel_3"})
+		minetest.swap_node(pos, {name = "compost:wood_barrel_2"})
+	elseif node.name == "compost:wood_barrel_2" then
+		minetest.swap_node(pos, {name = "compost:wood_barrel_3"})
+	elseif node.name == "compost:wood_barrel_3" then
 		return false
 	end
-	return false
+	return true
+end
+
+local function start_composter(pos)
+	local meta = minetest.get_meta(pos)
+	local num = meta:get_int("num") or 0
+	if num >= 4 then
+		-- 4 leaves for one compost node
+		meta:set_int("num", num - 4)
+		minetest.swap_node(pos, {name = "compost:wood_barrel_1"})
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end
+end
+
+local function add_item(pos, stack)
+	local meta = minetest.get_meta(pos)
+	local num = meta:get_int("num") or 0
+	
+	if num < 4 then
+		-- add futher leaves
+		meta:set_int("num", num + stack:get_count())
+		stack:set_count(0)
+	end
+	
+	start_composter(pos)
+	return stack
 end
 
 local function minecart_hopper_additem(pos, stack)
 	if compost.can_compost(stack:get_name()) then
-		local meta = minetest.get_meta(pos)
-		-- 4 leaves for one compost node
-		local num = (meta:get_int("num") or 0) + stack:get_count()
-		if num >= 4 then
-			num = num - 4
-			minetest.set_node(pos, {name = "compost:wood_barrel_1"})
-			-- speed up the process by means of a timer
-			minetest.get_node_timer(pos):start(10)
-		end
-		meta:set_int("num", num)
-		stack:set_count(0)
-		return stack
+		return add_item(pos, stack)
 	end
 	return stack
 end
 
 local function minecart_hopper_takeitem(pos, num)
 	local node = minetest.get_node(pos)
-	minetest.set_node(pos, {name = "compost:wood_barrel"})
+	minetest.swap_node(pos, {name = "compost:wood_barrel"})
+	start_composter(pos)
 	return ItemStack("compost:compost")
 end
 
 local function minecart_hopper_untakeitem(pos, in_dir, stack)
-	minetest.set_node(pos, {name = "compost:wood_barrel_2"})
+	minetest.swap_node(pos, {name = "compost:wood_barrel_2"})
 end
 
 minetest.register_node("compost:wood_barrel", {
@@ -132,14 +149,16 @@ minetest.register_node("compost:wood_barrel", {
 	on_punch = function(pos, node, puncher, pointed_thing)
 		local wielded_item = puncher:get_wielded_item():get_name()
 		if compost.can_compost(wielded_item) then
-			minetest.set_node(pos, {name = "compost:wood_barrel_1"})
+			minetest.swap_node(pos, {name = "compost:wood_barrel_1"})
 			local w = puncher:get_wielded_item()
 			if not(minetest.setting_getbool("creative_mode")) then
 				w:take_item(1)
 				puncher:set_wielded_item(w)
 			end
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end
 	end,
+	on_timer = next_state,
 	minecart_hopper_additem = minecart_hopper_additem,
 	minecart_hopper_untakeitem = minecart_hopper_untakeitem,
 })
@@ -206,28 +225,11 @@ minetest.register_node("compost:wood_barrel_3", {
 	on_punch = function(pos, node, player, pointed_thing)
 		local p = {x = pos.x + math.random(0, 5)/5 - 0.5, y = pos.y+1, z = pos.z + math.random(0, 5)/5 - 0.5}
 		minetest.add_item(p, {name = "compost:compost"})
-		minetest.set_node(pos, {name = "compost:wood_barrel"})
+		minetest.swap_node(pos, {name = "compost:wood_barrel"})
 	end,
+	on_timer = next_state,
 	minecart_hopper_takeitem = minecart_hopper_takeitem,
 	minecart_hopper_untakeitem = minecart_hopper_untakeitem,
-})
-
-minetest.register_abm({
-	nodenames = {"compost:wood_barrel_1"},
-	interval = 40,
-	chance = 5,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		minetest.set_node(pos, {name = "compost:wood_barrel_2"})
-	end,
-})
-
-minetest.register_abm({
-	nodenames = {"compost:wood_barrel_2"},
-	interval = 40,
-	chance = 5,
-	action = function(pos, node, active_object_count, active_object_count_wider)
-		minetest.set_node(pos, {name = "compost:wood_barrel_3"})
-	end,
 })
 
 minetest.register_craft({
@@ -279,7 +281,8 @@ if  minetest.global_exists("techage") then
 		on_pull_item = function(pos, in_dir, num)
 			local node = minetest.get_node(pos)
 			if node.name == "compost:wood_barrel_3" then
-				minetest.set_node(pos, {name = "compost:wood_barrel"})
+				minetest.swap_node(pos, {name = "compost:wood_barrel"})
+				start_composter(pos)
 				return ItemStack("compost:compost")
 			end
 			return nil
@@ -287,22 +290,13 @@ if  minetest.global_exists("techage") then
 		on_push_item = function(pos, in_dir, stack)
 			local node = minetest.get_node(pos)
 			if node.name == "compost:wood_barrel" and compost.can_compost(stack:get_name()) then
-				local meta = minetest.get_meta(pos)
-				-- 4 leaves for one compost node
-				local num = (meta:get_int("num") or 0) + 1
-				if num >= 4 then
-					num = 0
-					minetest.set_node(pos, {name = "compost:wood_barrel_1"})
-					-- speed up the process by means of a timer
-					minetest.get_node_timer(pos):start(10)
-				end
-				meta:set_int("num", num)
-				return true
+				stack = add_item(pos, stack)
+				return stack:get_count() == 0
 			end
 			return false
 		end,
 		on_unpull_item = function(pos, in_dir, stack)
-			minetest.set_node(pos, {name = "compost:wood_barrel_2"})
+			minetest.swap_node(pos, {name = "compost:wood_barrel_2"})
 			return true
 		end,
 	})	

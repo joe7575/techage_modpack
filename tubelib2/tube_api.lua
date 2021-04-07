@@ -3,7 +3,7 @@
 	Tube Library 2
 	==============
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2021 Joachim Stolberg
 
 	LGPLv2.1+
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 ]]--
 
 -- Version for compatibility checks, see readme.md/history
-tubelib2.version = 1.9
+tubelib2.version = 2.0
 
 -- for lazy programmers
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
@@ -23,11 +23,33 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("tubelib2")
 local I,_ = dofile(MP.."/intllib.lua")
 
+-- Cardinal directions, regardless of orientation
 local Dir2Str = {"north", "east", "south", "west", "down", "up"}
 
 function tubelib2.dir_to_string(dir)
 	return Dir2Str[dir]
 end
+
+-- Relative directions, dependant on orientation (param2)
+local DirToSide = {"B", "R", "F", "L", "D", "U"}
+
+function tubelib2.dir_to_side(dir, param2)
+	if dir < 5 then
+		dir = (((dir - 1) - (param2 % 4)) % 4) + 1
+	end
+	return DirToSide[dir]
+end
+
+local SideToDir = {B=1, R=2, F=3, L=4, D=5, U=6}
+
+function tubelib2.side_to_dir(side, param2)
+	local dir = SideToDir[side]
+	if dir < 5 then
+		dir = (((dir - 1) + (param2 % 4)) % 4) + 1
+	end
+	return dir
+end
+
 
 local function Tbl(list)
 	local tbl = {}
@@ -83,9 +105,9 @@ local function update1(self, pos, dir)
 end
 
 local function update2(self, pos1, dir1, pos2, dir2)
-	local fpos1,fdir1 = self:walk_tube_line(pos1, dir1)
-	local fpos2,fdir2 = self:walk_tube_line(pos2, dir2)
-	if not fdir1 or not fdir2 then -- line to long?
+	local fpos1,fdir1,cnt1 = self:walk_tube_line(pos1, dir1)
+	local fpos2,fdir2,cnt2 = self:walk_tube_line(pos2, dir2)
+	if cnt1 + cnt2 >= self.max_tube_length then -- line to long?
 		-- reset next tube(s) to head tube(s) again
 		local param2 = self:encode_param2(dir1, dir2, 2)
 		self:update_after_dig_tube(pos1, param2)
@@ -159,6 +181,8 @@ local function update_secondary_nodes_after_node_dug(self, pos, dirs)
 			tmp, npos = self:get_secondary_node(pos, dir) 
 		end
 		if npos then
+			self:del_from_cache(npos, Turn180Deg[dir])
+			self:del_from_cache(pos, dir)
 			self:update_secondary_node(npos, Turn180Deg[dir])
 			self:update_secondary_node(pos, dir)
 		end
@@ -175,6 +199,7 @@ function Tube:new(attr)
 		max_tube_length = attr.max_tube_length or 1000, 
 		primary_node_names = Tbl(attr.primary_node_names or {}), 
 		secondary_node_names = Tbl(attr.secondary_node_names or {}),
+		valid_node_contact_sides = {},
 		show_infotext = attr.show_infotext or false,
 		force_to_use_tubes = attr.force_to_use_tubes or false, 
 		clbk_after_place_tube = attr.after_place_tube,
@@ -182,10 +207,14 @@ function Tube:new(attr)
 		pairingList = {}, -- teleporting nodes
 		connCache = {}, -- connection cache {pos1 = {dir1 = {pos2 = pos2, dir2 = dir2},...}
 		special_node_names = {}, -- use add_special_node_names() to register nodes
+		debug_info = attr.debug_info,  -- debug_info(pos, text) 
 	}
 	o.valid_dirs = Tbl(o.dirs_to_check)
 	setmetatable(o, self)
 	self.__index = self
+	if attr.valid_node_contact_sides then
+		o:set_valid_sides_multiple(attr.valid_node_contact_sides)
+	end
 	return o
 end
 
@@ -194,6 +223,87 @@ function Tube:add_secondary_node_names(names)
 	for _,name in ipairs(names) do
 		self.secondary_node_names[name] = true
 	end
+end
+
+
+-- Defaults for valid sides configuration
+local function invert_booleans(tab)
+	local inversion = {}
+	for key, value in pairs(tab) do
+		inversion[key] = not value
+	end
+	return inversion
+end
+local valid_sides_default_true = Tbl(DirToSide)
+local valid_sides_default_false = invert_booleans(valid_sides_default_true)
+local function complete_valid_sides(valid_sides, existing_defaults)
+	local valid_sides_complete = {}
+	for side, default_value in pairs(existing_defaults) do
+		local new_value = valid_sides[side]
+		if new_value == nil then
+			valid_sides_complete[side] = default_value
+		else
+			valid_sides_complete[side] = new_value
+		end
+	end
+	return valid_sides_complete
+end
+
+-- Set sides which are valid
+-- with a table of name = valid_sides pairs
+function Tube:set_valid_sides_multiple(names)
+	for name, valid_sides in pairs(names) do
+		self:set_valid_sides(name, valid_sides)
+	end
+end
+
+-- Set sides which are invalid
+-- with a table of name = valid_sides pairs
+function Tube:set_invalid_sides_multiple(names)
+	for name, invalid_sides in pairs(names) do
+		self:set_invalid_sides(name, invalid_sides)
+	end
+end
+
+-- Set sides which are valid
+-- will assume all sides not given are invalid
+-- Only sets new sides, existing sides will remain
+function Tube:set_valid_sides(name, valid_sides)
+	local existing_defaults = self.valid_node_contact_sides[name] or valid_sides_default_false
+	self.valid_node_contact_sides[name] = complete_valid_sides(Tbl(valid_sides), existing_defaults)
+end
+
+-- Set sides which are invalid
+-- will assume all sides not given are valid
+-- Only sets new sides, existing sides will remain
+function Tube:set_invalid_sides(name, invalid_sides)
+	local existing_defaults = self.valid_node_contact_sides[name] or valid_sides_default_true
+	self.valid_node_contact_sides[name] = complete_valid_sides(invert_booleans(Tbl(invalid_sides)), existing_defaults)
+end
+
+-- Checks the list of valid node connection sides to
+-- see if a given side can be connected to
+function Tube:is_valid_side(name, side)
+	local valid_sides = self.valid_node_contact_sides[name]
+	if valid_sides then
+		return valid_sides[side] or false
+	end
+end
+
+-- Checks if a particular node can be connected to
+-- from a particular direction, taking into account orientation
+function Tube:is_valid_dir(node, dir)
+	if node and dir ~= nil and self.valid_node_contact_sides[node.name] then
+		local side = tubelib2.dir_to_side(dir, node.param2)
+		return self:is_valid_side(node.name, side)
+	end
+end
+
+-- Checks if a node at a particular position can be connected to
+-- from a particular direction, taking into account orientation
+function Tube:is_valid_dir_pos(pos, dir)
+	local node = self:get_node_lvm(pos)
+	return self:is_valid_dir(node, dir)
 end
 
 -- Register further nodes, which should be updated after
@@ -365,7 +475,7 @@ function Tube:stop_pairing(pos, oldmetadata, sFormspec)
 			local tele_pos = minetest.string_to_pos(oldmetadata.fields.tele_pos)
 			local peer_meta = M(tele_pos)
 			if peer_meta then
-				self:after_place_node(tele_pos, {peer_meta:get_int("tube_dir")})
+				self:after_dig_node(tele_pos, {peer_meta:get_int("tube_dir")})
 				peer_meta:set_string("channel", nil)
 				peer_meta:set_string("tele_pos", nil)
 				peer_meta:set_string("formspec", sFormspec)

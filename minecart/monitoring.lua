@@ -133,13 +133,14 @@ local function monitoring()
 			local pos = entity.object:get_pos()
 			local vel = entity.object:get_velocity()
 			local rot = entity.object:get_rotation()
-			if not minetest.get_node_or_nil(pos) then  -- unloaded area
-				lib.unload_cart(pos, vel, entity, item)
-				item.stopped = minecart.stopped(vel)
+			if pos and vel and rot then
+				if not minetest.get_node_or_nil(pos) then  -- unloaded area
+					lib.unload_cart(pos, vel, entity, item)
+					item.stopped = minecart.stopped(vel)
+				end
+				-- store last pos from cart
+				item.last_pos, item.last_vel, item.last_pitch, item.last_yaw = pos, vel, rot.x, rot.y
 			end
-			-- store last pos from cart
-			item.last_pos, item.last_vel, item.last_pitch, item.last_yaw = pos, vel, rot.x, rot.y
-
 		else  -- no cart running
 			local pos, vel, pitch, yaw = get_pos_vel_pitch_yaw(item)
 			if pos and vel then

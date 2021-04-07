@@ -109,7 +109,7 @@ local function check_sign(pos, mem)
 			return false
 		end
 		
-		local node = lib.get_node_lvm(pos)
+		local node = tubelib2.get_node_lvm(pos)
 		-- correct sign direction?
 		if mem.robot_param2 == node.param2 then
 			return true
@@ -143,7 +143,7 @@ end
 
 local function activate_sensor(pos, param2)
 	local pos1 = lib.next_pos(pos, param2)
-	local node = lib.get_node_lvm(pos1)
+	local node = tubelib2.get_node_lvm(pos1)
 	if node.name == "signs_bot:bot_sensor" then
 		node.name = "signs_bot:bot_sensor_on"
 		minetest.swap_node(pos1, node)
