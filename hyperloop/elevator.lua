@@ -563,6 +563,7 @@ minetest.register_node("hyperloop:elevator_door_top", {
 	drop = "",
 	paramtype = 'light',
 	paramtype2 = "facedir",
+	use_texture_alpha = hyperloop.CLIP,
 	is_ground_content = false,
 	groups = {snappy = 3, not_in_creative_inventory=1},
 })
@@ -601,6 +602,7 @@ minetest.register_node("hyperloop:elevator_door", {
 	drop = "",
 	paramtype = 'light',
 	paramtype2 = "facedir",
+	use_texture_alpha = hyperloop.CLIP,
 	is_ground_content = false,
 	groups = {snappy = 3, not_in_creative_inventory=1},
 })

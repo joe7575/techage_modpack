@@ -59,6 +59,11 @@ else
         
 end
 
+-- MT 5.4 new string mode
+hyperloop.CLIP  = minetest.features.use_texture_alpha_string_modes and "clip" or false
+hyperloop.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or true
+
+
 if tubelib2.version < 1.7 then
 	error("Hyperloop requires tubelib2 version 1.7 or newer!!!")
 else

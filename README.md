@@ -17,7 +17,7 @@ This modpack includes:
 - basic_materials: Needed items for many recipes
 - stamina: The "hunger" mod from "minetest-mods"
 - doc: Ingame documentation mod, used for minecart and signs_bot
-- unified_inventory: Player's inventory with crafting guide, bags, and more.
+- unified_inventory V1: Player's inventory with crafting guide, bags, and more.
 - tubelib2: Necessary library
 - safer_lua: Necessary library
 - lcdlib: Necessary library
@@ -43,6 +43,17 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 
 ### History
+
+
+#### 2021-05-14
+
+Updated Mods:
+- compost
+- minecart
+- signs_bot
+- techage
+- towercrane
+- unified_inventory
 
 
 #### 2021-02-07
