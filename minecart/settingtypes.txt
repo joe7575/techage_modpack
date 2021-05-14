@@ -1,0 +1,3 @@
+# If enabled, allows the complete automation of Minecarts by means of Hopper and station stop times.
+minecart_hopper_enabled (Hopper enabled) bool true
+minecart_teleport_enabled (Teleport enabled) bool false
