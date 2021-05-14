@@ -3,6 +3,7 @@ local S = minetest.get_translator("compost")
 compost = {}
 
 local CYCLE_TIME = 30
+local NUM_LEAVES = 2
 
 -- Version for compatibility checks
 compost.version = 1.0
@@ -90,9 +91,9 @@ end
 local function start_composter(pos)
 	local meta = minetest.get_meta(pos)
 	local num = meta:get_int("num") or 0
-	if num >= 4 then
-		-- 4 leaves for one compost node
-		meta:set_int("num", num - 4)
+	if num >= NUM_LEAVES then
+		-- NUM_LEAVES leaves for one compost node
+		meta:set_int("num", num - NUM_LEAVES)
 		minetest.swap_node(pos, {name = "compost:wood_barrel_1"})
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
@@ -102,7 +103,7 @@ local function add_item(pos, stack)
 	local meta = minetest.get_meta(pos)
 	local num = meta:get_int("num") or 0
 	
-	if num < 4 then
+	if num < NUM_LEAVES then
 		-- add futher leaves
 		meta:set_int("num", num + stack:get_count())
 		stack:set_count(0)
