@@ -42,9 +42,7 @@ Autocrafter=Autocrafter
 ### axle2power.lua ###
 
 TA2 Power Generator=TA2 Stromgenerator
-
 TA2 Power Generator: Overload fault?@n(restart with right-click)=TA2 Stromgenerator: Überlastfehler?@n(Neustart mit Rechtsklick)
-
 
 ### baborium.lua ###
 
@@ -167,6 +165,11 @@ TA Ceiling Lamp=TA Deckenlampe
 Cement Block=Zement Block
 Cement Powder=Zement Pulver
 
+### ceramic.lua ###
+
+TA4 Ceramic Material=TA4 Keramik Material
+TA4 Furnace Ceramic=TA4 Ofen Keramik
+
 ### charcoalpile.lua ###
 
 Dirt with Ash=Erde mit Asche
@@ -176,7 +179,7 @@ TA1 Charcoal=TA1 Holzkohle
 
 Allow public access to the chest=Erlaube öffentlichen Zugriff auf die Kiste
 Inventory,Pre-Assignment,Config=Inventar,Vorbelegung,Konfiguration
-Node label:= Blockbeschriftung:
+Node label:=Blockbeschriftung:
 TA2 Protected Chest=TA2 Gesicherte Kiste
 TA3 Protected Chest=TA3 Gesicherte Kiste
 TA4 Protected Chest=TA4 Gesicherte Kiste
@@ -195,6 +198,11 @@ Node number to send the events to=Knotennummer zum Senden der Events
 Node numbers to read the states from=Knotennummern zum Lesen der Zustände
 Send an event if state is equal or larger than=Senden ein Event wenn Status größer oder gleich als
 TA4 State Collector=TA4 Zuständesammler
+
+### concentrator.lua ###
+
+TA4 Tube Concentrator=TA4 Röhren Konzentrator
+Tube Concentrator=Röhren Konzentrator
 
 ### cooking.lua ###
 
@@ -215,7 +223,7 @@ TA4 Detector=TA4 Detektor
 
 ### display.lua ###
 
-Display no: = Display Nr.
+Display no: =Display Nr.
 TA4 Display=TA4 Display
 TA4 Display XL=TA4 Display XL
 
@@ -251,13 +259,13 @@ Blocks are disappeared=Blöcke sind verschwunden
 Click on all the blocks that are part of the door/gate=Klicke auf alle Blöcke, die Teil des Tores sind
 Ctrl,Inv=Ctrl,Inv
 Done=Fertig
-Error: Inventory already in use=Fehler: Inventar wird bereits genutzt
 Record=Aufzeichnen
 Recording...=Aufzeichnung...
 Remove=Entfernen
 Set=Setzen
 TA3 Door Controller II=TA3 Tür Controller II
 block positions are stored.=Block Positionen gespeichert.
+with door sound=mit Türgeräusch
 
 ### drillbox.lua ###
 
@@ -347,7 +355,6 @@ power=Energie
 ### forceload.lua ###
 
 Area already loaded or max. number of Forceload Blocks reached!=Bereich bereits geladen oder maximale Anzahl von Forceload Blöcken erreicht!
-
 List of your Forceload Blocks:=Liste der Forceload Blöcke
 Priv missing=Rechte fehlen
 Punch the block to make the area visible.=Schlage auf den Bock um den Bereich anzuzeigen.
@@ -363,8 +370,13 @@ To add fuel punch@nthis block@nwith a fuel container=Um Brennstoff nachzufüllen
 
 ### fuelcell.lua ###
 
+Cat. 1 generator=Kat. 1 Generator
+Cat. 2 generator=Kat. 2 Generator
 Fuel Cell=Brennstoffzelle
+If set, fuelcell will work@nas cat. 1 generator=Wenn gesetzt, Brennstoffzelle@narbeitet als  Kat. 1 Generator
 TA4 Fuel Cell=TA4 Brennstoffzelle
+TA4 Fuel Cell Gen1=TA4 Brennstoffzelle Gen1
+TA4 Fuel Cell Gen2=TA4 Brennstoffzelle Gen2
 
 ### fuelcellstack.lua ###
 
@@ -503,6 +515,14 @@ TA Lamp Holder Copper=TA Lampenhalter Kupfer
 TA Lamp Holder Gold=TA Lampenhalter Gold
 TA Lamp Holder White=TA Lampenhalter Weiß
 
+### laser.lua ###
+
+Laser beam error!=Laserstrahl Fehler!
+TA4 Laser Beam Emitter=TA4 Laserstrahl Sender
+TA4 Laser Beam Receiver=TA4 Laserstrahl Empfänger
+Valid destination positions:=Gültige Zielpositionen
+to=bis
+
 ### lib.lua ###
 ### sensorchest.lua ###
 
@@ -532,11 +552,32 @@ Liquid Sampler=Flüssigkeitensammler
 
 no usable water=Kein brauchbares Wasser
 
+### logic_block.lua ###
+
+'me' has to be used for the own block number.@n='me' wird für die eigene Blocknummer verwendet.@n
+'~@=' means: not equal@n='~@=' bedeutet: ungleich@n
+@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=@n<input-expression> ist ein boolescher Ausdruck,@nbei dem Eingabenummern ausgewertet werden.@n
+@n<output> is the block number to which the@ncommand should be sent.@n=@n<output> ist die Blocknummer, an die der Befehl@ngesendet werden soll.@n
+@nAll rules are checked with each received@ncommand.=@nAlle Regeln werden mit jedem empfangenen@nBefehl überprüft. 
+@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=@nBeispiele:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n
+@nRule:@n<output> @= on/off if <input-expression> is true@n=@nRegel:@n<output> @= on/off if <input-expression> is true@n
+@nThe internal processing time for all@ncommands is 100 ms.=@nDie interne Durchlaufzeit für alle@nKommandos beträgt 100 ms.
+@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=@nGültige Operatoren:@nand   or   on   off   @=@=   ~@=   (   )@n
+Blocking Time=Sperrzeit
+Help=Hilfe
+Inputs=Eingänge
+Outputs=Ausgänge
+Rules=Regeln
+Send an 'on'/'off' command if the@nexpression becomes true.@n=Sende ein 'on'/'off' Kommando, wenn der @nAusdruck wahr wird.@n
+Syntax=Syntax
+
+### logic_block.lua ###
 ### lua_logic.lua ###
 
 TA3 Logic Block=TA3 Logikblock
 Update=Update
 
+### logic_block.lua ###
 ### lua_logic.lua ###
 ### power_terminal2.lua ###
 
@@ -644,16 +685,17 @@ TA4 Player Detector=TA4 Spieler Detektor
 
 ### powder.lua ###
 
+Aluminum Powder=Aluminium Pulver
+Clay Powder=Ton Pulver
 Iron Powder=Eisen Pulver
 Leave Powder=Laub Pulver
 Needle Powder=Nadel Pulver
+Silver Sandstone Powder=Silbersandstein Pulver
 
 ### power2axle.lua ###
 
 TA3 Electric Motor=TA3 Elektromotor
-
 TA3 Electric Motor: Overload fault?@n(restart with right-click)=TA3 Elektromotor: Überlastfehler?@n(Neustart mit Rechtsklick)
-
 
 ### power_line.lua ###
 
@@ -677,9 +719,7 @@ TA3 Power Terminal Old=TA3 Strom Terminal Alt
 The network is overloaded!=Das Stromnetz ist überlastet!
 The network load is almost at the limit!=Das Stromnetz ist ziemlich am Limit!
 Turned on:=Eingeschaltet:
-
 With %u of a maximum of %u blocks you are almost at the limit!=Mit %u von maximal %u Blöcken bist du fast am Limit!
-
 
 ### power_terminal.lua ###
 ### power_terminal2.lua ###
@@ -692,7 +732,8 @@ Accu Box=Akkublock
 Current power:=Strom aktuell:
 Energy storage=Engergiespeicher
 Energy stored:=Energie gespeichert
-Fuel cell=Brennstoffzelle
+Fuel cell cat. 1=Brennstoffzelle Kat. 1
+Fuel cell cat. 2=Brennstoffzelle Kat. 2
 Generators=Generatoren
 Intake=Stromaufnahme
 Max. needed power=Max. benötigter Strom
@@ -715,6 +756,11 @@ Type=Typ
 Wind turbine=Windkraftanlage
 ku is needed=ku wird benötigt
 
+### power_terminal2.lua ###
+### terminal.lua ###
+
+Enter=Eingeben
+
 ### powerswitch.lua ###
 
 TA Power Switch=TA Stromschalter
@@ -727,7 +773,6 @@ TA Power Switch Box=TA Stromschalterbox
 ### programmer.lua ###
 
 TechAge Programmer (right @= read number, left @= write numbers)=TechAge Programmer (rechts @= lese Nummer, links @= schreibe Nummern)
-
 [TechAge Programmer] Error: invalid numbers!=[TechAge Programmer] Fehler: ungültige Nummern!
 [TechAge Programmer] Error: programmer not supported!=[TechAge Programmer] Fehler: Programmer wird nicht unterstützt!
 [TechAge Programmer] Unknown node on=[TechAge Programmer]  Unbekannter Block bei
@@ -764,9 +809,7 @@ Digging depth=Grabungstiefe
 Hole size=Lochgröße
 Quarry=Steinbrecher
 Start level=Startebene
-
 Start level @= 0@nmeans the same level@nas the quarry is placed=Startebene @= 0@nbedeutet gleiche Ebene@nwie der Steinbrecher
-
 area is protected=Bereich ist geschützt
 finished=fertig
 inventory full=Inventar ist voll
@@ -791,6 +834,10 @@ Flint and Iron=Flint and Iron
 TA1 Iron Ingot=TA1 Eisenbarren
 [Bucket] Lava can only be placed below sea level!=Lava kann nur unterhalb der Meerehöhe platziert werden!
 
+### recycler.lua ###
+
+Recycler=Recycler
+
 ### redstone.lua ###
 
 Red Stone=Rotstein
@@ -814,7 +861,6 @@ TA3 Repeater=TA3 Wiederholer
 ### rotor.lua ###
 
 Nacelle is missing=Die Gondel fehlt
-Not suitable position!=Ungeeignete Position!
 TA4 Carbon Fiber=TA4 Kohlefaser
 TA4 Rotor Blade=TA4 Rotorblatt
 TA4 Wind Turbine=TA4 Windkraftanlage
@@ -888,12 +934,14 @@ TA4 LED Street Lamp Pole=TA4 LED Lampenmast
 TA4 Low Power Box=TA4 Niederspannungsverteilerbox
 TA4 Low Power Cable=TA4 Niederspannungskabel
 
+### ta4_cable_wall_entry.lua ###
+
+TA4 Cable Wall Entry=TA4 Kabel/Wanddurchbruch
+
 ### ta4_chest.lua ###
 
 Empty the slots always @nfrom right to left=Speicherplätze von rechts nach links leeren
-
 Never completely empty the slots@nwith the pusher to keep the item assignment=Speicherplätze mit dem Schieber nie ganz@nleeren, um die Item-Zuordnung beizubehalten
-
 Size=Größe
 TA4 8x2000 Chest=TA4 8x2000 Kiste
 Unlock=Entsperren
@@ -920,6 +968,8 @@ TA4 Reactor=TA4 Reaktor
 
 Configure up to 8 items @nto be pushed by the injector=Konfiguriere bis zu 8 Gegenstände \n die vom Injektor weitergegeben werden sollen
 Injector=Injektor
+Switch to pull mode @nto pull items out of inventory slots @naccording the injector configuration=Wechsle in den "Ziehe-Modus",@num Items gemäß der Injektor-Konfiguration@naus einem Inventar zu ziehen
+pull mode= Ziehe-Modus
 
 ### ta4_liquid_filter.lua ###
 
@@ -954,7 +1004,6 @@ TA Tank Cart=TA Tankwagen
 
 ### terminal.lua ###
 
-Enter=Eingeben
 Switched to private use!=Zur privaten Nutzung umgeschaltet
 Switched to public use!=Zur öffentlichen Nutzung umgeschaltet
 Syntax error, try help=Syntax Fehler, nutze help
@@ -988,6 +1037,14 @@ Use a trowel to remove the node.=Verwende eine Kelle, um den Block zu entfernen.
 
 Tube Wall Entry=Tube Wanddurchbruch
 
+### tubes.lua ###
+
+TechAge Tube=TechAge Röhre
+
+### tubes_ta4.lua ###
+
+TA4 Tube=TA4 Röhre
+
 ### turbine.lua ###
 
 TA3 Turbine=TA3 Turbine
@@ -1004,6 +1061,13 @@ TA Valve=TA Ventil
 TA3 Valve closed=TA3 Ventil zu
 TA3 Valve open=TA3 Ventil offen
 
+### waterinlet.lua ###
+
+Error: No natural water!=Fehler: Kein natürliches Wasser!
+Error: No water available!=Fehler: Kein Wasser verfügbar!
+Error: Not on sea level!=Fehler: Nicht auf Meereshöhe!
+TA4 Water Inlet=TA4 Wasssereinlass
+
 ### waterpump.lua ###
 
 TA4 Water Pump=Wasserpumpe
@@ -1012,9 +1076,7 @@ Water Pump=Wasserpumpe
 ### windturbine_lib.lua ###
 
 Here is not enough water (41x41 m)!=Hier ist nicht genug Wasser (41x41 m)!
-
-Here is not enough wind (A free air space of 41x41x21 m is necessary)!=Hier ist nicht genug Wind (Ein freier Luftraum von 41x41x21 m ist notwendig)!
-
+Here is not enough wind@n(A free air space of 41x41x21 m is necessary)!=Hier ist nicht genug Wind@n(Ein freier Luftraum von 41x41x21 m ist notwendig)!
 The next wind turbines is too close!= Die nächste Windkraftanlagen iat zu nahe!
 This is a=Dies ist ein
 This is no ocean water!= Dies ist kein Meerwasser!
@@ -1022,3 +1084,9 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 [TA4 Wind Turbine]=[TA4 Windkraftanlage]
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
+
+
+##### not used anymore #####
+
+Fuel cell=Brennstoffzelle
+Not suitable position!=Ungeeignete Position!

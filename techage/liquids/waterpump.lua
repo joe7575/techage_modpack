@@ -172,7 +172,7 @@ minetest.register_node("techage:t4_waterpump", {
 	on_timer = node_timer,
 	
 	paramtype2 = "facedir",
-	groups = {cracky=2, crumbly=2, choppy=2},
+	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory = 1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 })
@@ -186,12 +186,12 @@ techage.register_node({"techage:t4_waterpump"}, {
 	end,
 })	
 
-minetest.register_craft({
-	output = "techage:t4_waterpump",
-	recipe = {
-		{"", "default:mese_crystal", ""},
-		{"", "techage:ta3_liquidsampler_pas", ""},
-		{"", "techage:ta4_wlanchip", ""},
-	},
-})
+--minetest.register_craft({
+--	output = "techage:t4_waterpump",
+--	recipe = {
+--		{"", "default:mese_crystal", ""},
+--		{"", "techage:ta3_liquidsampler_pas", ""},
+--		{"", "techage:ta4_wlanchip", ""},
+--	},
+--})
 

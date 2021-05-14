@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	MIT
 	See license.txt for more information

@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,10 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -112,16 +109,33 @@ local function preassigned_slots(pos)
 	return table.concat(tbl, "")
 end
 
+local function status(mem)
+	if mem.error then
+		if type(mem.error) == "string" then
+			return mem.error
+		else
+			return dump(mem.error)
+		end
+	end
+	if mem.running then
+		return S("running")
+	end
+	if mem.charging then
+		return S("charging")
+	end
+	return S("stopped")
+end	
+
 local function formspec(pos, mem)
 	mem.running = mem.running or false
-	local cmnd = mem.running and "stop;"..I("Off") or "start;"..I("On") 
+	local cmnd = mem.running and "stop;"..S("Off") or "start;"..S("On") 
 	local bot = not mem.running and "image[0.6,0;1,1;signs_bot_bot_inv.png]" or ""
 	local current_capa = mem.capa or (signs_bot.MAX_CAPA * 0.9)
-	return "size[9,7.6]"..
+	return "size[9,8.2]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"label[2.1,0;"..I("Signs").."]label[5.3,0;"..I("Other items").."]"..
+	"label[2.1,0;"..S("Signs").."]label[5.3,0;"..S("Other items").."]"..
 	"image[0.6,0;1,1;signs_bot_form_mask.png]"..
 	bot..
 	preassigned_slots(pos)..
@@ -132,24 +146,27 @@ local function formspec(pos, mem)
 	"label[5.3,0.5;1]label[6.3,0.5;2]label[7.3,0.5;3]label[8.3,0.5;4]"..
 	"list[context;main;5,1;4,2;]"..
 	"label[5.3,3;5]label[6.3,3;6]label[7.3,3;7]label[8.3,3;8]"..
-	"button[0.2,1;1.5,1;config;"..I("Config").."]"..
+	"button[0.2,1;1.5,1;config;"..S("Config").."]"..
 	"button[0.2,2;1.5,1;"..cmnd.."]"..
-	"list[current_player;main;0.5,3.8;8,4;]"..
+	"label[1,3.6;"..status(mem).."]"..
+	"list[current_player;main;0.5,4.4;8,4;]"..
 	"listring[context;main]"..
 	"listring[current_player;main]"
 end
 
-local function formspec_cfg(pos, mem)
-	return "size[9,7.6]"..
+local function formspec_cfg()
+	return "size[9,8.2]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"label[5.3,0;"..I("Preassign slots items").."]"..
+	"label[5.3,0;"..S("Preassign slots items").."]"..
 	"label[5.3,0.5;1]label[6.3,0.5;2]label[7.3,0.5;3]label[8.3,0.5;4]"..
 	"list[context;filter;5,1;4,2;]"..
 	"label[5.3,3;5]label[6.3,3;6]label[7.3,3;7]label[8.3,3;8]"..
-	"button[0.2,1;1.5,1;back;"..I("Back").."]"..
-	"list[current_player;main;0.5,3.8;8,4;]"
+	"button[0.2,1;1.5,1;back;"..S("Back").."]"..
+	"list[current_player;main;0.5,4.4;8,4;]"..
+	"listring[context;filter]"..
+	"listring[current_player;main]"
 end
 
 local function get_capa(itemstack)
@@ -166,7 +183,7 @@ local function set_capa(pos, oldnode, digger, capa)
 	capa = techage.power.percent(signs_bot.MAX_CAPA, capa)
 	capa = (math.floor((capa or 0) / 5)) * 5
 	meta:set_int("capa", capa)
-	local text = I("Robot Box ").." ("..capa.." %)"
+	local text = S("Robot Box").." ("..capa.." %)"
 	meta:set_string("description", text)
 	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
 	local left_over = inv:add_item("main", node)
@@ -179,7 +196,7 @@ function signs_bot.infotext(pos, state)
 	local meta = M(pos)
 	local number = meta:get_string("number")
 	state = state or "<unknown>"
-	meta:set_string("infotext", I("Robot Box ")..number..": "..state)
+	meta:set_string("infotext", S("Robot Box").." "..number..": "..state)
 end
 
 local function reset_robot(pos, mem)
@@ -205,7 +222,7 @@ function signs_bot.start_robot(base_pos)
 		mem.capa = nil
 	end
 	meta:set_string("formspec", formspec(base_pos, mem))
-	signs_bot.infotext(base_pos, I("running"))
+	signs_bot.infotext(base_pos, S("running"))
 	reset_robot(base_pos, mem)
 	minetest.get_node_timer(base_pos):start(CYCLE_TIME)
 	return true
@@ -224,9 +241,9 @@ function signs_bot.stop_robot(base_pos, mem)
 			mem.charging = false
 		end
 		if mem.power_available then
-			signs_bot.infotext(base_pos, I("charging"))
+			signs_bot.infotext(base_pos, S("charging"))
 		else
-			signs_bot.infotext(base_pos, I("stopped"))
+			signs_bot.infotext(base_pos, S("stopped"))
 		end
 		meta:set_string("formspec", formspec(base_pos, mem))
 		signs_bot.remove_robot(mem)
@@ -285,7 +302,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.update then
 		meta:set_string("formspec", formspec(pos, mem))
 	elseif fields.config then
-		meta:set_string("formspec", formspec_cfg(pos, mem))
+		meta:set_string("formspec", formspec_cfg())
 	elseif fields.back then
 		meta:set_string("formspec", formspec(pos, mem))
 	elseif fields.start then
@@ -373,6 +390,7 @@ end
 local function on_power(pos)
 	local mem = tubelib2.get_mem(pos)
 	mem.power_available = true
+	mem.charging = true
 	signs_bot.infotext(pos, S("charging"))
 end
 
@@ -383,7 +401,7 @@ local function on_nopower(pos)
 end
 
 minetest.register_node("signs_bot:box", {
-	description = I("Signs Bot Box"),
+	description = S("Signs Bot Box"),
 	stack_max = 1,
 	tiles = {
 		-- up, down, right, left, back, front
@@ -417,7 +435,7 @@ minetest.register_node("signs_bot:box", {
 		meta:set_string("formspec", formspec(pos, mem))
 		meta:set_string("signs_bot_cmnd", "turn_off")
 		meta:set_int("err_code", 0)
-		signs_bot.infotext(pos, I("stopped"))
+		signs_bot.infotext(pos, S("stopped"))
 		if minetest.global_exists("techage") then
 			techage.ElectricCable:after_place_node(pos)
 			mem.capa = get_capa(itemstack)
@@ -473,12 +491,12 @@ minetest.register_node("signs_bot:box", {
 			on_power = function(pos)
 				local mem = tubelib2.get_mem(pos)
 				mem.power_available = true
-				signs_bot.infotext(pos, I("charging"))
+				signs_bot.infotext(pos, S("charging"))
 			end,
 			on_nopower = function(pos)
 				local mem = tubelib2.get_mem(pos)
 				mem.power_available = false
-				signs_bot.infotext(pos, I("no power"))
+				signs_bot.infotext(pos, S("no power"))
 			end,
 			nominal = PWR_NEEDED,
 		}
@@ -516,22 +534,22 @@ end
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "box", {
-		name = I("Signs Bot Box"),
+		name = S("Signs Bot Box"),
 		data = {
 			item = "signs_bot:box",
 			text = table.concat({
-				I("The Box is the housing of the bot."),
-				I("Place the box and start the bot by means of the 'On' button."), 
-				I("If the mod techage is installed, the bot needs electrical power."),
+				S("The Box is the housing of the bot."),
+				S("Place the box and start the bot by means of the 'On' button."), 
+				S("If the mod techage is installed, the bot needs electrical power."),
 				"",
-				I("The bot leaves the box on the right side."),
-				I("It will not start, if this position is blocked."),
+				S("The bot leaves the box on the right side."),
+				S("It will not start, if this position is blocked."),
 				"",
-				I("To stop and remove the bot, press the 'Off' button."),
+				S("To stop and remove the bot, press the 'Off' button."),
 				"",
-				I("The box inventory simulates the inventory of the bot."),
-				I("You will not be able to access the inventory, if the bot is running."),
-				I("The bot can carry up to 8 stacks and 6 signs with it."),
+				S("The box inventory simulates the inventory of the bot."),
+				S("You will not be able to access the inventory, if the bot is running."),
+				S("The bot can carry up to 8 stacks and 6 signs with it."),
 			}, "\n")		
 		},
 	})

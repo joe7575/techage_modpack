@@ -25,7 +25,7 @@ local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = MAX_PIPE_LENGHT, 
 	show_infotext = false,
-	force_to_use_tubes = true,
+	force_to_use_tubes = false,
 	tube_type = "pipe2",
 	primary_node_names = {
 		"techage:ta3_pipeS", "techage:ta3_pipeA", 
@@ -77,6 +77,7 @@ minetest.register_node("techage:ta3_pipeS", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
@@ -111,6 +112,7 @@ minetest.register_node("techage:ta3_pipeA", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory=1},

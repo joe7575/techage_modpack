@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -11,14 +11,8 @@
 	Bot farming commands
 ]]--
 
--- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -65,7 +59,7 @@ signs_bot.register_botcommand("sow_seed", {
 	mod = "farming",
 	params = "<slot>",
 	num_param = 1,
-	description = I("Sow farming seeds\nin front of the robot"),
+	description = S("Sow farming seeds\nin front of the robot"),
 	check = function(slot)
 		slot = tonumber(slot)
 		return slot and slot > 0 and slot < 9
@@ -97,7 +91,10 @@ local function harvesting(base_pos, mem)
 			-- Do not cache the result of get_node_drops; it is a probabilistic function!
 			local drops = minetest.get_node_drops(node.name)
 			for _,itemstring in ipairs(drops) do
-				bot_inv_put_item(base_pos, 0,  ItemStack(itemstring))
+				local leftover = bot_inv_put_item(base_pos, 0,  ItemStack(itemstring))
+				if leftover and leftover:get_count() > 0 then
+					signs_bot.lib.drop_items(mem.robot_pos, leftover)
+				end
 			end
 		end
 	end
@@ -107,7 +104,7 @@ signs_bot.register_botcommand("harvest", {
 	mod = "farming",
 	params = "",
 	num_param = 0,
-	description = I("Harvest farming products\nin front of the robot\non a 3x3 field."),
+	description = S("Harvest farming products\nin front of the robot\non a 3x3 field."),
 	cmnd = function(base_pos, mem)
 		if not mem.steps then
 			mem.pos_tbl = signs_bot.lib.gen_position_table(mem.robot_pos, mem.robot_param2, 3, 3, 0)
@@ -145,7 +142,7 @@ signs_bot.register_botcommand("plant_sapling", {
 	mod = "farming",
 	params = "<slot>",
 	num_param = 1,
-	description = I("Plant a sapling\nin front of the robot"),
+	description = S("Plant a sapling\nin front of the robot"),
 	check = function(slot)
 		slot = tonumber(slot)
 		return slot and slot > 0 and slot < 9
@@ -168,7 +165,7 @@ turn_around]]
 
 signs_bot.register_sign({
 	name = "farming", 
-	description = I('Sign "farming"'), 
+	description = S('Sign "farming"'), 
 	commands = CMD, 
 	image = "signs_bot_sign_farming.png",
 })
@@ -184,14 +181,14 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "farming", {
-		name = I("Sign 'farming'"),
+		name = S("Sign 'farming'"),
 		data = {
 			item = "signs_bot:farming",
 			text = table.concat({
-				I("Used to harvest and seed a 3x3 field."),
-				I("Place the sign in front of the field."), 
-				I("The seed to be placed has to be in the first inventory slot of the bot."),
-				I("When finished, the bot turns."),
+				S("Used to harvest and seed a 3x3 field."),
+				S("Place the sign in front of the field."), 
+				S("The seed to be placed has to be in the first inventory slot of the bot."),
+				S("When finished, the bot turns."),
 			}, "\n")		
 		},
 	})

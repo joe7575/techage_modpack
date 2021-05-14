@@ -2,7 +2,7 @@ local S = minetest.get_translator("compost")
 
 compost = {}
 
-local CYCLE_TIME = 10
+local CYCLE_TIME = 30
 
 -- Version for compatibility checks
 compost.version = 1.0

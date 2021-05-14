@@ -119,6 +119,7 @@ local function node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
+	State:trigger_state(pos, nvm)
 	return true
 end
 
@@ -187,6 +188,7 @@ minetest.register_node("techage:ta4_solar_inverter", {
 			sides = {R = 1},
 			ntype = "gen1",
 			nominal = PWR_PERF,
+			regenerative = true,
 		},
 		ele2 = {
 			sides = {L = 1},

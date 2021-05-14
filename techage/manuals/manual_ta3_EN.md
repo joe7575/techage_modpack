@@ -226,7 +226,7 @@ See also TA4 heater.
 
 Is part of the TA3 industrial furnace.
 
-The oil burner can be operated with fuel oil, naphtha or gasoline. The burning time is 80 s for fuel oil, 90 s for naphtha and 100 s for gasoline.
+The oil burner can be operated with crude oil, fuel oil, naphtha or gasoline. The burning time is 64 s for crude oil, 80 s for fuel oil, 90 s for naphtha and 100 s for gasoline.
 
 The oil burner can only hold 50 units of fuel. An additional tank and a pump are therefore advisable.
 
@@ -307,7 +307,6 @@ The maximum pipe length is 100 m.
 The blocks serve as wall openings for tubes, so that no holes remain open.
 
 [ta3_pipe_wall_entry|image]
-
 
 ### TA Valve
 
@@ -510,31 +509,45 @@ Note: With the programmer, block numbers can be easily collected and configured.
 
 ### TA3 Logic Block
 
-The TA3 logic block can be programmed so that one or more input signals are linked to one output signal and sent. This block can therefore replace various logic elements such as AND, OR, NOT, XOR etc.
-Input signals for the logic block are `on` / `off` commands. An `on` is a logical `true`, an `off` corresponds to the `false`.
-Input signals are referenced by the number, e.g. `n123` for the signal from the transmitter with the number 123.
+The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND, OR, NOT, XOR etc. 
+Input commands for the logic block are `on` /` off` commands.
+Input commands are referenced via the number, e.g. `1234` for the command from the sender with the number 1234. 
+The same applies to output commands.
 
-** Examples for the IF expression **
+A rule is structured as follows: 
+
+```
+<output> = on/off if <input-expression> is true
+```
+
+`<output>` is the block number to which the command should be sent.
+`<input-expression>` is a boolean expression where input numbers are evaluated.
+
+
+
+**Examples for the input expression**
 
 Negate signal (NOT):
 
-    not n123
+    1234 == off
 
 Logical AND:
 
-    n123 and n345
+    1234 == on and 2345 == on
 
 Logical OR:
 
-    n123 or n345
+    1234 == on or 2345 == on
 
-If the `if` expression is true, the `then` branch is executed, otherwise the `else` branch.
-With `then` and `else` you can either enter `true`, `false`, or nothing:
-- `true` will lead to a `on` command
-- `false` will lead to a `off` command
-- if nothing is entered, nothing is sent
+The following operators are allowed:  `and`   `or`   `on`   `off`   `me`   `==`   `~=`   `(`   `)`
 
-The target block or blocks for the output signal must be entered in the target number field.
+If the expression is true, a command is sent to the block with the `<output>` number. 
+Up to four rules can be defined, whereby all rules are always checked when a command is received. 
+The internal processing time for all commands is 100 ms. 
+
+Your own node number can be referenced using the keyword `me`. This makes it possible for the block to send itself a command (flip-flop function). 
+
+The blocking time defines a pause after a command, during which the logic block does not accept any further external commands. Commands received during the blocking period are thus discarded. The blocking time can be defined in seconds. 
 
 [ta3_logic|image]
 
@@ -611,7 +624,15 @@ The door controller is used to control the TA3 door/gate blocks. With the door c
 
 ### TA3 Door Controller II
 
-The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Remove" or "Set" buttons. If an `on` /` off` command is sent to the Door Controller II, it removes or sets the blocks as well.
+The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Remove" or "Set" buttons. If an `on` /`off` command is sent to the Door Controller II, it removes or sets the blocks as well.
+
+Individual blocks can be set, removed or replaced by other blocks via an `exchange` command. The slot number of the inventory (1 .. 16) must be transferred as payload, i.e.:
+
+```
+$send_cmnd(node_number, "exchange", 2)
+```
+
+This can also be used to simulate extendable stairs and the like. 
 
 [ta3_doorcontroller|image]
 
@@ -688,7 +709,7 @@ The processing power is 6 items every 2 s.
 
 ### TA3 Distributor
 
-The function of the TA3 distributor corresponds to that of TA2 with another operating mode.
+The function of the TA3 distributor corresponds to that of TA2.
 The processing power is 12 items every 4 s.
 
 [ta3_distributor|image]
@@ -742,13 +763,19 @@ The processing power is 2 items every 4 s. The block requires 6 ku of electricit
 
 [ta3_grinder|image]
 
+### TA3 Injector
 
-### TA3 Liquid Sampler
+The injector is a TA3 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest to pass them on to machines with recipes (autocrafter, industrial furnace and electronic fab).
 
-The function corresponds to that of TA2.
-The processing power is 2 items every 8 s. The block requires 5 ku of electricity.
+When passing on, only one position in the inventory is used in the target machine. If, for example, only the first three entries are configured in the injector, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.
 
-[ta3_liquidsampler|image]
+The injector can also be switched to "pull mode". Then he only pulls items out of the chest from the positions that are defined in the configuration of the injector. In this case, item type and position must match. This allows to empty specific inventory entries of a chest. 
+
+The processing power is up to 8 times one item every 4 seconds.
+
+[ta3_injector|image]
+
+
 
 
 ## Tools

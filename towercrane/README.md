@@ -33,8 +33,9 @@ default
 # License
 Copyright (C) 2017-2020 Joachim Stolberg  
 Code: Licensed under the GNU LGPL version 2.1 or later. See LICENSE.txt and http://www.gnu.org/licenses/lgpl-2.1.txt  
-Textures: CC0 (by Ammoth)
+Textures: Mostly CC0 (by Ammoth)
 
+ * `morelights_extras_blocklight.png`: CC BY-SA 4.0 (by random-geek)
 
 # History:
 * 2017-06-04  v0.01  first version

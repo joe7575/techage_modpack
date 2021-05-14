@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
@@ -155,6 +155,7 @@ minetest.register_node("minecart:hopper", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
+	use_texture_alpha = minecart.CLIP,
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),

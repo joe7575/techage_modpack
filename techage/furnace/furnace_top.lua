@@ -212,14 +212,22 @@ tiles.pas = {
 	-- up, down, right, left, back, front
 	"techage_concrete.png^techage_frame_ta#_top.png",
 	"techage_concrete.png^techage_frame_ta#_top.png",
-	"techage_concrete.png^techage_frame_ta#.png",
-	"techage_concrete.png^techage_frame_ta#.png",
+	"techage_concrete.png^techage_frame_ta#.png^techage_appl_outp.png",
+	"techage_concrete.png^techage_frame_ta#.png^techage_appl_inp.png",
 	"techage_concrete.png^techage_frame_ta#.png",
 	"techage_concrete.png^techage_appl_furnace.png^techage_frame_ta#.png",
 }
 tiles.act = tiles.pas
 
 local tubing = {
+	on_inv_request = function(pos, in_dir, access_type)
+		if access_type == "push" then
+			local meta = minetest.get_meta(pos)
+			if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
+				return meta:get_inventory(), "src"
+			end
+		end
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("pull_dir") == in_dir then

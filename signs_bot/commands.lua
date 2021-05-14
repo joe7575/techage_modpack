@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,12 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
+-- Load support for I18n.
+local S = signs_bot.S
+
 local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
 local ci = dofile(MP.."/interpreter.lua")
 
 local lib = signs_bot.lib
@@ -73,7 +72,7 @@ end
 function signs_bot.get_commands()
 	local tbl = {}
 	for _,mod in ipairs(SortedMods) do
-		tbl[#tbl+1] = mod.." "..I("commands:")
+		tbl[#tbl+1] = mod.." "..S("commands:")
 		for _,cmnd in ipairs(SortedKeys[mod]) do
 			local item = tCommands[cmnd]
 			tbl[#tbl+1] = "    "..item.name.." "..item.params
@@ -90,7 +89,7 @@ function signs_bot.get_help_text(cmnd)
 			return item.description
 		end
 	end
-	return I("unknown command")
+	return S("unknown command")
 end	
 	
 function signs_bot.check_commands(pos, text)
@@ -154,12 +153,16 @@ local function activate_sensor(pos, param2)
 	end
 end
 
-local function bot_error(base_pos, mem, err)
+local function bot_error(base_pos, mem, err, cmd)
 	minetest.sound_play('signs_bot_error', {pos = base_pos})
 	minetest.sound_play('signs_bot_error', {pos = mem.robot_pos})
-	print(err)
-	signs_bot.infotext(base_pos, err)
-	mem.error = true
+	if cmd then
+		signs_bot.infotext(base_pos, err .. ":\n'" .. cmd .. "'")
+		mem.error = err .. ": '" .. cmd .. "'"
+	else
+		signs_bot.infotext(base_pos, err)
+		mem.error = err
+	end
 	return false
 end
 
@@ -176,9 +179,9 @@ local function power_consumption(mem, cmnd)
 end
 
 function signs_bot.run_next_command(base_pos, mem)
-	local res, err = ci.run_script(base_pos, mem)
+	local res, err, cmd = ci.run_script(base_pos, mem)
 	if res == ci.ERROR then
-		return bot_error(base_pos, mem, err)
+		return bot_error(base_pos, mem, err, cmd)
 	elseif res == ci.EXIT then
 		signs_bot.stop_robot(base_pos, mem)
 		return false
@@ -198,31 +201,31 @@ end
 signs_bot.register_botcommand("repeat", {
 	mod = "core",
 	params = "<num>",	
-	description = I("start of a 'repeat..end' block"),
+	description = S("start of a 'repeat..end' block"),
 })	
 
 signs_bot.register_botcommand("end", {
 	mod = "core",
 	params = "",	
-	description = I("end command of a 'repeat..end' block"),
+	description = S("end command of a 'repeat..end' block"),
 })	
 
 signs_bot.register_botcommand("call", {
 	mod = "core",
 	params = "<label>",	
-	description = I("call a subroutine (with 'return' statement)"),
+	description = S("call a subroutine (with 'return' statement)"),
 })	
 
 signs_bot.register_botcommand("return", {
 	mod = "core",
 	params = "",	
-	description = I("return from a subroutine"),
+	description = S("return from a subroutine"),
 })	
 
 signs_bot.register_botcommand("jump", {
 	mod = "core",
 	params = "<label>",	
-	description = I("jump to a label"),
+	description = S("jump to a label"),
 })	
 
 local function move(mem, any_sensor)
@@ -242,7 +245,7 @@ signs_bot.register_botcommand("move", {
 	mod = "move",
 	params = "<steps>",	
 	num_param = 1,
-	description = I([[Move the robot 1..999 steps forward
+	description = S([[Move the robot 1..999 steps forward
 without paying attention to any signs.
 Up and down movements also become
 counted as steps.]]),
@@ -262,7 +265,7 @@ signs_bot.register_botcommand("cond_move", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I([[Walk until a sign or obstacle is
+	description = S([[Walk until a sign or obstacle is
 reached. Then continue with the next command.
 When a sign has been reached, 
 the current program is ended
@@ -280,4 +283,22 @@ new program from the sign]]),
 	end,
 })
 
-	
+signs_bot.register_botcommand("print", {
+	mod = "debug",
+	params = "<text>",
+	num_param = 1,
+	description = S([[Print given text as chat message.
+For two or more words, use the '*' character 
+instead of spaces, like "Hello*world"]]),
+	check = function(text)
+		return text ~= ""
+	end,
+	cmnd = function(base_pos, mem, text)
+		text = text:gsub("*", " ")
+		local owner = M(base_pos):get_string("owner")
+		if owner ~= "" and text ~= "" then
+			minetest.chat_send_player(owner, "Bot: " .. text)
+		end
+		return signs_bot.DONE
+	end,
+})

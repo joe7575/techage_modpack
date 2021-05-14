@@ -31,6 +31,7 @@ techage.manual_EN.aTitel = {
   "3,TA2 Power Generator",
   "2,Push and sort items",
   "3,TechAge Tube",
+  "3,Tube Concentrator",
   "3,TA2 Pusher",
   "3,TA2 Distributor",
   "2,Gravel washer",
@@ -119,7 +120,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 Gravel Sieve",
   "3,TA3 Gravel Rinser",
   "3,TA3 Grinder",
-  "3,TA3 Liquid Sampler",
+  "3,TA3 Injector",
   "2,Tools",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -181,7 +182,8 @@ techage.manual_EN.aTitel = {
   "3,TA4 Tank",
   "3,TA4 Pump",
   "3,TA4 Furnace Heater",
-  "3,TA4 water Pump",
+  "3,TA4 Water Pump (deprecated)",
+  "3,TA4 Water Inlet",
   "3,TA4 Tube",
   "3,TA4 Pusher",
   "3,TA4 Chest",
@@ -193,7 +195,8 @@ techage.manual_EN.aTitel = {
   "3,TA4 Quarry",
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
-  "3,TA4 recycler",
+  "3,TA4 Recycler",
+  "3,TA4 Laser",
 }
 
 techage.manual_EN.aText = {
@@ -423,6 +426,10 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Several tubes can be combined into one tube via the concentrator. The direction in which all items are passed on is marked with an arrow. \n"..
+  "\n"..
+  "\n"..
+  "\n",
   "A pusher is able to pull items out of boxes or machines and push them into other boxes or machines. In other words\\, there must be one and exactly one pusher between two blocks with inventory. Multiple pushers in a row are not possible.\n"..
   "In the opposite direction\\, however\\, a pusher is permeable for items\\, so that a box can be filled via a tube and also taught.\n"..
   "\n"..
@@ -449,6 +456,12 @@ techage.manual_EN.aText = {
   "The operating mode can be set using the \"blocking mode\" checkbox.\n"..
   "\n"..
   "The processing power of a TA2 distributor is 4 items every 2 s\\, whereby the distributor tries to distribute the 4 items to the open outputs.\n"..
+  "\n"..
+  "If the same item is configured multiple times in one filter\\, the long term distribution ratio will be influenced accordingly.\n"..
+  "\n"..
+  "Please note that the distribution is a probabilistic process. This means that the distribution rations won't be matched exactly\\, but only in the long term.\n"..
+  "\n"..
+  "The maximum stack size in the filters is 12\\; in total\\, not more than 36 items can be configured.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -681,7 +694,7 @@ techage.manual_EN.aText = {
   "\n",
   "Is part of the TA3 industrial furnace.\n"..
   "\n"..
-  "The oil burner can be operated with fuel oil\\, naphtha or gasoline. The burning time is 80 s for fuel oil\\, 90 s for naphtha and 100 s for gasoline.\n"..
+  "The oil burner can be operated with crude oil\\, fuel oil\\, naphtha or gasoline. The burning time is 64 s for crude oil\\, 80 s for fuel oil\\, 90 s for naphtha and 100 s for gasoline.\n"..
   "\n"..
   "The oil burner can only hold 50 units of fuel. An additional tank and a pump are therefore advisable.\n"..
   "\n"..
@@ -895,32 +908,41 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The TA3 logic block can be programmed so that one or more input signals are linked to one output signal and sent. This block can therefore replace various logic elements such as AND\\, OR\\, NOT\\, XOR etc.\n"..
-  "Input signals for the logic block are 'on' / 'off' commands. An 'on' is a logical 'true'\\, an 'off' corresponds to the 'false'.\n"..
-  "Input signals are referenced by the number\\, e.g. 'n123' for the signal from the transmitter with the number 123.\n"..
+  "The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND\\, OR\\, NOT\\, XOR etc. \n"..
+  "Input commands for the logic block are 'on' /'off' commands.\n"..
+  "Input commands are referenced via the number\\, e.g. '1234' for the command from the sender with the number 1234. \n"..
+  "The same applies to output commands.\n"..
   "\n"..
-  "* Examples for the IF expression *\n"..
+  "A rule is structured as follows: \n"..
+  "\n"..
+  "    <output> = on/off if <input-expression> is true\n"..
+  "\n"..
+  "'<output>' is the block number to which the command should be sent.\n"..
+  "'<input-expression>' is a boolean expression where input numbers are evaluated.\n"..
+  "\n"..
+  "*Examples for the input expression*\n"..
   "\n"..
   "Negate signal (NOT):\n"..
   "\n"..
-  "    not n123\n"..
+  "    1234 == off\n"..
   "\n"..
   "Logical AND:\n"..
   "\n"..
-  "    n123 and n345\n"..
+  "    1234 == on and 2345 == on\n"..
   "\n"..
   "Logical OR:\n"..
   "\n"..
-  "    n123 or n345\n"..
+  "    1234 == on or 2345 == on\n"..
   "\n"..
-  "If the 'if' expression is true\\, the 'then' branch is executed\\, otherwise the 'else' branch.\n"..
-  "With 'then' and 'else' you can either enter 'true'\\, 'false'\\, or nothing:\n"..
+  "The following operators are allowed:  'and'   'or'   'on'   'off'   'me'   '=='   '~='   '('   ')'\n"..
   "\n"..
-  "  - 'true' will lead to a 'on' command\n"..
-  "  - 'false' will lead to a 'off' command\n"..
-  "  - if nothing is entered\\, nothing is sent\n"..
+  "If the expression is true\\, a command is sent to the block with the '<output>' number. \n"..
+  "Up to four rules can be defined\\, whereby all rules are always checked when a command is received. \n"..
+  "The internal processing time for all commands is 100 ms. \n"..
   "\n"..
-  "The target block or blocks for the output signal must be entered in the target number field.\n"..
+  "Your own node number can be referenced using the keyword 'me'. This makes it possible for the block to send itself a command (flip-flop function). \n"..
+  "\n"..
+  "The blocking time defines a pause after a command\\, during which the logic block does not accept any further external commands. Commands received during the blocking period are thus discarded. The blocking time can be defined in seconds. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -978,6 +1000,12 @@ techage.manual_EN.aText = {
   "\n",
   "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Remove\" or \"Set\" buttons. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
   "\n"..
+  "Individual blocks can be set\\, removed or replaced by other blocks via an 'exchange' command. The slot number of the inventory (1 .. 16) must be transferred as payload\\, i.e.:\n"..
+  "\n"..
+  "    $send_cmnd(node_number\\, \"exchange\"\\, 2)\n"..
+  "\n"..
+  "This can also be used to simulate extendable stairs and the like. \n"..
+  "\n"..
   "\n"..
   "\n",
   "The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.\n"..
@@ -1024,7 +1052,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The function of the TA3 distributor corresponds to that of TA2 with another operating mode.\n"..
+  "The function of the TA3 distributor corresponds to that of TA2.\n"..
   "The processing power is 12 items every 4 s.\n"..
   "\n"..
   "\n"..
@@ -1060,8 +1088,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The function corresponds to that of TA2.\n"..
-  "The processing power is 2 items every 8 s. The block requires 5 ku of electricity.\n"..
+  "The injector is a TA3 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest to pass them on to machines with recipes (autocrafter\\, industrial furnace and electronic fab).\n"..
+  "\n"..
+  "When passing on\\, only one position in the inventory is used in the target machine. If\\, for example\\, only the first three entries are configured in the injector\\, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.\n"..
+  "\n"..
+  "The injector can also be switched to \"pull mode\". Then he only pulls items out of the chest from the positions that are defined in the configuration of the injector. In this case\\, item type and position must match. This allows to empty specific inventory entries of a chest. \n"..
+  "\n"..
+  "The processing power is up to 8 times one item every 4 seconds.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1102,7 +1135,9 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The wind turbine block (rotor) is the heart of the wind turbine. This block must be placed on top of the mast. Ideally at Y = 15\\, then you just stay within a map / forceload block.\n"..
-  "If all conditions are met\\, the rotor blades appear automatically when this block is set. Otherwise you will see an error message.\n"..
+  "After the block has been set\\, a check is carried out to determine whether all conditions for the operation of the wind turbine have been met. If all conditions are met\\, the rotor blades (wings) appear automatically when this block is set. Otherwise you will get an error message.\n"..
+  "\n"..
+  "The check can be repeated by hitting the block. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1188,12 +1223,12 @@ techage.manual_EN.aText = {
   "In principle\\, the heat storage system works exactly the same as the batteries\\, only with much more storage capacity.\n"..
   "The heat accumulator can hold and deliver 60 ku.\n"..
   "\n"..
-  "In order for the heat storage system to work\\, all blocks (except the concrete shell and gravel) must be loaded using a forceload block.\n"..
+  "In order for the heat storage system to work\\, all blocks (also the concrete shell and gravel) must be loaded using a forceload block.\n"..
   "\n"..
   "\n"..
   "\n",
   "The heat exchanger consists of 3 parts that must be placed on top of each other\\, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.\n"..
-  "The heat exchanger must be connected to the power grid. The heat exchanger can consume 60 ku.\n"..
+  "The heat exchanger must be connected to the power grid. The heat exchanger charges the energy store again when sufficient electricity is available and the energy storage is less than 95% charged. The heat exchanger takes up 60 ku. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1222,16 +1257,16 @@ techage.manual_EN.aText = {
   "This enables current peaks or an excess supply of electricity to be converted into hydrogen and thus stored.\n"..
   "\n"..
   "In the game\\, electricity can be converted back into electricity via the fuel cell using the electrolyzer in hydrogen and hydrogen.\n"..
-  "This means that electricity (in the form of hydrogen) can not only be stored in tanks\\, but can also be transported with carts using gas cylinders.\n"..
+  "This means that electricity (in the form of hydrogen) can not only be stored in tanks\\, but also transported by means of the tank cart.\n"..
   "\n"..
-  "However\\, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity\\, only 83 units of electricity come out after the conversion to hydrogen and back.\n"..
+  "However\\, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity\\, only 95 units of electricity come out after the conversion to hydrogen and back.\n"..
   "\n"..
   "\n"..
   "\n",
   "The electrolyzer converts electricity into hydrogen.\n"..
   "It must be powered from the left. On the right\\, hydrogen can be extracted via pipes and pumps.\n"..
   "\n"..
-  "The electrolyzer can draw up to 30 ku of electricity and then generates a hydrogen item every 4 s.\n"..
+  "The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.\n"..
   "200 units of hydrogen fit into the electrolyzer.\n"..
   "\n"..
   "\n"..
@@ -1239,7 +1274,10 @@ techage.manual_EN.aText = {
   "The fuel cell converts hydrogen into electricity.\n"..
   "It must be supplied with hydrogen from the left by a pump. The power connection is on the right.\n"..
   "\n"..
-  "The fuel cell can deliver up to 25 ku of electricity and needs a hydrogen item every 4 s.\n"..
+  "The fuel cell can deliver up to 34 ku of electricity and needs a hydrogen item every 4 s.\n"..
+  "\n"..
+  "Usually the fuel cell works as a category 2 generator (like other storage systems). \n"..
+  "In this case\\, no other category 2 blocks such as the battery block can be charged. However\\, the fuel cell can also be used as a category 1 generator via the check box.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1255,7 +1293,7 @@ techage.manual_EN.aText = {
   "  - The filler pipe that must be placed on the reactor vessel\n"..
   "  - The dosing device\\, which has to be connected to the tanks or silos and the filler pipe via pipes\n"..
   "\n"..
-  "Note 1: Liquids are only stored in tanks\\, substances in powder form only in silos. This applies to ingredients and raw materials.\n"..
+  "Note 1: Liquids are only stored in tanks\\, solids and substances in powder form only in silos. This applies to ingredients and raw materials.\n"..
   "\n"..
   "Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast\\, several tanks or silos with the same content may hang in parallel on one line.\n"..
   "\n"..
@@ -1472,7 +1510,11 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "With the water pump\\, water can be pumped through liquid lines in tanks and thus used for recipes. The water pump has to be placed in the sea. A \"pool\" consisting of a few blocks of water is not possible!\n"..
+  "This block can no longer be crafted and will be replaced by the TA4 water inlet block. \n"..
+  "\n",
+  "Some recipes require water. The water must be pumped from the sea with a pump (water at y = 1). A \"pool\" made up of a few water blocks is not sufficient for this! \n"..
+  "\n"..
+  "To do this\\, the water inlet block must be placed in the water and connected to the pump via pipes. If the block is placed in the water\\, it must be ensured that there is water under the block (water must be at least 2 blocks deep). \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1555,17 +1597,15 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The injector is a TA4 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest (TA4 chest or TA4 8x2000 chest) to pass them on to machines with recipes (autocrafter\\, industrial furnace and electronic fab).\n"..
+  "The function corresponds to that of TA3.\n"..
   "\n"..
-  "When passing on\\, only one position in the inventory is used in the target machine. If\\, for example\\, only the first three entries are configured in the injector\\, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.\n"..
-  "\n"..
-  "The processing power is up to 8 items every 3 seconds.\n"..
+  "The processing power is up to 8 times four items every 4 seconds.\n"..
   "\n"..
   "\n"..
   "\n",
   "The recycler is a machine that processes all Techage recipes backwards\\, i.e. it can dismantle machines and blocks back into their components. \n"..
   "\n"..
-  "The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all materials can be recycled:\n"..
+  "The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all recipe items/materials can be recycled:\n"..
   "\n"..
   "  - Wood turns into sticks\n"..
   "  - Stone turns into sand or gravel\n"..
@@ -1575,6 +1615,14 @@ techage.manual_EN.aText = {
   "The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.\n"..
   "\n"..
   " \n"..
+  "\n",
+  "The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. \n"..
+  "\n"..
+  "With the laser\\, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow)\\, this is indicated via the info text of the emitter and also of the receiver. \n"..
+  "\n"..
+  "The laser blocks themselves do not require any electricity.\n"..
+  "\n"..
+  "\n"..
   "\n",
 }
 
@@ -1609,6 +1657,7 @@ techage.manual_EN.aItemName = {
   "ta2_generator",
   "",
   "tube",
+  "concentrator",
   "ta2_pusher",
   "ta2_distributor",
   "",
@@ -1697,7 +1746,7 @@ techage.manual_EN.aItemName = {
   "ta3_gravelsieve",
   "ta3_gravelrinser",
   "ta3_grinder",
-  "ta3_liquidsampler",
+  "ta3_injector",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -1759,7 +1808,8 @@ techage.manual_EN.aItemName = {
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
-  "ta4_waterpump",
+  "",
+  "ta4_waterinlet",
   "ta4_tube",
   "ta4_pusher",
   "ta4_chest",
@@ -1772,6 +1822,7 @@ techage.manual_EN.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_laser",
 }
 
 techage.manual_EN.aPlanTable = {
@@ -1804,6 +1855,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "itemtransport",
+  "",
   "",
   "",
   "",
@@ -1951,6 +2003,8 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
+  "",
   "",
   "",
   "",

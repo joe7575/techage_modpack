@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,10 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -48,12 +45,12 @@ local function formspec1(meta)
 	default.gui_bg_img..
 	default.gui_slots..
 	"style_type[textarea,table;font=mono]"..
-	"tabheader[0,0;tab;"..I("Commands,Help")..";1;;true]"..
-	"field[0.3,0.5;9,1;name;"..I("Sign name:")..";"..name.."]"..
+	"tabheader[0,0;tab;"..S("Commands,Help")..";1;;true]"..
+	"field[0.3,0.5;9,1;name;"..S("Sign name:")..";"..name.."]"..
 	"textarea[0.3,1.2;9,7.2;cmnd;;"..cmnd.."]"..
 	"label[0.3,7.5;"..err_msg.."]"..
-	"button_exit[5,7.5;2,1;cancel;"..I("Cancel").."]"..
-	"button[7,7.5;2,1;check;"..I("Check").."]"
+	"button_exit[5,7.5;2,1;cancel;"..S("Cancel").."]"..
+	"button[7,7.5;2,1;check;"..S("Check").."]"
 end
 
 local function formspec2(pos, text)
@@ -62,10 +59,10 @@ local function formspec2(pos, text)
 	default.gui_bg_img..
 	default.gui_slots..
 	"style_type[textarea,table;font=mono]"..
-	"tabheader[0,0;tab;"..I("Commands,Help")..";2;;true]"..
+	"tabheader[0,0;tab;"..S("Commands,Help")..";2;;true]"..
 	"table[0.1,0;8.6,4;command;"..sCmnds..";"..pos.."]"..
-	"textarea[0.3,4.5;9,3.5;help;Help:;"..text.."]"..
-	"button[3,7.5;3,1;copy;"..I("Copy Cmnd").."]"
+	"textarea[0.3,4.5;9,3.5;help;"..S("Help")..":;"..text.."]"..
+	"button[3,7.5;3,1;copy;"..S("Copy Cmnd").."]"
 end
 
 local function add_arrow(text, line_num)
@@ -94,7 +91,7 @@ local function append_line(pos, meta, line)
 	local text = meta:get_string("signs_bot_cmnd").."\n"..line
 	meta:set_string("signs_bot_cmnd", text)
 	meta:set_int("err_code", 1) -- zero means OK
-	meta:set_string("err_msg", "please check the added line(s)")
+	meta:set_string("err_msg", S("please check the added line(s)"))
 end	
 	
 local function check_and_store(pos, meta, fields)	
@@ -106,7 +103,7 @@ local function check_and_store(pos, meta, fields)
 end
 
 minetest.register_node("signs_bot:sign_cmnd", {
-	description = I('Sign "command"'),
+	description = S('Sign "command"'),
 	drawtype = "nodebox",
 	inventory_image = "signs_bot_sign_cmnd.png",
 	node_box = {
@@ -134,8 +131,8 @@ minetest.register_node("signs_bot:sign_cmnd", {
 			nmeta:set_string("err_msg", imeta:get_string("err_msg"))
 			nmeta:set_int("err_code", imeta:get_int("err_code"))
 		else
-			nmeta:set_string("sign_name", I('Sign "command"'))
-			nmeta:set_string("signs_bot_cmnd", I("-- enter or copy commands from help page"))
+			nmeta:set_string("sign_name", S('Sign "command"'))
+			nmeta:set_string("signs_bot_cmnd", S("-- enter or copy commands from help page"))
 			nmeta:set_int("err_code", 0)
 		end
 		nmeta:set_string("infotext", nmeta:get_string("sign_name"))
@@ -175,6 +172,7 @@ minetest.register_node("signs_bot:sign_cmnd", {
 	
 	after_dig_node = lib.after_dig_sign_node,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	drop = "",
@@ -215,18 +213,18 @@ local function place_sign(base_pos, robot_pos, param2, slot)
 				lib.place_sign(pos1, sign, param2)
 				return signs_bot.DONE
 			else
-				return signs_bot.ERROR, I("Error: Signs inventory empty")
+				return signs_bot.ERROR, S("Error: Signs inventory empty")
 			end
 		end
 	end
-	return signs_bot.ERROR, I("Error: Position protected or occupied")
+	return signs_bot.ERROR, S("Error: Position protected or occupied")
 end
 
 signs_bot.register_botcommand("place_sign", {
 	mod = "sign",
 	params = "<slot>",
 	num_param = 1,
-	description = I("Place a sign in front of the robot\ntaken from the signs inventory\n"..
+	description = S("Place a sign in front of the robot\ntaken from the signs inventory\n"..
 		"<slot> is the inventory slot (1..6)"),
 	check = function(slot)
 		slot = tonumber(slot) or 1
@@ -247,18 +245,18 @@ local function place_sign_behind(base_pos, robot_pos, param2, slot)
 				lib.place_sign(pos1, sign, param2)
 				return signs_bot.DONE
 			else
-				return signs_bot.ERROR, I("Error: Signs inventory empty")
+				return signs_bot.ERROR, S("Error: Signs inventory empty")
 			end
 		end
 	end
-	return signs_bot.ERROR, I("Error: Position protected or occupied")
+	return signs_bot.ERROR, S("Error: Position protected or occupied")
 end
 
 signs_bot.register_botcommand("place_sign_behind", {
 	mod = "sign",
 	params = "<slot>",
 	num_param = 1,
-	description = I("Place a sign behind the robot\ntaken from the signs inventory\n"..
+	description = S("Place a sign behind the robot\ntaken from the signs inventory\n"..
 		"<slot> is the inventory slot (1..6)"),
 	check = function(slot)
 		slot = tonumber(slot) or 1
@@ -277,7 +275,7 @@ local function dig_sign(base_pos, robot_pos, param2, slot)
 	local err_code = meta:get_int("err_code")
 	local name = meta:get_string("sign_name")
 	if cmnd == "" then
-		return signs_bot.ERROR, I("Error: No sign available")
+		return signs_bot.ERROR, S("Error: No sign available")
 	end
 	if lib.not_protected(base_pos, pos1) then
 		local node = tubelib2.get_node_lvm(pos1)
@@ -289,18 +287,18 @@ local function dig_sign(base_pos, robot_pos, param2, slot)
 		minetest.remove_node(pos1)
 		if not put_inv_sign(base_pos, slot, sign) then	
 			signs_bot.lib.drop_items(robot_pos, sign)
-			return signs_bot.ERROR, I("Error: Signs inventory slot is occupied")
+			return signs_bot.ERROR, S("Error: Signs inventory slot is occupied")
 		end
 		return signs_bot.DONE
 	end
-	return signs_bot.ERROR, I("Error: Position is protected")
+	return signs_bot.ERROR, S("Error: Position is protected")
 end
 
 signs_bot.register_botcommand("dig_sign", {
 	mod = "sign",
 	params = "<slot>",
 	num_param = 1,
-	description = I("Dig the sign in front of the robot\n"..
+	description = S("Dig the sign in front of the robot\n"..
 		"and add it to the signs inventory.\n"..
 		"<slot> is the inventory slot (1..6)"),
 	check = function(slot)
@@ -317,23 +315,26 @@ local function trash_sign(base_pos, robot_pos, param2, slot)
 	local pos1 = lib.dest_pos(robot_pos, param2, {0})
 	local cmnd = M(pos1):get_string("signs_bot_cmnd")
 	if cmnd == "" then
-		return signs_bot.ERROR, I("Error: No sign available")
+		return signs_bot.ERROR, S("Error: No sign available")
 	end
 	if lib.not_protected(base_pos, pos1) then
 		local node = tubelib2.get_node_lvm(pos1)
 		local sign = ItemStack("signs_bot:sign_cmnd")
 		minetest.remove_node(pos1)
-		signs_bot.bot_inv_put_item(base_pos, slot, sign)
+		local leftover = signs_bot.bot_inv_put_item(base_pos, slot, sign)
+		if leftover and leftover:get_count() > 0 then
+			signs_bot.lib.drop_items(robot_pos, leftover)
+		end
 		return signs_bot.DONE
 	end
-	return signs_bot.ERROR, I("Error: Position is protected")
+	return signs_bot.ERROR, S("Error: Position is protected")
 end
 
 signs_bot.register_botcommand("trash_sign", {
 	mod = "sign",
 	params = "<slot>",	
 	num_param = 1,
-	description = I("Dig the sign in front of the robot\n"..
+	description = S("Dig the sign in front of the robot\n"..
 		"and add the cleared sign to\nthe item iventory.\n"..
 		"<slot> is the inventory slot (1..8)"),
 	check = function(slot)
@@ -358,14 +359,14 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "sign_cmnd", {
-		name = I("Sign 'command'"),
+		name = S("Sign 'command'"),
 		data = {
 			item = "signs_bot:sign_cmnd",
 			text = table.concat({
-				I("The 'command' sign can be programmed by the player."),
-				I("Place the sign in front of you and use the node menu to program your sequence of bot commands."), 
-				I("The menu has an edit field for your commands and a help page with all available commands."),
-				I("The help page has a copy button to simplify the programming."),
+				S("The 'command' sign can be programmed by the player."),
+				S("Place the sign in front of you and use the node menu to program your sequence of bot commands."), 
+				S("The menu has an edit field for your commands and a help page with all available commands."),
+				S("The help page has a copy button to simplify the programming."),
 			}, "\n")		
 		},
 	})

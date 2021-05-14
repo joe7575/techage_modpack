@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,17 +13,14 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local CYCLE_TIME = 4
-
-local lib = signs_bot.lib
 
 local function update_infotext(pos, dest_pos, cmnd)
 	local meta = M(pos)
@@ -32,11 +29,11 @@ local function update_infotext(pos, dest_pos, cmnd)
 	local cycle_time = meta:get_int("cycle_time")
 	local text
 	if cycle_time > 0 then
-		text = I("Bot Timer").." ("..rest.."/"..cycle_time.." min): "..I("Connected with")
+		text = S("Bot Timer").." ("..rest.."/"..cycle_time.." min): "..S("Connected with")
 	else
-		text = I("Bot Timer").." (-- min): "..I("Connected with")
+		text = S("Bot Timer").." (-- min): "..S("Connected with")
 	end
-	meta:set_string("infotext", text.." "..S(dest_pos).." / "..(cmnd or "none").."    ")
+	meta:set_string("infotext", text.." "..P2S(dest_pos).." / "..(cmnd or "none").."    ")
 end	
 
 local function update_infotext_local(pos)
@@ -50,7 +47,7 @@ local function update_infotext_local(pos)
 	local text2 = "Not connected"
 	
 	if dest_pos ~= "" and signal ~= "" then
-		text2 = I("Connected with").." "..dest_pos.." / "..signal
+		text2 = S("Connected with").." "..dest_pos.." / "..signal
 	end
 	if cycle_time > 0 then
 		text1 = " ("..rest.."/"..cycle_time.." min): "
@@ -59,19 +56,19 @@ local function update_infotext_local(pos)
 		mem.running = true
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
-	meta:set_string("infotext", I("Bot Timer")..text1..text2.."    ")
+	meta:set_string("infotext", S("Bot Timer")..text1..text2.."    ")
 end	
 
 
 local function formspec(meta)
-	local label = minetest.formspec_escape(I("Cycle time [min]:"))
+	local label = minetest.formspec_escape(S("Cycle time [min]:"))
 	local value = minetest.formspec_escape(meta:get_int("cycle_time"))
 	return "size[4,3]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"field[0.3,1;4,1;time;"..label..";"..value.."]"..
-	"button_exit[1,2.2;2,1;start;"..I("Start").."]"
+	"button_exit[1,2.2;2,1;start;"..S("Start").."]"
 end
 
 -- switch to normal texture
@@ -91,7 +88,7 @@ local function node_timer(pos)
 			local dest_pos = meta:get_string("signal_pos")
 			local signal = meta:get_string("signal_data")
 			if dest_pos ~= "" and signal ~= "" then
-				update_infotext(pos, P(dest_pos), signal)
+				update_infotext(pos, S2P(dest_pos), signal)
 			end
 		end
 	else
@@ -106,7 +103,7 @@ local function node_timer(pos)
 		local dest_pos = meta:get_string("signal_pos")
 		local signal = meta:get_string("signal_data")
 		if dest_pos ~= "" and signal ~= "" then
-			update_infotext(pos, P(dest_pos), signal)
+			update_infotext(pos, S2P(dest_pos), signal)
 		end
 	end
 	return mem.time > 0
@@ -134,7 +131,7 @@ local function on_receive_fields(pos, formname, fields, player)
 end
 
 minetest.register_node("signs_bot:timer", {
-	description = I("Bot Timer"),
+	description = S("Bot Timer"),
 	inventory_image = "signs_bot_timer_inv.png",
 	drawtype = "nodebox",
 	node_box = {
@@ -151,7 +148,7 @@ minetest.register_node("signs_bot:timer", {
 	
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		meta:set_string("infotext", "Bot Timer: Not connected")
+		meta:set_string("infotext", S("Bot Timer: Not connected"))
 		meta:set_string("formspec", formspec(meta))
 	end,
 	
@@ -160,6 +157,7 @@ minetest.register_node("signs_bot:timer", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -168,7 +166,7 @@ minetest.register_node("signs_bot:timer", {
 })
 
 minetest.register_node("signs_bot:timer_on", {
-	description = I("Bot Timer"),
+	description = S("Bot Timer"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -186,6 +184,7 @@ minetest.register_node("signs_bot:timer_on", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -218,12 +217,12 @@ minetest.register_lbm({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "timer", {
-		name = I("Bot Timer"),
+		name = S("Bot Timer"),
 		data = {
 			item = "signs_bot:timer",
 			text = table.concat({
-				I("Special kind of sensor."),
-				I("Can be programmed with a time in seconds, e.g. to start the bot cyclically."), 
+				S("Special kind of sensor."),
+				S("Can be programmed with a time in seconds, e.g. to start the bot cyclically."), 
 			}, "\n")		
 		},
 	})

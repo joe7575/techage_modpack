@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
@@ -11,68 +11,91 @@
 ]]--
 
 local S = minecart.S
-local MP = minetest.get_modpath("minecart")
-local lib = dofile(MP.."/cart_lib1.lua")
+local M = minetest.get_meta
 
-lib:init(false)
-
-local cart_entity = {
-	initial_properties = {
-		physical = false, -- otherwise going uphill breaks
-		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-		visual = "mesh",
-		mesh = "carts_cart.b3d",
-		visual_size = {x=1, y=1},
-		textures = {"carts_cart.png^minecart_cart.png"},
-		static_save = false,
-	},
-    ------------------------------------ changed
-	owner = nil,
-	------------------------------------ changed
-	driver = nil,
-	punched = false, -- used to re-send velocity and position
-	velocity = {x=0, y=0, z=0}, -- only used on punch
-	old_dir = {x=1, y=0, z=0}, -- random value to start the cart on punch
-	old_pos = nil,
-	old_switch = 0,
-	railtype = nil,
-	cargo = {},
-	on_rightclick = lib.on_rightclick,
-	on_activate = lib.on_activate,
-	on_detach_child = lib.on_detach_child,
-	on_punch = lib.on_punch,
-	on_step = lib.on_step,
-}
-
-
-minetest.register_entity("minecart:cart", cart_entity)
-
-minecart.register_cart_names("minecart:cart", "minecart:cart")
-
-
-minetest.register_craftitem("minecart:cart", {
+minetest.register_node("minecart:cart", {
 	description = S("Minecart (Sneak+Click to pick up)"),
-	inventory_image = minetest.inventorycube("carts_cart_top.png", "carts_cart_side.png^minecart_logo.png", "carts_cart_side.png^minecart_logo.png"),
-	wield_image = "carts_cart_side.png",
-	on_place = function(itemstack, placer, pointed_thing)
-		-- use cart as tool
-		local under = pointed_thing.under
-		local node = minetest.get_node(under)
-		local udef = minetest.registered_nodes[node.name]
-		if udef and udef.on_rightclick and
-				not (placer and placer:is_player() and
-				placer:get_player_control().sneak) then
-			return udef.on_rightclick(under, node, placer, itemstack,
-				pointed_thing) or itemstack
-		end
+	tiles = {
+		-- up, down, right, left, back, front		
+			"carts_cart_top.png^minecart_appl_cart_top.png",
+			"carts_cart_top.png",
+			"carts_cart_side.png^minecart_logo.png",
+			"carts_cart_side.png^minecart_logo.png",
+			"carts_cart_side.png^minecart_logo.png",
+			"carts_cart_side.png^minecart_logo.png",
+		},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16,-8/16,-8/16,  8/16, 8/16,-7/16},
+			{-8/16,-8/16, 7/16,  8/16, 8/16, 8/16},
+			{-8/16,-8/16,-8/16, -7/16, 8/16, 8/16},
+			{ 7/16,-8/16,-8/16,  8/16, 8/16, 8/16},
+			{-8/16,-8/16,-8/16,  8/16,-6/16, 8/16},
+		},
+	},
+--	collision_box = {
+--        type = "fixed",
+--        fixed = {
+--            {-8/16,-8/16,-8/16,  8/16,-4/16, 8/16},
+--        },
+--    },
+	paramtype2 = "facedir",
+	paramtype = "light",
+	use_texture_alpha = minecart.CLIP,
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 2, crumbly = 2, choppy = 2},
+	node_placement_prediction = "",
+	diggable = false,
+	
+	on_place = minecart.on_nodecart_place,
+	on_punch = minecart.on_nodecart_punch,
 
-		if not pointed_thing.type == "node" then
-			return
+	on_rightclick = function(pos, node, clicker)
+		if clicker and clicker:is_player() then
+			if M(pos):get_int("userID") ~= 0 then
+				-- enter the cart
+				local object = minecart.node_to_entity(pos, "minecart:cart", "minecart:cart_entity")
+				minecart.manage_attachment(clicker, object:get_luaentity(), true)
+			else 
+				minecart.show_formspec(pos, clicker)
+			end
 		end
-		
-		return lib.add_cart(itemstack, placer, pointed_thing, "minecart:cart")
+	end,
+	
+	set_cargo = function(pos, data)
+		for _,item in ipairs(data or {}) do
+			minetest.add_item(pos, ItemStack(item))
+		end
+	end,
+	
+	get_cargo = function(pos)
+		local data = {}
+		for _, obj in pairs(minetest.get_objects_inside_radius(pos, 1)) do
+			local entity = obj:get_luaentity()
+			if not obj:is_player() and entity and entity.name == "__builtin:item" then
+				obj:remove()
+				data[#data + 1] = entity.itemstring
+			end
+		end
+		return data
 	end,
 })
+
+minecart.register_cart_entity("minecart:cart_entity", "minecart:cart", "default", {
+	initial_properties = {
+		physical = false,
+		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		visual = "wielditem",
+		textures = {"minecart:cart"},
+		visual_size = {x=0.66, y=0.66, z=0.66},
+		static_save = false,
+	},
+	driver_allowed = true,
+})
+
 
 minetest.register_craft({
 	output = "minecart:cart",

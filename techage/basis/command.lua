@@ -26,7 +26,7 @@ local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', fals
 local string_split = string.split
 local NodeDef = techage.NodeDef
 local Tube = techage.Tube
-local check_cart_for_loading = minecart.check_cart_for_loading
+local is_cart_available = minecart.is_cart_available
 
 -------------------------------------------------------------------
 -- Database
@@ -250,6 +250,7 @@ end
 -- Param names: List of node names like {"techage:pusher_off", "techage:pusher_on"}
 -- Param node_definition: A table according to:
 --    {
+--        on_inv_request = func(pos, in_dir, access_type)
 --        on_pull_item = func(pos, in_dir, num, (opt.) item_name),
 --        on_push_item = func(pos, in_dir, item),
 --        on_unpull_item = func(pos, in_dir, item),
@@ -366,6 +367,13 @@ end
 -- Client side Push/Pull item functions
 -------------------------------------------------------------------
 
+function techage.get_inv_access(pos, out_dir, access_type)
+	local npos, in_dir, name = get_dest_node(pos, out_dir)
+	if npos and NodeDef[name] and NodeDef[name].on_inv_request then
+		return NodeDef[name].on_inv_request(npos, in_dir, access_type)
+	end
+end
+
 function techage.pull_items(pos, out_dir, num, item_name)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_pull_item then
@@ -377,7 +385,7 @@ function techage.push_items(pos, out_dir, stack, idx)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_push_item then
 		return NodeDef[name].on_push_item(npos, in_dir, stack, idx)	
-	elseif is_air_like(name) or check_cart_for_loading(npos) then
+	elseif is_air_like(name) or is_cart_available(npos) then
 		minetest.add_item(npos, stack)
 		return true 
 	end
@@ -436,7 +444,7 @@ function techage.get_items(pos, inv, listname, num)
 	end
 	local size = inv:get_size(listname)
 	local mem = techage.get_mem(pos)
-	mem.ta_startpos = mem.ta_startpos or 1
+	mem.ta_startpos = mem.ta_startpos or 0
 	for idx = mem.ta_startpos, mem.ta_startpos+size do
 		idx = (idx % size) + 1
 		local items = inv:get_stack(listname, idx)

@@ -31,6 +31,7 @@ techage.manual_DE.aTitel = {
   "3,TA2 Stromgenerator / TA2 Power Generator",
   "2,Items schieben und sortieren",
   "3,Röhren / TechAge Tube",
+  "3,Röhren Konzentrator / Tube Concentrator",
   "3,TA2 Schieber / Pusher",
   "3,TA2 Verteiler / Distributor",
   "2,Kieswaschanlage",
@@ -120,7 +121,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Kiessieb / Gravel Sieve",
   "3,TA3 Kieswaschanlage / Gravel Rinser",
   "3,TA3 Mühle / Grinder",
-  "3,TA3 Flüssigkeitensammler / Liquid Sampler",
+  "3,TA3 Injektor / Injector",
   "2,Werkzeuge",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -182,7 +183,8 @@ techage.manual_DE.aTitel = {
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
   "3,TA4 Ofenheizung / furnace heater",
-  "3,TA4 Wasserpumpe / Water Pump",
+  "3,TA4 Wasserpumpe / Water Pump (veraltet)",
+  "3,TA4 Wassereinlass / TA4 Water Inlet",
   "3,TA4 Röhren / TA4 Tube",
   "3,TA4 Schieber / Pusher",
   "3,TA4 Kiste / TA4 Chest",
@@ -195,6 +197,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
+  "3,TA4 Laser",
 }
 
 techage.manual_DE.aText = {
@@ -424,6 +427,10 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Über den Konzentrator können mehrere Röhren zu einer Röhre zusammengeführt werden. Die Richtung\\, in der alle Items weitergegeben werden\\, ist mit einem Pfeil markiert.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Ein Schieber ist in der Lage\\, Items aus Kisten oder Maschinen zu ziehen und in andere Kisten oder Maschinen zu schieben. Oder anders gesagt: Zwischen zwei Blöcken mit Inventar muss ein und genau ein Schieber sein. Mehrere Schieber in Reihe sind nicht möglich.\n"..
   "In die Gegenrichtung ist ein Schieber für Items aber durchlässig\\, so dass eine Kiste über eine Röhre gefüllt und ebenso geleert werden kann. \n"..
   "\n"..
@@ -450,6 +457,12 @@ techage.manual_DE.aText = {
   "Einstellbar ist die Betriebsart über die \"blockiere\" Checkbox.\n"..
   "\n"..
   "Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s\\, wobei der Verteiler dabei versucht\\, die 4 Items auf die offenen Ausgänge zu verteilen.\n"..
+  "\n"..
+  "Wird dasselbe Item in einem Filter mehrfach hinterlegt\\, so beeinflusst dies das langfristige Verteilungsverhältnis entsprechend.\n"..
+  "\n"..
+  "Bitte beachte\\, dass die Verteilung ein probabilistischer Vorgang ist\\, d.h. die Verhältnisse werden nicht exakt\\, sondern nur langfristig eingehalten.\n"..
+  "\n"..
+  "In den Filtern beträgt die maximale Stackgröße 12\\; insgesamt können höchstens 36 Items konfiguriert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -690,7 +703,7 @@ techage.manual_DE.aText = {
   "\n",
   "Ist Teil des TA3 Industrieofen.\n"..
   "\n"..
-  "Der Ölbrenner kann mit Schweröl\\, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Schweröl 80 s\\, Naphtha 90 s und Benzin 100 s.\n"..
+  "Der Ölbrenner kann mit Erdöl\\, Schweröl\\, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Erdöl 65 s\\, Schweröl 80 s\\, Naphtha 90 s und Benzin 100 s.\n"..
   "\n"..
   "Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Tank und eine Pumpe sind daher ratsam.\n"..
   "\n"..
@@ -906,32 +919,43 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Den TA3 Logikblock kann man so programmieren\\, dass ein oder mehrere Eingangssignale zu einem Ausgangssignal verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND\\, OR\\, NOT\\, XOR usw. ersetzen.\n"..
-  "Eingangssignale für den Logikblock sind 'on'/'off' Kommandos. Ein 'on' ist ein logisches 'true'\\, ein 'off' entspricht dem 'false'.\n"..
-  "Eingangssignale werden über die Nummer referenziert\\, also bspw. 'n123' für das Signal vom Sender mit der Nummer 123.\n"..
+  "Den TA3 Logikblock kann man so programmieren\\, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND\\, OR\\, NOT\\, XOR usw. ersetzen.\n"..
+  "Eingangkommandos für den Logikblock sind 'on'/'off' Kommandos.\n"..
+  "Eingangskommandos werden über die Nummer referenziert\\, also bspw. '1234' für das Kommando vom Sender mit der Nummer 1234.\n"..
+  "Das gleiche gilt für Ausgangskommandos.\n"..
   "\n"..
-  "*Beispiele für den IF Ausdruck*\n"..
+  "Eine Regel ist wie folgt aufgebaut:\n"..
+  "\n"..
+  "    <output> = on/off if <input-expression> is true\n"..
+  "\n"..
+  "'<output>' ist die Nummer des Blocks\\, zu dem das Kommando gesendet werden soll.\n"..
+  "'<input-expression>' ist ein boolescher Ausdruck\\, bei dem Eingabenummern ausgewertet werden. \n"..
+  "\n"..
+  "*Beispiele für den Input Ausdruck*\n"..
   "\n"..
   "Signal negieren (NOT):\n"..
   "\n"..
-  "    not n123\n"..
+  "    1234 == off\n"..
   "\n"..
   "Logisches UND (AND):\n"..
   "\n"..
-  "    n123 and n345\n"..
+  "    1234 == on and 2345 == on\n"..
   "\n"..
   "Logisches ODER (OR):\n"..
   "\n"..
-  "    n123 or n345\n"..
+  "    1234 == on or 2345 == on\n"..
   "\n"..
-  "Ist der 'if'-Ausdruck wahr (true)\\, wird der 'then' Zweig ausgeführt\\, anderenfalls der 'else' Zweig.\n"..
-  "Bei 'then' und 'else' kann entweder 'true'\\, 'false'\\, oder nichts eingegeben werden:\n"..
+  "Folgende Operatoren sind zulässig:  'and'   'or'   'on'   'off'   'me'   '=='   '~='   '('   ')'\n"..
   "\n"..
-  "  - bei 'true' wird 'on' gesendet\n"..
-  "  - bei 'false' wird 'off' gesendet\n"..
-  "  - wird nichts eingegeben\\, wird auch nichts gesendet\n"..
+  "Ist der Ausdruck wahr (true)\\, wird ein Kommando an den Block mit der '<output>' Nummer gesendet.\n"..
   "\n"..
-  "Den oder die Ziel-Blöcke für das Ausgangssignal muss man im Zielnummern-Feld eingeben.\n"..
+  "Es können bis zu vier Regeln definiert werden\\, wobei immer alle Regeln geprüft werden\\, wenn ein Kommando empfangen wird.\n"..
+  "\n"..
+  "Die interne Durchlaufzeit aller Kommandos beträgt 100 ms.\n"..
+  "\n"..
+  "Über das Schlüsselwort 'me' kann die eigene Knotennummer referenziert werden. Damit ist es möglich\\, dass sich der Block selbst ein Kommando sendet (Flip-Flop Funktion).\n"..
+  "\n"..
+  "Die Sperrzeit definiert eine Pause nach einem Kommando\\, in der der Logikblock kein weiteres Kommando von extern annimmt.  Empfangene Kommandos in der Sperrzeit werden damit verworfen. Die Sperrzeit kann in Sekunden definiert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -985,9 +1009,17 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert. Über die Tasten \"Entfernen\" bzw. \"Setzen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
+  "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.\n"..
+  "\n"..
+  " Über die Tasten \"Entfernen\" bzw. \"Setzen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
   "\n"..
   "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
+  "\n"..
+  "Über ein 'exchange' Kommando können einzelne Böcke gesetzt\\, entfernt\\, bzw. durch andere Blöcke ersetzt werden. Die Slot-Nummer des Inventars (1 .. 16) muss als payload übergeben werden\\, also:\n"..
+  "\n"..
+  "    $send_cmnd(node_number\\, \"exchange\"\\, 2)\n"..
+  "\n"..
+  "Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1035,15 +1067,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Funktion des TA3 Verteilers entspricht der von TA2 mit einer weiteren Betriebart.\n"..
-  "\n"..
-  "*1:1 Bestückungsfunktion*\n"..
-  "\n"..
-  "Wird nur ein Ausgang aktiviert und mit mehreren Items konfiguriert\\, so kann die 1:1 Checkbox angeklickt werden. In diesem Falle werden nur Items gemäß der Filtereinstellung angenommen und in der Reihenfolge\\, wie die Items im Filter eingetragen sind\\, in definierte Positionen im Ziel-Inventar abgelegt. Damit kann weder das Inventar des Verteilers noch des Zielblocks volllaufen. Dies funktioniert für Autocrafter\\, Industrieofen und Elektronikfabrik.\n"..
-  "Mit dieser Betriebsart lassen sich andere Maschinen wie bspw. der Autocrafter exakt gemäß dem eingestellten Rezept bestücken. \n"..
-  "\n"..
-  "Dies funktioniert nur nur\\, wenn die Inventare des Verteilers und des Zielblocks zuvor frei sind.\n"..
-  "\n"..
+  "Die Funktion des TA3 Verteilers entspricht der von TA2.\n"..
   "Die Verarbeitungsleistung beträgt 12 Items alle 4 s.\n"..
   "\n"..
   "\n"..
@@ -1079,8 +1103,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Funktion entspricht der von TA2.\n"..
-  "Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.\n"..
+  "Der Injektor ist ein TA3 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter\\, Industrieofen und Elektronikfabrik).\n"..
+  "\n"..
+  "Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert\\, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert.\n"..
+  "\n"..
+  "Der Injektor kann auch auf \"Ziehe-Modus\" umgeschaltet werden. Dann zieht er nur Items von den Positionen aus der Kiste\\, die in der Konfiguration des Injektors definiert sind. Hier müssen also Item-Typ und Position überein stimmen. Damit können geziehlt Speicherplätze im Inventar einer Kiste geleert werden.\n"..
+  "\n"..
+  "Die Verarbeitungsleistung beträgt bis zu 8 mal ein Item alle 4 Sekunden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1121,7 +1150,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15\\, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.\n"..
-  "Sofern alle Bedingungen erfüllt sind\\, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt.\n"..
+  "Nach dem Setzen des Blocks wird ein Check durchgeführt\\, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind\\, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. \n"..
+  "\n"..
+  "Durch Schlagen auf den Block kann der Check wiederholt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1207,12 +1238,12 @@ techage.manual_DE.aText = {
   "Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus\\, nur mit viel mehr Speicherkapazität. \n"..
   "Der Wärmespeicher kann 60 ku aufnehmen und abgeben.\n"..
   "\n"..
-  "Damit das Wärmespeichersystem funktioniert\\, müssen alle Blöcke (außer Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.\n"..
+  "Damit das Wärmespeichersystem funktioniert\\, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.\n"..
   "\n"..
   "\n"..
   "\n",
   "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.\n"..
-  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.\n"..
+  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf\\, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1241,16 +1272,16 @@ techage.manual_DE.aText = {
   "Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.\n"..
   "\n"..
   "Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
-  "Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert\\, sonder mit Hilfe von Gasflaschen auch mit Wagen (carts) transportiert werden.\n"..
+  "Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert\\, sonder mit dem Tankwagen auch transportiert werden.\n"..
   "\n"..
-  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 83 Einheiten Strom wieder raus.\n"..
+  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 95 Einheiten Strom wieder raus.\n"..
   "\n"..
   "\n"..
   "\n",
   "Der Elektrolyseur wandelt Strom in Wasserstoff um.\n"..
   "Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.\n"..
   "\n"..
-  "Der Elektrolyseur kann bis zu 30 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
+  "Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
   "In den Elektrolyseur passen 200 Einheiten Wasserstoff.\n"..
   "\n"..
   "\n"..
@@ -1258,7 +1289,11 @@ techage.manual_DE.aText = {
   "Die Brennstoffzelle wandelt Wasserstoff in Strom um.\n"..
   "Sie muss von links per Pumpe mit Wasserstoff versorgt werden. Rechts ist der Stromanschluss.\n"..
   "\n"..
-  "Die Brennstoffzelle kann bis zu 25 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.\n"..
+  "Die Brennstoffzelle kann bis zu 34 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.\n"..
+  "\n"..
+  "Normalerweise arbeitet die Brennstoffzelle als Generator der Kategorie 2 (wie auch anderen Speichersystemen).\n"..
+  "In diesem Fall können keine anderen Blöcke der Kategorie 2 wie der Akku-Block geladen werden.\n"..
+  "Über das Kontrollkästchen kann die Brennstoffzelle jedoch auch als Generator der Kategorie 1 eingesetzt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1273,7 +1308,7 @@ techage.manual_DE.aText = {
   "  - dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss\n"..
   "  - dem Dosierer\\, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss\n"..
   "\n"..
-  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.\n"..
+  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.\n"..
   "\n"..
   "Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.\n"..
   "\n"..
@@ -1490,7 +1525,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein \"Pool\" aus ein paar Wasserblöcken geht nicht!\n"..
+  "Dieser Block kann nicht mehr gecraftet werden und wird durch den TA4 Wassereinlass Block ersetzt.\n"..
+  "\n",
+  "Für manche Rezepte wird Wasser benötigt. Das Wasser muss mit einer Pumpe aus dem Meer (Wasser auf y = 1) gepumpt werden. Ein \"Pool\" aus ein paar Wasserblöcken ist dafür nicht ausreichend!\n"..
+  "\n"..
+  "Dazu muss der Wassereinlass-Block ins Wasser gesetzt und über Röhren mit der Pumpe verbunden werden. Wird der Block ins Wasser gesetzt\\, so muss darauf geachtet werden\\, dass sich unter dem Block Wasser befindet (Wasser muss mindestens 2 Blöcke tief sein). \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1573,16 +1612,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Injektor ist ein TA4 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste (TA4 Kiste oder TA4 8x2000 Kiste) um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter\\, Industrieofen und Elektronikfabrik). \n"..
+  "Die Funktion entspricht der von TA3.  \n"..
   "\n"..
-  "Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert\\, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert. \n"..
-  "\n"..
-  "Die Verarbeitungsleistung beträgt bis zu 8 Items alle 3 Sekunden.\n"..
+  "Die Verarbeitungsleistung beträgt bis zu 8 mal vier Items alle 4 Sekunden.\n"..
   "\n"..
   "\n"..
   "\n",
   "Der Recycler ist eine Maschine\\, die alle Techage Rezepte rückwärts abarbeitet\\, also Maschinen und Blöcke wieder in die Bestandteile zerlegen kann. Die Maschine kann so ziemlich alle Techage und Hyperloop Blöcke zerlegen.\n"..
-  "Aber nicht alle Materialen lassen sich recyclen:\n"..
+  "Aber nicht alle Zutaten/Materialien der Rezepte lassen sich recyclen:\n"..
   "\n"..
   "  - Holz wird zu Sticks\n"..
   "  - Stein wird zu Sand oder Kies\n"..
@@ -1592,6 +1629,16 @@ techage.manual_DE.aText = {
   "Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.\n"..
   "\n"..
   "\n"..
+  "\n",
+  "Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden\\, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.\n"..
+  "\n"..
+  "Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.\n"..
+  "\n"..
+  "Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen)\\, wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.\n"..
+  "\n"..
+  "Die Laserblöcke selbst benötigen keinen Strom.\n"..
+  "\n"..
+  "t\n"..
   "\n",
 }
 
@@ -1626,6 +1673,7 @@ techage.manual_DE.aItemName = {
   "ta2_generator",
   "",
   "tube",
+  "concentrator",
   "ta2_pusher",
   "ta2_distributor",
   "",
@@ -1715,7 +1763,7 @@ techage.manual_DE.aItemName = {
   "ta3_gravelsieve",
   "ta3_gravelrinser",
   "ta3_grinder",
-  "ta3_liquidsampler",
+  "ta3_injector",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -1777,7 +1825,8 @@ techage.manual_DE.aItemName = {
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
-  "ta4_waterpump",
+  "",
+  "ta4_waterinlet",
   "ta4_tube",
   "ta4_pusher",
   "ta4_chest",
@@ -1790,6 +1839,7 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_laser",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -1822,6 +1872,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "itemtransport",
+  "",
   "",
   "",
   "",
@@ -1970,6 +2021,8 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
+  "",
   "",
   "",
   "",

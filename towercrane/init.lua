@@ -9,7 +9,7 @@
 
 
 	   Nodes      Meta data
-	+--------+ 
+	+--------+
 	|        |  - last_known_pos as "(x,y,z)"
 	| switch |  - last_used
 	|        |  - running
@@ -26,7 +26,7 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
 
 -- crane minimum size
-local MIN_SIZE = 8		
+local MIN_SIZE = 8
 
 towercrane = {}
 
@@ -53,7 +53,7 @@ local function formspec(height, width)
 	return "size[5,4]"..
 		"label[0,0;"..S("Construction area size").."]" ..
 		"field[1,1.5;3,1;size;height,width;"..text.."]" ..
-		"button_exit[1,2;2,1;exit;"..S("Build").."]"	
+		"button_exit[1,2;2,1;exit;"..S("Build").."]"
 end
 
 local function get_node_lvm(pos)
@@ -154,7 +154,7 @@ end
 local function construct_crane(pos, dir, height, width)
 	local add = function(pos, node_name, tArg)
 		minetest.add_node(pos, {
-				name = node_name, 
+				name = node_name,
 				param2 = minetest.dir_to_facedir(tArg.dir)})
 	end
 	local tArg = {dir = dir}
@@ -292,7 +292,7 @@ minetest.register_node("towercrane:base", {
 		return true
 	end,
 
-	-- evaluate user input (height, width), 
+	-- evaluate user input (height, width),
 	-- destroy old crane and build a new one with
 	-- the given size
 	on_receive_fields = function(pos, formname, fields, player)
@@ -324,7 +324,7 @@ minetest.register_node("towercrane:base", {
 		end
 		return true
 	end,
-	
+
 	on_destruct = function(pos)
 		towercrane.get_crane_down(pos)
 	end,
@@ -333,10 +333,11 @@ minetest.register_node("towercrane:base", {
 minetest.register_node("towercrane:balance", {
 	description = S("Tower Crane Balance"),
 	tiles = {
-		"towercrane_base.png^towercrane_screws.png",
+		"towercrane_base.png^towercrane_screws.png^morelights_extras_blocklight.png",
 	},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	light_source = 12,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly=0, not_in_creative_inventory=1},
@@ -411,4 +412,3 @@ towercrane.turnright = turnright
 towercrane.turnleft = turnleft
 towercrane.is_my_crane = is_my_crane
 towercrane.get_crane_data = get_crane_data
-

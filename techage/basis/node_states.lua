@@ -408,6 +408,11 @@ function NodeStates:keep_running(pos, nvm, val)
 		self:start(pos, nvm)
 	end
 	nvm.techage_countdown = val or 4
+	nvm.last_active = minetest.get_gametime()
+end
+
+function NodeStates:trigger_state(pos, nvm)
+	nvm.last_active = minetest.get_gametime()
 end
 
 -- Start/stop node based on button events.
@@ -450,6 +455,11 @@ function NodeStates:on_receive_message(pos, topic, payload)
 		local node = minetest.get_node(pos)
 		if node.name == "ignore" then  -- unloaded node?
 			return "unloaded"
+		elseif nvm.techage_state == RUNNING then
+			local ttl = (nvm.last_active or 0) + 2 * (self.cycle_time or 0)
+			if ttl < minetest.get_gametime() then
+				return "inactive"
+			end
 		end
 		return techage.get_state_string(techage.get_nvm(pos))
 	elseif topic == "fuel" then
@@ -461,9 +471,15 @@ function NodeStates:on_receive_message(pos, topic, payload)
 	end
 end
 	
--- repair corrupt node data
+-- restart timer
 function NodeStates:on_node_load(pos)
-	-- tbd
+	local nvm = techage.get_nvm(pos)
+	local state = nvm.techage_state or STOPPED
+	if state == RUNNING then
+		minetest.get_node_timer(pos):start(self.cycle_time)
+	elseif state < FAULT then
+		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
+	end
 end
 
 minetest.register_node("techage:defect_dummy", {

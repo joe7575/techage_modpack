@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
@@ -198,3 +198,8 @@ minecart.register_protected_node("minecart:buffer")
 minecart.register_protected_node("minecart:ballast")
 minecart.register_protected_node("minecart:ballast_slope")
 minecart.register_protected_node("minecart:ballast_ramp")
+minecart.register_protected_node("minecart:speed1")
+minecart.register_protected_node("minecart:speed2")
+minecart.register_protected_node("minecart:speed4")
+minecart.register_protected_node("minecart:speed8")
+

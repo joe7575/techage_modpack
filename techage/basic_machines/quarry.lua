@@ -347,7 +347,7 @@ local tubing = {
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
-		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
+		if meta:get_int("push_dir") == in_dir or in_dir == 5 then
 			local inv = M(pos):get_inventory()
 			--CRD(pos).State:start_if_standby(pos) -- would need power!
 			return techage.put_items(inv, "main", stack)
@@ -368,13 +368,8 @@ local tubing = {
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
-	on_node_load = function(pos, node)
-		local nvm = techage.get_nvm(pos)
-		if nvm.techage_state == techage.RUNNING then
-			play_sound(pos)
-		else
-			stop_sound(pos)
-		end
+	on_node_load = function(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 }
 

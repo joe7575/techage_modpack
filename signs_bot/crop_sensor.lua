@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,20 +13,18 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
 local CYCLE_TIME = 4
 
 local function update_infotext(pos, dest_pos, dest_idx)
-	M(pos):set_string("infotext", I("Crop Sensor: Connected with ")..S(dest_pos).." / "..dest_idx)
+	M(pos):set_string("infotext", S("Crop Sensor: Connected with").." "..P2S(dest_pos).." / "..dest_idx)
 end	
 
 local function swap_node(pos, name)
@@ -56,7 +54,7 @@ local function node_timer(pos)
 end
 
 minetest.register_node("signs_bot:crop_sensor", {
-	description = I("Crop Sensor"),
+	description = S("Crop Sensor"),
 	inventory_image = "signs_bot_sensor_crop_inv.png",
 	drawtype = "nodebox",
 	node_box = {
@@ -77,7 +75,7 @@ minetest.register_node("signs_bot:crop_sensor", {
 	
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		meta:set_string("infotext", "Crop Sensor: Not connected")
+		meta:set_string("infotext", S("Crop Sensor: Not connected"))
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		local node = minetest.get_node(pos)
 		meta:set_int("param2", (node.param2 + 2) % 4)
@@ -87,6 +85,7 @@ minetest.register_node("signs_bot:crop_sensor", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -95,7 +94,7 @@ minetest.register_node("signs_bot:crop_sensor", {
 })
 
 minetest.register_node("signs_bot:crop_sensor_on", {
-	description = I("Crop Sensor"),
+	description = S("Crop Sensor"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -117,6 +116,7 @@ minetest.register_node("signs_bot:crop_sensor_on", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -150,13 +150,13 @@ minetest.register_lbm({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "crop_sensor", {
-		name = I("Crop Sensor"),
+		name = S("Crop Sensor"),
 		data = {
 			item = "signs_bot:crop_sensor",
 			text = table.concat({
-				I("The Crop Sensor sends cyclical signals when, for example, wheat is fully grown."),
-				I("The sensor range is one node/meter."), 
-				I("The sensor has an active side (red) that must point to the crop/field."),
+				S("The Crop Sensor sends cyclical signals when, for example, wheat is fully grown."),
+				S("The sensor range is one node/meter."), 
+				S("The sensor has an active side (red) that must point to the crop/field."),
 
 			}, "\n")		
 		},

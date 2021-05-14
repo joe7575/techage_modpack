@@ -100,6 +100,11 @@ The transport capacity of a tube is unlimited and only limited by the pusher.
 
 [tube|image]
 
+### Tube Concentrator
+
+Several tubes can be combined into one tube via the concentrator. The direction in which all items are passed on is marked with an arrow. 
+
+[concentrator|image]
 
 ### TA2 Pusher
 
@@ -132,6 +137,12 @@ In the first case, all items are always forwarded and the distributor does not r
 The operating mode can be set using the "blocking mode" checkbox.
 
 The processing power of a TA2 distributor is 4 items every 2 s, whereby the distributor tries to distribute the 4 items to the open outputs.
+
+If the same item is configured multiple times in one filter, the long term distribution ratio will be influenced accordingly.
+
+Please note that the distribution is a probabilistic process. This means that the distribution rations won't be matched exactly, but only in the long term.
+
+The maximum stack size in the filters is 12; in total, not more than 36 items can be configured.
 
 [ta2_distributor|image]
 

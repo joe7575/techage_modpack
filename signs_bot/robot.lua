@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -11,11 +11,6 @@
 	Signs Bot: The Robot itself
 
 ]]--
-
--- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
 
 local lib = signs_bot.lib
 
@@ -76,10 +71,13 @@ minetest.register_node("signs_bot:robot", {
 	},
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	drop = "",
-	groups = {cracky=1, not_in_creative_inventory = 1},
+	groups = {cracky=1, not_in_creative_inventory = 1,
+		plant = 1, -- prevents the transformation from wet soil to soil
+	},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -94,6 +92,7 @@ minetest.register_node("signs_bot:robot_leg", {
 	},
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	drop = "",
@@ -113,9 +112,12 @@ minetest.register_node("signs_bot:robot_foot", {
 	},
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	drop = "",
-	groups = {cracky=1, not_in_creative_inventory = 1},
+	groups = {cracky=1, not_in_creative_inventory = 1,
+		plant = 1, -- prevents the transformation from wet soil to soil
+	},
 	sounds = default.node_sound_metal_defaults(),
 })

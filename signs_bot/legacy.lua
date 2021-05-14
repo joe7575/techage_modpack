@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,8 +13,6 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 signs_bot.register_inventory({"default:chest", "default:chest_open"}, {
@@ -60,6 +58,24 @@ signs_bot.register_inventory({"default:furnace", "default:furnace_active"}, {
 			return true
 		end,
 		listname = "fuel",
+	},
+})
+
+signs_bot.register_inventory({"mobs:beehive"}, {
+	put = {
+		listname = "beehive",
+	},
+	take = {
+		listname = "beehive",
+	},
+})
+
+signs_bot.register_inventory({"xdecor:hive"}, {
+	put = {
+		listname = "honey",
+	},
+	take = {
+		listname = "honey",
 	},
 })
 

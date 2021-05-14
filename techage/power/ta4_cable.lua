@@ -27,10 +27,16 @@ local Cable = tubelib2.Tube:new({
 	max_tube_length = ELE2_MAX_CABLE_LENGHT, 
 	show_infotext = false,
 	tube_type = "ele2",
-	primary_node_names = {"techage:ta4_power_cableS", "techage:ta4_power_cableA"},
+	primary_node_names = {"techage:ta4_power_cableS", "techage:ta4_power_cableA",
+		"techage:ta4_cable_wall_entry"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
-		minetest.swap_node(pos, {name = "techage:ta4_power_cable"..tube_type, param2 = param2})
+		local name = minetest.get_node(pos).name
+		if name == "techage:ta4_cable_wall_entry" then
+			minetest.swap_node(pos, {name = "techage:ta4_cable_wall_entry", param2 = param2})
+		else
+			minetest.swap_node(pos, {name = "techage:ta4_power_cable"..tube_type, param2 = param2})
+		end
 	end,
 })
 
@@ -76,6 +82,7 @@ minetest.register_node("techage:ta4_power_cableS", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3},
@@ -109,6 +116,7 @@ minetest.register_node("techage:ta4_power_cableA", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, not_in_creative_inventory = 1},
@@ -139,7 +147,9 @@ minetest.register_node("techage:ta4_power_box", {
 		connect_back  = {{-1/16, -1/16,    0, 1/16, 1/16, 1/2}},
 		connect_front = {{-1/16, -1/16, -1/2, 1/16, 1/16,   0}},
 	},
-	connects_to = {"techage:ta4_power_cableA", "techage:ta4_power_cableS"},
+	connects_to = {"techage:ta4_power_cableA", "techage:ta4_power_cableS", 
+		"techage:ta4_solar_inverter", "techage:ta4_solar_carrier",
+		"techage:ta4_solar_carrierB", "techage:ta4_cable_wall_entry"},
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		Cable:after_place_node(pos)
@@ -159,6 +169,7 @@ minetest.register_node("techage:ta4_power_box", {
 	
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky=2, crumbly=2, choppy=2},

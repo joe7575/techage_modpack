@@ -184,7 +184,9 @@ local function update_node(pos)
 	nnode = minetest.get_node(npos)
 	if NodeTbl1[nnode.name] and NodeTbl3[node.name] then
 		node.name = node.name .. "1"
-		minetest.swap_node(pos, node)
+		if minetest.registered_nodes[node.name] then
+			minetest.swap_node(pos, node)
+		end
 		return
 	end
 	-- check case 2
@@ -192,7 +194,9 @@ local function update_node(pos)
 	nnode = minetest.get_node(npos)
 	if NodeTbl2[nnode.name] then
 		node.name = string.sub(node.name,1,-1) .. "2"
-		minetest.swap_node(pos, node)
+		if minetest.registered_nodes[node.name] then
+			minetest.swap_node(pos, node)
+		end
 		return
 	end
 	-- check case 3
@@ -203,7 +207,9 @@ local function update_node(pos)
 	if NodeTbl1[nnode.name] and NodeTbl3[node.name] then
 		node.name = node.name .. "1"
 		node.param2 = 3
-		minetest.swap_node(pos, node)
+		if minetest.registered_nodes[node.name] then
+			minetest.swap_node(pos, node)
+		end
 		return
 	end
 	-- check case 4
@@ -212,7 +218,9 @@ local function update_node(pos)
 	if NodeTbl2[nnode.name] then
 		node.name = string.sub(node.name,1,-1) .. "2"
 		node.param2 = 3
-		minetest.swap_node(pos, node)
+		if minetest.registered_nodes[node.name] then
+			minetest.swap_node(pos, node)
+		end
 		return
 	end
 end		

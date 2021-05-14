@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -12,14 +12,8 @@
 
 ]]--
 
--- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -30,21 +24,23 @@ local function get_current_data(pointed_thing)
 end
 
 local function get_stored_data(placer)
-	local spos = placer:get_attribute("signs_bot_spos")
-	local name = placer:get_attribute("signs_bot_name")
+	local meta = placer:get_meta()
+	local spos = meta:get_string("signs_bot_spos")
+	local name = meta:get_string("signs_bot_name")
 	if spos ~= "" then
 		return minetest.string_to_pos(spos), name
 	end
 end
 	
 local function store_data(placer, pos, name)
+	local meta = placer:get_meta()
 	if pos then
 		local spos = minetest.pos_to_string(pos)
-		placer:set_attribute("signs_bot_spos", spos)
-		placer:set_attribute("signs_bot_name", name)
+		meta:set_string("signs_bot_spos", spos)
+		meta:set_string("signs_bot_name", name)
 	else
-		placer:set_attribute("signs_bot_spos", nil)
-		placer:set_attribute("signs_bot_name", nil)
+		meta:set_string("signs_bot_spos", nil)
+		meta:set_string("signs_bot_name", nil)
 	end
 end
 
@@ -95,7 +91,7 @@ end
 			
 
 minetest.register_node("signs_bot:connector", {
-	description = I("Sensor Connection Tool"),
+	description = S("Sensor Connection Tool"),
 	inventory_image = "signs_bot_tool.png",
 	wield_image = "signs_bot_tool.png",
 	groups = {cracky=1, book=1},

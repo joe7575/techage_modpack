@@ -12,6 +12,7 @@
 
 ]]--
 
+local S = techage.S
 
 
 -- used for registered nodes
@@ -48,7 +49,7 @@ local Tube = tubelib2.Tube:new({
 techage.Tube = Tube
 
 minetest.register_node("techage:tubeS", {
-	description = "TechAge Tube",
+	description = S("TechAge Tube"),
 	tiles = { -- Top, base, right, left, front, back
 		"techage_tube_tube.png^[transformR90",
 		"techage_tube_tube.png^[transformR90",
@@ -88,6 +89,7 @@ minetest.register_node("techage:tubeS", {
 	},
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {choppy=2, cracky=3},
@@ -95,7 +97,7 @@ minetest.register_node("techage:tubeS", {
 })
 
 minetest.register_node("techage:tubeA", {
-	description = "TechAge Tube",
+	description = S("TechAge Tube"),
 	tiles = { -- Top, base, right, left, front, back
 		"techage_tube_knee2.png",
 		"techage_tube_hole2.png^[transformR180",
@@ -128,6 +130,7 @@ minetest.register_node("techage:tubeA", {
 	},
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {choppy=2, cracky=3, not_in_creative_inventory=1},

@@ -12,7 +12,11 @@
 
 ]]--
 
-S = minetest.get_translator("techpack_stairway")
+local S = minetest.get_translator("techpack_stairway")
+
+-- Test MT 5.4 new string mode
+local CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or false
+
 
 minetest.register_node("techpack_stairway:grating", {
 	description = S("TechPack Grating"),
@@ -39,6 +43,7 @@ minetest.register_node("techpack_stairway:grating", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -70,6 +75,7 @@ minetest.register_node("techpack_stairway:handrail1", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -103,6 +109,7 @@ minetest.register_node("techpack_stairway:handrail2", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -136,6 +143,7 @@ minetest.register_node("techpack_stairway:handrail3", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -171,6 +179,7 @@ minetest.register_node("techpack_stairway:handrail4", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -203,6 +212,7 @@ minetest.register_node("techpack_stairway:bridge1", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -236,6 +246,7 @@ minetest.register_node("techpack_stairway:bridge2", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -269,6 +280,7 @@ minetest.register_node("techpack_stairway:bridge3", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -303,6 +315,7 @@ minetest.register_node("techpack_stairway:bridge4", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -341,6 +354,7 @@ minetest.register_node("techpack_stairway:stairway", {
 	--climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -372,6 +386,7 @@ minetest.register_node("techpack_stairway:ladder1", {
 	climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -404,6 +419,7 @@ minetest.register_node("techpack_stairway:ladder2", {
 	climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -436,6 +452,7 @@ minetest.register_node("techpack_stairway:ladder3", {
     climbable = true,
     paramtype2 = "facedir",
     paramtype = "light",
+	use_texture_alpha = CLIP,
     sunlight_propagates = true,
     is_ground_content = false,
     groups = {cracky = 2},
@@ -466,6 +483,7 @@ minetest.register_node("techpack_stairway:ladder4", {
 	climbable = true,
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -498,6 +516,7 @@ minetest.register_node("techpack_stairway:lattice", {
 	
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -546,6 +565,7 @@ minetest.register_node("techpack_stairway:lattice_slop", {
 		
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2},
@@ -553,7 +573,7 @@ minetest.register_node("techpack_stairway:lattice_slop", {
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:grating 4",
+	output = "techpack_stairway:grating 6",
 	recipe = {
 		{"", "", ""},
 		{"dye:dark_grey", "", "default:coal_lump"},
@@ -562,7 +582,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:handrail1 4",
+	output = "techpack_stairway:handrail1 6",
 	recipe = {
 		{"default:steel_ingot", "default:coal_lump", ""},
 		{"default:tin_ingot", "", ""},
@@ -571,7 +591,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:stairway 2",
+	output = "techpack_stairway:stairway 3",
 	recipe = {
 		{"", "", "default:steel_ingot"},
 		{"dye:dark_grey", "default:tin_ingot", "default:coal_lump"},
@@ -580,7 +600,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:ladder1 2",
+	output = "techpack_stairway:ladder1 3",
 	recipe = {
 		{"", "default:steel_ingot", ""},
 		{"dye:dark_grey", "default:tin_ingot", "default:coal_lump"},
@@ -589,7 +609,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:ladder3 4",
+	output = "techpack_stairway:ladder3 6",
 	recipe = {
 		{"", "", "default:steel_ingot"},
 		{"dye:dark_grey", "default:tin_ingot", "default:coal_lump"},
@@ -598,7 +618,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:ladder4 8",
+	output = "techpack_stairway:ladder4 12",
 	recipe = {
 		{"dye:dark_grey", "default:tin_ingot", "default:coal_lump"},
 		{"", "default:steel_ingot", ""},
@@ -607,7 +627,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:lattice 2",
+	output = "techpack_stairway:lattice 4",
 	recipe = {
 		{"default:steel_ingot", "", "default:steel_ingot"},
 		{"dye:dark_grey", "default:tin_ingot", "default:coal_lump"},

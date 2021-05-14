@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,10 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -27,15 +24,15 @@ local formspec = "size[8,7.3]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"label[0.3,0;"..I("Input:").."]"..
-	"list[context;inp;3,0;1,1;]"..
-	"label[0.3,1;"..I("Template:").."]"..
-	"list[context;temp;3,1;1,1;]"..
-	"label[0.3,2;"..I("Output:").."]"..
-	"list[context;outp;3,2;1,1;]"..
-	"label[4,0;"..I("1. Place one 'cmnd' sign to be\n    used as template.\n")..
-			I("2. Add 'blank signs' to\n    the input inventory.\n")..
-			I("3. Take the copies\n    from the output inventory.").."]"..
+	"label[0.1,0.2;"..S("Template:").."]"..
+	"list[context;temp;2,0;1,1;]"..
+	"label[0.1,1.2;"..S("Input:").."]"..
+	"list[context;inp;2,1;1,1;]"..
+	"label[0.1,2.2;"..S("Output:").."]"..
+	"list[context;outp;2,2;1,1;]"..
+	"label[3,0.2;"..S("1. Place one 'cmnd' sign").."]"..
+	"label[3,1.2;"..S("2. Add 'blank signs'").."]"..
+	"label[3,2.2;"..S("3. Take the copies").."]"..
 	"list[current_player;main;0,3.5;8,4;]"..
 	"listring[context;inp]"..
 	"listring[current_player;main]"..
@@ -108,7 +105,7 @@ local function on_metadata_inventory_put(pos, listname, index, stack, player)
 end
 
 minetest.register_node("signs_bot:duplicator", {
-	description = I("Signs Duplicator"),
+	description = S("Signs Duplicator"),
 	stack_max = 1,
 	tiles = {
 		-- up, down, right, left, back, front
@@ -167,7 +164,7 @@ local function formspec_user(cmnd)
 end
 
 minetest.register_node("signs_bot:sign_user", {
-	description = I('Sign "user"'),
+	description = S('Sign "user"'),
 	drawtype = "nodebox",
 	inventory_image = "signs_bot_sign_user.png",
 	node_box = {
@@ -210,7 +207,7 @@ minetest.register_node("signs_bot:sign_user", {
 
 signs_bot.register_sign({
 	name = "sign_blank", 
-	description = I('Sign "blank"'), 
+	description = S('Sign "blank"'), 
 	commands = "", 
 	image = "signs_bot_sign_blank.png",
 })
@@ -226,17 +223,17 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "duplicator", {
-		name = I("Signs Duplicator"),
+		name = S("Signs Duplicator"),
 		data = {
 			item = "signs_bot:duplicator",
 			text = table.concat({
-				I("The Duplicator can be used to make copies of signs."),
-				I("1. Put one 'cmnd' sign to be used as template into the 'Template' inventory"), 
-				I("2. Add one or several 'blank signs' to the 'Input' inventory."),
-				I("3. Take the copies from the 'Output' inventory."),
+				S("The Duplicator can be used to make copies of signs."),
+				S("1. Put one 'cmnd' sign to be used as template into the 'Template' inventory"), 
+				S("2. Add one or several 'blank signs' to the 'Input' inventory."),
+				S("3. Take the copies from the 'Output' inventory."),
 				"",
-				I("Written books [default:book_written] can alternatively be used as template"),
-				I("Already written signs can be used as input, too."),
+				S("Written books [default:book_written] can alternatively be used as template"),
+				S("Already written signs can be used as input, too."),
 			}, "\n")		
 		},
 	})
@@ -244,10 +241,10 @@ end
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "sign_blank", {
-		name = I('Sign "blank"'),
+		name = S('Sign "blank"'),
 		data = {
 			item = "signs_bot:sign_blank",
-			text = I("Needed as input for the Duplicator.")		
+			text = S("Needed as input for the Duplicator.")		
 		},
 	})
 end

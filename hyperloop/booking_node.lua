@@ -75,34 +75,71 @@ local function remove_junctions(sortedList)
 	return tbl
 end
 
-local function station_list_as_string(pos)
-	-- Generate a distance sorted list of all connected stations
-	local sortedList = Stations:station_list(pos, pos, "dist")
-	-- Delete the own station from list
-	table.remove(sortedList, 1)
+local function filter_subnet(sortedList, subnet)
+	if hyperloop.subnet_enabled then
+		if subnet == "" then
+			subnet = nil
+		end
+		
+		local tbl = {}
+		for idx,item in ipairs(sortedList) do
+			if item.subnet == subnet then
+				tbl[#tbl+1] = item
+			end
+		end
+		return tbl
+	end
+	return sortedList
+end
+
+-- Used to update the station list for booking machine
+-- and teleport list.
+local function station_list_as_string(pos, subnet)
+	local meta = M(pos)
+	-- Generate a name sorted list of all connected stations
+	local sortedList = Stations:station_list(pos, pos, "name")
 	-- remove all junctions from the list
 	sortedList = remove_junctions(sortedList)
+	-- use subnet pattern to reduce the list
+	sortedList = filter_subnet(sortedList, subnet)
 	-- store the list for later use
 	store_station_list(pos, sortedList)
 	-- Generate the formspec string
 	return generate_string(sortedList)
 end
 
+local naming_formspec = nil
 
-local function naming_formspec(pos)
-	local meta = minetest.get_meta(pos)
-	local formspec = "size[6,4]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"label[0,0;"..S("Please enter the station name to\nwhich this booking machine belongs.").."]" ..
-	"field[0.5,1.5;5,1;name;"..S("Station name")..";MyTown]" ..
-	"field[0.5,2.7;5,1;info;"..S("Additional station information")..";]" ..
-	"button_exit[2,3.6;2,1;exit;Save]"
-	meta:set_string("formspec", formspec)
-	meta:set_int("change_counter", 0)
+if hyperloop.subnet_enabled then
+	naming_formspec = function(pos)
+		local meta = M(pos)
+		local formspec = "size[7,5.4]"..
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"label[0,0;"..S("Please enter the station name to\nwhich this booking machine belongs.").."]" ..
+		"field[0.2,1.5;7.1,1;name;"..S("Station name")..";MyTown]" ..
+		"field[0.2,2.7;7.1,1;info;"..S("Additional station information")..";]" ..
+		"field[0.2,3.9;7.1,1;subnet;"..S("Subnet name (optional)")..";]" ..
+		"button_exit[2.5,4.7;2,1;exit;Save]"
+		meta:set_string("formspec", formspec)
+		meta:set_int("change_counter", 0)
+	end
+else
+	naming_formspec = function(pos)
+		local meta = M(pos)
+		local formspec = "size[7,4.4]"..
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"label[0,0;"..S("Please enter the station name to\nwhich this booking machine belongs.").."]" ..
+		"field[0.2,1.5;7.1,1;name;"..S("Station name")..";MyTown]" ..
+		"field[0.2,2.7;7.1,1;info;"..S("Additional station information")..";]" ..
+		"button_exit[2.5,3.7;2,1;exit;Save]"
+		meta:set_string("formspec", formspec)
+		meta:set_int("change_counter", 0)
+	end
 end
-
 
 local function booking_machine_update(pos)
 	local meta = M(pos)
@@ -111,25 +148,19 @@ local function booking_machine_update(pos)
 		local station_pos = P(sStationPos)
 		local counter = meta:get_int("change_counter") or 0
 		local changed, newcounter = Stations:changed(counter)
-		if changed then
-			meta:set_string("formspec", station_list_as_string(station_pos))
+		if changed or not tStationList[sStationPos] then
+			local subnet = meta:get_string("subnet")
+			meta:set_string("formspec", station_list_as_string(station_pos, subnet))
 			meta:set_int("change_counter", newcounter)
-		end
-		if not tStationList[sStationPos] then
-			local sortedList = Stations:station_list(station_pos, station_pos, "dist")
-			-- Delete the own station from list
-			table.remove(sortedList, 1)
-			-- remove all junctions from the list
-			sortedList = remove_junctions(sortedList)
-			-- store the list for later use
-			store_station_list(station_pos, sortedList)
 		end
 	end
 end
 
+local function on_rightclick(pos)
+	booking_machine_update(pos)
+end
 
 local function on_receive_fields(pos, formname, fields, player)
-	booking_machine_update(pos)
 	-- station name entered?
 	if fields.name ~= nil then
 		local station_name = string.trim(fields.name)
@@ -142,17 +173,25 @@ local function on_receive_fields(pos, formname, fields, player)
 				hyperloop.chat(player, S("Station has already a booking machine!"))
 				return
 			end
+			-- add subnet name if available
+			local subnet = string.trim(fields.subnet or "")
+			if subnet == "" then
+				subnet = nil
+			end
 			-- store meta and generate station formspec
 			Stations:update(stationPos, {
 					name = station_name,
 					booking_pos = pos,
 					booking_info = string.trim(fields.info),
+					subnet = subnet,
 			})
 			
 			local meta = M(pos)
 			meta:set_string("sStationPos", SP(stationPos))
 			meta:set_string("infotext", "Station: "..station_name)
-			meta:set_string("formspec", station_list_as_string(stationPos))
+			meta:set_string("subnet", string.trim(fields.subnet or ""))
+			meta:set_int("change_counter", 0) -- force update
+			booking_machine_update(pos)
 		else
 			hyperloop.chat(player, S("Invalid station name!"))
 		end
@@ -233,6 +272,7 @@ minetest.register_node("hyperloop:booking", {
 	on_rotate = screwdriver.disallow,	
 	on_receive_fields = on_receive_fields,
 	on_destruct = on_destruct,
+	on_rightclick = on_rightclick,
 
 	paramtype = 'light',
 	light_source = 2,
@@ -279,10 +319,4 @@ minetest.register_node("hyperloop:booking_ground", {
 })
 
 
-minetest.register_lbm({
-	label = "[Hyperloop] Booking machine update",
-	name = "hyperloop:update",
-	nodenames = {"hyperloop:booking", "hyperloop:booking_ground"},
-	run_at_every_load = true,
-	action = booking_machine_update
-})
+

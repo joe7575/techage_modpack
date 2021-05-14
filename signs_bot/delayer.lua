@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,20 +13,17 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local CYCLE_TIME = 2
 
-local lib = signs_bot.lib
-
 local function update_infotext(pos, dest_pos, cmnd)
-	M(pos):set_string("infotext", I("Signal Delayer: Connected with ")..S(dest_pos).." / "..cmnd)
+	M(pos):set_string("infotext", S("Signal Delayer: Connected with").." "..P2S(dest_pos).." / "..cmnd)
 end	
 
 local function infotext(pos)
@@ -34,19 +31,19 @@ local function infotext(pos)
 	local dest_pos = meta:get_string("signal_pos")
 	local signal = meta:get_string("signal_data")
 	if dest_pos ~= "" and signal ~= "" then
-		update_infotext(pos, P(dest_pos), signal)
+		update_infotext(pos, S2P(dest_pos), signal)
 	end
 end
 
 local function formspec(meta)
-	local label = minetest.formspec_escape(I("Delay time [sec]:"))
+	local label = minetest.formspec_escape(S("Delay time [sec]:"))
 	local value = minetest.formspec_escape(meta:get_int("time"))
 	return "size[4,3]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"field[0.3,1;4,1;time;"..label..";"..value.."]"..
-	"button_exit[1,2.2;2,1;start;"..I("Start").."]"
+	"button_exit[1,2.2;2,1;start;"..S("Start").."]"
 end
 
 -- Used by the pairing tool
@@ -141,7 +138,7 @@ local function on_receive_fields(pos, formname, fields, player)
 end
 
 minetest.register_node("signs_bot:delayer", {
-	description = I("Signal Delayer"),
+	description = S("Signal Delayer"),
 	inventory_image = "signs_bot_delayer_inv.png",
 	drawtype = "nodebox",
 	node_box = {
@@ -172,6 +169,7 @@ minetest.register_node("signs_bot:delayer", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -180,7 +178,7 @@ minetest.register_node("signs_bot:delayer", {
 })
 
 minetest.register_node("signs_bot:delayer_loaded", {
-	description = I("Signal Delayer"),
+	description = S("Signal Delayer"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -203,6 +201,7 @@ minetest.register_node("signs_bot:delayer_loaded", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
+	use_texture_alpha = signs_bot.CLIP,
 	is_ground_content = false,
 	diggable = false,
 	groups = {sign_bot_sensor = 1, not_in_creative_inventory = 1},
@@ -210,7 +209,7 @@ minetest.register_node("signs_bot:delayer_loaded", {
 })
 
 minetest.register_node("signs_bot:delayer_on", {
-	description = I("Signal Delayer"),
+	description = S("Signal Delayer"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -230,6 +229,7 @@ minetest.register_node("signs_bot:delayer_on", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
+	use_texture_alpha = signs_bot.CLIP,
 	is_ground_content = false,
 	diggable = false,
 	groups = {sign_bot_sensor = 1, not_in_creative_inventory = 1},
@@ -261,12 +261,12 @@ minetest.register_lbm({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "delayer", {
-		name = I("Signal Delayer"),
+		name = S("Signal Delayer"),
 		data = {
 			item = "signs_bot:delayer",
 			text = table.concat({
-				I("Signals are forwarded delayed. Subsequent signals are queued."), 
-				I("The delay time can be configured."),
+				S("Signals are forwarded delayed. Subsequent signals are queued."), 
+				S("The delay time can be configured."),
 			}, "\n")		
 		},
 	})

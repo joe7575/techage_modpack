@@ -87,6 +87,7 @@ techage.lua_ctlr.register_action("print", {
 		local pos = self.meta.pos
 		text = tostring(text or "")
 		output(pos, text)
+		--print("Lua: "..text)
 	end,
 	help = " $print(text)\n"..
 		" Send a text line to the output window.\n"..
@@ -553,6 +554,7 @@ minetest.register_node("techage:ta4_lua_controller", {
 	on_timer = on_timer,
 	
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=1, cracky=1, crumbly=1},
@@ -601,6 +603,18 @@ function techage.lua_ctlr.get_input(number, input)
 		end
 	end
 	return "off"
+end	
+
+function techage.lua_ctlr.get_next_input(number)
+	if Cache[number] and Cache[number].inputs then
+		local num, state = next(Cache[number].inputs or {})
+		if num ~= "msg" and num ~= "term" then
+			if num then
+				Cache[number].inputs[num] = nil
+			end
+			return num, state
+		end
+	end
 end	
 
 -- used for Terminal commands

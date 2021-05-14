@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
@@ -23,21 +23,17 @@ local StopTime = {}
 local function formspec(pos)
 	local name = M(pos):get_string("name")
 	local time = M(pos):get_int("time")
-	local s = "size[4,4.2]" ..
+	return "size[4,4.2]" ..
 		"label[0,0;Configuration]" ..
 		"field[0.5,1.2;3.6,1;name;"..S("Station name")..":;"..name.."]"..
-		"button_exit[1,3.4;2,1;exit;Save]"
-	if minecart.hopper_enabled then
-		return s.."field[0.5,2.5;3.6,1;time;"..S("Stop time/sec")..":;"..time.."]"
-	end
-	return s
+		"button_exit[1,3.4;2,1;exit;Save]"..
+		"field[0.5,2.5;3.6,1;time;"..S("Waiting time/sec")..":;"..time.."]"
 end
 
 local function remote_station_name(pos)
-	local route = minecart.get_route(P2S(pos))
+	local route = minecart.get_route(pos)
 	if route and route.dest_pos then
-		local pos2 = S2P(route.dest_pos)
-		return M(pos2):get_string("name")
+		return M(route.dest_pos):get_string("name")
 	end
 	return "none"
 end
@@ -46,23 +42,21 @@ local function on_punch(pos, node, puncher)
 	local name = M(pos):get_string("name")
 	M(pos):set_string("infotext", name..": "..S("connected to").." "..remote_station_name(pos))
 	M(pos):set_string("formspec", formspec(pos))
-	if minecart.hopper_enabled then
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
+
 	-- Optional Teleport function
 	if not minecart.teleport_enabled then return end
-	local route = minecart.get_route(P2S(pos))
+	local route = minecart.get_route(pos)
 	if route and route.dest_pos and puncher and puncher:is_player() then
 
 		-- only teleport if the user is not pressing shift
 		if not puncher:get_player_control()['sneak'] then
 			local playername = puncher:get_player_name()
-			local pos = S2P(route.dest_pos)
 
 			local teleport = function()
 				-- Make sure the player object still exists
 				local player = minetest.get_player_by_name(playername)
-				if player and pos then player:set_pos(pos) end
+				if player then player:set_pos(route.dest_pos) end
 			end
 			minetest.after(0.25, teleport)
 		end
@@ -95,24 +89,21 @@ minetest.register_node("minecart:buffer", {
 	},
 	after_place_node = function(pos, placer)
 		M(pos):set_string("owner", placer:get_player_name())
-		minecart.del_route(minetest.pos_to_string(pos))
+		minecart.del_route(pos)
 		M(pos):set_string("formspec", formspec(pos))
-		if minecart.hopper_enabled then
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-		end
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 	on_timer = function(pos, elapsed)
 		local time = M(pos):get_int("time")
 		if time > 0 then
 			local hash = minetest.hash_node_position(pos)
 			local param2 = (minetest.get_node(pos).param2 + 2) % 4
-			if minecart.check_cart_for_pushing(pos, param2) then
+			if minecart.is_cart_available(pos, param2, 0.5) then
 				if StopTime[hash] then
 					if StopTime[hash] < minetest.get_gametime() then
 						StopTime[hash] = nil
-						local node = minetest.get_node(pos)
-						local dir = minetest.facedir_to_dir(node.param2)
-						minecart.punch_cart(pos, param2, 0, dir)
+						local dir = minetest.facedir_to_dir(param2)
+						minecart.punch_cart(pos, param2, 0.5, dir)
 					end
 				else
 					StopTime[hash] = minetest.get_gametime() + time
@@ -124,7 +115,7 @@ minetest.register_node("minecart:buffer", {
 		return true
 	end,
 	after_dig_node = function(pos)
-		minecart.del_route(minetest.pos_to_string(pos))
+		minecart.del_route(pos)
 		local hash = minetest.hash_node_position(pos)
 		StopTime[hash] = nil
 	end,
@@ -137,6 +128,7 @@ minetest.register_node("minecart:buffer", {
 			M(pos):set_int("time", tonumber(fields.time) or 0)
 			M(pos):set_string("formspec", formspec(pos))
 			M(pos):set_string("infotext", fields.name.." "..S("connected to").." "..remote_station_name(pos))
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end
 	end,
 	on_punch = on_punch,
@@ -155,4 +147,16 @@ minetest.register_craft({
 		{"dye:red", "", "dye:white"},
 		{"default:steel_ingot", "default:junglewood", "default:steel_ingot"},
 	},
+})
+
+minetest.register_lbm({
+	label = "Delete waiting times",
+	name = "minecart:del_time",
+	nodenames = {"minecart:buffer"},
+	run_at_every_load = false,
+	action = function(pos, node)
+		-- delete old data
+		minecart.get_route(pos)
+		M(pos):set_string("formspec", formspec(pos))
+	end,
 })

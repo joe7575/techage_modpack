@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.25
+techage.version = 0.26
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -37,6 +37,10 @@ elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.0 or newer!")
 	return
 end
+
+-- Test MT 5.4 new string mode
+techage.CLIP  = minetest.features.use_texture_alpha_string_modes and "clip" or false
+techage.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or true
 
 techage.NodeDef = {}		-- node registration info
 
@@ -85,6 +89,7 @@ dofile(MP.."/basis/networks.lua")
 dofile(MP.."/basis/recipe_lib.lua")
 dofile(MP.."/basis/formspec_update.lua")
 dofile(MP.."/basis/windturbine_lib.lua")
+dofile(MP.."/basis/laser_lib.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -112,6 +117,8 @@ dofile(MP.."/power/powerswitch.lua")
 dofile(MP.."/power/protection.lua")
 dofile(MP.."/power/power_line.lua")
 dofile(MP.."/power/ta4_cable.lua")
+dofile(MP.."/power/ta4_cable_wall_entry.lua")
+dofile(MP.."/power/laser.lua")
 
 -- Iron Age
 dofile(MP.."/iron_age/main.lua")
@@ -161,6 +168,7 @@ dofile(MP.."/basic_machines/ta4_chest.lua")
 dofile(MP.."/basic_machines/ta4_injector.lua")
 dofile(MP.."/basic_machines/itemsource.lua")
 dofile(MP.."/basic_machines/recycler.lua")
+dofile(MP.."/basic_machines/concentrator.lua")
 
 -- Liquids II
 dofile(MP.."/liquids/tank.lua")
@@ -168,6 +176,7 @@ dofile(MP.."/liquids/filler.lua")
 dofile(MP.."/liquids/silo.lua")
 dofile(MP.."/liquids/pump.lua")
 dofile(MP.."/liquids/waterpump.lua")
+dofile(MP.."/liquids/waterinlet.lua")
 
 -- Coal power station
 dofile(MP.."/coal_power_station/firebox.lua")
@@ -214,7 +223,7 @@ dofile(MP.."/oil/drillbox.lua")
 dofile(MP.."/oil/pumpjack.lua")
 dofile(MP.."/oil/distiller.lua")
 dofile(MP.."/oil/reboiler.lua")
---	dofile(MP.."/oil/gasflare.lua")
+--  dofile(MP.."/oil/gasflare.lua")
 
 -- TA3 power based
 dofile(MP.."/ta3_power/tiny_generator.lua")
@@ -237,14 +246,15 @@ dofile(MP.."/logic/programmer.lua")
 dofile(MP.."/logic/signallamp.lua")
 dofile(MP.."/logic/sequencer.lua")
 dofile(MP.."/logic/timer.lua")
-dofile(MP.."/logic/lua_logic.lua")
+dofile(MP.."/logic/lua_logic.lua")  -- old
+dofile(MP.."/logic/logic_block.lua")  -- new
 dofile(MP.."/logic/node_detector.lua")
 dofile(MP.."/logic/player_detector.lua")
 dofile(MP.."/logic/cart_detector.lua")
 dofile(MP.."/logic/gateblock.lua")
 dofile(MP.."/logic/doorblock.lua")
-dofile(MP.."/logic/doorcontroller.lua")
-dofile(MP.."/logic/doorcontroller2.lua")
+dofile(MP.."/logic/doorcontroller.lua")  -- old
+dofile(MP.."/logic/doorcontroller2.lua")  -- new
 dofile(MP.."/logic/collector.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")
@@ -324,6 +334,7 @@ dofile(MP.."/items/electronic.lua")
 dofile(MP.."/items/redstone.lua")
 dofile(MP.."/items/cement.lua")
 dofile(MP.."/items/cracking.lua")
+dofile(MP.."/items/ceramic.lua")
 
 if techage.basalt_stone_enabled then
 	dofile(MP.."/items/basalt.lua")

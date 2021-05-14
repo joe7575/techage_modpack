@@ -1,6 +1,19 @@
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local S, NS = dofile(MP.."/intllib.lua")
+--[[
+
+	Signs Bot
+	=========
+
+	Copyright (C) 2019-2021 Joachim Stolberg
+
+	GPLv3
+	See LICENSE.txt for more information
+	
+	Signs Bot: Bot Flap
+
+]]--
+
+-- Load support for I18n.
+local S = signs_bot.S
 
 local CYCLE_TIME = 4
 
@@ -10,7 +23,7 @@ if minetest.get_modpath("techage") then
 	local power = techage.power
 	
 	signs_bot.register_inventory({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4",
-			"techage:ta3_silo", "techage:ta4_silo"}, {
+			"techage:ta3_silo", "techage:ta4_silo", "techage:ta4_sensor_chest"}, {
 		allow_inventory_put = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
 		end, 
@@ -36,6 +49,40 @@ if minetest.get_modpath("techage") then
 		},
 		take = {
 			listname = "dst",
+		},
+	})
+	signs_bot.register_inventory({
+			"techage:ta2_autocrafter_pas", "techage:ta2_autocrafter_act",
+			"techage:ta3_autocrafter_pas", "techage:ta3_autocrafter_act"}, {
+		allow_inventory_put = function(pos, stack, player_name)
+			return not minetest.is_protected(pos, player_name)
+		end, 
+		allow_inventory_take = function(pos, stack, player_name)
+			return not minetest.is_protected(pos, player_name)
+		end, 
+		put = {
+			listname = "src",
+		},
+		take = {
+			listname = "dst",
+		},
+	})
+	signs_bot.register_inventory({
+			"techage:ta2_distributor_pas", "techage:ta2_distributor_act",
+			"techage:ta3_distributor_pas", "techage:ta3_distributor_act",
+			"techage:ta4_distributor_pas", "techage:ta4_distributor_act",
+			"techage:ta4_high_performance_distributor_pas", "techage:ta4_high_performance_distributor_act"}, {
+		allow_inventory_put = function(pos, stack, player_name)
+			return not minetest.is_protected(pos, player_name)
+		end, 
+		allow_inventory_take = function(pos, stack, player_name)
+			return not minetest.is_protected(pos, player_name)
+		end, 
+		put = {
+			listname = "src",
+		},
+		take = {
+			listname = "src",
 		},
 	})
 
@@ -90,16 +137,25 @@ if minetest.get_modpath("techage") then
 		mod = "techage",
 		params = "<receiver> <command>",
 		num_param = 2,
-		description = S("Sends a techage command\nto a given node.\nReceiver is addressed by\nthe techage node number."),
+		description = S([[Sends a techage command
+to a given node. 
+Receiver is addressed by
+the techage node number.
+For commands with two or more 
+words, use the '*' character 
+instead of spaces, e.g.: 
+send_cmnd 3465 pull*default:dirt*2]]),
 		check = function(address, command)
 			address = tonumber(address)
 			return address ~= nil and command ~= nil and command ~= ""
 		end,
 		cmnd = function(base_pos, mem, address, command)
+			command = command:gsub("*", " ")
 			address = tostring(tonumber(address))
 			local meta = minetest.get_meta(base_pos)
 			local number = meta:get_int("number") or 0
-			techage.send_multi(number, address, command)
+			local topic, payload = unpack(string.split(command, " ", false, 1))
+			techage.send_multi(number, address, topic, payload)
 			return signs_bot.DONE
 		end,
 	})
@@ -130,6 +186,10 @@ if minetest.get_modpath("techage") then
 	Cable:add_secondary_node_names({"signs_bot:box"})
 
 	techage.register_node({"signs_bot:box"}, {
+		on_inv_request = function(pos, in_dir, access_type)
+			local meta = minetest.get_meta(pos)
+			return meta:get_inventory(), "main"
+		end,
 		on_pull_item = function(pos, in_dir, num)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
@@ -165,7 +225,7 @@ if minetest.get_modpath("techage") then
 					elseif mem.capa >= signs_bot.MAX_CAPA then
 						return "stopped"
 					else
-						return "loading"
+						return "charging"
 					end
 				else
 					return "stopped"
@@ -186,6 +246,10 @@ if minetest.get_modpath("techage") then
 		end,
 	})	
 	techage.register_node({"signs_bot:chest"}, {
+		on_inv_request = function(pos, in_dir, access_type)
+			local meta = minetest.get_meta(pos)
+			return meta:get_inventory(), "main"
+		end,
 		on_pull_item = function(pos, in_dir, num)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()

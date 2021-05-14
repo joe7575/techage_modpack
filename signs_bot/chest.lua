@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-0221 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,12 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local NODE_IO = minetest.global_exists("node_io")
 
@@ -50,7 +49,7 @@ end
 local function update_infotext(pos, dest_pos, cmnd)
 	local meta = M(pos)
 	local state = get_inv_state(pos)
-	meta:set_string("infotext", I("Bot Chest: Sends signal to ")..S(dest_pos).." / "..cmnd..", if "..state)
+	meta:set_string("infotext", S("Bot Chest: Sends signal to").." "..P2S(dest_pos).." / "..cmnd..", if "..state)
 	meta:set_string("state", state)
 	
 end	
@@ -68,7 +67,7 @@ end
 
 if NODE_IO then
 	minetest.register_node("signs_bot:chest", {
-		description = I("Signs Bot Chest"),
+		description = S("Signs Bot Chest"),
 		tiles = {
 			-- up, down, right, left, back, front
 			'signs_bot_chest_top.png',
@@ -91,7 +90,7 @@ if NODE_IO then
 			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name())
 			meta:set_string("formspec", formspec(pos, mem))
-			meta:set_string("infotext", "Bot Chest: Not connected")
+			meta:set_string("infotext", S("Bot Chest: Not connected"))
 		end,
 
 		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
@@ -158,7 +157,7 @@ if NODE_IO then
 	})
 else
 	minetest.register_node("signs_bot:chest", {
-		description = I("Signs Bot Chest"),
+		description = S("Signs Bot Chest"),
 		tiles = {
 			-- up, down, right, left, back, front
 			'signs_bot_chest_top.png',
@@ -181,7 +180,7 @@ else
 			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name())
 			meta:set_string("formspec", formspec(pos, mem))
-			meta:set_string("infotext", "Bot Chest: Not connected")
+			meta:set_string("infotext", S("Bot Chest: Not connected"))
 		end,
 
 		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
@@ -245,15 +244,15 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "chest", {
-		name = I("Signs Bot Chest"),
+		name = S("Signs Bot Chest"),
 		data = {
 			item = "signs_bot:chest",
 			text = table.concat({
-				I("The Signs Bot Chest is a special chest with sensor function."),
-				I("It sends a signal depending on the chest state."), 
-				I("Possible states are 'empty', 'not empty', 'almost full'"),
+				S("The Signs Bot Chest is a special chest with sensor function."),
+				S("It sends a signal depending on the chest state."), 
+				S("Possible states are 'empty', 'not empty', 'almost full'"),
 				"",
-				I("A typical use case is to turn off the bot, when the chest is almost full or empty."),
+				S("A typical use case is to turn off the bot, when the chest is almost full or empty."),
 			}, "\n")		
 		},
 	})

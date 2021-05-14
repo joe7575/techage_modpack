@@ -23,7 +23,9 @@ The wind turbine delivers 70 ku, but only 8 hours a day (see above).
 ### TA4 Wind Turbine
 
 The wind turbine block (rotor) is the heart of the wind turbine. This block must be placed on top of the mast. Ideally at Y = 15, then you just stay within a map / forceload block.
-If all conditions are met, the rotor blades appear automatically when this block is set. Otherwise you will see an error message.
+After the block has been set, a check is carried out to determine whether all conditions for the operation of the wind turbine have been met. If all conditions are met, the rotor blades (wings) appear automatically when this block is set. Otherwise you will get an error message.
+
+The check can be repeated by hitting the block. 
 
 [ta4_windturbine|image]
 
@@ -143,7 +145,7 @@ Both the generator and the heat exchanger have a power connection and must be co
 In principle, the heat storage system works exactly the same as the batteries, only with much more storage capacity.
 The heat accumulator can hold and deliver 60 ku.
 
-In order for the heat storage system to work, all blocks (except the concrete shell and gravel) must be loaded using a forceload block.
+In order for the heat storage system to work, all blocks (also the concrete shell and gravel) must be loaded using a forceload block.
 
 [ta4_storagesystem|plan]
 
@@ -151,7 +153,7 @@ In order for the heat storage system to work, all blocks (except the concrete sh
 ### TA4 Heat Exchanger
 
 The heat exchanger consists of 3 parts that must be placed on top of each other, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.
-The heat exchanger must be connected to the power grid. The heat exchanger can consume 60 ku.
+The heat exchanger must be connected to the power grid. The heat exchanger charges the energy store again when sufficient electricity is available and the energy storage is less than 95% charged. The heat exchanger takes up 60 ku. 
 
 [ta4_heatexchanger|image]
 
@@ -194,9 +196,9 @@ Electrolysis can be used to split electricity into hydrogen and oxygen. On the o
 This enables current peaks or an excess supply of electricity to be converted into hydrogen and thus stored.
 
 In the game, electricity can be converted back into electricity via the fuel cell using the electrolyzer in hydrogen and hydrogen.
-This means that electricity (in the form of hydrogen) can not only be stored in tanks, but can also be transported with carts using gas cylinders.
+This means that electricity (in the form of hydrogen) can not only be stored in tanks, but also transported by means of the tank cart.
 
-However, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity, only 83 units of electricity come out after the conversion to hydrogen and back.
+However, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity, only 95 units of electricity come out after the conversion to hydrogen and back.
 
 [ta4_hydrogen|image]
 
@@ -206,7 +208,7 @@ However, the conversion of electricity into hydrogen and back is lossy. Out of 1
 The electrolyzer converts electricity into hydrogen.
 It must be powered from the left. On the right, hydrogen can be extracted via pipes and pumps.
 
-The electrolyzer can draw up to 30 ku of electricity and then generates a hydrogen item every 4 s.
+The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.
 200 units of hydrogen fit into the electrolyzer.
 
 [ta4_electrolyzer|image]
@@ -217,7 +219,10 @@ The electrolyzer can draw up to 30 ku of electricity and then generates a hydrog
 The fuel cell converts hydrogen into electricity.
 It must be supplied with hydrogen from the left by a pump. The power connection is on the right.
 
-The fuel cell can deliver up to 25 ku of electricity and needs a hydrogen item every 4 s.
+The fuel cell can deliver up to 34 ku of electricity and needs a hydrogen item every 4 s.
+
+Usually the fuel cell works as a category 2 generator (like other storage systems). 
+In this case, no other category 2 blocks such as the battery block can be charged. However, the fuel cell can also be used as a category 1 generator via the check box.
 
 [ta4_fuelcell|image]
 
@@ -235,7 +240,7 @@ A reactor consists of:
 - The filler pipe that must be placed on the reactor vessel
 - The dosing device, which has to be connected to the tanks or silos and the filler pipe via pipes
 
-Note 1: Liquids are only stored in tanks, substances in powder form only in silos. This applies to ingredients and raw materials.
+Note 1: Liquids are only stored in tanks, solids and substances in powder form only in silos. This applies to ingredients and raw materials.
 
 Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast, several tanks or silos with the same content may hang in parallel on one line.
 
@@ -538,11 +543,17 @@ The heater requires 14 ku of electricity.
 
 [ta4_furnaceheater|image]
 
-### TA4 water Pump
+### TA4 Water Pump (deprecated)
 
-With the water pump, water can be pumped through liquid lines in tanks and thus used for recipes. The water pump has to be placed in the sea. A "pool" consisting of a few blocks of water is not possible!
+This block can no longer be crafted and will be replaced by the TA4 water inlet block. 
 
-[ta4_waterpump|image]
+### TA4 Water Inlet
+
+Some recipes require water. The water must be pumped from the sea with a pump (water at y = 1). A "pool" made up of a few water blocks is not sufficient for this! 
+
+To do this, the water inlet block must be placed in the water and connected to the pump via pipes. If the block is placed in the water, it must be ensured that there is water under the block (water must be at least 2 blocks deep). 
+
+[ta4_waterinlet|image]
 
 ### TA4 Tube
 
@@ -652,19 +663,17 @@ The processing power is one chip every 6 s. The block requires 12 ku of electric
 
 ### TA4 Injector
 
-The injector is a TA4 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest (TA4 chest or TA4 8x2000 chest) to pass them on to machines with recipes (autocrafter, industrial furnace and electronic fab).
+The function corresponds to that of TA3.
 
-When passing on, only one position in the inventory is used in the target machine. If, for example, only the first three entries are configured in the injector, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.
-
-The processing power is up to 8 items every 3 seconds.
+The processing power is up to 8 times four items every 4 seconds.
 
 [ta4_injector|image]
 
-### TA4 recycler
+### TA4 Recycler
 
 The recycler is a machine that processes all Techage recipes backwards, i.e. it can dismantle machines and blocks back into their components. 
 
-The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all materials can be recycled:
+The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all recipe items/materials can be recycled:
 
 - Wood turns into sticks
 - Stone turns into sand or gravel
@@ -675,3 +684,12 @@ The processing power is one item every 8 s.  The block requires 16 ku of electri
 
 [ta4_recycler|image] 
 
+### TA4 Laser
+
+The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. 
+
+With the laser, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow), this is indicated via the info text of the emitter and also of the receiver. 
+
+The laser blocks themselves do not require any electricity.
+
+[ta4_laser|image]

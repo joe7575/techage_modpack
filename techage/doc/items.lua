@@ -28,6 +28,7 @@ techage.Items = {
 	ta1_hopper = "techage:hopper_ta1",
 	wlanchip = "techage:ta4_wlanchip",
 	tube = "techage:tubeS",
+	concentrator = "techage:concentrator27",
 	----------------
 	techage_ta2 = "techage_ta2.png",
 	ta2_firebox = "techage:firebox",
@@ -48,7 +49,7 @@ techage.Items = {
 	ta2_chest = "techage:chest_ta2",
 	ta2_forceload = "techage:forceload",
 	ta2_driveaxle = "techage:axle",
-        ta2_generator = "techage:ta2_generator_off",
+	ta2_generator = "techage:ta2_generator_off",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",
@@ -115,7 +116,8 @@ techage.Items = {
 	ta3_pipe_wall_entry = "techage:ta3_pipe_wall_entry",
 	ta3_mesecons_converter = "techage:ta3_mesecons_converter",
 	ta3_valve = "techage:ta3_valve_closed",
-        ta3_motor = "techage:ta3_motor_off",
+	ta3_motor = "techage:ta3_motor_off",
+	ta3_injector = "techage:ta3_injector_pas",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	ta4_windturbine = "techage:ta4_wind_turbine",
@@ -177,7 +179,10 @@ techage.Items = {
 	ta4_injector = "techage:ta4_injector_pas",
 	ta4_liquid_filter = "techage_ta4_filter.png",
 	ta4_recycler = "techage:ta4_recycler_pas",
-	
+	ta4_waterinlet = "techage:ta4_waterinlet",
+	ta4_laser = "techage:ta4_laser_emitter",
+	ta4_concentrator = "techage:ta4_concentrator27",
+
 	--ta4_ "", 
 }
 

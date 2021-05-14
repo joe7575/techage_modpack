@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,22 +13,18 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
-
-local lib = signs_bot.lib
+-- Load support for I18n.
+local S = signs_bot.S
 
 local function update_infotext(pos, dest_pos, cmnd)
-	M(pos):set_string("infotext", I("Sensor Extender: Connected with ")..S(dest_pos).." / "..cmnd)
+	M(pos):set_string("infotext", S("Sensor Extender: Connected with").." "..P2S(dest_pos).." / "..cmnd)
 end	
 
 minetest.register_node("signs_bot:sensor_extender", {
-	description = I("Sensor Extender"),
+	description = S("Sensor Extender"),
 	inventory_image = "signs_bot_extender_inv.png",
 	drawtype = "nodebox",
 	node_box = {
@@ -54,12 +50,13 @@ minetest.register_node("signs_bot:sensor_extender", {
 	
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		meta:set_string("infotext", I("Sensor Extender: Not connected"))
+		meta:set_string("infotext", S("Sensor Extender: Not connected"))
 	end,
 	
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -68,7 +65,7 @@ minetest.register_node("signs_bot:sensor_extender", {
 })
 
 minetest.register_node("signs_bot:sensor_extender_on", {
-	description = I("Sensor Extender"),
+	description = S("Sensor Extender"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "connected",
@@ -108,6 +105,7 @@ minetest.register_node("signs_bot:sensor_extender_on", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -127,13 +125,13 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "sensor_extender", {
-		name = I("Sensor Extender"),
+		name = S("Sensor Extender"),
 		data = {
 			item = "signs_bot:sensor_extender",
 			text = table.concat({
-				I("With the Sensor Extender, sensor signals can be sent to more than one actuator."),
-				I("Place one or more extender nearby the sensor and connect each extender"), 
-				I("with one further actuator by means of the Connection Tool."), 
+				S("With the Sensor Extender, sensor signals can be sent to more than one actuator."),
+				S("Place one or more extender nearby the sensor and connect each extender"), 
+				S("with one further actuator by means of the Connection Tool."), 
 			}, "\n")		
 		},
 	})

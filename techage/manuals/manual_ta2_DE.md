@@ -99,6 +99,12 @@ Die Transportkapazität einer Röhre ist unbegrenzt und nur durch die Schieber b
 
 [tube|image]
 
+### Röhren Konzentrator / Tube Concentrator
+
+Über den Konzentrator können mehrere Röhren zu einer Röhre zusammengeführt werden. Die Richtung, in der alle Items weitergegeben werden, ist mit einem Pfeil markiert.
+
+[concentrator|image]
+
 
 ### TA2 Schieber / Pusher
 
@@ -131,6 +137,12 @@ Im ersten Fall werden immer alle Items weitergeleitet und der Verteiler läuft n
 Einstellbar ist die Betriebsart über die "blockiere" Checkbox.
 
 Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s, wobei der Verteiler dabei versucht, die 4 Items auf die offenen Ausgänge zu verteilen.
+
+Wird dasselbe Item in einem Filter mehrfach hinterlegt, so beeinflusst dies das langfristige Verteilungsverhältnis entsprechend.
+
+Bitte beachte, dass die Verteilung ein probabilistischer Vorgang ist, d.h. die Verhältnisse werden nicht exakt, sondern nur langfristig eingehalten.
+
+In den Filtern beträgt die maximale Stackgröße 12; insgesamt können höchstens 36 Items konfiguriert werden.
 
 [ta2_distributor|image]
 

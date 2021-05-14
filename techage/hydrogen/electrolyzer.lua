@@ -24,7 +24,7 @@ local networks = techage.networks
 
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 3
-local PWR_NEEDED = 30
+local PWR_NEEDED = 35
 local PWR_UNITS_PER_HYDROGEN_ITEM = 80
 local CAPACITY = 200
 
@@ -304,7 +304,7 @@ minetest.register_craft({
 	output = "techage:ta4_electrolyzer",
 	recipe = {
 		{'default:steel_ingot', 'dye:blue', 'default:steel_ingot'},
-		{'techage:electric_cableS', 'default:glass', 'techage:tubeS'},
+		{'techage:electric_cableS', 'default:glass', 'techage:ta3_pipeS'},
 		{'default:steel_ingot', "techage:ta4_wlanchip", 'default:steel_ingot'},
 	},
 })

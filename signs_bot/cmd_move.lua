@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -12,14 +12,8 @@
 
 ]]--
 
--- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 local get_node_lvm = tubelib2.get_node_lvm
@@ -135,7 +129,7 @@ signs_bot.register_botcommand("backward", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Move the robot one step back"),
+	description = S("Move the robot one step back"),
 	cmnd = function(base_pos, mem)
 		local new_pos = backward_robot(mem)
 		if new_pos then  -- not blocked?
@@ -160,7 +154,7 @@ signs_bot.register_botcommand("turn_left", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Turn the robot to the left"),
+	description = S("Turn the robot to the left"),
 	cmnd = function(base_pos, mem)
 		mem.robot_param2 = turn_robot(mem.robot_pos, mem.robot_param2, "L")
 		return signs_bot.DONE
@@ -171,7 +165,7 @@ signs_bot.register_botcommand("turn_right", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Turn the robot to the right"),
+	description = S("Turn the robot to the right"),
 	cmnd = function(base_pos, mem)
 		mem.robot_param2 = turn_robot(mem.robot_pos, mem.robot_param2, "R")
 		return signs_bot.DONE
@@ -182,7 +176,7 @@ signs_bot.register_botcommand("turn_around", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Turn the robot around"),
+	description = S("Turn the robot around"),
 	cmnd = function(base_pos, mem)
 		mem.robot_param2 = turn_robot(mem.robot_pos, mem.robot_param2, "R")
 		mem.robot_param2 = turn_robot(mem.robot_pos, mem.robot_param2, "R")
@@ -217,7 +211,7 @@ signs_bot.register_botcommand("move_up", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Move the robot upwards"),
+	description = S("Move the robot upwards"),
 	cmnd = function(base_pos, mem)
 		local new_pos = robot_up(mem.robot_pos, mem.robot_param2)
 		if new_pos then  -- not blocked?
@@ -251,7 +245,7 @@ signs_bot.register_botcommand("move_down", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Move the robot down"),
+	description = S("Move the robot down"),
 	cmnd = function(base_pos, mem)
 		local new_pos = robot_down(mem.robot_pos, mem.robot_param2)
 		if new_pos then  -- not blocked?
@@ -265,14 +259,14 @@ signs_bot.register_botcommand("pause", {
 	mod = "move",
 	params = "<sec>",
 	num_param = 1,
-	description = I("Stop the robot for <sec> seconds\n(1..9999)"),
+	description = S("Stop the robot for <sec> seconds\n(1..9999)"),
 	check = function(sec)
 		sec = tonumber(sec) or 1
 		return sec and sec > 0 and sec < 10000
 	end,
 	cmnd = function(base_pos, mem, sec)
 		if not mem.steps then
-			mem.steps = tonumber(sec or 1)
+			mem.steps = tonumber(sec) or 1
 		end
 		mem.steps = mem.steps - 1
 		if mem.steps == 0 then
@@ -290,7 +284,7 @@ signs_bot.register_botcommand("stop", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Stop the robot."),
+	description = S("Stop the robot."),
 	cmnd = function(base_pos, mem, slot)
 		if mem.capa then
 			mem.capa = mem.capa + 2
@@ -303,7 +297,7 @@ signs_bot.register_botcommand("turn_off", {
 	mod = "move",
 	params = "",
 	num_param = 0,
-	description = I("Turn the robot off\n"..
+	description = S("Turn the robot off\n"..
 		"and put it back in the box."),
 	cmnd = function(base_pos, mem)
 		signs_bot.stop_robot(base_pos, mem)

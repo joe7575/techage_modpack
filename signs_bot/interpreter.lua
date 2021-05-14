@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -12,9 +12,8 @@
 
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local MAX_SIZE = 1000  -- max number of tokens
 
@@ -128,6 +127,19 @@ local function compile(script)
 	return pass2(tokens)
 end	
 
+local function gen_string_cmnd(code, pc, num_param, script)
+	local tokens = tokenizer(script)
+	if num_param == 0 then
+		return tokens[pc]
+	elseif num_param == 1 then
+		return tokens[pc] .. " " .. (tokens[pc+1] or "")
+	elseif num_param == 2 then
+		return tokens[pc] .. " " .. (tokens[pc+1] or "") .. " " .. (tokens[pc+2] or "")
+	else
+		return tokens[pc] .. " " .. (tokens[pc+1] or "") .. " " .. (tokens[pc+2] or "") .. " " .. (tokens[pc+3] or "")
+	end
+end
+
 -------------------------------------------------------------------------------
 -- Commands
 -------------------------------------------------------------------------------
@@ -235,29 +247,29 @@ function api.check_script(script)
 		if tCmdDef[cmnd] then
 			num_token = num_token + 1 + tCmdDef[cmnd].num_param
 			if num_token > MAX_SIZE then
-				return false, I("Maximum programm size exceeded"), idx
+				return false, S("Maximum programm size exceeded"), idx
 			end
 			param1 = tonumber(param1) or param1
 			param2 = tonumber(param2) or param2
 			param3 = tonumber(param3) or param3
 			local num_param = (param1 and 1 or 0) + (param2 and 1 or 0) + (param3 and 1 or 0)
 			if tCmdDef[cmnd].num_param < num_param then
-				return false, I("Too many parameters"), idx
+				return false, S("Too many parameters"), idx
 			end
 			if tCmdDef[cmnd].num_param > 0 and not tCmdDef[cmnd].check(param1, param2, param3) then
-				return false, I("Parameter error"), idx
+				return false, S("Parameter error"), idx
 			end
 		elseif not cmnd:find("%w+:") then
-			return false, I("Command error"), idx
+			return false, S("Command error"), idx
 		end
 		tbl[cmnd] = (tbl[cmnd] or 0) + 1
 	end
 	if (tbl["end"] or 0) > (tbl["repeat"] or 0) then
-		return false, I("'repeat' missing"), 0
+		return false, S("'repeat' missing"), 0
 	elseif (tbl["end"] or 0) < (tbl["repeat"] or 0) then
-		return false, I("'end' missing"), 0
+		return false, S("'end' missing"), 0
 	end
-	return true, I("Checked and approved"), 0
+	return true, S("Checked and approved"), 0
 end	
 
 -- function returns: true/false, error-string
@@ -281,7 +293,7 @@ function api.run_script(base_pos, mem)
 			mem.pc = 1
 			mem.Stack = {}
 		end
-		return res, err
+		return res, err, gen_string_cmnd(code, mem.pc, num_param, mem.script)
 	end
 	return api.EXIT
 end

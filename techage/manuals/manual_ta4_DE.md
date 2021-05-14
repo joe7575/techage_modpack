@@ -23,7 +23,9 @@ Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am 
 ### TA4 Windkraftanlage / Wind Turbine
 
 Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.
-Sofern alle Bedingungen erfüllt sind, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt.
+Nach dem Setzen des Blocks wird ein Check durchgeführt, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. 
+
+Durch Schlagen auf den Block kann der Check wiederholt werden.
 
 [ta4_windturbine|image]
 
@@ -143,7 +145,7 @@ Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und 
 Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus, nur mit viel mehr Speicherkapazität. 
 Der Wärmespeicher kann 60 ku aufnehmen und abgeben.
 
-Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (außer Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.
+Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.
 
 [ta4_storagesystem|plan]
 
@@ -151,7 +153,7 @@ Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (außer Betonh
 ### TA4 Wärmetauscher / Heat Exchanger
 
 Der Wärmetauscher besteht aus 3 Teilen, die aufeinander gesetzt werden müssen, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.
-Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.
+Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.
 
 [ta4_heatexchanger|image]
 
@@ -194,9 +196,9 @@ Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden
 Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.
 
 Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.
-Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert, sonder mit Hilfe von Gasflaschen auch mit Wagen (carts) transportiert werden.
+Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert, sonder mit dem Tankwagen auch transportiert werden.
 
-Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 83 Einheiten Strom wieder raus.
+Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 95 Einheiten Strom wieder raus.
 
 [ta4_hydrogen|image]
 
@@ -206,7 +208,7 @@ Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Vo
 Der Elektrolyseur wandelt Strom in Wasserstoff um.  
 Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.
 
-Der Elektrolyseur kann bis zu 30 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
+Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
 In den Elektrolyseur passen 200 Einheiten Wasserstoff.
 
 [ta4_electrolyzer|image]
@@ -217,7 +219,11 @@ In den Elektrolyseur passen 200 Einheiten Wasserstoff.
 Die Brennstoffzelle wandelt Wasserstoff in Strom um.  
 Sie muss von links per Pumpe mit Wasserstoff versorgt werden. Rechts ist der Stromanschluss.
 
-Die Brennstoffzelle kann bis zu 25 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.
+Die Brennstoffzelle kann bis zu 34 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.
+
+Normalerweise arbeitet die Brennstoffzelle als Generator der Kategorie 2 (wie auch anderen Speichersystemen).
+In diesem Fall können keine anderen Blöcke der Kategorie 2 wie der Akku-Block geladen werden.
+Über das Kontrollkästchen kann die Brennstoffzelle jedoch auch als Generator der Kategorie 1 eingesetzt werden.
 
 [ta4_fuelcell|image]
 
@@ -234,7 +240,7 @@ Ein Reaktor besteht aus:
 - dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss
 - dem Dosierer, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss
 
-Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert, Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.
+Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.
 
 Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.
 
@@ -537,11 +543,17 @@ Die Ofenheizung benötigt 14 ku Strom.
 
 [ta4_furnaceheater|image]
 
-### TA4 Wasserpumpe / Water Pump
+### TA4 Wasserpumpe / Water Pump (veraltet)
 
-Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein "Pool" aus ein paar Wasserblöcken geht nicht!
+Dieser Block kann nicht mehr gecraftet werden und wird durch den TA4 Wassereinlass Block ersetzt.
 
-[ta4_waterpump|image]
+### TA4 Wassereinlass / TA4 Water Inlet
+
+Für manche Rezepte wird Wasser benötigt. Das Wasser muss mit einer Pumpe aus dem Meer (Wasser auf y = 1) gepumpt werden. Ein "Pool" aus ein paar Wasserblöcken ist dafür nicht ausreichend!
+
+Dazu muss der Wassereinlass-Block ins Wasser gesetzt und über Röhren mit der Pumpe verbunden werden. Wird der Block ins Wasser gesetzt, so muss darauf geachtet werden, dass sich unter dem Block Wasser befindet (Wasser muss mindestens 2 Blöcke tief sein). 
+
+[ta4_waterinlet|image]
 
 ### TA4 Röhren / TA4 Tube
 
@@ -651,18 +663,16 @@ Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierf�
 
 ### TA4 Injektor / Injector
 
-Der Injektor ist ein TA4 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste (TA4 Kiste oder TA4 8x2000 Kiste) um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter, Industrieofen und Elektronikfabrik). 
+Die Funktion entspricht der von TA3.  
 
-Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert. 
-
-Die Verarbeitungsleistung beträgt bis zu 8 Items alle 3 Sekunden.
+Die Verarbeitungsleistung beträgt bis zu 8 mal vier Items alle 4 Sekunden.
 
 [ta4_injector|image]
 
 ### TA4 Recycler
 
 Der Recycler ist eine Maschine, die alle Techage Rezepte rückwärts abarbeitet, also Maschinen und Blöcke wieder in die Bestandteile zerlegen kann. Die Maschine kann so ziemlich alle Techage und Hyperloop Blöcke zerlegen.
-Aber nicht alle Materialen lassen sich recyclen:
+Aber nicht alle Zutaten/Materialien der Rezepte lassen sich recyclen:
 
 - Holz wird zu Sticks
 - Stein wird zu Sand oder Kies
@@ -672,3 +682,15 @@ Aber nicht alle Materialen lassen sich recyclen:
 Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.
 
 [ta4_recycler|image]
+
+### TA4 Laser
+
+Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.
+
+Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.
+
+Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen), wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.
+
+Die Laserblöcke selbst benötigen keinen Strom.
+
+[ta4_laser|image]t

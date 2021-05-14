@@ -30,6 +30,10 @@ end
 		
 
 techage.register_node({"default:chest", "default:chest_open"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -48,6 +52,12 @@ techage.register_node({"default:chest", "default:chest_open"}, {
 })	
 
 techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		if is_owner(pos, meta) then
+			return meta:get_inventory(), "main"
+		end
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		if is_owner(pos, meta) then
@@ -64,6 +74,32 @@ techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "main", stack)
+	end,
+})	
+
+techage.register_node({"shop:shop"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		if is_owner(pos, meta) then
+			return meta:get_inventory(), "main"
+		end
+	end,
+	on_pull_item = function(pos, in_dir, num)
+		local meta = minetest.get_meta(pos)
+		if is_owner(pos, meta) then
+			local inv = meta:get_inventory()
+			return techage.get_items(pos, inv, "register", num)
+		end
+	end,
+	on_push_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "stock", stack)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "register", stack)
 	end,
 })	
 
@@ -87,5 +123,31 @@ techage.register_node({"default:furnace", "default:furnace_active"}, {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "dst", stack)
+	end,
+})	
+
+techage.register_node({"mobs:beehive"}, {
+	on_pull_item = function(pos, in_dir, num)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.get_items(pos, inv, "beehive", num)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "beehive", stack)
+	end,
+})	
+
+techage.register_node({"xdecor:hive"}, {
+	on_pull_item = function(pos, in_dir, num)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.get_items(pos, inv, "honey", num)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "honey", stack)
 	end,
 })	

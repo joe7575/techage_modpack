@@ -347,6 +347,14 @@ tiles.act = {
 }
 
 local tubing = {
+	on_inv_request = function(pos, in_dir, access_type)
+		if access_type == "push" then
+			local meta = minetest.get_meta(pos)
+			if meta:get_int("push_dir") == in_dir or in_dir == 5 then
+				return meta:get_inventory(), "src"
+			end
+		end
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("pull_dir") == in_dir then
@@ -371,6 +379,9 @@ local tubing = {
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
+	end,
+	on_node_load = function(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 }
 

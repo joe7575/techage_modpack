@@ -5,7 +5,7 @@
 
 	v2.06 by JoSt
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2021 Joachim Stolberg
 
 	LGPLv2.1+
 	See LICENSE.txt for more information
@@ -34,6 +34,7 @@
 	2020-01-03  v2.04  Elevator door bugfix (MT 5+)
 	2020-03-12  v2.05  minetest translator added (thanks to acmgit/Clyde)
 	2020-06-14  v2.06  The default value for `hyperloop_free_tube_placement_enabled` is now true
+        2021-02-07  v2.07  tube_crowbar: Add tube length check
 
 ]]--
 
@@ -65,7 +66,8 @@ else
 	hyperloop.wifi_enabled = minetest.settings:get_bool("hyperloop_wifi_enabled")
 	hyperloop.wifi_crafting_enabled = minetest.settings:get_bool("hyperloop_wifi_crafting_enabled")
 	hyperloop.free_tube_placement_enabled = minetest.settings:get_bool("hyperloop_free_tube_placement_enabled", true)
-	
+        hyperloop.subnet_enabled = minetest.settings:get_bool("hyperloop_subnet_enabled")
+
 	dofile(minetest.get_modpath("hyperloop") .. "/network.lua")
 	dofile(minetest.get_modpath("hyperloop") .. "/data_base.lua")
 	dofile(minetest.get_modpath("hyperloop") .. "/booking.lua")

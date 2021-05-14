@@ -4,9 +4,9 @@ Minecart
 **Minecart, the lean railway transportation automation system**
 
 
-Browse on: ![GitHub](https://github.com/joe7575/minecart)
+Browse on: [GitHub](https://github.com/joe7575/minecart)
 
-Download: ![GitHub](https://github.com/joe7575/minecart/archive/master.zip)
+Download: [GitHub](https://github.com/joe7575/minecart/archive/master.zip)
 
 ![minecart](https://github.com/joe7575/minecart/blob/master/screenshot.png)
 
@@ -26,21 +26,15 @@ license).
 3. https://github.com/stujones11/railcart/
 
 
-Original Cart Features
-----------------------
-
-- A fast cart for your railway or roller coaster (up to 7 m/s!)
-- Boost and brake rails
-- Rail junction switching with the 'right-left' walking keys
-- Handbrake with the 'back' key
-
-
 Minecart Features
 -----------------
 
 The mod Minecart has its own cart (called Minecart) in addition to the standard cart.
 Minecarts are used for automated item transport on private and public rail networks.
 The mod features are:
+- a fast cart for your railway or roller coaster (up to 8 m/s!)
+- boost rails and speed limit signs
+- rail junction switching with the 'right-left' walking keys
 - configurable timetables and routes for Minecarts
 - automated loading/unloading of Minecarts by means of a Minecart Hopper
 - rail network protection based on protection blocks called Land Marks
@@ -73,17 +67,16 @@ Introduction
 5. Drive from buffer to buffer in both directions using the Minecart(!) to record the 
    routes (use 'right-left' keys to control the Minecart)
 6. Punch the buffers to check the connection data (e.g. "Oxford: connected to Cambridge")
-7. Optional: Configure the Minecart stop time in one or both buffers. The Minecart 
+7. Optional: Configure the Minecart waiting time in both buffers. The Minecart
    will then start automatically after the configured time
 8. Optional: Protect your rail network with the Protection Landmarks (one Landmark 
    at least every 16 nodes/meters)
 9. Place a Minecart in front of the buffer and check whether it starts after the 
    configured time
 10. Check the cart state via the chat command: /mycart <num>
-    '<num>' is the cart number
+    '<num>' is the cart number, or get a list of carts with /mycart
 11. Drop items into the Minecart and punch the cart to start it, or "sneak+click" the 
-    Minecart to get the items back
-12. Dig the empty cart with a second "sneak+click" (as usual)
+    Minecart to get cart and items back
 
 
 Hopper
@@ -95,6 +88,43 @@ The Hopper is used to load/unload Minecarts.
 The Hopper can pull and push items into/out off chests and can drop/pick up items 
 to/from Minecarts. To unload a Minecart place the hopper below the rail. 
 To load the Minecart, place the hopper right next to the Minecart.
+
+
+Cart Pusher
+-----------
+
+Used to push a cart if the cart does not stop directly at a buffer.
+The block has to be placed below the rail.
+
+
+Cart Speed / Speed Limit Signs
+------------------------------
+
+As before, the speed of the carts is also influenced by power rails.
+Brake rails are irrelevant, the cart does not brake here.
+The maximum speed is 8 m/s. This assumes a ratio of power rails
+to normal rails of 1 to 4 on a flat section of rail. A rail section is a
+series of rail nodes without a change of direction. After every curve / kink,
+the speed for the next section of the route is newly determined,
+taking into account the swing of the cart. This means that a cart can
+roll over short rail sections without power rails.
+
+In order to additionally brake the cart at certain points
+(at switches or in front of a buffer), speed limit signs can be placed
+on the track. With these signs the speed can be reduced to 4, 2, or 1 m / s.
+The "No speed limit" sign can be used to remove the speed limit.
+
+The speed limit signs must be placed next to the track so that they can
+be read from the cart. This allows different speeds in each direction of travel.
+
+
+Migration to v2
+---------------
+
+The way how carts are monitored and the cart speed is calculated has changed.
+Therefore, it is necessary that all carts are repositioned and the
+recording is repeated.
+Rails and buffers are not affected and can be kept unchanged.
 
 
 History
@@ -117,4 +147,6 @@ History
 2020-06-27  v1.07  Route storage and cart command bugfixes  
 2020-07-24  V1.08  Adapted to new techage ICTA style  
 2020-08-14  V1.09  Hopper support for digtron, protector:chest and default:furnace added    
-2020-11-12  V1.10  Make carts more robust against server lag
+2020-11-12  V1.10  Make carts more robust against server lag  
+2021-04-10  V2.00  Complete revision to make carts robust against server load/lag,
+                   Speed limit signs and cart terminal added

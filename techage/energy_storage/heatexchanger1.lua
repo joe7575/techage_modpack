@@ -22,9 +22,9 @@ local CYCLE_TIME = 2
 local PWR_PERF = 60
 local GRVL_CAPA = 700
 local PWR_CAPA = {
-	[3] = GRVL_CAPA * 3 * 3 * 3,  -- 18900 Cyc = 630 min = 31.5 Tage bei einem ku, oder 31,5 * 24 kuh = 756 kuh = 12,6 h bei 60 ku
-	[5] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
-	[7] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
+	[5] = GRVL_CAPA * 3 * 3 * 3,  -- 18900 Cyc = 630 min = 31.5 Tage bei einem ku, oder 31,5 * 24 kuh = 756 kuh = 12,6 h bei 60 ku
+	[7] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
+	[9] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
 }
 
 local Cable = techage.ElectricCable
@@ -171,7 +171,7 @@ local function node_timer(pos, elapsed)
 	local taken = 0
 	local given = 0
 	
-	if nvm.capa < (nvm.capa_max * 0.9) and not nvm.charging then
+	if nvm.capa < (nvm.capa_max * 0.95) and not nvm.charging then
 		taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
 	elseif nvm.capa < nvm.capa_max and nvm.charging then
 		taken = power.consumer_alive(pos, Cable, CYCLE_TIME)

@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,10 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -90,7 +87,7 @@ signs_bot.register_botcommand("take_item", {
 	mod = "item",
 	params = "<num> <slot>",	
 	num_param = 2,
-	description = I("Take <num> items from a chest like node\nand put it into the item inventory.\n"..
+	description = S("Take <num> items from a chest like node\nand put it into the item inventory.\n"..
 		"<slot> is the inventory slot (1..8) or 0 for any one"),
 	check = function(num, slot)
 		num = tonumber(num) or 1
@@ -115,7 +112,7 @@ signs_bot.register_botcommand("add_item", {
 	mod = "item",
 	params = "<num> <slot>",	
 	num_param = 2,
-	description = I("Add <num> items to a chest like node\ntaken from the item inventory.\n"..
+	description = S("Add <num> items to a chest like node\ntaken from the item inventory.\n"..
 		"<slot> is the inventory slot (1..8) or 0 for any one"),
 	check = function(num, slot)
 		num = tonumber(num) or 1
@@ -140,7 +137,7 @@ signs_bot.register_botcommand("add_fuel", {
 	mod = "item",
 	params = "<num> <slot>",
 	num_param = 2,
-	description = I("Add <num> fuel to a furnace like node\ntaken from the item inventory.\n"..
+	description = S("Add <num> fuel to a furnace like node\ntaken from the item inventory.\n"..
 		"<slot> is the inventory slot (1..8) or 0 for any one"),
 	check = function(num, slot)
 		num = tonumber(num) or 1
@@ -165,7 +162,7 @@ signs_bot.register_botcommand("cond_take_item", {
 	mod = "item",
 	params = "<num> <slot>",
 	num_param = 2,
-	description = I("deprecated, use bot inventory configuration instead"),
+	description = S("deprecated, use bot inventory configuration instead"),
 	check = function(num, slot)
 		return false 
 	end,
@@ -178,7 +175,7 @@ signs_bot.register_botcommand("cond_add_item", {
 	mod = "item",
 	params = "<num> <slot>",
 	num_param = 2,
-	description = I("deprecated, use bot inventory configuration instead"),
+	description = S("deprecated, use bot inventory configuration instead"),
 	check = function(num, slot)
 		return false 
 	end,
@@ -191,7 +188,7 @@ signs_bot.register_botcommand("pickup_items", {
 	mod = "item",
 	params = "<slot>",
 	num_param = 1,
-	description = I("Pick up all objects\n"..
+	description = S("Pick up all objects\n"..
 		"in a 3x3 field.\n"..
 		"<slot> is the inventory slot (1..8) or 0 for any one"),
 	check = function(slot)
@@ -219,7 +216,7 @@ signs_bot.register_botcommand("drop_items", {
 	mod = "item",
 	params = "<num> <slot>",
 	num_param = 2,
-	description = I("Drop items in front of the bot.\n"..
+	description = S("Drop items in front of the bot.\n"..
 		"<slot> is the inventory slot (1..8) or 0 for any one"),
 	check = function(num, slot)
 		num = tonumber(num) or 1
@@ -246,18 +243,10 @@ signs_bot.register_botcommand("punch_cart", {
 	mod = "item",
 	params = "",
 	num_param = 0,
-	description = I("Punch a rail cart to start it"),
+	description = S("Punch a rail cart to start it"),
 	cmnd = function(base_pos, mem)
-		local pos = lib.dest_pos(mem.robot_pos, mem.robot_param2, {0})
-		for _, object in pairs(minetest.get_objects_inside_radius(pos, 2)) do
-			if object:get_entity_name() == "minecart:cart" then
-				object:punch(object, 1.0, {
-					full_punch_interval = 1.0,
-					damage_groups = {fleshy = 1},
-				}, minetest.facedir_to_dir(mem.robot_param2))
-				break -- start only one cart
-			end
-		end
+		local punch_dir = minetest.facedir_to_dir(mem.robot_param2)
+		minecart.punch_cart(mem.robot_pos, mem.robot_param2, 1, punch_dir)
 		return signs_bot.DONE
 	end,
 })

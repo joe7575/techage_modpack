@@ -42,9 +42,7 @@ Autocrafter=
 ### axle2power.lua ###
 
 TA2 Power Generator=
-
 TA2 Power Generator: Overload fault?@n(restart with right-click)=
-
 
 ### baborium.lua ###
 
@@ -167,6 +165,11 @@ TA Ceiling Lamp=
 Cement Block=
 Cement Powder=
 
+### ceramic.lua ###
+
+TA4 Ceramic Material=
+TA4 Furnace Ceramic=
+
 ### charcoalpile.lua ###
 
 Dirt with Ash=
@@ -195,6 +198,11 @@ Node number to send the events to=
 Node numbers to read the states from=
 Send an event if state is equal or larger than=
 TA4 State Collector=
+
+### concentrator.lua ###
+
+TA4 Tube Concentrator=
+Tube Concentrator=
 
 ### cooking.lua ###
 
@@ -251,13 +259,13 @@ Blocks are disappeared=
 Click on all the blocks that are part of the door/gate=
 Ctrl,Inv=
 Done=
-Error: Inventory already in use=
 Record=
 Recording...=
 Remove=
 Set=
 TA3 Door Controller II=
 block positions are stored.=
+with door sound=
 
 ### drillbox.lua ###
 
@@ -347,7 +355,6 @@ power=
 ### forceload.lua ###
 
 Area already loaded or max. number of Forceload Blocks reached!=
-
 List of your Forceload Blocks:=
 Priv missing=
 Punch the block to make the area visible.=
@@ -363,8 +370,13 @@ To add fuel punch@nthis block@nwith a fuel container=
 
 ### fuelcell.lua ###
 
+Cat. 1 generator=
+Cat. 2 generator=
 Fuel Cell=
+If set, fuelcell will work@nas cat. 1 generator=
 TA4 Fuel Cell=
+TA4 Fuel Cell Gen1=
+TA4 Fuel Cell Gen2=
 
 ### fuelcellstack.lua ###
 
@@ -503,6 +515,14 @@ TA Lamp Holder Copper=
 TA Lamp Holder Gold=
 TA Lamp Holder White=
 
+### laser.lua ###
+
+Laser beam error!=
+TA4 Laser Beam Emitter=
+TA4 Laser Beam Receiver=
+Valid destination positions:=
+to=
+
 ### lib.lua ###
 ### sensorchest.lua ###
 
@@ -532,11 +552,32 @@ Liquid Sampler=
 
 no usable water=
 
+### logic_block.lua ###
+
+'me' has to be used for the own block number.@n=
+'~@=' means: not equal@n=
+@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=
+@n<output> is the block number to which the@ncommand should be sent.@n=
+@nAll rules are checked with each received@ncommand.=
+@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=
+@nRule:@n<output> @= on/off if <input-expression> is true@n=
+@nThe internal processing time for all@ncommands is 100 ms.=
+@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
+Blocking Time=
+Help=
+Inputs=
+Outputs=
+Rules=
+Send an 'on'/'off' command if the@nexpression becomes true.@n=
+Syntax=
+
+### logic_block.lua ###
 ### lua_logic.lua ###
 
 TA3 Logic Block=
 Update=
 
+### logic_block.lua ###
 ### lua_logic.lua ###
 ### power_terminal2.lua ###
 
@@ -644,16 +685,17 @@ TA4 Player Detector=
 
 ### powder.lua ###
 
+Aluminum Powder=
+Clay Powder=
 Iron Powder=
 Leave Powder=
 Needle Powder=
+Silver Sandstone Powder=
 
 ### power2axle.lua ###
 
 TA3 Electric Motor=
-
 TA3 Electric Motor: Overload fault?@n(restart with right-click)=
-
 
 ### power_line.lua ###
 
@@ -677,9 +719,7 @@ TA3 Power Terminal Old=
 The network is overloaded!=
 The network load is almost at the limit!=
 Turned on:=
-
 With %u of a maximum of %u blocks you are almost at the limit!=
-
 
 ### power_terminal.lua ###
 ### power_terminal2.lua ###
@@ -692,7 +732,8 @@ Accu Box=
 Current power:=
 Energy storage=
 Energy stored:=
-Fuel cell=
+Fuel cell cat. 1=
+Fuel cell cat. 2=
 Generators=
 Intake=
 Max. needed power=
@@ -715,6 +756,11 @@ Type=
 Wind turbine=
 ku is needed=
 
+### power_terminal2.lua ###
+### terminal.lua ###
+
+Enter=
+
 ### powerswitch.lua ###
 
 TA Power Switch=
@@ -727,7 +773,6 @@ TA Power Switch Box=
 ### programmer.lua ###
 
 TechAge Programmer (right @= read number, left @= write numbers)=
-
 [TechAge Programmer] Error: invalid numbers!=
 [TechAge Programmer] Error: programmer not supported!=
 [TechAge Programmer] Unknown node on=
@@ -764,9 +809,7 @@ Digging depth=
 Hole size=
 Quarry=
 Start level=
-
 Start level @= 0@nmeans the same level@nas the quarry is placed=
-
 area is protected=
 finished=
 inventory full=
@@ -791,6 +834,10 @@ Flint and Iron=
 TA1 Iron Ingot=
 [Bucket] Lava can only be placed below sea level!=
 
+### recycler.lua ###
+
+Recycler=
+
 ### redstone.lua ###
 
 Red Stone=
@@ -814,7 +861,6 @@ TA3 Repeater=
 ### rotor.lua ###
 
 Nacelle is missing=
-Not suitable position!=
 TA4 Carbon Fiber=
 TA4 Rotor Blade=
 TA4 Wind Turbine=
@@ -888,12 +934,14 @@ TA4 LED Street Lamp Pole=
 TA4 Low Power Box=
 TA4 Low Power Cable=
 
+### ta4_cable_wall_entry.lua ###
+
+TA4 Cable Wall Entry=
+
 ### ta4_chest.lua ###
 
 Empty the slots always @nfrom right to left=
-
 Never completely empty the slots@nwith the pusher to keep the item assignment=
-
 Size=
 TA4 8x2000 Chest=
 Unlock=
@@ -920,6 +968,8 @@ TA4 Reactor=
 
 Configure up to 8 items @nto be pushed by the injector=
 Injector=
+Switch to pull mode @nto pull items out of inventory slots @naccording the injector configuration=
+pull mode=
 
 ### ta4_liquid_filter.lua ###
 
@@ -954,7 +1004,6 @@ TA Tank Cart=
 
 ### terminal.lua ###
 
-Enter=
 Switched to private use!=
 Switched to public use!=
 Syntax error, try help=
@@ -988,6 +1037,14 @@ Use a trowel to remove the node.=
 
 Tube Wall Entry=
 
+### tubes.lua ###
+
+TechAge Tube=
+
+### tubes_ta4.lua ###
+
+TA4 Tube=
+
 ### turbine.lua ###
 
 TA3 Turbine=
@@ -1004,6 +1061,13 @@ TA Valve=
 TA3 Valve closed=
 TA3 Valve open=
 
+### waterinlet.lua ###
+
+Error: No natural water!=
+Error: No water available!=
+Error: Not on sea level!=
+TA4 Water Inlet=
+
 ### waterpump.lua ###
 
 TA4 Water Pump=
@@ -1012,9 +1076,7 @@ Water Pump=
 ### windturbine_lib.lua ###
 
 Here is not enough water (41x41 m)!=
-
-Here is not enough wind (A free air space of 41x41x21 m is necessary)!=
-
+Here is not enough wind@n(A free air space of 41x41x21 m is necessary)!=
 The next wind turbines is too close!=
 This is a=
 This is no ocean water!=

@@ -24,7 +24,7 @@ Unified Inventory replaces the default survival and creative inventory.
 
 ## Requirements
 
- * Minetest 5.0.0+
+ * Minetest 5.4.0+
 
 # Licenses
 

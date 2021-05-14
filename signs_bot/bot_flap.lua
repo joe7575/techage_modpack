@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPLv3
 	See LICENSE.txt for more information
@@ -12,14 +12,8 @@
 
 ]]--
 
--- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local function formspec(cmnd)
 	cmnd = minetest.formspec_escape(cmnd)
@@ -28,7 +22,7 @@ local function formspec(cmnd)
 	default.gui_bg_img..
 	default.gui_slots..
 	"label[0.3,0.3;"..cmnd.."]"..
-	"button_exit[2.5,5.5;2,1;exit;"..I("Exit").."]"
+	"button_exit[2.5,5.5;2,1;exit;"..S("Exit").."]"
 end
 
 local commands = [[dig_sign 6
@@ -37,7 +31,7 @@ place_sign_behind 6
 ]]
 
 minetest.register_node("signs_bot:bot_flap", {
-	description = "Bot Flap",
+	description = S("Bot Flap"),
 	paramtype2 = "facedir",
 	tiles = {
 		"signs_bot_bot_flap_top.png",
@@ -69,13 +63,13 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "bot_flap", {
-		name = I("Bot Flap"),
+		name = S("Bot Flap"),
 		data = {
 			item = "signs_bot:bot_flap",
 			text = table.concat({
-				I("The flap is a simple block used as door for the bot."),
-				I("Place the flap in any wall, and the bot will automatically open"),
-				I("and close the flap as it passes through it."),
+				S("The flap is a simple block used as door for the bot."),
+				S("Place the flap in any wall, and the bot will automatically open"),
+				S("and close the flap as it passes through it."),
 			}, "\n")		
 		},
 	})

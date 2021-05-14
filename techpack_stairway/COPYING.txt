@@ -1,6 +1,6 @@
 The stairway mod for Minetest is
 
-Copyright (C) 2017-2018 Joachim Stolberg  
+Copyright (C) 2017-2021 Joachim Stolberg
 
 License of source code
 ----------------------

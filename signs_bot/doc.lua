@@ -1,12 +1,25 @@
+--[[
+
+	Signs Bot
+	=========
+
+	Copyright (C) 2019-2021 Joachim Stolberg
+
+	GPLv3
+	See LICENSE.txt for more information
+	
+	Signs Bot: Bot Flap
+
+]]--
+
+-- Load support for I18n.
+local S = signs_bot.S
+
 signs_bot.doc = {}
 
 if not minetest.get_modpath("doc") then
 	return
 end
-
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
 
 local function formspec(data)
 	if data.image then
@@ -24,112 +37,113 @@ local function formspec(data)
 end
 
 local start_doc = table.concat({
-	I("After you have placed the Signs Bot Box, you can start the bot by means of the 'On' button in the box menu."),
-	I("The bot then runs straight up until it reaches an obstacle (a step with two or more blocks up or down or a sign.)"),
-	I("If the bot first reaches a sign it will execute the commands on the sign."),
-	I("If the command(s) on the sign is e.g. 'turn_around', the bot turns and goes back."),
-	I("In this case, the bot reaches his box again and turns off."),
+	S("After you have placed the Signs Bot Box, you can start the bot by means of the 'On' button in the box menu."),
+	S("If the bot returns to its box right away, you will likely need to charge it with electrical energy (techage) first."),
+	S("The bot then runs straight up until it reaches an obstacle (a step with two or more blocks up or down or a sign.)"),
+	S("If the bot first reaches a sign it will execute the commands on the sign."),
+	S("If the command(s) on the sign is e.g. 'turn_around', the bot turns and goes back."),
+	S("In this case, the bot reaches his box again and turns off."),
 	"",
-	I("The Signs Bot Box has an inventory with 6 stacks for signs and 8 stacks for other items (to be placed/dug by the bot)."),
-	I("This inventory simulates the bot internal inventory."),
-	I("That means you will only have access to the inventory if the bot is turned off ('sitting' in his box)."),
+	S("The Signs Bot Box has an inventory with 6 stacks for signs and 8 stacks for other items (to be placed/dug by the bot)."),
+	S("This inventory simulates the bot internal inventory."),
+	S("That means you will only have access to the inventory if the bot is turned off ('sitting' in his box)."),
 }, "\n")
 
 local control_doc = table.concat({
-	I("You simply control the direction of the bot by means of the 'turn left' and 'turn right' signs (signs with the arrow)."),
-	I("The bot can run over steps (one block up/down). But there are also commands to move the bot up and down."),
+	S("You simply control the direction of the bot by means of the 'turn left' and 'turn right' signs (signs with the arrow)."),
+	S("The bot can run over steps (one block up/down). But there are also commands to move the bot up and down."),
 	"",
-	I("It is not necessary to mark a way back to the box."),
-	I("With the command 'turn_off' the bot will turn off and be back in his box from every position."),
-	I("The same applies if you turn off the bot by the box menu."),
-	I("If the bot reaches a sign from the wrong direction (from back or sides) the sign will be ignored."),
-	I("The bot will walk over."),
+	S("It is not necessary to mark a way back to the box."),
+	S("With the command 'turn_off' the bot will turn off and be back in his box from every position."),
+	S("The same applies if you turn off the bot by the box menu."),
+	S("If the bot reaches a sign from the wrong direction (from back or sides) the sign will be ignored."),
+	S("The bot will walk over."),
 	"",
-	I("All predefined signs have a menu with a list of the bot commands."),
-	I("These signs can't be changed, but you can craft and program your own signs."),
-	I("For this you have to use the 'command' sign."),
-	I("This sign has an edit field for your commands and a help page with all available commands."),
-	I("The help page has a copy button to simplify the programming."),
+	S("All predefined signs have a menu with a list of the bot commands."),
+	S("These signs can't be changed, but you can craft and program your own signs."),
+	S("For this you have to use the 'command' sign."),
+	S("This sign has an edit field for your commands and a help page with all available commands."),
+	S("The help page has a copy button to simplify the programming."),
 	"",
-	I("Also for your own signs it is important to know:"),
-	I("After the execution of the last command of the sign, the bot falls back into its default behaviour and runs in its taken direction."),
+	S("Also for your own signs it is important to know:"),
+	S("After the execution of the last command of the sign, the bot falls back into its default behaviour and runs in its taken direction."),
 	"",
-	I("A standard job for the bot is to move items from one chest to another"),
-	I("(chest or node with a chest like inventory)."),
-	I("This can be done by means of the two signs 'take item' and 'add item'."),
-	I("These signs have to be placed on top of chest nodes."),
+	S("A standard job for the bot is to move items from one chest to another"),
+	S("(chest or node with a chest like inventory)."),
+	S("This can be done by means of the two signs 'take item' and 'add item'."),
+	S("These signs have to be placed on top of chest nodes."),
 }, "\n")
 
 local sensor_doc = table.concat({
-	I("In addition to the signs the bot can be controlled by means of sensors."),
-	I("Sensors like the Bot Sensor have two states: on and off."),
-	I("If the Bot Sensor detects a bot it will switch to the state 'on' and"),
-	I("sends a signal to a connected block, called an actuator."),
+	S("In addition to the signs the bot can be controlled by means of sensors."),
+	S("Sensors like the Bot Sensor have two states: on and off."),
+	S("If the Bot Sensor detects a bot it will switch to the state 'on' and"),
+	S("sends a signal to a connected block, called an actuator."),
 	"",
-	I("Sensors are:"),
-	I("- Bot Sensor: Sends a signal when the robot passes by"),
-	I("- Node Sensor: Sends a signal when it detects any node"),
-	I("- Crop Sensor: Sends a signal when, for example wheat is fully grown"),
-	I("- Bot Chest: Sends a signal depending on the chest state (empty, full)"),
+	S("Sensors are:"),
+	S("- Bot Sensor: Sends a signal when the robot passes by"),
+	S("- Node Sensor: Sends a signal when it detects any node"),
+	S("- Crop Sensor: Sends a signal when, for example wheat is fully grown"),
+	S("- Bot Chest: Sends a signal depending on the chest state (empty, full)"),
 	"",
-	I("Actuators are:"),
-	I("- Signs Bot Box: Can turn the bot off and on"),
-	I("- Control Unit: Can be used to exchange the sign to lead the bot"),
+	S("Actuators are:"),
+	S("- Signs Bot Box: Can turn the bot off and on"),
+	S("- Control Unit: Can be used to exchange the sign to lead the bot"),
 	"",
-	I("Additional sensors and actuator can be added by other mods."),
+	S("Additional sensors and actuator can be added by other mods."),
 }, "\n")
 
 
 local tool_doc = table.concat({
-	I("To send a signal from a sensor to an actuator, the sensor has to be connected (paired) with actuator."),
-	I("To connect sensor and actuator, the Sensor Connection Tool has to be used."),
-	I("Simply click with the tool on both blocks and the sensor will be connected with the actuator."),
-	I("A successful connection is indicated by a ping/pong noise."),
+	S("To send a signal from a sensor to an actuator, the sensor has to be connected (paired) with actuator."),
+	S("To connect sensor and actuator, the Sensor Connection Tool has to be used."),
+	S("Simply click with the tool on both blocks and the sensor will be connected with the actuator."),
+	S("A successful connection is indicated by a ping/pong noise."),
 	"",
-	I("Before you connect sensor with actuator, take care that the actuator is in the requested state."),
-	I("For example: If you want to start the Bot with a sensor, connect the sensor with the Bot Box,"),
-	I("when the Bot is in the state 'on'. Otherwise the sensor signal will stop the Bot,"),
-	I("instead of starting it."),
+	S("Before you connect sensor with actuator, take care that the actuator is in the requested state."),
+	S("For example: If you want to start the Bot with a sensor, connect the sensor with the Bot Box,"),
+	S("when the Bot is in the state 'on'. Otherwise the sensor signal will stop the Bot,"),
+	S("instead of starting it."),
 }, "\n")
 
 
 local inventory_doc = table.concat({
-	I("The following applies to all commands that are used to place items in the bot inventory, like:"),
+	S("The following applies to all commands that are used to place items in the bot inventory, like:"),
 	"",
-	I("- take_item <num> <slot>"),
-	I("- pickup_items <slot>"),
-	I("- trash_sign <slot>"),
-	I("- harvest <slot>"),
-	I("- dig_front <slot> <lvl>"),
-	I("- dig_left <slot> <lvl>"),
-	I("- dig_right <slot> <lvl>"),
-	I("- dig_below <slot> <lvl>"),
-	I("- dig_above <slot> <lvl>"),
+	S("- take_item <num> <slot>"),
+	S("- pickup_items <slot>"),
+	S("- trash_sign <slot>"),
+	S("- harvest <slot>"),
+	S("- dig_front <slot> <lvl>"),
+	S("- dig_left <slot> <lvl>"),
+	S("- dig_right <slot> <lvl>"),
+	S("- dig_below <slot> <lvl>"),
+	S("- dig_above <slot> <lvl>"),
 	"",
-	I("If no slot or slot 0 was specified with the command (case A), all 8 slots of the bot inventory "),
-	I("are checked one after the other. If a slot was specified (case B), only this slot is checked."),
-	I("In both cases the following applies: If the slot is preconfigured and fits the item, "),
-	I("or if the slot is not configured and empty, or is only partially filled with the item type "),
-	I("(which should be added), then the items are added."),
-	I("If not all items can be added, the remaining slots will be tried out in case A."),
-	I("Anything that could not be added to your own inventory goes back."),
+	S("If no slot or slot 0 was specified with the command (case A), all 8 slots of the bot inventory "),
+	S("are checked one after the other. If a slot was specified (case B), only this slot is checked."),
+	S("In both cases the following applies: If the slot is preconfigured and fits the item, "),
+	S("or if the slot is not configured and empty, or is only partially filled with the item type "),
+	S("(which should be added), then the items are added."),
+	S("If not all items can be added, the remaining slots will be tried out in case A."),
+	S("Anything that could not be added to your own inventory goes back."),
 	"",
-	I("The following applies to all commands that are used to take items from the bot inventory, like:"),
+	S("The following applies to all commands that are used to take items from the bot inventory, like:"),
 	"",
-	I("- add_item <num> <slot>"),
+	S("- add_item <num> <slot>"),
 	"",
-	I("It doesn't matter whether a slot is configured or not. The bot takes the first stack that "),
-	I("it can find from its own inventory and tries to use it."),
-	I("If a slot is specified, it only takes this, if no slot has been specified, it checks all of "),
-	I("them one after the other, starting from slot 1 until it finds something."),
-	I("If the number found is smaller than requested, he tries to take the rest out of any slot."),
+	S("It doesn't matter whether a slot is configured or not. The bot takes the first stack that "),
+	S("it can find from its own inventory and tries to use it."),
+	S("If a slot is specified, it only takes this, if no slot has been specified, it checks all of "),
+	S("them one after the other, starting from slot 1 until it finds something."),
+	S("If the number found is smaller than requested, he tries to take the rest out of any slot."),
 }, "\n")
 
 
 doc.add_category("signs_bot",
 {
-	name = I("Signs Bot"),
-	description = I("A robot controlled by signs, used for automated work"),
+	name = S("Signs Bot"),
+	description = S("A robot controlled by signs, used for automated work"),
 	sorting = "custom",
 	sorting_data = {"start", "control", "sensor_doc", "tool", 
 		"box", "bot_flap", "duplicator",
@@ -141,26 +155,26 @@ doc.add_category("signs_bot",
 })
 
 doc.add_entry("signs_bot", "start", {
-	name = I("Start the Bot"),
+	name = S("Start the Bot"),
 	data = {text = start_doc, image = "signs_bot_doc_image.png"},
 })
 
 doc.add_entry("signs_bot", "control", {
-	name = I("Control the Bot"),
+	name = S("Control the Bot"),
 	data = {text = control_doc, image = "signs_bot_doc_image.png"},
 })
 
 doc.add_entry("signs_bot", "sensor_doc", {
-	name = I("Sensors and Actuators"),
+	name = S("Sensors and Actuators"),
 	data = {text = sensor_doc, image = "signs_bot_doc_image.png"},
 })
 
 doc.add_entry("signs_bot", "tool", {
-	name = I("Connecting sensors and actuator"),
+	name = S("Connecting sensors and actuator"),
 	data = {text = tool_doc, image = "signs_bot_doc_image.png"},
 })
 
 doc.add_entry("signs_bot", "tool", {
-	name = I("Bot inventory behavior"),
+	name = S("Bot inventory behavior"),
 	data = {text = inventory_doc, image = "signs_bot_doc_image.png"},
 })

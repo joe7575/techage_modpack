@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,10 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -34,7 +31,7 @@ local formspec = "size[8,7]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"label[1,1.3;"..I("Signs:").."]"..
+	"label[1,1.3;"..S("Signs:").."]"..
 	"label[2.6,0.7;1]label[5.1,0.7;2]"..
 	"list[context;sign;3,0.5;2,2;]"..
 	"label[2.6,1.7;3]label[5.1,1.7;4]"..
@@ -100,10 +97,15 @@ local function allow_metadata_inventory()
 	return 0
 end
 
+local function can_dig(pos)
+	local inv = minetest.get_inventory({type="node", pos=pos})
+	return inv:is_empty("sign")
+end
+
 for idx = 1,4 do
 	local not_in_inv = idx == 1 and 0 or 1
 	minetest.register_node("signs_bot:changer"..idx, {
-		description = I("Bot Control Unit"),
+		description = S("Bot Control Unit"),
 		inventory_image = "signs_bot_ctrl_unit_inv.png",
 		drawtype = "nodebox",
 		node_box = {
@@ -139,9 +141,11 @@ for idx = 1,4 do
 		allow_metadata_inventory_put = allow_metadata_inventory,
 		allow_metadata_inventory_take = allow_metadata_inventory,
 		on_punch = swap_node,
+		can_dig = can_dig,
 
 		on_rotate = screwdriver.disallow,
 		paramtype = "light",
+		use_texture_alpha = signs_bot.CLIP,
 		sunlight_propagates = true,
 		paramtype2 = "facedir",
 		is_ground_content = false,
@@ -162,18 +166,18 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "changer", {
-		name = I("Bot Control Unit"),
+		name = S("Bot Control Unit"),
 		data = {
 			item = "signs_bot:changer1",
 			text = table.concat({
-				I("The Bot Control Unit is used to lead the bot by means of signs."),
-				I("The unit can be loaded with up to 4 different signs and can be programmed by means of sensors."), 
+				S("The Bot Control Unit is used to lead the bot by means of signs."),
+				S("The unit can be loaded with up to 4 different signs and can be programmed by means of sensors."), 
 				"",
-				I("To load the unit, place a sign on the red side of the unit and click on the unit."),
-				I("The sign disappears / is moved to the inventory of the unit."),
-				I("This can be repeated 3 times."),
+				S("To load the unit, place a sign on the red side of the unit and click on the unit."),
+				S("The sign disappears / is moved to the inventory of the unit."),
+				S("This can be repeated 3 times."),
 				"",
-				I("Use the connection tool to connect up to 4 sensors with the Bot Control Unit."),
+				S("Use the connection tool to connect up to 4 sensors with the Bot Control Unit."),
 			}, "\n")		
 		},
 	})

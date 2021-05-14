@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,8 +13,6 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 signs_bot.lib = {}
@@ -90,6 +88,13 @@ local function handle_drop(drop)
 			end
 		end
 		return name
+        end
+end
+
+function signs_bot.handle_drop_like_a_player(node)
+	local drops = minetest.get_node_drops(node)
+	if #drops >= 1 then
+		return drops[1]
 	end
 	return false
 end
@@ -213,7 +218,6 @@ function signs_bot.lib.after_dig_sign_node(pos, oldnode, oldmetadata, digger)
 		smeta:set_string("err_msg", oldmetadata.fields.err_msg or "")
 	end
 	local player_name = digger:get_player_name()
-	-- See https://github.com/minetest/minetest/blob/34e3ede8eeb05e193e64ba3d055fc67959d87d86/doc/lua_api.txt#L6222
 	if player_name == "" then
 		minetest.add_item(pos, sign)
 	else

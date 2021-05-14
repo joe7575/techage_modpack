@@ -94,11 +94,12 @@ minetest.register_node("techage:ta4_battery", {
 		local meta = drops[1]:get_meta()
 		meta:set_int("content", content)
 		local percent = calc_percent(content)
-		local text = S("Digtron Battery").." ("..percent.." %)"
+		local text = S("Battery").." ("..percent.." %)"
 		meta:set_string("description", text)
 	end,
 
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=1, cracky=1, crumbly=1},
@@ -132,6 +133,7 @@ minetest.register_node("techage:ta4_battery_empty", {
 	end,
 	
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=1, cracky=1, crumbly=1, not_in_creative_inventory=1},

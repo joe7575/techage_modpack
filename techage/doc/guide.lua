@@ -81,14 +81,13 @@ local function formspec_help(meta, manual)
 	default.gui_bg_img..
 	default.gui_slots..
 	"item_image[9.6,0;1,1;techage:construction_board]"..
+	"tablecolumns[tree,width=1;text,width=10,align=inline]"..
+	"tableoptions[opendepth=1]"..
+	"table[0.1,0;9,5;page;"..table.concat(aTitel, ",")..";"..idx.."]"..
 	bttn..
 	"style_type[textarea;textcolor=#FFFFFF]"..
 	"textarea[0.3,5.7;11,5.3;;"..(aText[idx] or "")..";]"..
-
-	"box[0,5.75;10.775,4.45;#000000]"..
-	"tablecolumns[tree,width=1;text,width=10,align=inline]"..
-	"tableoptions[opendepth=1]"..
-	"table[0.1,0;9,5;page;"..table.concat(aTitel, ",")..";"..idx.."]"
+	"box[0,5.75;10.775,4.45;#000000]"
 end
 
 local function formspec_plan(meta, manual)
@@ -148,6 +147,7 @@ minetest.register_node("techage:construction_board", {
 	
 	paramtype2 = "wallmounted",
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
@@ -199,6 +199,7 @@ minetest.register_node("techage:construction_board_EN", {
 	
 	paramtype2 = "wallmounted",
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},

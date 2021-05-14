@@ -44,8 +44,9 @@ local function formspec(state, rules, endless)
 		tbl[#tbl+1] = "field[6.2,"..(-0.2+idx)..";2,1;offs"..idx..";;"..(rule.offs or "").."]"
 	end
 	tbl[#tbl+1] = "checkbox[0,8.5;endless;Run endless;"..dump(endless).."]"
-	tbl[#tbl+1] = "image_button[5,8.5;1,1;".. techage.state_button(state) ..";button;]"
-	tbl[#tbl+1] = "button[6.2,8.5;1.5,1;help;help]"
+	tbl[#tbl+1] = "button[2.2,8.5;1.5,1;help;help]"
+	tbl[#tbl+1] = "button[4.2,8.5;1.5,1;save;Save]"
+	tbl[#tbl+1] = "image_button[6.2,8.5;1,1;".. techage.state_button(state) ..";button;]"
 	
 	return table.concat(tbl)
 end
@@ -93,7 +94,7 @@ local function restart_timer(pos, time)
 		timer:stop()
 	end
 	if type(time) == "number" then
-		time = math.max(time, 0.5)
+		time = math.max(time, 0.2)
 		timer:start(time)
 	end
 end	
@@ -262,7 +263,11 @@ techage.register_node({"techage:ta3_sequencer"}, {
 		elseif topic == "off" then
 			-- do not stop immediately
 			local nvm = techage.get_nvm(pos)
-			nvm.endless = false
+			if not nvm.running then
+				nvm.endless = not (nvm.endless or false)
+			else
+				nvm.endless = false
+			end
 		else
 			return "unsupported"
 		end

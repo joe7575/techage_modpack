@@ -7,7 +7,7 @@ Ladders, stairways, and bridges for your machines
 
 
 ### License
-Copyright (C) 2018-2020 Joachim Stolberg  
+Copyright (C) 2018-2021 Joachim Stolberg
 Code: Licensed under the GNU LGPL version 2.1 or later. See LICENSE.txt  
 
 
@@ -19,3 +19,4 @@ none
 - 2020-04-26  v1.00  * extracted from TechPack and released
 - 2020-10-08  v1.01  * Lattice Slope node added 
 - 2020-10-10  v1.02  * German translation added 
+- 2021-03-20  v1.03  * Adapted for MT 5.4

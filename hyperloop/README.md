@@ -11,8 +11,7 @@ It is the fast and modern way of travelling.
 * It can be used even on small servers without lagging
 * No configuration or programming of the tube network is necessary (only the station names have to be entered)
 
-
-**![See Wiki Page for more info](https://github.com/joe7575/Minetest-Hyperloop/wiki)**
+**[See Wiki Page for more info](https://github.com/joe7575/Minetest-Hyperloop/wiki)**
 
 ![screenshot](https://github.com/joe7575/Minetest-Hyperloop/blob/master/screenshot.png)
 
@@ -33,9 +32,9 @@ The mod includes many different kind of blocks:
 ..and more.
 
 
-Browse on: ![GitHub](https://github.com/joe7575/Minetest-Hyperloop)
+Browse on: [GitHub](https://github.com/joe7575/Minetest-Hyperloop)
 
-Download: ![GitHub](https://github.com/joe7575/Minetest-Hyperloop/archive/master.zip)
+Download: [GitHub](https://github.com/joe7575/Minetest-Hyperloop/archive/master.zip)
 
 
 ## Migration from v1 to v2
@@ -59,7 +58,7 @@ has some risks. Therefore:
 
 ## Introduction
 
-**![See Wiki Page for more info](https://github.com/joe7575/Minetest-Hyperloop/wiki)**
+**[See Wiki Page for more info](https://github.com/joe7575/Minetest-Hyperloop/wiki)**
 
 
 ## Configuration
@@ -68,23 +67,25 @@ The following can be changed in the minetest menu (Settings -> Advanced Settings
 * "WiFi block crafting enabled" - To enable the crafting of WiFi blocks (default: false)
 * "free tube placement enabled" - If enabled Hyperloop Tubes and Elevator Shafts can be build in all directions (default: true)
   When this option is disabled, Hyperloop tubes can only be built in the horizontal direction and elevator shafts in the vertical direction.
+* "enable building of subnets" - If enabled the ticket block has an additional field for specifying a subnet name. Stations with the same subnet name (optional) represent an isolated subnet within the Hyperloop network.
 
 Example for 'minetest.conf':
 ```LUA
-hyperloop_wifi_enabled = true
-hyperloop_wifi_crafting_enabled = false
-hyperloop_free_tube_placement_enabled = true
+hyperloop_wifi_enabled = true                  -- WiFi block enabled
+hyperloop_wifi_crafting_enabled = false        -- WiFi block crafting enabled
+hyperloop_free_tube_placement_enabled = true   -- free tube placement enabled
+hyperloop_subnet_enabled = true                -- enable building of subnets
 ```
 
 ## Dependencies
-tubelib2 (![GitHub](https://github.com/joe7575/tubelib2))  
+tubelib2 ([GitHub](https://github.com/joe7575/tubelib2))  
 default  
 intllib  
 optional: worldedit, techage
 
 
 # License
-Copyright (C) 2017,2020 Joachim Stolberg  
+Copyright (C) 2017,2021 Joachim Stolberg  
 Code: Licensed under the GNU LGPL version 2.1 or later. See LICENSE.txt and http://www.gnu.org/licenses/lgpl-2.1.txt  
 Textures: CC0  
 Display: Derived from the work of kaeza, sofar and others (digilines) LGPLv2.1+

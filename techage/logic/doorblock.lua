@@ -87,10 +87,11 @@ for idx,pgn in ipairs(tPgns) do
 
 		paramtype = "light",
 		paramtype2 = "facedir",
-		use_texture_alpha = true,
+		use_texture_alpha = techage.BLEND,
 		sunlight_propagates = true,
 		sounds = default.node_sound_stone_defaults(),
-		groups = {cracky=2, choppy=2, crumbly=2, not_in_creative_inventory = idx==NUM_TEXTURES and 0 or 1},
+		groups = {cracky=2, choppy=2, crumbly=2, techage_door = 1, 
+				not_in_creative_inventory = idx==NUM_TEXTURES and 0 or 1},
 		is_ground_content = false,
 		drop = "techage:doorblock"..NUM_TEXTURES,
 	},

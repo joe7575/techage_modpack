@@ -3,274 +3,271 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
 	
 ]]--
 
--- Some notes:
--- 1) Entity IDs are volatile. For each server restart all carts get new IDs.
--- 2) Monitoring is performed for entities only. Stopped carts in form of
---    real nodes need no monitoring.
--- 3) But nodes at stations have to call 'node_at_station' to be "visible"
---    for the chat commands
-
-
 -- for lazy programmers
 local M = minetest.get_meta
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
+local P2H = minetest.hash_node_position
+local H2P = minetest.get_position_from_hash
 local S = minecart.S
-local MP = minetest.get_modpath("minecart")
-local lib = dofile(MP.."/cart_lib3.lua")
 
-local CartsOnRail = minecart.CartsOnRail  -- from storage.lua
-local get_route = minecart.get_route  -- from storage.lua
-local NodesAtStation = {}
+local tCartsOnRail = minecart.CartsOnRail
+local Queue = {}
+local first = 0
+local last = -1
 
---
--- Helper functions
---
-local function get_pos_vel_pitch_yaw(item)
-	if item.start_time and item.start_key then  -- cart on recorded route
-		local run_time = minetest.get_gametime() - item.start_time
-		local waypoints = get_route(item.start_key).waypoints
-		local waypoint = waypoints[run_time]
-		if waypoint then
-			return S2P(waypoint[1]), S2P(waypoint[2]), 0, 0
-		end
-	end
-	if item.last_pos then
-		item.last_pos = vector.round(item.last_pos)
-		if carts:is_rail(item.last_pos, minetest.raillike_group("rail")) then
-			return item.last_pos, item.last_vel, item.last_pitch or 0, item.last_yaw or 0
-		end
-		item.last_pos.y = item.last_pos.y - 1
-		if carts:is_rail(item.last_pos, minetest.raillike_group("rail")) then
-			return item.last_pos, item.last_vel, item.last_pitch or 0, item.last_yaw or 0
-		end
-	end
-	return item.start_pos, {x=0, y=0, z=0}, 0, 0
+local function push(cycle, item)
+	last = last + 1
+	item.cycle = cycle
+	Queue[last] = item
 end
 
---
--- Monitoring of cart entities
---
-function minecart.add_to_monitoring(obj, myID, owner, userID)
-	local pos = vector.round(obj:get_pos())
-	CartsOnRail[myID] = {
-		start_key = lib.get_route_key(pos),
-		start_pos = pos,
-		owner = owner,  -- needed for query API
-		userID = userID,  -- needed for query API
-		stopped = true,
-		entity_name = obj:get_entity_name()
-	}
-end
-
--- Called after cart number formspec is closed
-function minecart.update_userID(myID, userID)
-	if CartsOnRail[myID] then
-		CartsOnRail[myID].userID = userID
+local function pop(cycle)
+	if first > last then return end
+	local item = Queue[first]
+	if item.cycle < cycle then
+		Queue[first] = nil -- to allow garbage collection
+		first = first + 1
+		return item
 	end
 end
 
--- When cart entity is removed
-function minecart.remove_from_monitoring(myID)
-	if myID then
-		CartsOnRail[myID] = nil
-		minecart.store_carts()
-	end
-end	
-
--- For node carts at stations
-function minecart.node_at_station(owner, userID, pos)
-	NodesAtStation[owner] = NodesAtStation[owner] or {}
-	NodesAtStation[owner][userID] = pos
-end
-		
-function minecart.start_cart(pos, myID)
-	local item = CartsOnRail[myID]
-	if item and item.stopped then
-		item.stopped = false
-		item.start_pos = pos
-		item.start_time = nil
-		-- cart started from a buffer?
-		local start_key = lib.get_route_key(pos)
-		if start_key then
-			item.start_time = minetest.get_gametime()
-			item.start_key = start_key
-			item.junctions = minecart.get_route(start_key).junctions
-			minecart.store_carts()
+local function is_player_nearby(pos)
+	for _, object in pairs(minetest.get_objects_inside_radius(pos, 64)) do
+		if object:is_player() then
 			return true
 		end
 	end
-	return false
 end
 
-function minecart.stop_cart(pos, myID)
-	local item = CartsOnRail[myID]
-	if item and not item.stopped then
-		item.start_time = nil
-		item.start_key = nil
-		item.start_pos = nil
-		item.junctions = nil
-		item.stopped = true
-		minecart.store_carts()
-		return true
+local function zombie_to_entity(pos, cart, checkpoint)
+	local vel = {x = 0, y = 0, z = 0}
+	local obj = minecart.add_entitycart(pos, cart.node_name, cart.entity_name, 
+				vel, cart.cargo, cart.owner, cart.userID)
+	if obj then
+		local entity = obj:get_luaentity()
+		entity.reenter = checkpoint
+		entity.junctions = cart.junctions
+		entity.is_running = true
+		entity.arrival_time = 0
+		cart.objID = entity.objID
 	end
-	return false
 end
 
-local function monitoring()
-	local to_be_added = {}
-	for key, item in pairs(CartsOnRail) do
-		local entity = minetest.luaentities[key]
-		--print("Cart:", key, item.owner, item.userID, item.stopped)
-		if entity then  -- cart entity running
-			local pos = entity.object:get_pos()
-			local vel = entity.object:get_velocity()
-			local rot = entity.object:get_rotation()
-			if pos and vel and rot then
-				if not minetest.get_node_or_nil(pos) then  -- unloaded area
-					lib.unload_cart(pos, vel, entity, item)
-					item.stopped = minecart.stopped(vel)
-				end
-				-- store last pos from cart
-				item.last_pos, item.last_vel, item.last_pitch, item.last_yaw = pos, vel, rot.x, rot.y
-			end
-		else  -- no cart running
-			local pos, vel, pitch, yaw = get_pos_vel_pitch_yaw(item)
-			if pos and vel then
-				if minetest.get_node_or_nil(pos) then  -- loaded area
-					if pitch > 0 then 
-						pos.y = pos.y + 0.5 
-					end
-					local myID = lib.load_cart(pos, vel, pitch, yaw, item)
-					if myID then
-						item.stopped = minecart.stopped(vel)
-						to_be_added[myID] = table.copy(item)
-						CartsOnRail[key] = nil  -- invalid old ID 
-					end
-				end
-				item.last_pos, item.last_vel, item.last_pitch, item.last_yaw = pos, vel, pitch, yaw
-			else
-				-- should never happen
-				minetest.log("error", "[minecart] Cart of owner "..(item.owner or "nil").." got lost")
-				CartsOnRail[key] = nil
-			end
+local function get_checkpoint(cart)
+	local cp = cart.checkpoints[cart.idx]
+	if not cp then
+		cart.idx = #cart.checkpoints
+		cp = cart.checkpoints[cart.idx]
+	end
+	local pos = H2P(cp[1])
+--	if M(pos):contains("waypoints") then
+--		print("get_checkpoint", P2S(H2P(cp[1])), P2S(H2P(cp[2])))
+--	end
+	return cp, cart.idx == #cart.checkpoints
+end
+
+-- Function returns the cart state ("running" / "stopped") and
+-- the station name or position string, or if cart is running, 
+-- the distance to the query_pos.
+local function get_cart_state_and_loc(name, userID, query_pos)
+	if tCartsOnRail[name] and tCartsOnRail[name][userID] then
+		local cart = tCartsOnRail[name][userID]
+		local pos = cart.last_pos or cart.pos
+		local loc = minecart.get_buffer_name(cart.pos) or
+				math.floor(vector.distance(pos, query_pos))
+		if cart.objID == 0 then
+			return "stopped",  minecart.get_buffer_name(cart.pos) or
+					math.floor(vector.distance(pos, query_pos)), cart.node_name
+		else
+			return "running", math.floor(vector.distance(pos, query_pos)), cart.node_name
 		end
 	end
-	-- table maintenance
-	local is_changed = false
-	for key,val in pairs(to_be_added) do
-		CartsOnRail[key] = val
-		is_changed = true
+	return "unknown", 0, "unknown"
+end	
+
+local function get_cart_info(owner, userID, query_pos)
+	local state, loc, name = get_cart_state_and_loc(owner, userID, query_pos)
+	local cart_type = minecart.tCartTypes[name] or "unknown"
+	if type(loc) == "number" then
+		return "Cart #" .. userID .. " (" .. cart_type .. ") " .. state .. " " .. loc .. " m away  "
+	else
+		return "Cart #" .. userID .. " (" .. cart_type .. ") " .. state .. " at ".. loc .. "  "
 	end
-	if is_changed then
+end
+
+local function monitoring(cycle)
+    local cart = pop(cycle)
+	
+    while cart do
+		-- All running cars
+		if cart.objID and cart.objID ~= 0 then
+			cart.idx = cart.idx + 1
+			local entity = minetest.luaentities[cart.objID]
+			if entity then  -- cart entity running
+				local pos = entity.object:get_pos()
+				if pos then
+					cart.last_pos = vector.round(pos)
+					--print("entity card " .. cart.userID .. " at " .. P2S(cart.last_pos))
+				else
+					print("entity card without pos!")
+				end
+				push(cycle, cart)
+			elseif cart.checkpoints then
+				local cp, last_cp = get_checkpoint(cart)
+				if cp then
+					cart.last_pos = H2P(cp[1])
+					--print("zombie " .. cart.userID .. " at " .. P2S(cart.last_pos))
+					if is_player_nearby(cart.last_pos) or last_cp then
+						zombie_to_entity(cart.last_pos, cart, cp)
+					end
+					push(cycle, cart)
+				else
+					print("zombie got lost")
+				end
+			else
+				local pos = cart.last_pos or cart.pos
+				pos = minecart.add_nodecart(pos, cart.node_name, 0, cart.cargo, cart.owner, cart.userID)
+				cart.objID = 0
+				cart.pos = pos
+				--print("cart to node", cycle, cart.userID, P2S(pos))
+			end
+		elseif cart and not cart.objID and tCartsOnRail[cart.owner] then
+			-- Delete carts marked as "to be deleted"
+			tCartsOnRail[cart.owner][cart.userID] = nil
+		end
+		cart = pop(cycle)
+	end
+	minetest.after(2, monitoring, cycle + 1)
+end
+
+minetest.after(5, monitoring, 2)
+
+
+function minecart.monitoring_add_cart(owner, userID, pos, node_name, entity_name)
+	--print("monitoring_add_cart", owner, userID)
+	tCartsOnRail[owner] = tCartsOnRail[owner] or {}
+	tCartsOnRail[owner][userID] = {
+		owner = owner,
+		userID = userID,
+		objID = 0,
+		pos = pos,
+		idx = 0,
+		node_name = node_name,
+		entity_name = entity_name,
+	}
+	minecart.store_carts()
+end
+	
+function minecart.start_monitoring(owner, userID, pos, objID, checkpoints, junctions, cargo)
+	--print("start_monitoring", owner, userID)
+	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
+		tCartsOnRail[owner][userID].pos = pos
+		tCartsOnRail[owner][userID].objID = objID
+		tCartsOnRail[owner][userID].checkpoints = checkpoints
+		tCartsOnRail[owner][userID].junctions = junctions
+		tCartsOnRail[owner][userID].cargo = cargo
+		tCartsOnRail[owner][userID].idx = 0
+		push(0, tCartsOnRail[owner][userID])
 		minecart.store_carts()
 	end
-	minetest.after(1, monitoring)
 end
--- delay the start to prevent cart disappear into nirvana
-minetest.register_on_mods_loaded(function()
-	minetest.after(10, monitoring)
-end)
+
+function minecart.stop_monitoring(owner, userID, pos)
+	--print("stop_monitoring", owner, userID)
+	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
+		tCartsOnRail[owner][userID].pos = pos
+		tCartsOnRail[owner][userID].objID = 0
+		minecart.store_carts()
+	end
+end
+
+function minecart.monitoring_remove_cart(owner, userID)
+	--print("monitoring_remove_cart", owner, userID)
+	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
+		tCartsOnRail[owner][userID].objID = nil
+		tCartsOnRail[owner][userID] = nil
+		minecart.store_carts()
+	end
+end
+
+function minecart.monitoring_valid_cart(owner, userID, pos, node_name)
+	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
+		return vector.equals(tCartsOnRail[owner][userID].pos, pos) and 
+				tCartsOnRail[owner][userID].node_name == node_name
+	end
+end
+
+function minecart.userID_available(owner, userID)
+	return not tCartsOnRail[owner] or tCartsOnRail[owner][userID] == nil
+end
+
+function minecart.get_cart_monitoring_data(owner, userID)
+	if tCartsOnRail[owner] then
+		return tCartsOnRail[owner][userID]
+	end
+end
 
 
 --
 -- API functions
 --
 
--- Return a list of carts with current position and speed.
-function minecart.get_cart_list()
-	local tbl = {}
-	for id, item in pairs(CartsOnRail) do
-		local pos, speed = calc_pos_and_vel(item)
-		tbl[#tbl+1] = {pos = pos, speed = speed, id = id}
-	end
-	return tbl
-end
-
-local function get_cart_pos(query_pos, cart_pos)
-	local dist = math.floor(vector.distance(cart_pos, query_pos))
-	local station = lib.get_station_name(cart_pos)
-	return station or dist
-end
-
-local function get_cart_state(name, userID)
-	for id, item in pairs(CartsOnRail) do
-		if item.owner == name and item.userID == userID then
-			return item.stopped and "stopped" or "running", item.last_pos
-		end
-	end
-	return nil, nil
-end	
+-- Needed by storage to re-construct the queue after server start
+minecart.push = push
 
 minetest.register_chatcommand("mycart", {
 	params = "<cart-num>",
-	description = "Output cart state and position, or a list of carts, if no cart number is given.",
-    func = function(name, param)
+	description = S("Output cart state and position, or a list of carts, if no cart number is given."),
+    func = function(owner, param)
 		local userID = tonumber(param)
-		local query_pos = minetest.get_player_by_name(name):get_pos()
+		local query_pos = minetest.get_player_by_name(owner):get_pos()
 		
 		if userID then
-			-- First check if it is a node cart at a station
-			local cart_pos = NodesAtStation[name] and NodesAtStation[name][userID]
-			if cart_pos then
-				local pos = get_cart_pos(query_pos, cart_pos)
-				return true, "Cart #"..userID.." stopped at "..pos.."  "
-			end
-			-- Check all running carts
-			local state, cart_pos = get_cart_state(name, userID)
-			if state and cart_pos then
-				local pos = get_cart_pos(query_pos, cart_pos)
-				if type(pos) == "string" then
-					return true, "Cart #"..userID.." stopped at "..pos.."  "
-				elseif state == "running" then
-					return true, "Cart #"..userID.." running "..pos.." m away  "
-				else
-					return true, "Cart #"..userID.." stopped "..pos.." m away  "
-				end
-			end
-			return false, "Cart #"..userID.." is unknown"
-		else
+			return true, get_cart_info(owner, userID, query_pos)
+		elseif tCartsOnRail[owner] then
 			-- Output a list with all numbers
 			local tbl = {}
-			for userID, pos in pairs(NodesAtStation[name] or {}) do
+			for userID, cart in pairs(tCartsOnRail[owner]) do
 				tbl[#tbl + 1] = userID
 			end
-			for id, item in pairs(CartsOnRail) do
-				if item.owner == name then
-					tbl[#tbl + 1] = item.userID
-				end
-			end
-			return true, "List of carts: "..table.concat(tbl, ", ").."  "
+			return true, S("List of carts") .. ": "..table.concat(tbl, ", ").."  "
 		end
     end
 })
 
 function minecart.cmnd_cart_state(name, userID)
-	-- First check if it is a node cart at a station
-	local pos = NodesAtStation[name] and NodesAtStation[name][userID]
-	if pos then
-		return "stopped"
-	end
-	return get_cart_state(name, userID)
+	local state, loc = get_cart_state_and_loc(name, userID, {x=0, y=0, z=0})
+	return state
 end
 
 function minecart.cmnd_cart_location(name, userID, query_pos)
-	-- First check if it is a node cart at a station
-	local station = NodesAtStation[name] and NodesAtStation[name][userID]
-	if station then
-		return station
+	local state, loc = get_cart_state_and_loc(name, userID, query_pos)
+	return loc
+end
+
+function minecart.get_cart_list(pos, name)
+	local userIDs = {}
+	local carts = {}
+	
+	for userID, cart in pairs(tCartsOnRail[name] or {}) do
+		userIDs[#userIDs + 1] = userID
 	end
-	local state, cart_pos = get_cart_state(name, userID)
-	if state then
-		return get_cart_pos(query_pos, cart_pos)
+	
+	table.sort(userIDs, function(a,b) return a < b end)
+	
+	for _, userID in ipairs(userIDs) do
+		carts[#carts + 1] = get_cart_info(name, userID, pos)
 	end
+	
+	return table.concat(carts, "\n")
 end
 
 minetest.register_on_mods_loaded(function()
@@ -357,4 +354,3 @@ minetest.register_on_mods_loaded(function()
 		})
 	end
 end)
-

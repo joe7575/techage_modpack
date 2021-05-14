@@ -111,6 +111,7 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 
 	paramtype = "light",
 	paramtype2 = "facedir",
+	use_texture_alpha = techage.CLIP,
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
 	is_ground_content = false,
@@ -189,6 +190,7 @@ minetest.register_node("techage:ta4_liquid_filter_sink", {
 	end,
 
 	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

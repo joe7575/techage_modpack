@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,13 +13,12 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("signs_bot")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = signs_bot.S
 
 local lib = signs_bot.lib
 
@@ -38,12 +37,12 @@ end
 local function update_infotext(pos, dest_pos, cmnd)
 	local mem = tubelib2.get_mem(pos)
 	local text = table.concat({
-		I("Signal AND with"),
+		S("Signal AND with"),
 		#mem.inputs or 0,
-		I("inputs"),
+		S("inputs"),
 		":",
-		I("Connected with"),
-		S(dest_pos),
+		S("Connected with"),
+		P2S(dest_pos),
 		"/",
 		cmnd,
 		":",
@@ -80,7 +79,7 @@ local function infotext(pos)
 	local dest_pos = meta:get_string("signal_pos")
 	local signal = meta:get_string("signal_data")
 	if dest_pos ~= "" and signal ~= "" then
-		update_infotext(pos, P(dest_pos), signal)
+		update_infotext(pos, S2P(dest_pos), signal)
 	end
 end
 
@@ -143,7 +142,7 @@ local function signs_bot_on_signal(pos, node, signal)
 end
 
 minetest.register_node("signs_bot:and1", {
-	description = I("Signal AND"),
+	description = S("Signal AND"),
 	inventory_image = "signs_bot_and_inv.png",
 	drawtype = "nodebox",
 	node_box = {
@@ -170,6 +169,7 @@ minetest.register_node("signs_bot:and1", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -178,7 +178,7 @@ minetest.register_node("signs_bot:and1", {
 })
 
 minetest.register_node("signs_bot:and2", {
-	description = I("Signal AND"),
+	description = S("Signal AND"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -197,6 +197,7 @@ minetest.register_node("signs_bot:and2", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -206,7 +207,7 @@ minetest.register_node("signs_bot:and2", {
 })
 
 minetest.register_node("signs_bot:and3", {
-	description = I("Signal AND"),
+	description = S("Signal AND"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -223,6 +224,7 @@ minetest.register_node("signs_bot:and3", {
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = signs_bot.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -242,11 +244,11 @@ minetest.register_craft({
 
 if minetest.get_modpath("doc") then
 	doc.add_entry("signs_bot", "and", {
-		name = I("Signal AND"),
+		name = S("Signal AND"),
 		data = {
 			item = "signs_bot:and1",
 			text = table.concat({
-				I("Signal is sent, if all input signals are received."), 
+				S("Signal is sent, if all input signals are received."), 
 			}, "\n")		
 		},
 	})

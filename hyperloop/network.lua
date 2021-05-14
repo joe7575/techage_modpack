@@ -96,6 +96,15 @@ local function sort_based_on_distance(tStations, pos)
 	return lStations
 end
 
+-- Return a list with sorted stations
+local function sort_based_on_name(tStations, pos)
+	local lStations = table_to_list(table.copy(tStations))
+	-- Add distance 
+	lStations = add_distance_to_list(lStations, pos)
+	table.sort(lStations, function(a,b) return a.name < b.name end)
+	return lStations
+end
+
 
 --
 -- Class Network
@@ -233,8 +242,12 @@ function Network:station_list(pos, station_pos, sorted)
 	end
 	if sorted == "dist" then
 		lStations = sort_based_on_distance(tStations, pos)
-	else
+	elseif sorted == "level" then
 		lStations = sort_based_on_level(tStations)
+	else
+		-- delete own station from list
+		tStations[S(station_pos)] = nil
+		lStations = sort_based_on_name(tStations, pos)
 	end
 	return lStations
 end

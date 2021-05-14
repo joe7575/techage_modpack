@@ -235,7 +235,7 @@ Siehe auch TA4 Ofenheizung.
 
 Ist Teil des TA3 Industrieofen.
 
-Der Ölbrenner kann mit Schweröl, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Schweröl 80 s, Naphtha 90 s und Benzin 100 s.
+Der Ölbrenner kann mit Erdöl, Schweröl, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Erdöl 65 s, Schweröl 80 s, Naphtha 90 s und Benzin 100 s.
 
 Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Tank und eine Pumpe sind daher ratsam.
 
@@ -325,6 +325,7 @@ Für die gelben Röhren gibt es ein Ventil, welches über Mausklicks geöffnet u
 Das Ventil kann auch über on/off Kommandos angesteuert werden.
 
 [ta3_valve|image]
+
 
 
 ## Öl-Förderung
@@ -521,31 +522,47 @@ Hinweis: Mit dem Programmer können Blocknummern sehr einfach eingesammelt und k
 
 ### TA3 Logikblock / Logic Block
 
-Den TA3 Logikblock kann man so programmieren, dass ein oder mehrere Eingangssignale zu einem Ausgangssignal verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND, OR, NOT, XOR usw. ersetzen.
-Eingangssignale für den Logikblock sind `on`/`off` Kommandos. Ein `on` ist ein logisches `true`, ein `off` entspricht dem `false`.
-Eingangssignale werden über die Nummer referenziert, also bspw. `n123` für das Signal vom Sender mit der Nummer 123.
+Den TA3 Logikblock kann man so programmieren, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND, OR, NOT, XOR usw. ersetzen.
+Eingangkommandos für den Logikblock sind `on`/`off` Kommandos.
+Eingangskommandos werden über die Nummer referenziert, also bspw. `1234` für das Kommando vom Sender mit der Nummer 1234.
+Das gleiche gilt für Ausgangskommandos.
 
-**Beispiele für den IF Ausdruck**
+Eine Regel ist wie folgt aufgebaut:
+
+```
+<output> = on/off if <input-expression> is true
+```
+
+`<output>` ist die Nummer des Blocks, zu dem das Kommando gesendet werden soll.
+`<input-expression>` ist ein boolescher Ausdruck, bei dem Eingabenummern ausgewertet werden. 
+
+
+
+**Beispiele für den Input Ausdruck**
 
 Signal negieren (NOT):
 
-    not n123
+    1234 == off
 
 Logisches UND (AND):
 
-    n123 and n345
+    1234 == on and 2345 == on
 
 Logisches ODER (OR):
 
-    n123 or n345
+    1234 == on or 2345 == on
 
-Ist der `if`-Ausdruck wahr (true), wird der `then` Zweig ausgeführt, anderenfalls der `else` Zweig.
-Bei `then` und `else` kann entweder `true`, `false`, oder nichts eingegeben werden:
-- bei `true` wird `on` gesendet
-- bei `false` wird `off` gesendet
-- wird nichts eingegeben, wird auch nichts gesendet
+Folgende Operatoren sind zulässig:  `and`   `or`   `on`   `off`   `me`   `==`   `~=`   `(`   `)`
 
-Den oder die Ziel-Blöcke für das Ausgangssignal muss man im Zielnummern-Feld eingeben.
+Ist der Ausdruck wahr (true), wird ein Kommando an den Block mit der `<output>` Nummer gesendet.
+
+Es können bis zu vier Regeln definiert werden, wobei immer alle Regeln geprüft werden, wenn ein Kommando empfangen wird.
+
+Die interne Durchlaufzeit aller Kommandos beträgt 100 ms.
+
+Über das Schlüsselwort `me` kann die eigene Knotennummer referenziert werden. Damit ist es möglich, dass sich der Block selbst ein Kommando sendet (Flip-Flop Funktion).
+
+Die Sperrzeit definiert eine Pause nach einem Kommando, in der der Logikblock kein weiteres Kommando von extern annimmt.  Empfangene Kommandos in der Sperrzeit werden damit verworfen. Die Sperrzeit kann in Sekunden definiert werden.
 
 [ta3_logic|image]
 
@@ -622,9 +639,19 @@ Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Co
 
 ### TA3 Tür Controller II / Door Controller II
 
-Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert. Über die Tasten "Entfernen" bzw. "Setzen" kann die Funktion des Controllers von Hand getestet werden.
+Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.
+
+ Über die Tasten "Entfernen" bzw. "Setzen" kann die Funktion des Controllers von Hand getestet werden.
 
 Wird ein  `on` / `off` Kommando an den Tür Controller II gesendet, entfernt bzw. setzt er die Blöcke ebenfalls.
+
+Über ein `exchange` Kommando können einzelne Böcke gesetzt, entfernt, bzw. durch andere Blöcke ersetzt werden. Die Slot-Nummer des Inventars (1 .. 16) muss als payload übergeben werden, also:
+
+```
+$send_cmnd(node_number, "exchange", 2)
+```
+
+Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.
 
 [ta3_doorcontroller|image]
 
@@ -699,15 +726,7 @@ Die Verarbeitungsleistung beträgt 6 Items alle 2 s.
 
 ### TA3 Verteiler / Distributor
 
-Die Funktion des TA3 Verteilers entspricht der von TA2 mit einer weiteren Betriebart.
-
-**1:1 Bestückungsfunktion**
-
-Wird nur ein Ausgang aktiviert und mit mehreren Items konfiguriert, so kann die 1:1 Checkbox angeklickt werden. In diesem Falle werden nur Items gemäß der Filtereinstellung angenommen und in der Reihenfolge, wie die Items im Filter eingetragen sind, in definierte Positionen im Ziel-Inventar abgelegt. Damit kann weder das Inventar des Verteilers noch des Zielblocks volllaufen. Dies funktioniert für Autocrafter, Industrieofen und Elektronikfabrik.
-Mit dieser Betriebsart lassen sich andere Maschinen wie bspw. der Autocrafter exakt gemäß dem eingestellten Rezept bestücken. 
-
-Dies funktioniert nur nur, wenn die Inventare des Verteilers und des Zielblocks zuvor frei sind.
-
+Die Funktion des TA3 Verteilers entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 12 Items alle 4 s.
 
 [ta3_distributor|image]
@@ -761,13 +780,19 @@ Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 6 ku St
 
 [ta3_grinder|image]
 
+### TA3 Injektor / Injector
 
-### TA3 Flüssigkeitensammler / Liquid Sampler
+Der Injektor ist ein TA3 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter, Industrieofen und Elektronikfabrik).
 
-Die Funktion entspricht der von TA2.  
-Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
+Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert.
 
-[ta3_liquidsampler|image]
+Der Injektor kann auch auf "Ziehe-Modus" umgeschaltet werden. Dann zieht er nur Items von den Positionen aus der Kiste, die in der Konfiguration des Injektors definiert sind. Hier müssen also Item-Typ und Position überein stimmen. Damit können geziehlt Speicherplätze im Inventar einer Kiste geleert werden.
+
+Die Verarbeitungsleistung beträgt bis zu 8 mal ein Item alle 4 Sekunden.
+
+[ta3_injector|image]
+
+
 
 
 ## Werkzeuge
