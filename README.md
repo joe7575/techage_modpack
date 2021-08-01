@@ -49,7 +49,7 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 #### 2021-08-01
 
-Added Mods:
+Newly added mods (must be activated!):
 - networks
 - ta4_addons (Touchscreen)
 
