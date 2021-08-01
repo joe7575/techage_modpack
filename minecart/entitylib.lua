@@ -13,6 +13,8 @@
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P2H = minetest.hash_node_position
 local H2P = minetest.get_position_from_hash
+local LEN = function(t) local c = 0; for _ in pairs(t) do c = c + 1 end; return c; end
+
 local MAX_SPEED = minecart.MAX_SPEED
 local dot2dir = minecart.dot2dir
 local get_waypoint = minecart.get_waypoint
@@ -71,7 +73,14 @@ local function running(self)
 	local dir = minetest.yaw_to_dir(rot.y)
 	dir.y = math.floor((rot.x / (math.pi/4)) + 0.5)
 	dir = vector.round(dir)
-	local facedir = minetest.dir_to_facedir(dir)
+	-- If running in a 45 degree direction (extra cycle), use the old dir
+	-- to calculate face_dir. Otherwise the junction detection will not work as expected.
+	local facedir
+	if self.waypoint and self.waypoint.old_dir then
+		facedir = minetest.dir_to_facedir(self.waypoint.old_dir)
+	else
+		facedir = minetest.dir_to_facedir(dir)
+	end
 	local cart_pos, wayp_pos, is_junction
 	
 	if self.reenter then -- through monitoring
@@ -115,7 +124,7 @@ local function running(self)
 		self.ctrl = nil
 	end
 	
-	--print("dist", P2S(cart_pos), P2S(self.waypoint.pos), P2S(self.waypoint.cart_pos), self.waypoint.dot)
+	--print("running", LEN(self.junctions))
 	local dist = vector.distance(cart_pos, self.waypoint.cart_pos or self.waypoint.pos)
 	local new_dir = dot2dir(self.waypoint.dot)
 	local new_speed = new_speed(self, new_dir)
@@ -129,7 +138,7 @@ local function running(self)
 	local new_cart_pos, extra_cycle = minecart.get_current_cart_pos_correction(
 			wayp_pos, facedir, dir.y, self.waypoint.dot)  -- TODO: Why has self.waypoint no dot?
 	if extra_cycle and not vector.equals(cart_pos, new_cart_pos) then
-		self.waypoint = {pos = wayp_pos, cart_pos = new_cart_pos}
+		self.waypoint = {pos = wayp_pos, cart_pos = new_cart_pos, old_dir = vector.new(dir)}
 		new_dir = vector.direction(cart_pos, new_cart_pos)
 		dist = vector.distance(cart_pos, new_cart_pos)
 		--print("extra_cycle", P2S(cart_pos), P2S(wayp_pos), P2S(new_cart_pos), new_speed)
@@ -174,7 +183,7 @@ local function play_sound(self)
 		self.sound_handle = minetest.sound_play(
 			"carts_cart_moving", {
 			object = self.object,
-			gain = self.curr_speed / MAX_SPEED,
+			gain = (self.curr_speed or 0) / MAX_SPEED,
 		})
 	end
 end
@@ -243,9 +252,11 @@ local function on_entitycard_punch(self, puncher, time_from_last_punch, tool_cap
 			local pos = vector.round(self.object:get_pos())
 			if puncher then
 				local yaw = puncher:get_look_horizontal()
+				dir = minetest.yaw_to_dir(yaw)
 				self.object:set_rotation({x = 0, y = yaw, z = 0})
 			end
-			minecart.start_entitycart(self, pos)
+			local facedir = minetest.dir_to_facedir(dir or {x=0, y=0, z=0})
+			minecart.start_entitycart(self, pos, facedir or 0)
 			minecart.start_recording(self, pos) 
 		end
 	end

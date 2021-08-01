@@ -16,6 +16,8 @@
 local M = minetest.get_meta
 local S = techage.S
 
+local TA4_INV_SIZE = 50
+
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local mConf = dofile(MP.."/basis/conf_inv.lua")
 
@@ -345,21 +347,15 @@ techage.register_node({"techage:chest_ta4"}, {
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
 		
-		mem.filter = mem.filter or mConf.item_filter(pos, 50)
-		mem.chest_configured = mem.chest_configured or 
-				not mem.filter["unconfigured"] or #mem.filter["unconfigured"] < 50
+		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
+		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
 		
 		if inv:is_empty("main") then
 			return nil
 		end
 		
 		if item_name then
-			if mem.filter[item_name] then -- configured item
-				local taken = inv:remove_item("main", {name = item_name, count = num})
-				if taken:get_count() > 0 then
-					return taken
-				end
-			elseif not mem.chest_configured then
+			if mem.filter[item_name] or not mem.chest_configured then
 				local taken = inv:remove_item("main", {name = item_name, count = num})
 				if taken:get_count() > 0 then
 					return taken
@@ -367,7 +363,7 @@ techage.register_node({"techage:chest_ta4"}, {
 			end
 		else -- no item given
 			if mem.chest_configured then
-				return mConf.take_item(pos, inv, "main", num, mem.filter["unconfigured"] or {})
+				return mConf.take_item(pos, inv, "main", num, mem.filter["unconfigured"])
 			else
 				return techage.get_items(pos, inv, "main", num)
 			end
@@ -378,9 +374,8 @@ techage.register_node({"techage:chest_ta4"}, {
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
 		
-		mem.filter = mem.filter or mConf.item_filter(pos, 50)
-		mem.chest_configured = mem.chest_configured or 
-				not mem.filter["unconfigured"] or #mem.filter["unconfigured"] < 50
+		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
+		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
 		
 		if mem.chest_configured then
 			local name = item:get_name()
@@ -395,9 +390,8 @@ techage.register_node({"techage:chest_ta4"}, {
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
 		
-		mem.filter = mem.filter or mConf.item_filter(pos, 50)
-		mem.chest_configured = mem.chest_configured or 
-				not mem.filter["unconfigured"] or #mem.filter["unconfigured"] < 50
+		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
+		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
 		
 		if mem.chest_configured then
 			local name = item:get_name()

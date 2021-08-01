@@ -30,10 +30,15 @@ function minecart.start_nodecart(pos, node_name, puncher, punch_dir)
 	local userID = M(pos):get_int("userID")
 	-- check if valid cart
 	if not minecart.monitoring_valid_cart(owner, userID, pos, node_name) then
-		--print("invalid cart", owner, userID, P2S(pos), node_name)
-		M(pos):set_string("infotext", 
-				minetest.get_color_escape_sequence("#FFFF00") .. owner .. ": 0")
-		return
+		--print("Lost cart", owner, userID, P2S(pos), node_name)
+		local entity_name = minecart.tNodeNames[node_name]
+		if owner ~= "" and userID ~= "" and entity_name then
+			minecart.monitoring_add_cart(owner, userID, pos, node_name, entity_name)
+		else
+			M(pos):set_string("infotext", 
+					minetest.get_color_escape_sequence("#FFFF00") .. owner .. ": 0")
+			return
+		end
 	end
 	-- Only the owner or a noplayer can start the cart, but owner has to be online
 	if minecart.is_owner(puncher, owner) and minetest.get_player_by_name(owner) and
@@ -42,14 +47,19 @@ function minecart.start_nodecart(pos, node_name, puncher, punch_dir)
 		local obj = minecart.node_to_entity(pos, node_name, entity_name)
 		if obj then
 			local entity = obj:get_luaentity()
+			local facedir
+			
 			if puncher then
 				local yaw = puncher:get_look_horizontal()
 				entity.object:set_rotation({x = 0, y = yaw, z = 0})
+				local dir = minetest.yaw_to_dir(yaw)
+				facedir = minetest.dir_to_facedir(dir)
 			elseif punch_dir then
 				local yaw = minetest.dir_to_yaw(punch_dir)
 				entity.object:set_rotation({x = 0, y = yaw, z = 0})
+				facedir = minetest.dir_to_facedir(punch_dir)
 			end
-			 minecart.start_entitycart(entity, pos)
+			minecart.start_entitycart(entity, pos, facedir or 0)
 		end
 	end
 end

@@ -75,7 +75,8 @@ function minecart.find_node_near_lvm(pos, radius, items)
 		for y = pos1.y, pos2.y do
 			for z = pos1.z, pos2.z do
 				local idx = area:indexp({x = x, y = y, z = z})
-				if minetest.get_name_from_content_id(data[idx]) then
+				local name = minetest.get_name_from_content_id(data[idx])
+				if name and tItems[name] then
 					return {x = x, y = y, z = z}
 				end
 			end
@@ -96,7 +97,7 @@ function minecart.set_marker(pos, text, size, ttl)
 	end
 end
 
-minetest.register_entity(":minecart:marker_cube", {
+minetest.register_entity("minecart:marker_cube", {
 	initial_properties = {
 		visual = "cube",
 		textures = {
@@ -111,6 +112,41 @@ minetest.register_entity(":minecart:marker_cube", {
 		visual_size = {x = 1, y = 1},
 		collisionbox = {-0.25,-0.25,-0.25, 0.25,0.25,0.25},
 		glow = 8,
+		static_save = false,
+	},
+	on_punch = function(self)
+		self.object:remove()
+	end,
+})
+
+function minecart.set_land_marker(pos, radius, ttl)
+	local offs = radius + 0.5
+	local posses = {
+		{x = pos.x + offs, y = pos.y, z=pos.z},
+		{x = pos.x, y = pos.y, z=pos.z + offs},
+		{x = pos.x - offs, y = pos.y, z=pos.z},
+		{x = pos.x, y = pos.y, z=pos.z - offs},
+	}
+	for i, pos in ipairs(posses) do
+		local marker = minetest.add_entity(pos, "minecart:marker")
+		if marker ~= nil then
+			marker:set_properties({
+				visual_size = {x = 2 * offs, y = 2 * offs},
+				collisionbox = {-offs, -offs, 0, offs, offs, 0},
+			})
+			marker:set_yaw(math.pi / 2 * i)
+			minetest.after(ttl, marker.remove, marker)
+		end
+	end
+end
+
+minetest.register_entity("minecart:marker", {
+	initial_properties = {
+		visual = "upright_sprite",   
+		textures = {"minecart_marker_cube.png"},
+		use_texture_alpha = true,     
+		physical = false,
+		glow = 12,
 		static_save = false,
 	},
 	on_punch = function(self)
@@ -270,12 +306,12 @@ function minecart.add_entitycart(pos, node_name, entity_name, vel, cargo, owner,
 	end
 end
 
-function minecart.start_entitycart(self, pos)
+function minecart.start_entitycart(self, pos, facedir)
 	local route = {}
 	
 	self.is_running = true
 	self.arrival_time = 0
-	self.start_pos = minecart.get_buffer_pos(pos, self.owner)
+	self.start_pos = minecart.get_buffer_pos(pos, self.owner) or minecart.get_next_buffer(pos, facedir)
 	if self.start_pos then
 		-- Read buffer route for the junction info
 		route = minecart.get_route(self.start_pos) or {}

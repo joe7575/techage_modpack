@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -75,47 +75,53 @@ end
 
 -- Grinder normaly handles 'num_items' per cycle. 'num_items' is node stage dependent.
 -- But if 'inp_num' > 1 (wheat recipes), use 'inp_num'  and produce one output item.
-local function src_to_dst(src_stack, idx, num_items, inp_num, inv, dst_name, num_input)
-	local taken, output
+local function src_to_dst(src_stack, idx, src_name, num_items, inp_num, inv, dst_name)
 	if inp_num > 1 then
-		if src_stack:get_count() >= inp_num then
-			taken = src_stack:take_item(inp_num)
-			output = ItemStack(dst_name)
-		else
-			return false
+		local input = ItemStack(src_name)
+		input:set_count(inp_num)
+		local output = ItemStack(dst_name)
+		if inv:contains_item("src", input) and inv:room_for_item("dst", output) then
+			inv:remove_item("src", input)
+			inv:add_item("dst", output)
+			return true
 		end
 	else
-		taken = src_stack:take_item(num_items)
-		output = ItemStack(dst_name)
+		local taken = src_stack:take_item(num_items)
+		local output = ItemStack(dst_name)
 		output:set_count(output:get_count() * taken:get_count())
-	end
-	if inv:room_for_item("dst", output) then
-		inv:set_stack("src", idx, src_stack)
-		inv:add_item("dst", output)
-		return true
+		if inv:room_for_item("dst", output) then
+			inv:set_stack("src", idx, src_stack)
+			inv:add_item("dst", output)
+			return true
+		end
 	end
 	return false
 end
 			
 local function grinding(pos, crd, nvm, inv)
-	local num_items = 0
+	local blocked = false 	-- idle
 	for idx,stack in ipairs(inv:get_list("src")) do
 		if not stack:is_empty() then
 			local name = stack:get_name()
 			if Recipes[name] then
 				local recipe = Recipes[name]
-				if src_to_dst(stack, idx, crd.num_items, recipe.inp_num, inv, recipe.output) then
+				if src_to_dst(stack, idx, name, crd.num_items, recipe.inp_num, inv, recipe.output) then
 					crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+					return
 				else
-					crd.State:blocked(pos, nvm)
+					blocked = true
 				end
 			else
 				crd.State:fault(pos, nvm)
+				return
 			end
-			return
 		end
 	end
-	crd.State:idle(pos, nvm)
+	if blocked then
+		crd.State:blocked(pos, nvm)
+	else
+		crd.State:idle(pos, nvm)
+	end
 end
 
 local function keep_running(pos, elapsed)
@@ -241,6 +247,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
 		power_consumption = {0,4,6,9},
+		tube_sides = {L=1, R=1, U=1},
 	})
 
 minetest.register_craft({
@@ -252,23 +259,23 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craft({
-	output = node_name_ta3,
-	recipe = {
-		{"", "default:mese_crystal", ""},
-		{"", node_name_ta2, ""},
-		{"", "techage:vacuum_tube", ""},
-	},
-})
+--minetest.register_craft({
+--	output = node_name_ta3,
+--	recipe = {
+--		{"", "default:mese_crystal", ""},
+--		{"", node_name_ta2, ""},
+--		{"", "techage:vacuum_tube", ""},
+--	},
+--})
 
-minetest.register_craft({
-	output = node_name_ta4,
-	recipe = {
-		{"", "default:mese_crystal", ""},
-		{"", node_name_ta3, ""},
-		{"", "techage:ta4_wlanchip", ""},
-	},
-})
+--minetest.register_craft({
+--	output = node_name_ta4,
+--	recipe = {
+--		{"", "default:mese_crystal", ""},
+--		{"", node_name_ta3, ""},
+--		{"", "techage:ta4_wlanchip", ""},
+--	},
+--})
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("grinding", {

@@ -13,6 +13,8 @@
 -- Load support for I18n.
 local S = minetest.get_translator("ta4_jetpack")
 
+local liquid = networks.liquid
+
 local ta4_jetpack = {}
 
 local Players = {}
@@ -321,25 +323,27 @@ local function load_fuel(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos then
 		local name = user:get_player_name()
+		local nvm = techage.get_nvm(pos)
 		-- check jetpack
 		if not Jetpacks[name] then 
 			minetest.chat_send_player(name, S("[Jetpack] You don't have your jetpack on your back!"))
 			return itemstack
 		end
-		if techage.liquid.srv_peek(pos, 5) == "techage:hydrogen" then
+		if name and liquid.srv_peek(nvm) == "techage:hydrogen" then
 			local value = get_fuel_value(name)
 			local newvalue
 			
 			if user:get_player_control().sneak then -- back to tank?
 				local amount = math.min(value, FUEL_UNIT)
-				local rest = techage.liquid.srv_put(pos, 5, "techage:hydrogen", amount)
+				local rest = liquid.srv_put(nvm, "techage:hydrogen", amount, MAX_FUEL)
 				newvalue = value - amount + rest
 			else
 				local amount = math.min(FUEL_UNIT, MAX_FUEL - value)
-				local taken = techage.liquid.srv_take(pos, 5, "techage:hydrogen", amount)
+				local taken = liquid.srv_take(nvm, "techage:hydrogen", amount)
 				newvalue = value + taken
 			end
 			set_fuel_value(name, newvalue)
+			minetest.chat_send_player(name, S("[Jetpack]") .. ": " .. newvalue .. "/" .. MAX_FUEL)
 		end
 	end
 	return itemstack

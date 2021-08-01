@@ -88,5 +88,6 @@ Textures: CC0
 - 2020-02-02  v1.8  * 'special nodes' as alternative to 'secondary nodes' introduced
 - 2020-05-31  v1.9  * Generator function 'get_tube_line' added, storage improvements
 - 2021-01-23  v2.0  * Add functions for easy & fast 'valid side' checking (PR #8)
+- 2021-05-24  v2.1  * Add API functions 'register_on_tube_update2'
 
 

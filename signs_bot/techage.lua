@@ -8,19 +8,33 @@
 	GPLv3
 	See LICENSE.txt for more information
 	
-	Signs Bot: Bot Flap
+	Signs Bot: interface for techage
 
 ]]--
 
 -- Load support for I18n.
 local S = signs_bot.S
 
-local CYCLE_TIME = 4
+local MAX_CAPA = signs_bot.MAX_CAPA
+local PWR_NEEDED = 8
 
 if minetest.get_modpath("techage") then
 	
+	local function on_power(pos)
+		local mem = tubelib2.get_mem(pos)
+		mem.power_available = true
+		mem.charging = true
+		signs_bot.infotext(pos, S("charging"))
+	end
+
+	local function on_nopower(pos)
+		local mem = tubelib2.get_mem(pos)
+		mem.power_available = false
+		signs_bot.infotext(pos, S("no power"))
+	end
+
 	local Cable = techage.ElectricCable
-	local power = techage.power
+	local power = networks.power
 	
 	signs_bot.register_inventory({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4",
 			"techage:ta3_silo", "techage:ta4_silo", "techage:ta4_sensor_chest"}, {
@@ -164,26 +178,22 @@ send_cmnd 3465 pull*default:dirt*2]]),
     -- Bot in the box
 	function signs_bot.while_charging(pos, mem)
 		mem.capa = mem.capa or 0
-		if mem.power_available then
-			if mem.capa < signs_bot.MAX_CAPA then
-				local taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
-				mem.capa = mem.capa + taken
-			else
-				power.consumer_stop(pos, Cable)
-				minetest.get_node_timer(pos):stop()
-				mem.charging = false
-				if not mem.running then
-					signs_bot.infotext(pos, S("fully charged"))
-				end
-				return false
-			end
+		
+		if mem.capa < signs_bot.MAX_CAPA then
+			local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+			mem.capa = mem.capa + consumed
 		else
-			power.consumer_start(pos, Cable, CYCLE_TIME)
+			minetest.get_node_timer(pos):stop()
+			mem.charging = false
+			if not mem.running then
+				signs_bot.infotext(pos, S("fully charged"))
+			end
+			return false
 		end
 		return true
 	end
 	
-	Cable:add_secondary_node_names({"signs_bot:box"})
+	power.register_nodes({"signs_bot:box"}, Cable, "con")
 
 	techage.register_node({"signs_bot:box"}, {
 		on_inv_request = function(pos, in_dir, access_type)
@@ -266,9 +276,13 @@ send_cmnd 3465 pull*default:dirt*2]]),
 			return techage.put_items(inv, "main", stack)
 		end,
 	})	
-	
+
+	techage.register_node_for_v1_transition({"signs_bot:box"}, function(pos, node)
+		power.update_network(pos, nil, Cable)
+	end)
 else
 	function signs_bot.formspec_battery_capa(max_capa, current_capa)
 		return ""
 	end
 end
+

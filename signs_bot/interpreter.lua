@@ -188,7 +188,7 @@ register_command("end", 0,
 register_command("call", 1,
 	function(base_pos, mem, addr)
 		if #mem.Stack > 99 then
-			return api.ERROR
+			return api.ERROR, "call stack overrun"
 		end
 		mem.Stack[#mem.Stack + 1] = mem.pc + 2
 		mem.pc = addr - 2
@@ -202,7 +202,7 @@ register_command("call", 1,
 register_command("return", 0,
 	function(base_pos, mem)
 		if #mem.Stack < 1 then
-			return api.ERROR
+			return api.ERROR, "no return address"
 		end
 		mem.pc = (mem.Stack[#mem.Stack] or 1) - 1
 		mem.Stack[#mem.Stack] = nil

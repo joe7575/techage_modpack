@@ -52,7 +52,7 @@ minetest.register_on_mods_loaded(function()
 		for owner, carts in pairs(t) do
 			minecart.CartsOnRail[owner] = {}
 			for userID, cart in pairs(carts) do
-     				print("reload cart", owner, userID, cart.objID)
+				print("reload cart", owner, userID, cart.objID)
 				minecart.CartsOnRail[owner][userID] = cart
 				-- mark all entity carts as zombified
 				if cart.objID and cart.objID ~= 0 then
@@ -68,7 +68,7 @@ minetest.after(10, function()
 	for owner, carts in pairs(minecart.CartsOnRail) do
 		for userID, cart in pairs(carts) do
 			-- Remove node carts that are not available anymore
-			if cart.objID == 0 or not cart.objID then
+			if cart.pos and (cart.objID == 0 or not cart.objID) then
 				local node = minecart.get_node_lvm(cart.pos)
 				if not minecart.tNodeNames[node.name] then
 					-- Mark as "to be deleted"

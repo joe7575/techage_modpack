@@ -7,6 +7,7 @@ This modpack includes:
 - techage: The main mod
 - ta4_jetpack: A Jetpack for techage with hydrogen as fuel and TA4 recipe
 - ta4_paraglider: A Paraglider for techage with TA4 recipe
+- ta4_addons: A Touchscreen like the TA4 display, but with additional commands and features
 - autobahn: Street blocks and slopes with stripes for faster traveling (the only need of bitumen from techage)
 - compost: The garden soil is needed for the TA4 LED Grow Light based flower bed
 - signs_bot: For many automation tasks in TA3/TA4 like farming, mining, and item transportation
@@ -19,6 +20,7 @@ This modpack includes:
 - doc: Ingame documentation mod, used for minecart and signs_bot
 - unified_inventory V1: Player's inventory with crafting guide, bags, and more.
 - tubelib2: Necessary library
+- networks: Necessary library
 - safer_lua: Necessary library
 - lcdlib: Necessary library
 - datastorage: Necessary library
@@ -43,6 +45,23 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 
 ### History
+
+
+#### 2021-08-01
+
+Added Mods:
+- networks
+- ta4_addons (Touchscreen)
+
+Changed Mods:
+- techage (see readme and constuction board)
+- minecart (see readme "Migration to v2")
+
+Updated Mods:
+- autobahn
+- signs_bot
+- hyperloop
+- ta4_jetpack
 
 
 #### 2021-05-14

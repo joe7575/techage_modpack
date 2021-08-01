@@ -29,6 +29,16 @@ end
 
 local old_pos
 
+local function test_get_buffer(pos, player)
+	local yaw = player:get_look_horizontal()
+	local dir = minetest.yaw_to_dir(yaw)
+	local facedir = minetest.dir_to_facedir(dir)
+	local pos1 = minecart.get_next_buffer(pos, facedir)
+	if pos1 then
+		minecart.set_marker(pos1, "buffer", 1.2, 10)
+	end
+end
+
 local function test_get_route(pos, node, player)
 	local yaw = player:get_look_horizontal()
 	local dir = minetest.yaw_to_dir(yaw)
@@ -67,9 +77,8 @@ end
 local function click_left(itemstack, placer, pointed_thing)
 	if pointed_thing.type == "node" then
 		local pos = pointed_thing.under
-		local node = minetest.get_node(pos)
-		if node.name == "carts:rail" or node.name == "carts:powerrail" then
-			test_get_route(pos, node, placer)
+		if minecart.is_rail(pos) then
+			test_get_buffer(pos, placer)
 		end
 	end
 end

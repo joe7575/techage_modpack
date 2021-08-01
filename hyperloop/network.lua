@@ -69,6 +69,7 @@ local function get_stations(tStations, sKey, tRes)
 		if not tRes[dest] then
 			-- Known station?
 			if tStations[dest] then
+				tStations[dest].name = tStations[dest].name or ""
 				tRes[dest] = tStations[dest]
 				get_stations(tStations, dest, tRes)
 			end
@@ -143,7 +144,7 @@ function Network:set(pos, name, tAttr)
 				conn = {},
 			}
 		end
-		self.tStations[sKey].name = name
+		self.tStations[sKey].name = name or ""
 		for k,v in pairs(tAttr) do
 			self.tStations[sKey][k] = v
 		end

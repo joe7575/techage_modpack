@@ -163,11 +163,13 @@ function Tube:get_next_tube(pos, dir)
 		local val = Param2ToDir[param2 % 32] or 0
 		local dir1, dir2 = math.floor(val / 10), val % 10
 		local num_conn = math.floor(param2 / 32) or 0
-		if Turn180Deg[dir] == dir1 then
+		local odir = Turn180Deg[dir]
+		if odir == dir1 then
 			return npos, dir2, num_conn
-		else
+		elseif odir == dir2 then
 			return npos, dir1, num_conn
 		end
+		return
 	end
 	return self:get_next_teleport_node(pos, dir)
 end

@@ -16,27 +16,23 @@
 
 -- 'pos' is the position of the puncher/sensor, the cart
 -- position will be determined by means of 'param2' and 'radius'
+
+-- Function returns true for all standing carts (entities and nodes)
 function minecart.is_cart_available(pos, param2, radius)
-	local pos2 = minecart.get_nodecart_nearby(pos, param2, radius)	
-	if pos2 then
-		return true
-	end
-	-- The entity check is needed for a cart with driver
-	local entity = minecart.get_entitycart_nearby(pos, param2, radius)
-	if entity then
-		return true
-	end
+	return minecart.get_nodecart_nearby(pos, param2, radius) ~= nil or
+		minecart.get_entitycart_nearby(pos, param2, radius) ~= nil
 end	
 
+-- Function returns true if a standing cart as node is avaliable
 function minecart.is_nodecart_available(pos, param2, radius)
-	local pos2 = minecart.get_nodecart_nearby(pos, param2, radius)	
-	if pos2 then
-		return true
-	end
+	return minecart.get_nodecart_nearby(pos, param2, radius) ~= nil
 end	
 
--- 'pos' is the position of the puncher/sensor, the cart
--- position will be determined by means of 'param2' and 'radius'
+-- Function returns true if a standing cart as entity is avaliable
+function minecart.is_entitycart_available(pos, param2, radius)
+	return minecart.get_entitycart_nearby(pos, param2, radius) ~= nil
+end	
+
 function minecart.punch_cart(pos, param2, radius, punch_dir)
 	local pos2, node = minecart.get_nodecart_nearby(pos, param2, radius)	
 	if pos2 then

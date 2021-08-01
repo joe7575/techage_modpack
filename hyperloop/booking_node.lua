@@ -308,6 +308,7 @@ minetest.register_node("hyperloop:booking_ground", {
 
 	on_receive_fields = on_receive_fields,
 	on_destruct = on_destruct,
+	on_rightclick = on_rightclick,
 	
 	on_rotate = screwdriver.disallow,	
 	drop = "hyperloop:booking",

@@ -2,7 +2,7 @@
 
 	Autobahn
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2021 Joachim Stolberg
 	GPL v3
 	See LICENSE.txt for more information
 
@@ -16,6 +16,9 @@
 local S = minetest.get_translator("autobahn")
 
 autobahn = {}
+
+-- Test for MT 5.4 new string mode
+autobahn.CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true
 
 local Facedir2Dir = {[0] = 
 	{x=0,  y=0,  z=1},
@@ -237,6 +240,7 @@ local function register_node(name, tiles, drawtype, mesh, box, drop)
 		paramtype = "light",
 		paramtype2 = "facedir",
 		sunlight_propagates = true,
+		use_texture_alpha = autobahn.CLIP,
 		sounds = default.node_sound_stone_defaults(),
 		is_ground_content = false,
 		groups = {cracky=2, crumbly=2, 
@@ -332,8 +336,7 @@ if minetest.global_exists("techage") then
 		},
 		replacements = {{"techage:ta3_barrel_bitumen", "techage:ta3_barrel_empty"}},
 	})
-end
-if minetest.global_exists("moreblocks") then
+elseif minetest.global_exists("moreblocks") then
 	minetest.register_craft({
 		output = "autobahn:node1 4",
 		recipe = {

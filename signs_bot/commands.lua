@@ -156,6 +156,7 @@ end
 local function bot_error(base_pos, mem, err, cmd)
 	minetest.sound_play('signs_bot_error', {pos = base_pos})
 	minetest.sound_play('signs_bot_error', {pos = mem.robot_pos})
+	err = err or "unknown"
 	if cmd then
 		signs_bot.infotext(base_pos, err .. ":\n'" .. cmd .. "'")
 		mem.error = err .. ": '" .. cmd .. "'"

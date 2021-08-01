@@ -29,7 +29,7 @@ local function additem(mem, stack)
 	pos = {x = pos.x, y = pos.y - 1, z = pos.z}
 	node = minetest.get_node(pos)
 	ndef = minetest.registered_nodes[node.name]
-	if ndef.minecart_hopper_additem then
+	if ndef and ndef.minecart_hopper_additem then
 		return ndef.minecart_hopper_additem(pos, stack)
 	end
 	
@@ -47,7 +47,7 @@ local function takeitem(mem)
 	pos = {x = pos.x, y = pos.y - 1, z = pos.z}
 	node = minetest.get_node(pos)
 	ndef = minetest.registered_nodes[node.name]
-	if ndef.minecart_hopper_takeitem then
+	if ndef and ndef.minecart_hopper_takeitem then
 		return ndef.minecart_hopper_takeitem(pos, 1)
 	end
 end

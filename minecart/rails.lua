@@ -424,6 +424,52 @@ function minecart.delete_waypoint(pos)
 	end
 end	
 
+-------------------------------------------------------------------------------
+-- find next buffer (needed as starting position)
+-------------------------------------------------------------------------------
+local function get_next_waypoints(pos)
+	local t = get_metadata(pos) 
+	if not t then
+		t = find_all_next_waypoints(pos)
+	end
+	return t
+end
+
+local function get_next_pos_and_facedir(waypoints, facedir)
+	local cnt = 0
+	local newpos, newfacedir
+	facedir = (facedir + 2) % 4  -- opposite dir
+	
+	for i = 0, 3 do
+		if waypoints[i] then
+			cnt = cnt + 1
+			if i ~= facedir then -- not the same way back
+				newpos = vector.new(waypoints[i].pos)
+				newfacedir = i
+			end
+		end
+	end
+	
+	-- no junction and valid facedir
+	if cnt < 3 and newfacedir then
+		return newpos, newfacedir
+	end
+end
+
+local function get_next_buffer(pos, facedir)
+	facedir = (facedir + 2) % 4  -- opposite dir
+	for i = 1,5 do  -- limit search depth
+		local waypoints = get_next_waypoints(pos) or {}
+		local pos1, facedir1 = get_next_pos_and_facedir(waypoints, facedir)
+		if pos1 then
+			pos, facedir = pos1, facedir1
+		else
+			return minecart.find_node_near_lvm(pos, 1, {"minecart:buffer"})
+		end
+	end
+end
+
+
 carts:register_rail("minecart:rail", {
 	description = "Rail",
 	tiles = {
@@ -536,13 +582,17 @@ function minecart.add_raillike_nodes(name)
 	lRailsExt[#lRailsExt + 1] = name
 end
 
+-- minecart.get_next_buffer(pos, facedir)
+minecart.get_next_buffer = get_next_buffer
+
 --minetest.register_lbm({
 --	label = "Delete waypoints",
 --	name = "minecart:del_meta",
---	nodenames = {"carts:brakerail"},
+--	nodenames = {"minecart:rail", "minecart:powerrail"},
 --	run_at_every_load = true,
 --	action = function(pos, node)
 --		del_metadata(pos)
 --	end,
 --})
+
 

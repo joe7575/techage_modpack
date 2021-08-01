@@ -91,6 +91,10 @@ minetest.register_node("minecart:landmark", {
 		return false
 	end,
 	
+	on_punch = function(pos, node, puncher, pointed_thing)
+		minecart.set_land_marker(pos, RANGE, 20)
+	end,
+	
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
 	groups = {cracky = 3, stone = 1},

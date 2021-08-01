@@ -33,7 +33,7 @@ local function get_pos(pos, dir)
 end
 
 local function fdir(self, player)
-	local pitch = player:get_look_pitch()
+	local pitch = player:get_look_vertical()
 	if pitch > 1.0 and self.valid_dirs[6] then -- up?
 		return 6
 	elseif pitch < -1.0 and self.valid_dirs[5] then -- down?
@@ -102,8 +102,12 @@ function Tube:update_secondary_node(pos1, dir1, pos2, dir2)
 	local node,_ = self:get_secondary_node(pos1)
 	if node then
 		local ndef = minetest.registered_nodes[node.name] or {}
+		-- New functions
 		if ndef.tubelib2_on_update2 then
 			ndef.tubelib2_on_update2(pos1, dir1, self, node)
+		elseif self.clbk_update_secondary_node2 then
+			self.clbk_update_secondary_node2(pos1, dir1, self, node)
+		-- Legacy functions
 		elseif ndef.tubelib2_on_update then
 			ndef.tubelib2_on_update(node, pos1, dir1, pos2, Turn180Deg[dir2])
 		elseif self.clbk_update_secondary_node then

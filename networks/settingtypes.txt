@@ -1,0 +1,2 @@
+# Enable some nodes for testing/demo purposes
+networks_test_enabled (test nodes enabled) bool false

@@ -10,7 +10,7 @@ default
 Optional: moreblocks, techage, minecart
 
 # License
-Copyright (C) 2017-2020 Joachim Stolberg  
+Copyright (C) 2017-2021 Joachim Stolberg
 Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 

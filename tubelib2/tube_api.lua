@@ -13,7 +13,7 @@
 ]]--
 
 -- Version for compatibility checks, see readme.md/history
-tubelib2.version = 2.0
+tubelib2.version = 2.1
 
 -- for lazy programmers
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
@@ -318,6 +318,12 @@ end
 -- func(node, pos, out_dir, peer_pos, peer_in_dir)
 function Tube:register_on_tube_update(update_secondary_node)
 		self.clbk_update_secondary_node = update_secondary_node
+end
+
+-- Called for each connected node when the tube connection has been changed.
+-- func(pos1, out_dir, self, node)
+function Tube:register_on_tube_update2(update_secondary_node2)
+		self.clbk_update_secondary_node2 = update_secondary_node2
 end
 
 function Tube:get_pos(pos, dir)

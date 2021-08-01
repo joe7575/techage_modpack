@@ -266,23 +266,36 @@ minetest.register_node("hyperloop:shaftA2", {
 
 -- Form spec for the floor list
 local function formspec(pos, lFloors)
-	local tRes = {"size[5,10]label[0.5,0; "..S("Select your destination").."]"}
-	tRes[2] = "label[1,0.6;"..S("Destination").."]label[2.5,0.6;"..S("Floor").."]"
-	for idx,floor in ipairs(lFloors) do
-		if idx >= 12 then
-			break
-		end
-		local ypos = 0.5 + idx*0.8
-		local ypos2 = ypos - 0.2
-		tRes[#tRes+1] = "button_exit[1,"..ypos2..";1,1;button;"..(#lFloors-idx).."]"
-		if vector.equals(floor.pos, pos) then
-			tRes[#tRes+1] = "label[2.5,"..ypos..";"..S("(current position)").."]"
-		else
-			tRes[#tRes+1] = "label[2.5,"..ypos..";"..(floor.name or "<unknown>").."]"
-		end
-	end
-	if #tRes == 2 then
+	local tRes = {"size[6,10]label[0.5,0; "..S("Select your destination").."]"}
+	tRes[2] = "label[0.5,0.6;"..S("Destination").."]label[2,0.6;"..S("Floor").."]"
+	if #lFloors == 0 then
 		tRes[#tRes+1] = "button_exit[1,3;3,1;button;Update]"
+	elseif #lFloors < 10 then
+		for idx,floor in ipairs(lFloors) do
+			local ypos = 0.5 + idx*0.8
+			local ypos2 = ypos - 0.2
+			tRes[#tRes+1] = "button_exit[0.5,"..ypos2..";1,1;button;"..(#lFloors-idx).."]"
+			if vector.equals(floor.pos, pos) then
+				tRes[#tRes+1] = "label[2,"..ypos..";"..S("(current position)").."]"
+			else
+				tRes[#tRes+1] = "label[2,"..ypos..";"..(floor.name or "<unknown>").."]"
+			end
+		end
+	else
+		tRes[3] = "scrollbaroptions[smallstep=100;largestep=200]"
+		tRes[4] = "scrollbar[5.3,1.5;0.4,8.2;vertical;floors;0]"
+		tRes[5] = "scroll_container[0.5,2;5,9.5;floors;vertical;0.02]"
+		for idx,floor in ipairs(lFloors) do
+			local ypos = idx*0.8 - 0.5
+			local ypos2 = ypos - 0.2
+			tRes[#tRes+1] = "button_exit[0,"..ypos2..";1,1;button;"..(#lFloors-idx).."]"
+			if vector.equals(floor.pos, pos) then
+				tRes[#tRes+1] = "label[1.5,"..ypos..";"..S("(current position)").."]"
+			else
+				tRes[#tRes+1] = "label[1.5,"..ypos..";"..(floor.name or "<unknown>").."]"
+			end
+		end
+		tRes[#tRes+1] = "scroll_container_end[]"
 	end
 	return table.concat(tRes)
 end

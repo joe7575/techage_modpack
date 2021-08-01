@@ -21,9 +21,9 @@ local S = signs_bot.S
 local lib = signs_bot.lib
 
 signs_bot.MAX_CAPA = 600
-local PWR_NEEDED = 8
 
 local CYCLE_TIME = 1
+local CYCLE_TIME2 = 2  -- for charging phase
 
 local function in_range(val, min, max)
 	if val < min then return min end
@@ -233,14 +233,14 @@ function signs_bot.stop_robot(base_pos, mem)
 	if mem.signal_request ~= true then
 		mem.running = false
 		if minetest.global_exists("techage") then
-			minetest.get_node_timer(base_pos):start(4)
+			minetest.get_node_timer(base_pos):start(CYCLE_TIME2)
 			mem.charging = true
 			mem.power_available = false
 		else
 			minetest.get_node_timer(base_pos):stop()
 			mem.charging = false
 		end
-		if mem.power_available then
+		if mem.charging then
 			signs_bot.infotext(base_pos, S("charging"))
 		else
 			signs_bot.infotext(base_pos, S("stopped"))
@@ -387,19 +387,6 @@ if minetest.global_exists("techage") then
 	drop = ""
 end
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.power_available = true
-	mem.charging = true
-	signs_bot.infotext(pos, S("charging"))
-end
-
-local function on_nopower(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.power_available = false
-	signs_bot.infotext(pos, S("no power"))
-end
-
 minetest.register_node("signs_bot:box", {
 	description = S("Signs Bot Box"),
 	stack_max = 1,
@@ -478,31 +465,6 @@ minetest.register_node("signs_bot:box", {
 	on_timer = node_timer,
 	on_rotate = screwdriver.disallow,
 	
-	-- techage power definition
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node) 
-		if minetest.global_exists("techage") then
-			techage.power.update_network(pos, outdir, tlib2)
-		end
-	end,
-	networks = {
-		ele1 = {
-			sides = {L=1, U=1, D=1, F=1, B=1},
-			ntype = "con1",
-			on_power = function(pos)
-				local mem = tubelib2.get_mem(pos)
-				mem.power_available = true
-				signs_bot.infotext(pos, S("charging"))
-			end,
-			on_nopower = function(pos)
-				local mem = tubelib2.get_mem(pos)
-				mem.power_available = false
-				signs_bot.infotext(pos, S("no power"))
-			end,
-			nominal = PWR_NEEDED,
-		}
-	},
-	-- techage power definition
-
 	drop = drop,
 	paramtype2 = "facedir",
 	is_ground_content = false,
