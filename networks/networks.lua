@@ -328,7 +328,7 @@ local function remove_outdated_networks()
 	for _,item in ipairs(to_be_deleted) do
 		local net_name, netID = unpack(item)
 		Networks[net_name][netID] = nil
-		print("Network " .. netw_num(netID) .. " timed out")
+		--print("Network " .. netw_num(netID) .. " timed out")
 	end
 	minetest.after(60, remove_outdated_networks)
 end

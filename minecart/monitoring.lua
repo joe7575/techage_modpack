@@ -117,7 +117,7 @@ local function monitoring(cycle)
 					cart.last_pos = vector.round(pos)
 					--print("entity card " .. cart.userID .. " at " .. P2S(cart.last_pos))
 				else
-					print("entity card without pos!")
+					minetest.log("warning", "[Minecart] entity card without pos!")
 				end
 				push(cycle, cart)
 			elseif cart.checkpoints then
@@ -130,7 +130,7 @@ local function monitoring(cycle)
 					end
 					push(cycle, cart)
 				else
-					print("zombie got lost")
+					minetest.log("warning", "[Minecart] zombie got lost")
 				end
 			else
 				local pos = cart.last_pos or cart.pos

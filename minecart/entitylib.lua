@@ -85,6 +85,10 @@ local function running(self)
 	
 	if self.reenter then -- through monitoring
 		cart_pos = H2P(self.reenter[1])
+		-- pos correction on slopes
+		if not minecart.is_rail(cart_pos) then
+			cart_pos.y = cart_pos.y - 1
+		end
 		wayp_pos = cart_pos
 		is_junction = false
 		self.waypoint = {pos = H2P(self.reenter[2]), power = 0, dot = self.reenter[4]}
@@ -162,7 +166,7 @@ local function running(self)
 	
 	-- Got stuck somewhere
 	if new_speed < 0.1 or dist < 0 then
-		print("Got stuck somewhere", new_speed, dist)
+		minetest.log("warning", "[Minecart] Got stuck somewhere " .. new_speed .. " " .. dist)
 		stop_cart(self, wayp_pos)
 		return
 	end

@@ -137,6 +137,10 @@ end
 
 function minecart.recording_waypoints(self)	
 	local pos = vector.round(self.object:get_pos())
+	-- pos correction on slopes
+	if not minecart.is_rail(pos) then
+		pos.y = pos.y - 1
+	end
 	-- hier müsste überprüfung dest_pos rein
 	self.sum_speed = self.sum_speed + self.curr_speed 
 	local wp_pos = check_waypoint(self, pos)

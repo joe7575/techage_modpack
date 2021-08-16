@@ -110,7 +110,7 @@ function minecart.get_route(pos)
 				M(pos):set_int("time", 0)
 				return
 			end
-			return minetest.deserialize(s)
+			return route
 		end
 	end
 end

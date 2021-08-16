@@ -30,7 +30,6 @@ dofile(MP .. "/power.lua")
 dofile(MP .. "/liquid.lua")
 dofile(MP .. "/control.lua")
 
-print("networks_test_enabled", minetest.settings:get_bool("networks_test_enabled"))
 if minetest.settings:get_bool("networks_test_enabled") == true then
 	-- Only for testing/demo purposes
 	dofile(MP .. "/test/test_liquid.lua")
