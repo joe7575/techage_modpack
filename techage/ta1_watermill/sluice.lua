@@ -12,98 +12,62 @@
 	
 ]]--
 
-local M = minetest.get_meta
 local S = techage.S
 
-local RADIUS = 8
-local DEPTH = 2
-local AMOUNT = RADIUS * RADIUS * 1.5
+local M = minetest.get_meta
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 
 local function check_position(pos, facedir)
 	local dir = minetest.facedir_to_dir(facedir)
 	local pos_ = vector.add(pos, dir) 
 	local node = minetest.get_node(pos_)
-	
-	if node.name ~= "default:water_source" then
-		return
-	end
-	
-	dir = vector.multiply(dir, RADIUS)
-	local center = vector.add(pos, dir) 
-	local pos1 = {x = center.x - RADIUS, y = center.y - DEPTH, z = center.z - RADIUS}
-	local pos2 = {x = center.x + RADIUS, y = center.y + 0, z = center.z + RADIUS}
-	local _, nodes = minetest.find_nodes_in_area(pos1, pos2, {"default:water_source"})
-	return (nodes["default:water_source"] and nodes["default:water_source"] > AMOUNT) or false
+	return (node.name == "default:water_source" or node.name == "default:water_flowing"), pos_
 end
 
--- Function checks if a millpond is avaliable and 
--- returns the pos for the new water block, and the type of block.
-local function has_water(pos, facedir, player)
-	local facedir2, res, dir, pos2
+-- Function checks if water is avaliable and 
+-- returns the pos for the new water block, and the result (true/false).
+local function has_water(pos, facedir)
+	local res1, pos1 = check_position(pos, (facedir + 1) % 4)
+	local res2, pos2 = check_position(pos, (facedir + 3) % 4)
 	
-	-- check left side
-	facedir2 = (facedir + 3) % 4
-	res = check_position(pos, facedir2)
-	facedir2 = (facedir + 1) % 4
-	dir = minetest.facedir_to_dir(facedir2)
-	pos2 =  vector.add(pos, dir) 
-	
-	if res == nil then 
-		return pos2, "air"
-	elseif res == true then 
-		return pos2, "water"
-	else
-		minetest.chat_send_player(player:get_player_name(), S("Your pond is too small!"))
-		return pos2, "air"
+	if res1 and not res2 then
+		M(pos):set_string("millrace_pos", P2S(pos2))
+		return pos2, true
 	end
 	
-	-- check right side
-	facedir2 = (facedir + 1) % 4
-	res = check_position(pos, facedir2)
-	facedir2 = (facedir + 3) % 4
-	dir = minetest.facedir_to_dir(facedir2)
-	pos2 =  vector.add(pos, dir) 
-	
-	if res == nil then 
-		return  pos2, "air"
-	elseif res == true then 
-		return pos2, "water"
-	else
-		minetest.chat_send_player(player:get_player_name(), S("Your pond is too small!"))
-		return pos2, "air"
+	if not res1 and res2 then
+		M(pos):set_string("millrace_pos", P2S(pos1))
+		return pos1, true
 	end
+	
+	local pos3 = S2P(M(pos):get_string("millrace_pos"))
+	if pos3 then
+		return pos3, true
+	end
+	return pos1, false
 end
 
 local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 	local pos2 = vector.add(pos, {x = 0, y = -1, z = 0})
 	local node2 = minetest.get_node(pos2)
-	local pos3, res = has_water(pos2, node2.param2, clicker)
+	local pos3, res = has_water(pos2, node2.param2)
 	local node3 = minetest.get_node(pos3)
 	
 	if node2.name == "techage:ta1_sluice_closed" then
 		minetest.swap_node(pos, {name = "techage:ta1_sluice_handle_open", param2 = node.param2})
 		minetest.swap_node(pos2, {name = "techage:ta1_sluice_open", param2 = node.param2})
-		if res == "water" then
-			if node3.name == "air" or node3.name == "techage:water_flowing" then
-				minetest.add_node(pos3, {name = "techage:water_source"})
-				minetest.get_node_timer(pos3):start(2)
-			end
-		else
-			minetest.add_node(pos3, {name = "air"})
+		if res then
+			minetest.add_node(pos3, {name = "default:water_source"})
+			minetest.get_node_timer(pos3):start(2)
 		end
 		minetest.sound_play("doors_door_open", {gain = 0.5, pos = pos,
 			max_hear_distance = 10}, true)
 	elseif node2.name == "techage:ta1_sluice_open" then
 		minetest.swap_node(pos, {name = "techage:ta1_sluice_handle_closed", param2 = node.param2})
 		minetest.swap_node(pos2, {name = "techage:ta1_sluice_closed", param2 = node.param2})
-		if res == "water" then
-			if node3.name == "techage:water_source" then
-				minetest.add_node(pos3, {name = "techage:water_flowing"})
-			end
-		else
-			if node3.name == "techage:water_flowing" then
-				minetest.add_node(pos3, {name = "air"})
-			end
+		if res then
+			minetest.add_node(pos3, {name = "air"})
 		end
 		minetest.sound_play("doors_door_close", {gain = 0.5, pos = pos,
 			max_hear_distance = 10}, true)
@@ -160,7 +124,7 @@ minetest.register_node("techage:ta1_sluice_open", {
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:sluice_closed",
+	drop = "techage:ta1_sluice_closed",
 })
 
 minetest.register_node("techage:ta1_sluice_handle_closed", {
@@ -205,7 +169,7 @@ minetest.register_node("techage:ta1_sluice_handle_open", {
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:sluice_handle_closed",
+	drop = "techage:ta1_sluice_handle_closed",
 })
 
 minetest.register_craft({

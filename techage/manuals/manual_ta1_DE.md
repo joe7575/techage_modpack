@@ -53,11 +53,13 @@ Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar, wo du die
 [coalburner|plan]
 
 
+
 ## Wassermühle
 
 Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit
-Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden. Für den Mühlbach muss oberhalb des Mühlrades
-ein Teich angelegt werden. Der Teich und damit die Wassermenge muss mindestens 8 x 8 Blöcke groß und 2 Blöcke tief sein.  An den Rand des Teiches wird eine Schleuse gesetzt. Über die Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden. Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.
+Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden.
+Über eine Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden.
+Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.
 
 Die Abbildung rechts (auf "Plan" klicken) zeigt den Aufbau der Wassermühle.
 
@@ -65,11 +67,44 @@ Die Abbildung rechts (auf "Plan" klicken) zeigt den Aufbau der Wassermühle.
 
 ### TA1 Mühle
 
-Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle muss mit einer TA1 Achse mit dem Mühlrad verbunden werden. Die Kraft des Mühlrades reicht nur für eine Mühle.
+Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden.
+Die Mühle muss mit einer TA1 Achse mit dem Mühlrad verbunden werden. Die Kraft des Mühlrades reicht nur für eine Mühle.
 
 Die Mühle kann mit Hilfe eines Minecart Hoppers automatisiert werden, so dass das Mehl bspw. direkt von der Mühle in einen Ofen befördert wird, um daraus Brot zu backen.
 
 [watermill2|plan]
+
+### TA1 Schleusenschieber / TA1 Sluice Gate
+
+Der Schleusenschieber muss auf gleicher Höhe wie die Wasseroberfläche direkt an einen Teich oder in einen Bach gesetzt werden.
+Wird die Schleuse geöffnet, so fließt Wasser durch den Schieber. Dieses Wasser muss dann zum Mühlrad geleitet werden und treibt dort die Mühle an.
+
+[ta1_sluice|image]
+
+### TA1 Schleusengriff / TA1 Sluice Handle
+
+Der TA1 Schleusengriff  muss auf den Schleusenschieber gesetzt werden. Mit Hilfe des Schleusengriffs (Rechtsklick) kann der Schieber geöffnet werden.
+
+[ta1_sluice_handle|image]
+
+### TA1 Apfelholzbrett / TA1 Apple Wood Board
+
+Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Es kann aber auch jedes andere Material verwendet werden.
+
+[ta1_board1|image]
+
+### TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board
+
+Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit Pfosten des Holzzauns um eine Stütze des Kanals zu bauen.
+
+[ta1_board2|image]
+
+
+
+
+## 
+
+
 
 
 ## Erze und Werkzeuge

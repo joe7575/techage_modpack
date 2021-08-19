@@ -17,6 +17,11 @@ techage.manual_DE.aTitel = {
   "2,Kohlebrenner / Coal Burner",
   "2,Wassermühle",
   "3,TA1 Mühle",
+  "3,TA1 Schleusenschieber / TA1 Sluice Gate",
+  "3,TA1 Schleusengriff / TA1 Sluice Handle",
+  "3,TA1 Apfelholzbrett / TA1 Apple Wood Board",
+  "3,TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board",
+  "2, ",
   "2,Erze und Werkzeuge",
   "3,Hammer",
   "3,Kiessieb / Gravel Sieve",
@@ -342,19 +347,39 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit\n"..
-  "Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden. Für den Mühlbach muss oberhalb des Mühlrades\n"..
-  "ein Teich angelegt werden. Der Teich und damit die Wassermenge muss mindestens 8 x 8 Blöcke groß und 2 Blöcke tief sein.  An den Rand des Teiches wird eine Schleuse gesetzt. Über die Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden. Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.\n"..
+  "Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden.\n"..
+  "Über eine Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden.\n"..
+  "Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.\n"..
   "\n"..
   "Die Abbildung rechts (auf \"Plan\" klicken) zeigt den Aufbau der Wassermühle.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle muss mit einer TA1 Achse mit dem Mühlrad verbunden werden. Die Kraft des Mühlrades reicht nur für eine Mühle.\n"..
+  "Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden.\n"..
+  "Die Mühle muss mit einer TA1 Achse mit dem Mühlrad verbunden werden. Die Kraft des Mühlrades reicht nur für eine Mühle.\n"..
   "\n"..
   "Die Mühle kann mit Hilfe eines Minecart Hoppers automatisiert werden\\, so dass das Mehl bspw. direkt von der Mühle in einen Ofen befördert wird\\, um daraus Brot zu backen.\n"..
   "\n"..
   "\n"..
   "\n",
+  "Der Schleusenschieber muss auf gleicher Höhe wie die Wasseroberfläche direkt an einen Teich oder in einen Bach gesetzt werden.\n"..
+  "Wird die Schleuse geöffnet\\, so fließt Wasser durch den Schieber. Dieses Wasser muss dann zum Mühlrad geleitet werden und treibt dort die Mühle an.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA1 Schleusengriff  muss auf den Schleusenschieber gesetzt werden. Mit Hilfe des Schleusengriffs (Rechtsklick) kann der Schieber geöffnet werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Es kann aber auch jedes andere Material verwendet werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit Pfosten des Holzzauns um eine Stütze des Kanals zu bauen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
   "TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb\\, aber auch der Minecart Hopper kann genutzt werden.\n"..
   "\n"..
   "\n"..
@@ -1741,6 +1766,11 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "",
+  "ta1_sluice",
+  "ta1_sluice_handle",
+  "ta1_board1",
+  "ta1_board2",
+  "",
   "ta1_gravelsieve",
   "hammer",
   "ta1_gravelsieve",
@@ -1950,6 +1980,11 @@ techage.manual_DE.aPlanTable = {
   "coalburner",
   "watermill1",
   "watermill2",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

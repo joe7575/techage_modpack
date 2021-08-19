@@ -53,10 +53,12 @@ The melting pot has its own menu of recipes and an inventory where you have to p
 [coalburner|plan]
 
 
+
 ## Watermill
 
 The watermill can be used to grind wheat and other grains into flour and then bake them in the furnace to make bread. 
-The mill is powered by water power. To do this, a millrace must be led to the mill wheel via a canal. For the Mühlbach a pond must be created above the mill wheel. The pond and thus the amount of water must be at least 8x8 blocks large and 2 blocks deep. A sluice will be set at the edge of the pond. The water flow and thus the mill wheel can be controlled via the sluice. The sluice consists of the sluice lock and sluice handle.
+The mill is powered by water power. To do this, a millrace must be led to the mill wheel via a canal.
+The water flow and thus the mill wheel can be controlled via a sluice. The sluice consists of the sluice lock and sluice handle.
 
 The picture on the right (click on "Plan") shows the structure of the watermill. 
 
@@ -70,6 +72,33 @@ The watermill can be used to grind wheat and other grains into flour and then ba
 The mill can be automated with the help of a Minecart Hopper, so that the flour, for example, is transported directly from the mill into an furnace in order to bake bread from it.
 
 [watermill2|plan]
+
+### TA1 sluice gate
+
+The sluice gate valve must be placed directly next to a pond or in a stream at the same height as the water surface.
+When the gate is opened, water flows through the slide. This water then has to be fed to the mill wheel, where it drives the mill.
+
+[ta1_sluice|image]
+
+### TA1 sluice handle
+
+The TA1 sluice handle must be placed on the sluice gate. The gate can be opened with the aid of the sluice handle (right click).
+
+[ta1_sluice_handle|image]
+
+### TA1 Apple Wood Board
+
+Block in different types of wood for building the millrace canal. However, any other material can also be used.
+
+[ta1_board1|image]
+
+### TA1 Apple Millrace Board
+
+Block in different types of wood for building the millrace canal. This block is especially suitable in connection
+with posts of the wooden fence to build a support of the canal.
+
+[ta1_board2|image]
+
 
 
 ## Ores and Tools
