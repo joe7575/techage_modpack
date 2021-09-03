@@ -1,0 +1,22 @@
+# Techage Tips & Tricks
+
+- You cannot place lava above sea level here. Build your basalt generator or whatever you want to do with lava underground, so Y < 0.
+- All kinds of machines only run when the world is loaded at this point, i.e. a player is nearby. With forceload blocks you can force the area around the forceload block to stay loaded as long as you are 'on'.
+- With the TA1 Gravel Sieve ores can be sieved from gravel. You can collect gravel in caves or make it out of stone with the TA1 hammer.
+- The hopper is suitable for simple automation tasks. Please note that the hopper only sucks in the items from the left or above and passes them to the right (marking visible above) in chests or similar blocks.
+- You can find the instructions for Minecart in the player inventory via the Help (question mark) button.
+- Lava and water become basalt (not stone), a Cobble generator for endless ore mining does not exist at Techage.
+- In order to make steel, you need not only iron but also coal.
+- Build the burner tower high enough (at least for 10 coal blocks) so that you can also bake obsidian, you will need it later.
+- Note: Many Techage blocks have preferred sides which are marked accordingly, i.e. with IN, OUT, coupling for axes, power connection, etc. Others have an arrow for the working direction.
+- TA1 Iron Ingots are required for TA2 machines. Iron ingots can only be made with the TA1 charcoal pile/burner.
+- The Usmium Nuggets are required for TA3. These can only be obtained using the TA2 / TA3 rinser.
+- Baborium ingots are required for TA4 machines. Baborium Ingots can only be produced with the TA3 Furnace. For this purpose, the Baborium must be dismantled at a depth of 300 m (+/- 40m).
+- Generators must be 'secured' with forceload blocks so that they can always deliver power.
+- If you are looking for blocks from a certain age of technology, enter ta2 in your inventory, for example.
+- The Signs Bot can be used for a variety of automation tasks: sowing and harvesting, digging stones, farming trees, filling coal, loading and unloading carts, etc. The other players will be happy to help you here.
+- You can find the instructions for the Signs Bot in the player inventory via the Help (question mark) button.
+- The Minecart Mod is used for the automated transport of objects. Loading and loading of the carts can be automated with the hopper, but also with the Signs Bot or with Tech Age blocks.
+- Always build machines within a map area (contiguous map area), otherwise fault functions can occur if not all parts are loaded. The easiest way to check this is with the forceload block.
+- Tubes can also be placed with the Shift key. The tube is set so that one end points to the block you are looking at (cursor cross) and the other end of the tube points to you. This also works for cables and pipes.
+- An overview table with the power consumption of all machines is available here: https://github.com/joe7575/techage/blob/master/manuals/QSG.md
