@@ -35,6 +35,7 @@ local summary_doc = table.concat({
 	S("10. Check the cart state via the chat command: /mycart <num>\n   '<num>' is the cart number"),
 	S("11. Drop items into the Minecart and punch the cart to start it."),
 	S("12. Dig the cart with 'sneak+click' (as usual). The items will be drop down."),
+	S("13. To retrieve lost carts, use the chat command: /stopcart <num>"),
 }, "\n")
 
 local cart_doc = S("Primary used to transport items. You can drop items into the Minecart and punch the cart to get started. Sneak+click the cart to get cart and items back")

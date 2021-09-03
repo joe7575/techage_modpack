@@ -2,6 +2,7 @@
 Station name=Stationsname
 Waiting time/sec=Wartezeit/s
 connected to=verbunden mit
+Not connected!=Nicht verbunden!
 Summary=Zusammenfassung
 1. Place your rails and build a route with two endpoints. Junctions are allowed as long as each route has its own start and endpoint.=1. Baue eine Schienenstrecke mit zwei Enden. Kreuzungen sind zulässig, solange jede Route ihre eigenen Start- und Endpunkte hat.
 2. Place a Railway Buffer at both endpoints (buffers are always needed, they store the route and timing information).=2. Platziere einen Prellbock an beide Schienenenden (Prellböcke sind zwingend notwendig, sie speichern die Routen- und Zeit-Informationen).
@@ -12,9 +13,10 @@ Summary=Zusammenfassung
 7. Optional: Configure the Minecart waiting time in both buffers. The Minecart will then start automatically after the configured time.=7. Optional: Konfiguriere die Wagenwartezeit in beiden Prellböcken. Der Wagen startet dann nach dieser Zeit automatisch.
 8. Optional: Protect your rail network with the Protection Landmarks (one Landmark at least every 16 nodes/meters).=8. Optional: Schütze deine Schienen mit Hilfe der Meilensteine (ein Meilenstein mindestens alle 16 Blöcke).
 9. Place a Minecart in front of the buffer and check whether it starts after the configured time.=9. Platziere einen Wagen direkt vor einem Prellbock und prüfe, ob er nach der konfigurierten Zeit startet.
-10. Check the cart state via the chat command: /mycart <num>@n   '<num>' is the cart number=Prüfe den Status des Wagen mit dem Chat Kommando: /mycart <num>@n    <num> ist die Wagennummer
+10. Check the cart state via the chat command: /mycart <num>@n   '<num>' is the cart number=10. Prüfe den Status des Wagen mit dem Chat Kommando: /mycart <num>@n    <num> ist die Wagennummer
 11. Drop items into the Minecart and punch the cart to start it.=11: Lege Gegenstände in ein Wagen (Taste Q) und starte dann den Wagen durch Anklicken.
-12. Dig the cart with 'sneak+click' (as usual). The items will be drop down.=10. Klicke mit gedrückter Shift-Taste auf den Wagen, um diesen zu entfernen. Die Gegenstände fallen dann zu Boden.
+12. Dig the cart with 'sneak+click' (as usual). The items will be drop down.=12. Klicke mit gedrückter Shift-Taste auf den Wagen, um diesen zu entfernen. Die Gegenstände fallen dann zu Boden.
+13. To retrieve lost carts, use the chat command: /stopcart <num>=13. Um verirrte Waren zurückzuholen, verwende den Chat-Befehl: /stopcart <num>
 Primary used to transport items. You can drop items into the Minecart and punch the cart to get started. Sneak+click the cart to get cart and items back=Primär für den Transport von Gegenständen genutzt. Du kannst Gegenstände in ein Cart legen (Taste Q) und dann den Wagen durch Anklicken starten. Klicke mit gedrückter Shift-Taste auf den Wagen, um Cart und Gegenstände zurückzuerhalten
 Used as buffer on both rail ends. Needed to be able to record the cart routes=Preckblöcke müssen an beiden Schienenenden platziert sein, so dass Aufzeichnungen der Strecke gemacht werden können.
 Protect your rails with the Landmarks (one Landmark at least every 16 blocks near the rail)=Schütze deine Schienen mit Hilfe der Meilensteine (ein Meilenstein mindestens alle 16 Blöcke der Strecke entlang)
@@ -32,6 +34,10 @@ Cart Pusher=Wagen Anschieber
 Minecart (Sneak+Click to pick up)=Minecart (Shift+Klick zum Entfernen des Carts)
 Output cart state and position, or a list of carts, if no cart number is given.=Gibt Status und Position des Wagens, oder eine Liste aller Wagen aus, wenn keine Wagennummer angegeben ist.
 List of carts=Liste aller Wagen
+Stop amd return a missing/running cart.=Stoppe und hole einen vermissten Wagen zurück.
+Cart=Wagen
+stopped=gestoppt
+is not existing!=existiert nicht!
 Enter cart number=Gebe Cart Nummer ein
 Save=Speichern
 [minecart] Area is protected!=[minecart] Bereich ist geschützt!
@@ -52,8 +58,3 @@ Speed "4"=Tempo "4"
 No speed limit=Keine Geschwindigkeitsbegrenzung
 Cart List=Cart Liste
 Cart Terminal=Cart Terminal
-
-
-##### not used anymore #####
-
-Used to push a cart if the cart does not stop directly at a buffer. Block has to be placed below the rail.=Wird verwendet, um einen Wagen anzuschieben, wenn der Wagen nicht direkt an einem Puffer anhält. Der Block muss unter der Schiene platziert werden.

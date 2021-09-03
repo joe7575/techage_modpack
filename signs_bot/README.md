@@ -82,6 +82,7 @@ For all Inventory commands applies: If the inventory stack specified by <slot> i
     dig_right <slot> <lvl>    - remove block on the right
     dig_below <slot>          - dig block under the robot
     dig_above <slot>          - dig block above the robot
+    rotate_item <lvl> <steps> - rotate a block in front of the robot
     place_sign <slot>         - set sign
     place_sign_behind <slot>  - put a sign behind the bot
     dig_sign <slot>           - remove the sign
@@ -96,7 +97,14 @@ For all Inventory commands applies: If the inventory stack specified by <slot> i
     pattern                   - save the blocks behind the shield (up to 5x3x3) as template
     copy <size>               - make a copy of "pattern". Size is e.g. 3x3 (see ingame help)
     punch_cart                - Punch a rail cart to start it
+    add_compost <slot>        - Put 2 leaves into the compost barrel
+    take_compost <slot>       - Take a compost item from the barrel
     print <text>              - Output chat message for debug purposes
+    take_water <slot>         - Take water with empty bucket
+    fill_cauldron <slot>      - Fill the xdecor cauldron for a soup
+    take_soup <slot>          - Take boiling soup into empty bowl from cauldron
+    flame_on                  - Make fire
+    flame_off                 - Put out the fire
 
 #### Flow control commands
 
@@ -141,13 +149,14 @@ Or alternatively with the function at the end:
     return          -- end of 'foo'. Jump back
 
 ### License
-Copyright (C) 2019-2021 Joachim Stolberg  
+Copyright (C) 2019-2021 Joachim Stolberg
+Copyright (C) 2021 Michal 'Micu' Cieslakiewicz (soup commands)
 Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
 
 
 ### Dependencies 
 default, farming, basic_materials, tubelib2  
-optional: farming redo, node_io, doc, techage, minecart
+optional: farming redo, node_io, doc, techage, minecart, xdecor, compost
 
 
 ### History
@@ -173,4 +182,5 @@ optional: farming redo, node_io, doc, techage, minecart
 - 2021-03-14  v1.06  * Switch translation from intllib to minetest.translator
 - 2021-04-24  v1.07  * Adapted to minecart v2.0
 - 2021-05-04  v1.08  * Add print command, improve error msg
+- 2021-08-22  v1.09  * Add soup commands and signs, add aspen sign
 

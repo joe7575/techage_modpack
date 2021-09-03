@@ -13,7 +13,7 @@
 minecart = {}
 
 -- Version for compatibility checks, see readme.md/history
-minecart.version = 2.00
+minecart.version = 2.01
 
 minecart.hopper_enabled = minetest.settings:get_bool("minecart_hopper_enabled") ~= false
 minecart.teleport_enabled = minetest.settings:get_bool("minecart_teleport_enabled") == true

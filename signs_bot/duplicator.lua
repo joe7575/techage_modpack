@@ -63,38 +63,44 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
+local function get_template_data(stack)
+	local name = stack:get_name()
+	local data = stack:get_meta():to_table().fields
+	
+	if name == "default:sign_user" or name == "signs_bot:sign_cmnd" then
+		return data.description, data.cmnd
+	end
+	if name == "default:book_written" then
+		return data.title, data.text
+	end
+end
+
+local function get_dest_item(stack)
+	local name = stack:get_name()
+	if name == "signs_bot:sign_blank" or name == "signs_bot:sign_user" then
+		return ItemStack("signs_bot:sign_user")
+	end
+	if name == "signs_bot:sign_cmnd" then
+		return ItemStack("signs_bot:sign_cmnd")
+	end
+end
+
 local function move_to_output(pos)
 	local inv = M(pos):get_inventory()
 	local inp_stack = inv:get_stack("inp", 1)
 	local temp_stack = inv:get_stack("temp", 1)
 	local outp_stack = inv:get_stack("outp", 1)
+	local dest_item = get_dest_item(inp_stack)
+	local descr, cmnd = get_template_data(temp_stack)
 	
-	if (inp_stack:get_name() == "signs_bot:sign_blank" 
-			or inp_stack:get_name() == "signs_bot:sign_user")
-			and temp_stack:get_name() == "signs_bot:sign_cmnd"
-			and outp_stack:get_name() == "" then
-		local stack = ItemStack("signs_bot:sign_user")
-		stack:set_count(inp_stack:get_count())
-		local meta = stack:get_meta()
-		local temp_meta = temp_stack:get_meta()
-		meta:set_string("cmnd", temp_meta:get_string("cmnd"))
-		meta:set_string("description", temp_meta:get_string("description"))
+	if dest_item and descr then
+		dest_item:set_count(inp_stack:get_count())
+		local meta = dest_item:get_meta()
+		meta:set_string("description", descr)
+		meta:set_string("cmnd", cmnd)
 		inp_stack:clear()
 		inv:set_stack("inp", 1, inp_stack)
-		inv:set_stack("outp", 1, stack)
-	elseif (inp_stack:get_name() == "signs_bot:sign_blank" 
-			or inp_stack:get_name() == "signs_bot:sign_user")
-			and temp_stack:get_name() == "default:book_written"
-			and outp_stack:get_name() == "" then
-		local stack = ItemStack("signs_bot:sign_user")
-		stack:set_count(inp_stack:get_count())
-		local meta = stack:get_meta()
-		local temp_data = temp_stack:get_meta():to_table().fields
-		meta:set_string("cmnd", temp_data.text)
-		meta:set_string("description", temp_data.title)
-		inp_stack:clear()
-		inv:set_stack("inp", 1, inp_stack)
-		inv:set_stack("outp", 1, stack)
+		inv:set_stack("outp", 1, dest_item)
 	end
 end
 

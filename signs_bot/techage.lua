@@ -167,9 +167,9 @@ send_cmnd 3465 pull*default:dirt*2]]),
 			command = command:gsub("*", " ")
 			address = tostring(tonumber(address))
 			local meta = minetest.get_meta(base_pos)
-			local number = meta:get_int("number") or 0
+			local number = tostring(meta:get_int("number") or 0)
 			local topic, payload = unpack(string.split(command, " ", false, 1))
-			techage.send_multi(number, address, topic, payload)
+			techage.send_single(number, address, topic, payload)
 			return signs_bot.DONE
 		end,
 	})

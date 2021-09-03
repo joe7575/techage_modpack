@@ -77,7 +77,8 @@ Introduction
     '<num>' is the cart number, or get a list of carts with /mycart
 11. Drop items into the Minecart and punch the cart to start it, or "sneak+click" the 
     Minecart to get cart and items back
-
+12. Dig the cart with 'sneak+click' (as usual). The items will be drop down.
+13. To retrieve lost carts, use the chat command: /stopcart <num>
 
 Hopper
 ------
@@ -150,3 +151,4 @@ History
 2020-11-12  V1.10  Make carts more robust against server lag  
 2021-04-10  V2.00  Complete revision to make carts robust against server load/lag,
                    Speed limit signs and cart terminal added
+2021-09-02  V2.01  Chat command /stopcart added

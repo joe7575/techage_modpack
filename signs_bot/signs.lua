@@ -24,6 +24,18 @@ local function formspec(cmnd)
 	"label[0.2,0;"..cmnd.."]"
 end
 
+local function formspecXL(help_text, bot_cmnds)
+	help_text = help_text or "no help"
+	bot_cmnds = minetest.formspec_escape(bot_cmnds)
+	return "size[9,8]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"label[0,0;" .. S("Instructions:") .. "]" ..
+	"label[0.2,0.6;" .. help_text .. "]" ..
+	"textarea[0.3,4.0;9,4.9;code;" .. S("Code") .. ":;" .. bot_cmnds .. "]"
+end
+
 local function register_sign(def)
 	minetest.register_node("signs_bot:"..def.name, {
 		description = def.description,
@@ -61,7 +73,45 @@ local function register_sign(def)
 	})
 end
 
+local function register_signXL(def)
+	minetest.register_node("signs_bot:"..def.name, {
+		description = def.description,
+		inventory_image = def.image,
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{ -1/16, -8/16, -1/16,   1/16, 4/16, 1/16},
+				{ -6/16, -5/16, -2/16,   6/16, 3/16, -1/16},
+			},
+		},
+		paramtype2 = "facedir",
+		tiles = {
+			"default_wood.png",
+			"default_wood.png",
+			"default_wood.png",
+			"default_wood.png",
+			"default_wood.png",
+			"default_wood.png^"..def.image,
+		},
+		after_place_node = function(pos, placer)
+			local meta = minetest.get_meta(pos)
+			meta:set_string("signs_bot_cmnd", def.commands)
+			meta:set_string("formspec", formspecXL(def.help_text, def.commands))
+			meta:set_string("infotext", def.description)
+		end,
+		on_rotate = screwdriver.disallow,
+		paramtype = "light",
+		use_texture_alpha = signs_bot.CLIP,
+		sunlight_propagates = true,
+		is_ground_content = false,
+		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, sign_bot_sign = 1},
+		sounds = default.node_sound_wood_defaults(),
+	})
+end
+
 signs_bot.register_sign = register_sign
+signs_bot.register_signXL = register_signXL
 
 
 

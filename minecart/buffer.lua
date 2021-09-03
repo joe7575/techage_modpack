@@ -35,12 +35,16 @@ local function remote_station_name(pos)
 	if route and route.dest_pos then
 		return M(route.dest_pos):get_string("name")
 	end
-	return "none"
 end
 
 local function on_punch(pos, node, puncher)
 	local name = M(pos):get_string("name")
-	M(pos):set_string("infotext", name..": "..S("connected to").." "..remote_station_name(pos))
+	local dest = remote_station_name(pos)
+	if dest then
+		M(pos):set_string("infotext", name .. ": " .. S("connected to") .. " " .. dest)
+	else
+		M(pos):set_string("infotext", name .. ": " .. S("Not connected!"))
+	end
 	M(pos):set_string("formspec", formspec(pos))
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 
@@ -127,7 +131,12 @@ minetest.register_node("minecart:buffer", {
 			M(pos):set_string("name", fields.name)
 			M(pos):set_int("time", tonumber(fields.time) or 0)
 			M(pos):set_string("formspec", formspec(pos))
-			M(pos):set_string("infotext", fields.name.." "..S("connected to").." "..remote_station_name(pos))
+			local dest = remote_station_name(pos)
+			if dest then
+				M(pos):set_string("infotext", fields.name .. ": " .. S("connected to") .. " " .. dest)
+			else
+				M(pos):set_string("infotext", fields.name .. ": " .. S("Not connected!"))
+			end
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end
 	end,

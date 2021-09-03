@@ -15,7 +15,7 @@
 signs_bot = {}
 
 -- Version for compatibility checks, see readme.md/history
-signs_bot.version = 1.08
+signs_bot.version = 1.09
 
 -- Test for MT 5.4 new string mode
 signs_bot.CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true
@@ -52,6 +52,8 @@ dofile(MP.."/cmd_sign.lua")
 dofile(MP.."/cmd_pattern.lua")
 dofile(MP.."/cmd_farming.lua")
 dofile(MP.."/cmd_flowers.lua")
+dofile(MP.."/cmd_soup.lua")
+dofile(MP.."/cmd_trees.lua")
 
 dofile(MP.."/signal.lua")
 dofile(MP.."/extender.lua")

@@ -5,7 +5,6 @@
 ### basis.lua ###
 
 running=läuft
-charging=aufladen
 stopped=gestoppt
 Off=Aus
 On=An
@@ -15,7 +14,6 @@ Config=Konfig.
 Preassign slots items=Vorbelegungen
 Back=Zurück
 Robot Box=Roboterbox
-no power=kein Strom
 Signs Bot Box=Roboter Box
 The Box is the housing of the bot.=Die Box ist das Gehäuse des Roboters.
 Place the box and start the bot by means of the 'On' button.=Platziere die Box und starte den Roboter über den "An" Button.
@@ -43,6 +41,11 @@ Bot Sensor: Not connected=Bot Sensor: Nicht verbunden
 The Bot Sensor detects any bot and sends a signal, if a bot is nearby.=Der Roboter Sensor entdeckt jeden Roboter und sendet ein Signal, sofern ein Roboter in der Nähe ist.
 The sensor direction does not care.=Die Ausrichtung des Sensor spielt keine Rolle.
 
+### bot_sensor.lua ###
+### cart_sensor.lua ###
+
+the sensor range is one node/meter.=Der Sensorbereich ist einen Block/Meter groß.
+
 ### cart_sensor.lua ###
 
 Cart Sensor: Connected with=Wagen Sensor: Verbunden mit
@@ -50,11 +53,6 @@ Cart Sensor=Wagen Sensor
 Cart Sensor: Not connected=Wagen Sensor: Nicht verbunden
 The Cart Sensor detects and sends a signal, if a cart (Minecart) is nearby.=Der Wagen Sensor sendet ein Signal, sofern ein Wagen in der Nähe ist.
 The sensor has an active side (red) that must point to the rail/cart.=Der Sensor hat eine aktive Seite (rot), welche zu den Schienen zeigen muss.
-
-### cart_sensor.lua ###
-### bot_sensor.lua ###
-
-the sensor range is one node/meter.=Der Sensorbereich ist einen Block/Meter groß.
 
 ### changer.lua ###
 
@@ -87,18 +85,18 @@ Sign 'farming'=Zeichen 'Farming'
 Used to harvest and seed a 3x3 field.=Benötigt um ein 3x3 Feld zu ernten und wieder zu sähen.
 The seed to be placed has to be in the first inventory slot of the bot.=Das Saatgut, dass gesät werden soll, muss sich an der 1. Position im Inventar befinden.
 
-### cmd_farming.lua ###
-### cmd_flowers.lua ###
-
-Place the sign in front of the field.=Platziere das Zeichen vor das Feld.
-When finished, the bot turns.=Der Roboter dreht um, wenn er fertig ist.
-
 ### cmd_flowers.lua ###
 
 Cutting flowers, leaves and tree blocks@nin front of the robot@non a 3x3 field.=Schneide Blumen, Blätter und Baumblöcke@nin einem 3x3 großem Feld@nvor dem Roboter.
 Sign "flowers"=Zeichen "Blumen"
 Sign 'flowers'=Zeichen 'Blumen'
 Used to cut flowers on a 3x3 field.=Benötigt um ein 3x3 Blumenfeld zu ernten.
+
+### cmd_flowers.lua ###
+### cmd_farming.lua ###
+
+Place the sign in front of the field.=Platziere das Zeichen vor das Feld.
+When finished, the bot turns.=Der Roboter dreht um, wenn er fertig ist.
 
 ### cmd_item.lua ###
 
@@ -139,7 +137,6 @@ Use the pattern sign to mark the pattern.=Benutze das Vorlage-Zeichen und die Vo
 
 ### cmd_place.lua ###
 
-Error: Position protected=Fehler: Position geschützt
 Place a block in front of the robot@n<slot> is the inventory slot (1..8)@n<lvl> is one of: -1   0   +1=Setze einen Block vor den Roboter.@n<slot> ist die Position im@neigenen Inventar (1--8).@nFür <lvl> ist zulässig: -1   0   +1
 Place a block on the left side@n<slot> is the inventory slot (1..8)@n<lvl> is one of: -1   0   +1=Setze einen Block links vorne.@n<slot> ist die Position im@neigenen Inventar (1--8).@nFür <lvl> ist zulässig: -1   0   +1
 Place a block on the right side@n<slot> is the inventory slot (1..8)@n<lvl> is one of: -1   0   +1=Setze einen Block rechts vorne.@n<slot> ist die Position im@neigenen Inventar (1--8).@nFür <lvl> ist zulässig: -1   0   +1
@@ -178,6 +175,64 @@ Sign 'command'=Zeichen 'Kommando'
 The 'command' sign can be programmed by the player.=Das 'Kommando' Zeichen kann vom Spieler programmiert werden.
 Place the sign in front of you and use the node menu to program your sequence of bot commands.=Platziere das Zeichen vor dir und nutze das Zeichen-Menü, um die Kommando-Sequenz zu programmieren.
 The menu has an edit field for your commands and a help page with all available commands.=Das Menü hat ein Eingabefeld für deine Kommandos und eine Hilfeseite zu allen Kommandos.
+
+### cmd_soup.lua ###
+
+Take water into empty bucket when standing on a shore@n(use specified slot number or 0 for auto selection)=Schöpfe Wasser mit einen leeren Eimer.@nDer Bot muss dazu am Wasser stehen. (verwende die Slot-Nummer@ndes Eimers oder 0 für eine automatische Auswahl) 
+Error: No still water around=Fehler: Kein stilles Wasser in der Nähe
+Error: No empty bucket in inventory=Fehler: Kein leerer Eimer im Inventar
+Error: No empty bucket in inventory slot =Fehler: Kein leerer Eimer in der Inventar Position
+Error: No inventory space for full bucket=Fehler: Kein freier Inventarplatz für den vollen Eimer
+Pour water from bucket to empty cauldron in front of a robot@n(use specified slot number or 0 for auto selection)=Gieße das Wasser aus dem Eimer in einen leeren Kessel (xdecor) vor dem Roboter@n(verwende die Slot-Nummer des Eimers oder 0 für eine automatische Auswahl) 
+Error: No empty cauldron in front of a robot=Fehler: Kein leerer Kessel vor dem Roboter
+Error: No full bucket in inventory=Fehler: Kein voller Eimer im Inventar
+Error: No full bucket in inventory slot =Fehler: Kein voller Eimer an der Inventarposition
+Error: No inventory space for empty bucket=Fehler: Kein Platz im Inventar für den leeren Eimer
+Set fire under cauldron (requires flammable material)@n(command is ignored when fire is already burning)=Mache Feuer unter dem Kessel (benötigt brennbares Material)@n(Befehl wird ignoriert, wenn Feuer bereits brennt) 
+Error: No cauldron in front of a robot=Fehler: Kein Kessel vor dem Roboter
+Error: No space for fire under cauldron=Fehler: Kein Platz für das Feuer unter dem Kessel
+Error: No flammable material under cauldron=Fehler: Kein brennbares Material unter dem Kessel
+Put out (extinguish) fire under cauldron@n(command is ignored when there is no fire)=Das Feuer löschen unter dem Kessel@n(Befehl wird ignoriert, wenn kein Feuer vorhanden ist) 
+Take boiling soup into empty bowl from cauldron@nin front of a robot@n(use specified slot number or 0 for auto selection)=Die kochende Suppe aus im Kessel in eine leere Schüssel tun.@n(verwende die Slot-Nummer der Schüssel oder 0 für eine automatische Auswahl) 
+Error: No cauldron with a soup in front of a robot=Fehler: Kein Kessel mit Suppe vor dem Roboter
+Error: No empty bowl in inventory=Fehler: Keine leere Schüssel im Inventar
+Error: No empty bowl in inventory slot =Fehler: Keine leere Schüssel in der angegebenen Inventarposition
+Error: No inventory space for full bowl=Fehler: Kein Platz im Inventar für die Schüssel
+Sign "take water"=Zeichen "Schöpfe Wasser"
+Sign "cook soup"=Zeichen "Koche Suppe"
+Sign 'take water'=Zeichen 'Schöpfe Wasser'
+Used to take water into bucket.=Wird verwendet, um Wasser in den Eimer zu schöpfen.
+Place the sign on a shore, in front of the still water pool.=Platziere das Schild am Ufer des Wassers
+Items in slots:=Gegenstände im Inventar:
+  1 - empty bucket=  1 - leerer Eimer
+The result is one bucket with water in selected inventory slot.=Das Ergebnis ist ein Eimer mit Wasser an der ausgewählten Inventarposition. 
+When finished, the bot turns around.=Wenn er fertig ist, dreht sich der Bot um.
+Sign 'cook soup'=Zeichen 'Koche Suppe'
+Used to cook a vegetable soup in cauldron.=Wird verwendet, um eine vegetarische Suppe im Kessel zu kochen.
+Cauldon should be empty and located above flammable material.=Der Kessel sollte leer sein und sich über brennbarem Material befinden.
+Place the sign in front of the cauldron with one field space,=Platziere das Schild vor dem Kessel mit einem Feld Abstand,
+to prevent wooden sign from catching fire.=um zu verhindern, dass das Holzschild Feuer fängt.
+  1 - water bucket=  2 - Wassereimer
+  2 - vegetable #1 (i.e. tomato)=  2 - Gemüse #1 (bspw. Tomate)
+  3 - vegetable #2 (i.e. carrot)=  3 - Gemüse #2 (bspw. Zwiebel)
+  4 - empty bowl (from farming or xdecor mods)=  4 - Leere Schüssel (Von der Mod farming oder xdecor)
+The result is one bowl with vegetable soup in selected inventory slot.=Das Ergebnis ist eine Schüssel mit Gemüsesuppe an der ausgewählten Inventarposition.
+
+### cmd_soup.lua ###
+### cmd_place.lua ###
+
+Error: Position protected=Fehler: Position geschützt
+
+### cmd_trees.lua ###
+
+Used to harvest an aspen or pine tree trunk=Wird verwendet, um einen Espen- oder Kiefernstamm zu ernten
+- Place the sign in front of the tree.=- Setze das Zeichen vor den Baum.
+- Place a chest to the right of the sign.=- Setze eine Kiste rechts neben das Zeichen.
+- Put a dirt stack (10 items min.) into the chest.=- Lege einen Stapel (>10) Erde (dirt) in die Kiste.
+- Preconfigure slot 1 of the bot inventory with dirt=Pos. 1 des Bot-Inventars mit Erde (dirt) vorkonfigurieren
+- Preconfigure slot 2 of the bot inventory with saplings=Pos. 2 des Bot-Inventars mit einem Setzling vorkonfigurieren
+Sign "aspen"=Zeichen "Espe"
+Sign 'aspen'=Zeichen 'Espe'
 
 ### commands.lua ###
 
@@ -345,6 +400,11 @@ inputs=Eingängen
 Signal AND=Signal UND
 Signal is sent, if all input signals are received.=Signal wird gesendet, wenn all Eingangssignale empfangen wurden.
 
+### logic_and.lua ###
+### timer.lua ###
+
+Connected with=Verbunden mit
+
 ### node_sensor.lua ###
 
 Node Sensor: Connected with =Block Sensor: Verbunden mit 
@@ -363,6 +423,8 @@ The sensor has an active side (red) that must point to the observed area.=Der Se
 
 ### signs.lua ###
 
+Instructions:=Anweisungen:
+Code=Code
 Sign "turn right"=Zeichen "rechts drehen"
 Sign "turn left"=Zeichen "links drehen"
 Sign "take item"=Zeichen "Nehme Gegenstand"
@@ -382,10 +444,16 @@ The Bot takes items out of a minecart in front of it, pushes the cart and then t
 
 ### techage.lua ###
 
+no power=kein Strom
 Ignite the techage charcoal lighter=Zünde den Holzkohle-Anzünder an
 Turns the bot off if the@nbattery power is below the@ngiven value in percent (1..99)=Schalte den Bot aus,@nwenn die Batterieladung kleiner@nist als der angegebene Wert@nin Prozent (1.99)
 fully charged=voll geladen
 Sends a techage command@nto a given node. @nReceiver is addressed by@nthe techage node number.@nFor commands with two or more @nwords, use the '*' character @ninstead of spaces, e.g.: @nsend_cmnd 3465 pull*default:dirt*2=Sende ein techage Kommando@nan einen Block mit der@nangegebenen Blocknummer.@nFür Kommandos mit zwei oder mehr @nWörtern verwende das Zeichen '*' @nanstelle des Leerzeichens, wie bspw.:@nsend_cmnd 3465 pull*default:dirt*2
+
+### techage.lua ###
+### basis.lua ###
+
+charging=aufladen
 
 ### timer.lua ###
 
@@ -400,14 +468,6 @@ Can be programmed with a time in seconds, e.g. to start the bot cyclically.=Kann
 
 Start=Start
 
-### timer.lua ###
-### logic_and.lua ###
-
-Connected with=Verbunden mit
-
 ### tool.lua ###
 
 Sensor Connection Tool=Sensor Verbindungswerkzeug
-
-
-##### not used anymore #####
