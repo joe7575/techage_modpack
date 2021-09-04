@@ -256,11 +256,13 @@ minetest.register_chatcommand("stopcart", {
 					local entity = minetest.luaentities[data.objID]
 					if entity then  -- cart entity running
 						minecart.entity_to_node(player_pos, entity)
+						minecart.monitoring_remove_cart(owner, userID)
 					end
 				else
 					local pos = data.last_pos or data.pos
-					local cargo, owner, userID = minecart.remove_nodecart(pos)
+					local cargo, _, _ = minecart.remove_nodecart(pos)
 					minecart.add_nodecart(player_pos, data.node_name, 0, cargo, owner, userID)
+					minecart.monitoring_remove_cart(owner, userID)
 				end
 				return true, S("Cart") .. " " .. userID .. " " .. S("stopped")
 			else

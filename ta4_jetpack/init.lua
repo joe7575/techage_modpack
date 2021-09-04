@@ -231,7 +231,7 @@ minetest.register_globalstep(function(dtime)
 			if ctrl > 0 then
 				minetest.add_particle({
 					pos = pos,
-					vel = {x = vel.x, y = vel.y - 10, z = vel.z},
+					velocity = {x = vel.x, y = vel.y - 10, z = vel.z},
 					expirationtime = 1,
 					size = 5,
 					vertical = false,
