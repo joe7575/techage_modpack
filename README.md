@@ -47,18 +47,19 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
-#### 2021-09-04
-
-Updated Mods:
-- minecart (bugfix)
-
-
 #### 2021-09-18
 
 Updated Mods:
 - techage (see readme)
 - signs_bot (see readme)
 - networks (see readme)
+- ta4_addons (add matrix screen)
+
+
+#### 2021-09-04
+
+Updated Mods:
+- minecart (bugfix)
 
 
 #### 2021-09-03
