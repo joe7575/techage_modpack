@@ -19,6 +19,7 @@ local M = minetest.get_meta
 local S = signs_bot.S
 
 local lib = signs_bot.lib
+local INFO = [[Set the node state: command = 'set', payload = 1..4]]
 
 local NodeIdx = {
 	["signs_bot:changer1"] = "1",
@@ -134,6 +135,10 @@ for idx = 1,4 do
 			meta:set_string("formspec", formspec)
 			local node = minetest.get_node(pos)
 			meta:set_int("param2", (node.param2 + 2) % 4)
+			if minetest.get_modpath("techage") then
+				techage.logic.after_place_node(pos, placer, node.name, S("Bot Control Unit"))
+				techage.logic.infotext(meta, S("Bot Control Unit"))
+			end
 		end,
 		
 		signs_bot_get_signal = signs_bot_get_signal,
@@ -181,4 +186,23 @@ if minetest.get_modpath("doc") then
 			}, "\n")		
 		},
 	})
+end
+
+if minetest.get_modpath("techage") then
+	techage.register_node({"signs_bot:changer1", "signs_bot:changer2", "signs_bot:changer3", "signs_bot:changer4"}, {
+		on_recv_message = function(pos, src, topic, payload)
+			if topic == "set" then
+				local idx = tonumber(payload) or 1
+				if idx >= 1 and idx <= 4 then
+					local node = techage.get_node_lvm(pos)
+					signs_bot_on_signal(pos, node, idx)
+					return true
+				end
+			elseif topic == "info" then
+				return INFO
+			else
+				return "unsupported"
+			end
+		end,
+	})	
 end

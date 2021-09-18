@@ -122,3 +122,6 @@ Required: tubelib2
 
 **2021-07-23  V0.09**
 - bug fixes and improvements
+
+**2021-09-18  V0.10**
+- Add support for colored cables (PR #1 by Thomas--S)

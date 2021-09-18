@@ -53,6 +53,14 @@ Updated Mods:
 - minecart (bugfix)
 
 
+#### 2021-09-18
+
+Updated Mods:
+- techage (see readme)
+- signs_bot (see readme)
+- networks (see readme)
+
+
 #### 2021-09-03
 
 Updated Mods:

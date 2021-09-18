@@ -30,6 +30,10 @@ function signs_bot.register_flower(name)
 	end
 end
 
+signs_bot.register_flower("default:bush_stem")
+signs_bot.register_flower("default:acacia_bush_stem")
+signs_bot.register_flower("default:pine_bush_stem")
+
 minetest.after(1, function()
 	for _,def in pairs(minetest.registered_decorations) do
 		local name = def.decoration

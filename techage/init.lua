@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.01
+techage.version = 1.02
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -36,8 +36,8 @@ elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.0 then
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.0 or newer!")
 	return
-elseif minetest.global_exists("networks") and networks.version < 0.08 then
-	minetest.log("error", "[techage] Techage requires networks version 0.08 or newer!")
+elseif minetest.global_exists("networks") and networks.version < 0.10 then
+	minetest.log("error", "[techage] Techage requires networks version 0.10 or newer!")
 	return
 end
 
@@ -342,9 +342,9 @@ dofile(MP.."/items/petroleum.lua")
 dofile(MP.."/items/bauxit.lua")
 dofile(MP.."/items/silicon.lua")
 dofile(MP.."/items/steelmat.lua")
+dofile(MP.."/items/aluminium.lua")
 dofile(MP.."/items/powder.lua")
 dofile(MP.."/items/epoxy.lua")
-dofile(MP.."/items/aluminium.lua")
 dofile(MP.."/items/plastic.lua")
 dofile(MP.."/items/hydrogen.lua")
 dofile(MP.."/items/electronic.lua")
