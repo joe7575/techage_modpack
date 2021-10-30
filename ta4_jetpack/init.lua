@@ -551,3 +551,5 @@ techage.add_manual_items({
 ta4_jetpack.register_forbidden_item("techage:cylinder_large_hydrogen")
 ta4_jetpack.register_forbidden_item("techage:cylinder_small_hydrogen")
 ta4_jetpack.register_forbidden_item("techage:hydrogen")
+ta4_jetpack.register_forbidden_item("digtron:loaded_crate")
+ta4_jetpack.register_forbidden_item("digtron:loaded_locked_crate")

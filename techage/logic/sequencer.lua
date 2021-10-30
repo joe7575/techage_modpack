@@ -60,7 +60,7 @@ local function formspec_help()
 		"label[0,1;Define a sequence of commands\nto control other machines.]"..
 		"label[0,2.2;Numbers(s) are the node numbers,\nthe command shall sent to.]"..
 		"label[0,3.4;The commands 'on'/'off' are used\n for machines and other nodes.]"..
-		"label[0,4.6;Offset is the time to the\nnext line in seconds (1..999).]"..
+		"label[0,4.6;Offset is the time to the\nnext line in seconds (0.2 to 999).]"..
 		"label[0,5.8;If endless is set, the Sequencer\nrestarts again and again.]"..
 		"label[0,7;The command '  ' does nothing,\nonly consuming the offset time.]"..
 		"button[3,8;2,1;exit;close]"
@@ -106,6 +106,7 @@ local function check_rules(pos, elapsed)
 	nvm.running = nvm.running or false
 	nvm.index = nvm.index or 1
 	nvm.endless = nvm.endless or false
+	techage.counting_start(M(pos):get_string("owner"))
 	while true do -- process all rules as long as offs == 0
 		local rule = nvm.rules[nvm.index]
 		local offs = tonumber(nvm.rules[nvm.index].offs or 1)
@@ -119,12 +120,15 @@ local function check_rules(pos, elapsed)
 			if offs > 0 then
 				-- we can't restart the timer within the function om_timer
 				minetest.after(0, restart_timer, pos, offs)
+				techage.counting_stop()
 				return false
 			end
 		else
+			techage.counting_stop()
 			return stop_the_sequencer(pos)
 		end
 	end
+	techage.counting_stop()
 	return false
 end
 

@@ -230,7 +230,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		local meta = M(pos)
 		local inv = meta:get_inventory()
 		inv:set_size('main', 16)
-		logic.after_place_node(pos, placer, "techage:ta3_doorcontroller", S("TA3 Door Controller II"))
+		logic.after_place_node(pos, placer, "techage:ta3_doorcontroller2", S("TA3 Door Controller II"))
 		logic.infotext(meta, S("TA3 Door Controller II"))
 		local nvm = techage.get_nvm(pos)
 		meta:set_string("formspec", formspec1(nvm, meta))
@@ -321,7 +321,9 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		return inv:is_empty("main")
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata)
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		local name = digger:get_player_name()
+		unmark_all(name)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
@@ -423,3 +425,5 @@ for _, name in ipairs(ProtectorDoors) do
 		logic.register_doorcontroller_nodes({name .. "_" .. postfix})
 	end
 end
+
+logic.SimpleNodes = RegisteredNodes

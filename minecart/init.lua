@@ -13,7 +13,7 @@
 minecart = {}
 
 -- Version for compatibility checks, see readme.md/history
-minecart.version = 2.01
+minecart.version = 2.02
 
 minecart.hopper_enabled = minetest.settings:get_bool("minecart_hopper_enabled") ~= false
 minecart.teleport_enabled = minetest.settings:get_bool("minecart_teleport_enabled") == true
@@ -35,7 +35,7 @@ dofile(MP .. "/api.lua")
 dofile(MP .. "/minecart.lua")
 dofile(MP .. "/buffer.lua")
 dofile(MP .. "/protection.lua")
---dofile(MP .. "/tool.lua") # for debugging only
+--dofile(MP .. "/tool.lua") -- for debugging only
 dofile(MP .. "/signs.lua")
 dofile(MP .. "/terminal.lua")
 dofile(MP .. "/pusher.lua")

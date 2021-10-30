@@ -19,6 +19,33 @@ local NDEF = function(pos) return (minetest.registered_nodes[techage.get_node_lv
 
 local logic = techage.logic
 local BLOCKING_TIME = 8 -- seconds
+local ON_TIME = 1
+
+local WRENCH_MENU = {
+	{
+		type = "dropdown",
+		choices = "1,2,4,6,8,12,16",
+		name = "ontime",
+		label = S("On Time") .. " [s]",      
+		tooltip = S("The time between the 'on' and 'off' commands."),
+		default = "1",
+	},
+	{
+		type = "dropdown",
+		choices = "2,4,6,8,12,16,20",
+		name = "blockingtime",
+		label = S("Blocking Time") .. " [s]",      
+		tooltip = S("The time after the 'off' command\nuntil the next 'on' command is accepted."),
+		default = "8",
+	},
+	{
+		type = "items",
+		name = "config",
+		label = S("Configured Items"),      
+		tooltip = S("Items which generate an 'on' command.\nIf empty, all passed items generate an 'on' command."),
+		size = 4,
+	}
+}
 
 local function switch_on(pos)
 	local mem = techage.get_mem(pos)
@@ -30,8 +57,11 @@ local function switch_on(pos)
 		else
 			logic.swap_node(pos, "techage:ta4_detector_on")
 		end
-		logic.send_on(pos, M(pos), 1)
-		mem.time = t + BLOCKING_TIME
+		local meta = M(pos)
+		local on_time = math.max(meta:get_int("ontime"), ON_TIME)
+		local blocking_time = tonumber(meta:get_string("blockingtime")) or BLOCKING_TIME
+		logic.send_on(pos, meta, on_time)
+		mem.time = t + blocking_time + on_time
 	end
 end
 
@@ -48,12 +78,15 @@ end
 local function formspec(meta)
 	local numbers = meta:get_string("numbers") or ""
 	return "size[7.5,3]"..
+		techage.wrench_image(7, -0.1) ..
 		"field[0.5,1;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
 		"button_exit[2,2;3,1;exit;"..S("Save").."]"
 end
 
 local function after_place_node(pos, placer)
 	local meta = M(pos)
+	local inv = meta:get_inventory()
+	inv:set_size('cfg', 4)
 	logic.after_place_node(pos, placer, "techage:ta3_detector_off", NDEF(pos).description)
 	logic.infotext(meta, NDEF(pos).description)
 	meta:set_string("formspec", formspec(meta))
@@ -97,6 +130,7 @@ minetest.register_node("techage:ta3_detector_off", {
 	on_receive_fields = on_receive_fields,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
+	ta3_formspec = WRENCH_MENU,
 	
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -124,6 +158,7 @@ minetest.register_node("techage:ta3_detector_on", {
 	on_rotate = screwdriver.disallow,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
+	ta3_formspec = WRENCH_MENU,
 	
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
@@ -148,6 +183,7 @@ minetest.register_node("techage:ta4_detector_off", {
 	on_receive_fields = on_receive_fields,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
+	ta3_formspec = WRENCH_MENU,
 	
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -175,6 +211,7 @@ minetest.register_node("techage:ta4_detector_on", {
 	on_rotate = screwdriver.disallow,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
+	ta3_formspec = WRENCH_MENU,
 	
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
@@ -204,7 +241,10 @@ minetest.register_craft({
 techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		if techage.safe_push_items(pos, in_dir, stack) then
-			switch_on(pos)
+			local inv =  minetest.get_inventory({type = "node", pos = pos})
+			if not inv or inv:is_empty("cfg") or inv:contains_item("cfg", ItemStack(stack:get_name())) then
+				switch_on(pos)
+			end
 			return true
 		end
 		return false

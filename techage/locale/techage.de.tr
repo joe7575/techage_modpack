@@ -114,6 +114,12 @@ TA3 Button/Switch=TA3 Taster/Schalter
 TA4 Button/Switch=TA4 Schalter/Taster
 
 ### button.lua ###
+### button_4x.lua ###
+### signallamp_4x.lua ###
+
+Command=Kommando
+
+### button.lua ###
 ### cart_detector.lua ###
 ### detector.lua ###
 ### lua_logic.lua ###
@@ -130,9 +136,32 @@ Insert destination node number(s)=Gebe Zielnummer(n) ein
 ### doorcontroller.lua ###
 ### mesecons_converter.lua ###
 ### repeater.lua ###
+### sequencer2.lua ###
 ### submenu.lua ###
 
 Save=Speichern
+
+### button.lua ###
+### signallamp_4x.lua ###
+
+Command to be sent=Zu sendender Befehl 
+
+### button_4x.lua ###
+
+Command to be sent (ignored for switches)=Zu sendender Befehl (wird für Schalter ignoriert)
+Label=Beschriftung
+Label for the button=Beschriftung für die Taste
+Momentary button or on/off switch=Taster oder Ein-/Ausschalter
+TA4 4x Button=TA4 4x Taster
+Type=Typ
+
+### button_4x.lua ###
+### signallamp_4x.lua ###
+
+Access=Zugriff
+Button protection=Tastenschutz
+Destination block number=Zielblocknummer 
+Number=Nummer
 
 ### cart_detector.lua ###
 
@@ -204,14 +233,32 @@ TA3 Melting=TA3 Schmelzen
 
 TA3 Cooler=TA3 Kühler
 
+### counting.lua ###
+
+Your current value is=Der aktuelle Wert ist
+[techage] The limit for 'number of commands per minute' has been exceeded.=[techage] Das Limit für 'Anzahl Befehle pro Minute' wurde überschritten.
+is allowed=ist erlaubt
+is allowed. Current value is=ist erlaubt. Aktueller Wert ist
+per minute=pro Minute
+
 ### cylinder.lua ###
 
 TA2 Cylinder=TA2 Zylinder
 
 ### detector.lua ###
 
+Configured Items=Konfigurierte Gegenstände
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die einen 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
+On Time=ON Zeit
 TA3 Detector=TA3 Detektor
 TA4 Detector=TA4 Detektor
+The time after the 'off' command@nuntil the next 'on' command is accepted.=Die Zeit nach dem 'off' Kommando,@nbis das nächste 'on' Kommando akzeptiert wird.
+The time between the 'on' and 'off' commands.=Die Zeit zwischen den 'on' und 'off' Kommandos.
+
+### detector.lua ###
+### logic_block.lua ###
+
+Blocking Time=Sperrzeit
 
 ### display.lua ###
 
@@ -250,14 +297,18 @@ Blocks are back=Blöcke sind wieder da
 Blocks are disappeared=Blöcke sind verschwunden
 Click on all the blocks that are part of the door/gate=Klicke auf alle Blöcke, die Teil des Tores sind
 Ctrl,Inv=Ctrl,Inv
-Done=Fertig
-Record=Aufzeichnen
-Recording...=Aufzeichnung...
 Remove=Entfernen
 Set=Setzen
 TA3 Door Controller II=TA3 Tür Controller II
-block positions are stored.=Block Positionen gespeichert.
 with door sound=mit Türgeräusch
+
+### doorcontroller2.lua ###
+### movecontroller.lua ###
+
+Done=Fertig
+Record=Aufzeichnen
+Recording...=Aufzeichnung...
+block positions are stored.=Block Positionen gespeichert.
 
 ### drillbox.lua ###
 
@@ -370,6 +421,7 @@ loaded=geladen
 
 ### formspecs.lua ###
 
+Block has a wrench menu=Block hat ein Gabelschlüssel-Menü
 Charge termination=Ladebegrenzung
 Current output [ku]=Aktueller Ausgabewert
 Maximum output [ku]=Maximaler Ausgabewert
@@ -570,6 +622,11 @@ Allow public access to the tank=Erlaube öffentlichen Zugriff auf den Tank
 Liquid Tank=Flüssigkeitstank
 To add liquids punch@nthe tank@nwith a liquid container=Um Flüssigkeit nachzufüllen,@nschlage mit einem Flüssigkeitsbehälter@nauf den Block
 
+### liquid_lib.lua ###
+### ta4_chest.lua ###
+
+keep assignment=Zuordnung beibehalten
+
 ### liquid_pipe.lua ###
 
 TA Junction Pipe=TA Leitungskupplung
@@ -595,8 +652,8 @@ no usable water=Kein brauchbares Wasser
 @nRule:@n<output> @= on/off if <input-expression> is true@n=@nRegel:@n<output> @= on/off if <input-expression> is true@n
 @nThe internal processing time for all@ncommands is 100 ms.=@nDie interne Durchlaufzeit für alle@nKommandos beträgt 100 ms.
 @nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=@nGültige Operatoren:@nand   or   on   off   @=@=   ~@=   (   )@n
-Blocking Time=Sperrzeit
-Help=Hilfe
+Clear=Löschen
+Debug=Debug
 Inputs=Eingänge
 Outputs=Ausgänge
 Rules=Regeln
@@ -606,9 +663,19 @@ Syntax=Syntax
 ### logic_block.lua ###
 ### lua_logic.lua ###
 
-Store=Speichern
 TA3 Logic Block=TA3 Logikblock
 Update=Update
+
+### logic_block.lua ###
+### lua_logic.lua ###
+### movecontroller.lua ###
+
+Store=Speichern
+
+### logic_block.lua ###
+### sequencer2.lua ###
+
+Help=Hilfe
 
 ### lye.lua ###
 
@@ -666,6 +733,28 @@ TA1 Pine Wood Board=TA1 Kiefernholzbrett
 ### minicell.lua ###
 
 TA4 Streetlamp Solar Cell=TA4 Straßenlampen-Solarzelle
+
+### movecontroller.lua ###
+
+Click on all blocks that shall be moved=Klicke auf alle Blöcke, die verschoben werden sollen
+Destination position is protected=Zielposition ist geschützt
+Error: Distance > 100 m !!=Fehler: Distanz > 100 m !!
+Handover to A=Übergabe an A
+Handover to B=Übergabe an B
+Maximum Speed=Maximalgeschwindigkeit
+Maximum speed for the moving block.=Maximale Geschwindigkeit für den beweglichen Block.
+Move A-B=Bewege A-B
+Move B-A=Bewege B-A
+Move block height=Move Block Höhe
+Move distance (A to B)=Entfernung (A nach B)
+No valid destination position=Keine gültige Zielposition
+No valid node at the start position=Kein gültiger Block an der Startposition
+Number of the next movecontroller.=Nummer des nächsten Move Controllers.
+Number of the previous movecontroller.=Nummer des vorherigen Move Controllers.
+Position list error=Positionslistenfehler
+Start position is protected=Startposition ist geschützt
+TA4 Move Controller=TA4 Move Controller
+Value in the range of 0.0 to 1.0=Wert im Bereich von 0.0 bis 1.0
 
 ### node_detector.lua ###
 
@@ -750,7 +839,7 @@ TA Power Pole Top 2 (for landlines)=TA Strommastkopf 2 (für Überlandleitungen)
 
 ### power_terminal2.lua ###
 
-Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@n
+Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@ncon . . . . . print main consumers@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@ncon . . . . . Hauptverbraucher ausgeben@n
 Consumer=Verbraucher
 Network Data=Netzwerkdaten
 Number of consumers:=Anzahl der Verbraucher
@@ -877,13 +966,47 @@ not connected=nicht verbunden
 ### sequencer.lua ###
 
 TA3 Sequencer=TA3 Sequenzer
+
+### sequencer.lua ###
+### sequencer2.lua ###
+
 stopped=gestoppt
+
+### sequencer2.lua ###
+
+ - 'goto <num>'  (jump to another line)@n= - 'goto <num>'  (springe zu einer anderen Zeile)@n
+ - 'send <node num> <cmnd>' (techage command)@n= - 'send <node num> <cmnd>' (techage Kommando)@n
+ - 'stop' (stop the execution)@n= - 'stop' (stoppe die Ausführung)@n
+ - 1 corresponds to 100 ms@n= - 1 entspricht 100 ms@n
+ - 50000 corresponds to 4 game days@n= - 50000 entspricht 4 Spieltagen@n
+'[<num>] <command>'@n='[<num>] <command>'@n
+<command> is one of the following:@n=<command> ist eines der folgenden:@n
+<num> is a number from 1 to 50000 and is@n=<num> ist eine Nummer von 1 bis 50000 und ist@n
+@n=@n
+Commands=Kommandos
+Example:@n=Beispiel:
+Invalid command!=Ungültiges Kommando!
+Start=Start
+Stop=Stopp
+Syntax:@n=Syntax:@n
+TA4 Sequencer=TA4 Sequenzer
+running=läuft
+the timeslot when the command is executed.@n=der Zeitpunkt, wenn der Befehl ausgeführt wird.@n
+
+### sequencer2.lua ###
+### submenu.lua ###
+
+Cancel=Abbruch
 
 ### signallamp.lua ###
 
 TA4 Wind Turbine Signal Lamp=TA4 Windkraftanlagenlampe
 TechAge Signal Lamp=TechAge Signallampe
 TechAge Signal Lamp (can be colored)=TechAge Signallampe (kann gefärbt werden)
+
+### signallamp_4x.lua ###
+
+TA4 4x Signal Lamp=
 
 ### silicon.lua ###
 
@@ -902,7 +1025,6 @@ TA Lamp=TA Lampe
 
 TA1 Sluice Gate=TA1 Schleusenschieber
 TA1 Sluice Handle=TA1 Schleusengriff
-Your pond is too small!=Der Teich ist zu klein!
 
 ### solarcell.lua ###
 
@@ -948,7 +1070,6 @@ TA4 LED Street Lamp Pole=TA4 LED Lampenmast
 
 ### submenu.lua ###
 
-Cancel=Abbruch
 Note: You can't change any values while the block is running!=Hinweis: Während der Block läuft, kann kein Wert geändert werden!
 Refresh=Aktualisieren
 
@@ -982,7 +1103,6 @@ Size=Größe
 TA4 8x2000 Chest=TA4 8x2000 Kiste
 Unlock=Entsperren
 Unlock connected chest@nif all slots are below 2000=Nachfolgende Kiste entsperren,@nsofern alle Speicherplätze <= 2000
-keep assignment=Zuordnung beibehalten
 right to left=von rechts nach links
 
 ### ta4_doser.lua ###
@@ -1099,11 +1219,6 @@ Usmium Powder=Usmium Pulver
 TA Valve=TA Ventil
 TA3 Valve=TA3 Ventil
 
-### water.lua ###
-
-Flowing Water=Fließendes Wasser
-Water Source=Wasserquelle
-
 ### waterinlet.lua ###
 
 Error: No natural water!=Fehler: Kein natürliches Wasser!
@@ -1132,3 +1247,8 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 [TA4 Wind Turbine]=[TA4 Windkraftanlage]
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
+
+
+##### not used anymore #####
+
+[techage] The limit for commands per minute has been exceeded.=[techage] Das Limit für Befehle pro Minute wurde überschritten.

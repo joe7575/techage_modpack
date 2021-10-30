@@ -61,12 +61,29 @@ local function harvesting(base_pos, mem)
 	
 	if pos and lib.not_protected(base_pos, pos) then
 		local node = minetest.get_node_or_nil(pos)
-		local drop = Flowers[node.name] or is_tree(node)
-		if drop then
-			minetest.remove_node(pos)
-			local leftover = bot_inv_put_item(base_pos, 0,  ItemStack(drop))
-			if leftover and leftover:get_count() > 0 then
-				signs_bot.lib.drop_items(mem.robot_pos, leftover)
+		if node.name ~= "default:papyrus" then
+			local drop = Flowers[node.name] or is_tree(node)
+			if drop then
+				minetest.remove_node(pos)
+				local leftover = bot_inv_put_item(base_pos, 0,  ItemStack(drop))
+				if leftover and leftover:get_count() > 0 then
+					signs_bot.lib.drop_items(mem.robot_pos, leftover)
+				end
+			end
+		else
+			-- papyrus is a special plant that is collected upwards when cut
+			local count = 0
+			while node.name == "default:papyrus" and lib.not_protected(base_pos, pos) do
+				minetest.remove_node(pos)
+				pos = { x = pos.x, y = pos.y + 1, z = pos.z }
+				count = count + 1
+				node = minetest.get_node(pos)
+			end
+			if count > 0 then
+				local leftover = bot_inv_put_item(base_pos, 0,  ItemStack("default:papyrus " .. count))
+				if leftover and leftover:get_count() > 0 then
+					signs_bot.lib.drop_items(mem.robot_pos, leftover)
+				end
 			end
 		end
 	end
@@ -76,7 +93,7 @@ signs_bot.register_botcommand("cutting", {
 	mod = "farming",
 	params = "",
 	num_param = 0,
-	description = S("Cutting flowers, leaves and tree blocks\nin front of the robot\non a 3x3 field."),
+	description = S("Cutting flowers, papyrus,\nleaves and tree blocks\nin front of the robot\non a 3x3 field."),
 	cmnd = function(base_pos, mem)
 		if not mem.steps then
 			mem.pos_tbl = signs_bot.lib.gen_position_table(mem.robot_pos, mem.robot_param2, 3, 3, 0)

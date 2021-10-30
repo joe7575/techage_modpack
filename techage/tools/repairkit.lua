@@ -76,7 +76,7 @@ local function read_state(itemstack, user, pointed_thing)
 			if ndef and ndef.description then
 				local info = techage.send_single("0", number, "info", nil)
 				if info and info ~= "" and info ~= "unsupported" then
-					info = dump(info)
+					info = tostring(info)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..":\n"..info.."    ")
 				end
 				local state = techage.send_single("0", number, "state", nil)
@@ -136,6 +136,16 @@ end
 local context = {}
 
 local function settings_menu(pos, playername)
+	if minetest.is_protected(pos, playername) then
+		return
+	end
+	-- Check node settings in addition
+	local access = M(pos):get_string("access")
+	local owner = M(pos):get_string("owner")
+	if access == "private" and playername ~= owner then
+		return
+	end
+	
 	local number = techage.get_node_number(pos)
 	local node = minetest.get_node(pos)
 	local ndef = minetest.registered_nodes[node.name]
@@ -143,15 +153,16 @@ local function settings_menu(pos, playername)
 	
 	context[playername] = pos
 	if form_def then
-		minetest.show_formspec(playername, "techage:ta_formspec", menu.generate_formspec(pos, ndef, form_def))
+		minetest.show_formspec(playername, "techage:ta_formspec", 
+			menu.generate_formspec(pos, ndef, form_def, playername))
 	end
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-    if formname ~= "techage:ta_formspec" then
-        return false
-    end
-
+	if formname ~= "techage:ta_formspec" then
+		return false
+	end
+	
 	local playername = player:get_player_name()
 	local pos = context[playername]
 	if pos then
@@ -162,11 +173,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
 		
 		if form_def then
-			if menu.eval_input(pos, ndef, form_def, fields) then
+			if menu.eval_input(pos, form_def, fields, playername) then
 				--context[playername] = pos
 				minetest.after(0.2, function()
-					minetest.show_formspec(playername, "techage:ta_formspec", menu.generate_formspec(pos, ndef, form_def))
+					minetest.show_formspec(playername, "techage:ta_formspec", 
+						menu.generate_formspec(pos, ndef, form_def, playername))
 				end)
+				if ndef.ta_after_formspec then
+					ndef.ta_after_formspec(pos, fields, playername)
+				end
 			end
 		end
 	end

@@ -68,9 +68,6 @@ local function get_checkpoint(cart)
 		cp = cart.checkpoints[cart.idx]
 	end
 	local pos = H2P(cp[1])
---	if M(pos):contains("waypoints") then
---		print("get_checkpoint", P2S(H2P(cp[1])), P2S(H2P(cp[2])))
---	end
 	return cp, cart.idx == #cart.checkpoints
 end
 
@@ -81,13 +78,15 @@ local function get_cart_state_and_loc(name, userID, query_pos)
 	if tCartsOnRail[name] and tCartsOnRail[name][userID] then
 		local cart = tCartsOnRail[name][userID]
 		local pos = cart.last_pos or cart.pos
-		local loc = minecart.get_buffer_name(cart.pos) or
-				math.floor(vector.distance(pos, query_pos))
-		if cart.objID == 0 then
-			return "stopped",  minecart.get_buffer_name(cart.pos) or
-					math.floor(vector.distance(pos, query_pos)), cart.node_name
-		else
-			return "running", math.floor(vector.distance(pos, query_pos)), cart.node_name
+		if pos then
+			local loc = minecart.get_buffer_name(cart.pos) or
+					math.floor(vector.distance(pos, query_pos))
+			if cart.objID == 0 then
+				return "stopped",  minecart.get_buffer_name(cart.pos) or
+						math.floor(vector.distance(pos, query_pos)), cart.node_name
+			else
+				return "running", math.floor(vector.distance(pos, query_pos)), cart.node_name
+			end
 		end
 	end
 	return "unknown", 0, "unknown"
@@ -103,21 +102,41 @@ local function get_cart_info(owner, userID, query_pos)
 	end
 end
 
+local function logging(cart, err)
+	local s = string.format("[Minecart] Cart %s/%u %s!", cart.owner, cart.userID, err)
+	minetest.log("warning", s)
+end	
+
+-- check cart data
+local function valid_cart(cart)
+	if cart.objID == nil or cart.objID == 0 then
+		return false
+	end
+	if tCartsOnRail[cart.owner] and tCartsOnRail[cart.owner][cart.userID] then
+		return true
+	end
+	logging(cart, "with invalid data")
+	local entity = minetest.luaentities[cart.objID]
+	if entity then
+		entity.object:remove()
+	end
+	return false
+end
+
 local function monitoring(cycle)
     local cart = pop(cycle)
 	
+	-- All running cars
     while cart do
-		-- All running cars
-		if cart.objID and cart.objID ~= 0 then
+		if valid_cart(cart) then
 			cart.idx = cart.idx + 1
 			local entity = minetest.luaentities[cart.objID]
 			if entity then  -- cart entity running
 				local pos = entity.object:get_pos()
 				if pos then
 					cart.last_pos = vector.round(pos)
-					--print("entity card " .. cart.userID .. " at " .. P2S(cart.last_pos))
 				else
-					minetest.log("warning", "[Minecart] entity card without pos!")
+					logging(cart, "without pos")
 				end
 				push(cycle, cart)
 			elseif cart.checkpoints then
@@ -130,16 +149,15 @@ local function monitoring(cycle)
 					end
 					push(cycle, cart)
 				else
-					minetest.log("warning", "[Minecart] zombie got lost")
+					logging(cart, "as zombie got lost")
 				end
 			else
 				local pos = cart.last_pos or cart.pos
 				pos = minecart.add_nodecart(pos, cart.node_name, 0, cart.cargo, cart.owner, cart.userID)
-				cart.objID = 0
-				cart.pos = pos
-				--print("cart to node", cycle, cart.userID, P2S(pos))
+				minecart.stop_monitoring(cart.owner, cart.userID, pos)
+				logging(cart, "stopped at " .. (P2S(pos) or "unknown"))
 			end
-		elseif cart and not cart.objID and tCartsOnRail[cart.owner] then
+		elseif not cart.objID and tCartsOnRail[cart.owner] then
 			-- Delete carts marked as "to be deleted"
 			tCartsOnRail[cart.owner][cart.userID] = nil
 		end
@@ -184,6 +202,7 @@ function minecart.stop_monitoring(owner, userID, pos)
 	--print("stop_monitoring", owner, userID)
 	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
 		tCartsOnRail[owner][userID].pos = pos
+		-- Mark as "stopped"
 		tCartsOnRail[owner][userID].objID = 0
 		minecart.store_carts()
 	end
@@ -192,14 +211,20 @@ end
 function minecart.monitoring_remove_cart(owner, userID)
 	--print("monitoring_remove_cart", owner, userID)
 	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
-		tCartsOnRail[owner][userID].objID = nil
-		tCartsOnRail[owner][userID] = nil
+		-- Cart stopped?
+		if tCartsOnRail[owner][userID].objID == 0 then
+			-- Can directly be deleted
+			tCartsOnRail[owner][userID] = nil
+		else -- Cart running
+			-- Mark as "to be deleted" by monitoring
+			tCartsOnRail[owner][userID].objID = nil
+		end
 		minecart.store_carts()
 	end
 end
 
 function minecart.monitoring_valid_cart(owner, userID, pos, node_name)
-	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
+	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] and tCartsOnRail[owner][userID].pos then
 		return vector.equals(tCartsOnRail[owner][userID].pos, pos) and 
 				tCartsOnRail[owner][userID].node_name == node_name
 	end
@@ -245,29 +270,38 @@ minetest.register_chatcommand("mycart", {
 
 minetest.register_chatcommand("stopcart", {
 	params = "<cart-num>",
-	description = S("Stop amd return a missing/running cart."),
+	description = S("Stop and return/drop a missing/running cart."),
     func = function(owner, param)
 		local userID = tonumber(param)
 		local player_pos = minetest.get_player_by_name(owner):get_pos()
 		if userID then
 			local data = minecart.get_cart_monitoring_data(owner, userID)
-			if data then
-				if data.objID and data.objID ~= 0 then
-					local entity = minetest.luaentities[data.objID]
-					if entity then  -- cart entity running
-						minecart.entity_to_node(player_pos, entity)
-						minecart.monitoring_remove_cart(owner, userID)
+			if data and data.objID then
+				local entity = minetest.luaentities[data.objID]
+				--print("stopcart", userID, data.pos, data.objID, entity)				
+				if data.objID == 0 then
+					-- Cart as node
+					if data.pos then	
+						local meta = M(data.pos)
+						if owner == meta:get_string("owner") and userID == meta:get_int("userID") then 
+							minecart.remove_nodecart(data.pos)
+						end
 					end
+				elseif entity then
+					-- Cart as entity
+					minecart.remove_entity(entity, data.pos)
 				else
-					local pos = data.last_pos or data.pos
-					local cargo, _, _ = minecart.remove_nodecart(pos)
-					minecart.add_nodecart(player_pos, data.node_name, 0, cargo, owner, userID)
-					minecart.monitoring_remove_cart(owner, userID)
+					-- Cart as zombie/invalid/corrupted
+					-- nothing to do
 				end
-				return true, S("Cart") .. " " .. userID .. " " .. S("stopped")
+				minetest.add_item(player_pos, ItemStack({name = data.node_name}))
+				minecart.monitoring_remove_cart(owner, userID)
+				return true, S("Cart") .. " " .. userID .. " " .. S("dropped")
 			else
 				return false, S("Cart") .. " " .. userID .. " " .. S("is not existing!")
 			end
+		else
+			return false
 		end
     end
 })

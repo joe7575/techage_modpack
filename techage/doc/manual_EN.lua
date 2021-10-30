@@ -183,9 +183,12 @@ techage.manual_EN.aTitel = {
   "3,TA4 Lua Controller Terminal",
   "2,TA4 Logic/Switching Modules",
   "3,TA4 Button/Switch",
+  "3,TA4 4x Button",
   "3,TA4 Player Detector",
   "3,TA4 State Collector",
   "3,TA4 Detector",
+  "3,TA4 Move Controller",
+  "3,TA4 Sequencer",
   "2,TA4 Lamps",
   "3,TA4 LED Grow Light",
   "3,TA4 Street Lamp",
@@ -1125,6 +1128,7 @@ techage.manual_EN.aText = {
   "The detector is a special tube block that detects when items are passed on through the tube. To do this\\, it must be connected to tubes on both sides. If items are pushed into the detector with a pusher\\, they are automatically passed on.\n"..
   "It sends an 'on' when an item is recognized\\, followed by an 'off' a second later.\n"..
   "Then further commands are blocked for 8 seconds.\n"..
+  "The waiting time and the items that should trigger a command can be configured using the open-ended wrench menu. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1200,7 +1204,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "",
-  "The Techage Info Tool (wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
+  "The Techage Info Tool (open-ended wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
   "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
   "\n"..
   "With Shift + right click an extended menu can be opened for some blocks. Depending on the block\\, further data can be called up or special settings can be made here. In the case of a generator\\, for example\\, the charging curve/switch-off can be programmed. \n"..
@@ -1556,6 +1560,10 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition\\, the command that is to be sent can be configured for each button. \n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Only the appearance of the TA4 player detector has changed. The functionality is the same as with the TA3 player detector.\n"..
   "\n"..
   "\n"..
@@ -1566,6 +1574,50 @@ techage.manual_EN.aText = {
   "\n",
   "The functionality is the same as for the TA3 detector. In addition\\, the detector counts the items passed on.\n"..
   "This counter can be queried with the 'count' command and reset with 'reset'.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA4 Move Controller is similar to \"Door Controller 2\"\\, but the selected blocks are not removed\\, but can be moved.\n"..
+  "Since the moving blocks can take players and mobs standing on the block with them\\, elevators and similar transport systems can be built with them.\n"..
+  "\n"..
+  "Instructions:\n"..
+  "\n"..
+  "  - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)\n"..
+  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance is 100 m)\n"..
+  "  - The movement can be tested with the menu buttons \"Move A-B\" and \"Move B-A\"\n"..
+  "  - you can also fly through walls or other blocks\n"..
+  "  - The target position for the blocks can also be occupied. In this case\\, the blocks are saved \"invisibly\". This is intended for sliding doors and the like\n"..
+  "  - A \"handover\" can also be programmed in the controller via the open-ended wrench menu. By entering a block number\\, the blocks are then transferred to the next move controller. In this way\\, connected movements can also be implemented using several Move Controllers.\n"..
+  "\n"..
+  "The Move Controller supports the following techage commands:\n"..
+  "\n"..
+  "  - 'a2b' Move block from A to B.\n"..
+  "  - 'b2a' Move block from B to A.\n"..
+  "  - 'move' Move block to the other side\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Entire processes can be programmed using the TA4 sequencer. Here's an example:\n"..
+  "\n"..
+  "    -- this is a comment\n"..
+  "    \\[1\\] send 1234 a2b\n"..
+  "    \\[30\\] send 1234 b2a\n"..
+  "    \\[60\\] goto 1\n"..
+  "\n"..
+  "  - Each line begins with a number which corresponds to a point in time '\\[<num>\\]'\n"..
+  "  - Values from 1 to 50000 are permitted for times\n"..
+  "  - 1 corresponds to 100 ms\\, 50000 corresponds to about 4 game days\n"..
+  "  - Empty lines or comments are allowed ('-- comment')\n"..
+  "  - With 'send <num> <command> <data>' you can send a command to a block\n"..
+  "  - With 'goto <num>' you can jump to another line / point in time\n"..
+  "  - With 'stop' you can stop the sequencer with a delay so that it does not receive a new command\naccepts from a button or other block (to complete a movement)\nWithout 'stop'\\, the sequencer goes into stopped mode immediately after the last command.\n"..
+  "\n"..
+  "The TA4 sequencer supports the following techage commands:\n"..
+  "\n"..
+  "  - 'goto <num>' Jump to a command line and start the sequencer\n"..
+  "  - 'stop' Stop the sequencer\n"..
+  "\n"..
+  "The 'goto' command is only accepted when the sequencer is stopped.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1931,9 +1983,12 @@ techage.manual_EN.aItemName = {
   "ta4_terminal",
   "",
   "ta4_button",
+  "ta4_button_4x",
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
+  "ta4_movecontroller",
+  "ta4_sequencer",
   "",
   "ta4_growlight",
   "ta4_streetlamp",
@@ -2127,6 +2182,9 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
   "",
   "",
   "",

@@ -257,9 +257,6 @@ function minecart.add_nodecart(pos, node_name, param2, cargo, owner, userID)
 			pos2 = minetest.find_node_near(pos, 1, minecart.lRails)
 			if not pos2 or not minecart.is_rail(pos2) then
 				pos2 = minetest.find_node_near(pos, 2, minecart.lRails)
-				if not pos2 or not minecart.is_rail(pos2) then
-					pos2 = minetest.find_node_near(pos, 2, {"air"})
-				end
 			end
 		else
 			pos2 = vector.new(pos)
@@ -282,8 +279,6 @@ function minecart.add_nodecart(pos, node_name, param2, cargo, owner, userID)
 				ndef.after_place_node(pos2)
 			end
 			return pos2
-		else
-			minetest.add_item(pos, ItemStack({name = node_name}))
 		end
 	end
 end
@@ -363,9 +358,13 @@ function minecart.entity_to_node(pos, entity)
 	local dir = minetest.yaw_to_dir(rot.y)
 	local facedir = minetest.dir_to_facedir(dir)
 	minecart.stop_recording(entity, pos)
-	entity.object:remove()
 	local pos2 = minecart.add_nodecart(pos, entity.node_name, facedir, entity.cargo, entity.owner, entity.userID)
-	minecart.stop_monitoring(entity.owner, entity.userID, pos2)
+	if pos2 then
+		minecart.stop_monitoring(entity.owner, entity.userID, pos2)
+		entity.object:remove()
+	else
+		minecart.start_entitycart(entity, pos, facedir)
+	end
 end
 
 function minecart.add_node_to_player_inventory(pos, player, node_name)
@@ -388,9 +387,10 @@ function minecart.remove_entity(self, pos, player)
 		minetest.sound_stop(self.sound_handle)
 		self.sound_handle = nil
 	end
-	minecart.add_node_to_player_inventory(pos, player, self.node_name or "minecart:cart")
+	if player then
+		minecart.add_node_to_player_inventory(pos, player, self.node_name or "minecart:cart")
+	end
 	minecart.stop_monitoring(self.owner, self.userID, pos)
 	minecart.stop_recording(self, pos)	
-	minecart.monitoring_remove_cart(self.owner, self.userID)
 	self.object:remove()
 end

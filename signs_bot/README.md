@@ -183,4 +183,5 @@ optional: farming redo, node_io, doc, techage, minecart, xdecor, compost
 - 2021-04-24  v1.07  * Adapted to minecart v2.0
 - 2021-05-04  v1.08  * Add print command, improve error msg
 - 2021-08-22  v1.09  * Add soup commands and signs, add aspen sign
+- 2021-09-18  v1.10  * Add techage command 'set <num>' to the Bot Control Unit
 

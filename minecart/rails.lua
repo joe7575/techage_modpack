@@ -585,6 +585,9 @@ end
 -- minecart.get_next_buffer(pos, facedir)
 minecart.get_next_buffer = get_next_buffer
 
+-- minecart.del_metadata(pos)
+minecart.del_metadata = del_metadata
+
 --minetest.register_lbm({
 --	label = "Delete waypoints",
 --	name = "minecart:del_meta",

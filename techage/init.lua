@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.02
+techage.version = 1.03
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -30,8 +30,8 @@ elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.9 then
 elseif minetest.global_exists("minecart") and minecart.version < 1.08 then
 	minetest.log("error", "[techage] Techage requires minecart version 1.08 or newer!")
 	return
-elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.0 then
-	minetest.log("error", "[techage] Techage requires lcdlib version 1.0 or newer!")
+elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
+	minetest.log("error", "[techage] Techage requires lcdlib version 1.01 or newer!")
 	return
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.0 or newer!")
@@ -73,6 +73,7 @@ end
 -- Basis features
 local MP = minetest.get_modpath("techage")
 dofile(MP.."/basis/lib.lua")  -- helper functions
+dofile(MP.."/basis/counting.lua")  -- command counting
 dofile(MP.."/basis/fake_player.lua")  -- dummy player object
 dofile(MP.."/basis/node_store.lua")
 dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
@@ -263,6 +264,7 @@ dofile(MP.."/logic/repeater.lua")
 dofile(MP.."/logic/programmer.lua")
 dofile(MP.."/logic/signallamp.lua")
 dofile(MP.."/logic/sequencer.lua")
+dofile(MP.."/logic/sequencer2.lua")
 dofile(MP.."/logic/timer.lua")
 dofile(MP.."/logic/lua_logic.lua")  -- old
 dofile(MP.."/logic/logic_block.lua")  -- new
@@ -274,6 +276,8 @@ dofile(MP.."/logic/doorblock.lua")
 dofile(MP.."/logic/doorcontroller.lua")  -- old
 dofile(MP.."/logic/doorcontroller2.lua")  -- new
 dofile(MP.."/logic/collector.lua")
+dofile(MP.."/logic/button_4x.lua")
+dofile(MP.."/logic/movecontroller.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")
 end

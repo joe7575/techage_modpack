@@ -24,7 +24,7 @@ lcdlib = {}
 lcdlib.registered_fonts = {}
 
 -- Version for compatibility checks
-lcdlib.version = 1.0
+lcdlib.version = 1.01
 
 -- Local functions
 ------------------
@@ -180,7 +180,7 @@ end
 -- @return Texture string
 
 function lcdlib.make_multiline_texture(font_name, text, width, height, 
-                                         maxlines, valign, color)
+                                         maxlines, valign, color, y_offs)
 	local texture = ""
 	local lines = {}
     local textheight = 0
@@ -199,7 +199,7 @@ function lcdlib.make_multiline_texture(font_name, text, width, height,
     
     if #lines then
         if valign == "top" then
-            y = 0
+            y = y_offs or 0
         elseif valign == "bottom" then
             y = height - textheight
         else		

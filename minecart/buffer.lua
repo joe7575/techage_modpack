@@ -159,13 +159,16 @@ minetest.register_craft({
 })
 
 minetest.register_lbm({
-	label = "Delete waiting times",
-	name = "minecart:del_time",
+	label = "Delete metadata",
+	name = "minecart:metadata",
 	nodenames = {"minecart:buffer"},
-	run_at_every_load = false,
+	run_at_every_load = true,
 	action = function(pos, node)
-		-- delete old data
-		minecart.get_route(pos)
-		M(pos):set_string("formspec", formspec(pos))
+		-- delete old metadata around the buffer (bugfix)
+		local pos1 = {x = pos.x - 2, y = pos.y - 2, z = pos.z - 2}
+		local pos2 = {x = pos.x + 2, y = pos.y + 2, z = pos.z + 2}
+		for _, pos in ipairs(minetest.find_nodes_with_meta(pos1, pos2)) do
+			minecart.del_metadata(pos)
+		end
 	end,
 })

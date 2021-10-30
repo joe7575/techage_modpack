@@ -183,9 +183,12 @@ techage.manual_DE.aTitel = {
   "3,TA4 Lua Controller Terminal",
   "2,TA4 Logik-/Schalt-Module",
   "3,TA4 Taster/Schalter / Button/Switch",
+  "3,TA4 4x Taster / 4x Button",
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
+  "3,TA4 Move Controller",
+  "3,TA4 Sequenzer",
   "2,TA4 Lampen",
   "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
   "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
@@ -1126,6 +1129,7 @@ techage.manual_DE.aText = {
   "Der Detektor ist eine spezieller Röhrenblock\\, der erkennt\\, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben\\, gibt er diese automatisch weiter.\n"..
   "Er sendet ein 'on'\\, wenn ein Item erkannt wird\\, gefolgt von einem 'off' eine Sekunde später.\n"..
   "Danach werden weitere Kommando für 8 Sekunden blockiert.\n"..
+  "Die Wartezeit\\, sowie die Items\\, die ein Kommando auslösen sollen\\, können über das Gabelschlüssel-Menü konfiguriert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1558,6 +1562,10 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Dieser Block hat vier Taster\\, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für jeden Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für jeden Taster das Kommando konfiguriert werden\\, welches gesendet werden soll.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Spieler Detektor.\n"..
   "\n"..
   "\n"..
@@ -1568,6 +1576,50 @@ techage.manual_DE.aText = {
   "\n",
   "Die Funktionalität ist gleich wie beim TA3 Detektor / Detector. Zusätzlich zählt der Detector aber die weitergegebenen Items. \n"..
   "Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zurücksetzen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA4 Move Controller ist ähnlich zum \"Door Controller 2\"\\, aber die ausgewählten Blöcke werden nicht entfernt\\, sondern können bewegt werden.\n"..
+  "Da die bewegten Blöcke Spieler und Mobs mitnehmen können\\, die auf dem Block stehen\\, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.\n"..
+  "\n"..
+  "Anleitung:\n"..
+  "\n"..
+  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)\n"..
+  "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
+  "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
+  "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
+  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller  realisieren.\n"..
+  "\n"..
+  "Der Move Controller unterstützt folgende techage Kommandos:\n"..
+  "\n"..
+  "  - 'a2b'  Bewege Block von A nach B\n"..
+  "  - 'b2a'  Bewege Block von B nach A\n"..
+  "  - 'move' Bewege Block auf die andere Seite\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "über den TA4 Sequenzer können ganze Abläufe programmiert werden. Hier ein Beispiel:\n"..
+  "\n"..
+  "    -- this is a comment\n"..
+  "    \\[1\\] send 1234 a2b\n"..
+  "    \\[30\\] send 1234 b2a\n"..
+  "    \\[60\\] goto 1\n"..
+  "\n"..
+  "  - Jede Zeile beginnt mit einem Nummer\\, welche einem Zeitpunkt entspricht '\\[<num>\\]'\n"..
+  "  - Für Zeitpunkte sind Werte von 1 bis 50000 zulässig\n"..
+  "  - 1 entspricht 100 ms\\, 50000 entspricht in etwa 4 Spieltagen\n"..
+  "  - Leerzeilen oder Kommentare sind erlaubt ('-- comment')\n"..
+  "  - Mit 'send <num> <command> <data>' kann man ein Kommando an einen Block senden\n"..
+  "  - Mit 'goto <num>' kann man an eine andere Zeile/Zeitpunkt springen\n"..
+  "  - Mit 'stop' kann man den Sequenzer verzögert stoppen\\, so dass er kein neues Kommando\nvon einem Taster oder anderem Block annimmt (um eine Bewegung abzuschließen)\nOhne 'stop' geht der Sequenzer sofort nach dem letzten Kommando in den stopped Modus.\n"..
+  "\n"..
+  "Der TA4 Sequenzer unterstützt folgende techage Kommandos:\n"..
+  "\n"..
+  "  - 'goto <num>'  Zu einer Kommandozeile springen und damit den Sequenzer starten\n"..
+  "  - 'stop'  Den Sequenzer anhalten\n"..
+  "\n"..
+  "Das 'goto' Kommando wird nur angenommen\\, wenn der Sequenzer gestoppt ist.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1932,9 +1984,12 @@ techage.manual_DE.aItemName = {
   "ta4_terminal",
   "",
   "ta4_button",
+  "ta4_button_4x",
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
+  "ta4_movecontroller",
+  "ta4_sequencer",
   "",
   "ta4_growlight",
   "ta4_streetlamp",
@@ -2128,6 +2183,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
   "",
   "",
   "",

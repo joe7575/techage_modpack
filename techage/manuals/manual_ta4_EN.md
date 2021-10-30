@@ -463,6 +463,12 @@ Only the appearance of the TA4 button/switch has changed. The functionality is t
 
 [ta4_button|image]
 
+### TA4 4x Button
+
+This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
+
+[ta4_button_4x|image]
+
 ### TA4 Player Detector
 
 Only the appearance of the TA4 player detector has changed. The functionality is the same as with the TA3 player detector.
@@ -481,6 +487,60 @@ The functionality is the same as for the TA3 detector. In addition, the detector
 This counter can be queried with the 'count' command and reset with 'reset'.
 
 [ta4_detector|image]
+
+### TA4 Move Controller
+
+The TA4 Move Controller is similar to "Door Controller 2", but the selected blocks are not removed, but can be moved.
+Since the moving blocks can take players and mobs standing on the block with them, elevators and similar transport systems can be built with them.
+
+Instructions:
+
+- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
+- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 100 m)
+- The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
+- you can also fly through walls or other blocks
+- The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
+- A "handover" can also be programmed in the controller via the open-ended wrench menu. By entering a block number, the blocks are then transferred to the next move controller. In this way, connected movements can also be implemented using several Move Controllers.
+
+The Move Controller supports the following techage commands:
+
+- `a2b` Move block from A to B.
+- `b2a` Move block from B to A.
+- `move` Move block to the other side
+
+[ta4_movecontroller|image]
+
+### TA4 Sequencer
+
+Entire processes can be programmed using the TA4 sequencer. Here's an example:
+
+```
+-- this is a comment
+[1] send 1234 a2b
+[30] send 1234 b2a
+[60] goto 1
+```
+
+- Each line begins with a number which corresponds to a point in time `[<num>]`
+- Values from 1 to 50000 are permitted for times
+- 1 corresponds to 100 ms, 50000 corresponds to about 4 game days
+- Empty lines or comments are allowed (`-- comment`)
+- With `send <num> <command> <data>` you can send a command to a block
+- With `goto <num>` you can jump to another line / point in time
+- With `stop` you can stop the sequencer with a delay so that it does not receive a new command
+  accepts from a button or other block (to complete a movement)
+  Without `stop`, the sequencer goes into stopped mode immediately after the last command.
+
+The TA4 sequencer supports the following techage commands:
+
+- `goto <num>` Jump to a command line and start the sequencer
+- `stop` Stop the sequencer
+
+The `goto` command is only accepted when the sequencer is stopped.
+
+[ta4_sequencer|image]
+
+
 
 
 ## TA4 Lamps

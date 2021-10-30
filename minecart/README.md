@@ -149,6 +149,7 @@ History
 2020-07-24  V1.08  Adapted to new techage ICTA style  
 2020-08-14  V1.09  Hopper support for digtron, protector:chest and default:furnace added    
 2020-11-12  V1.10  Make carts more robust against server lag  
-2021-04-10  V2.00  Complete revision to make carts robust against server load/lag,
-                   Speed limit signs and cart terminal added
-2021-09-02  V2.01  Chat command /stopcart added
+2021-04-10  V2.00  Complete revision to make carts robust against server load/lag,  
+                   Speed limit signs and cart terminal added  
+2021-09-02  V2.01  Chat command /stopcart added  
+2021-10-18  V2.02  Cart reproduction bug fixed  

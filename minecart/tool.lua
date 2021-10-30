@@ -78,7 +78,8 @@ local function click_left(itemstack, placer, pointed_thing)
 	if pointed_thing.type == "node" then
 		local pos = pointed_thing.under
 		if minecart.is_rail(pos) then
-			test_get_buffer(pos, placer)
+			--test_get_buffer(pos, placer)
+			minecart.delete_waypoint(pos)
 		end
 	end
 end

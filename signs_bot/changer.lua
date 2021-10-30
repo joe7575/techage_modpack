@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	Signgs Changer/Control Unit for Bot Control
+	Signs Changer/Control Unit for Bot Control
 
 ]]--
 

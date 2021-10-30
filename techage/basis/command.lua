@@ -27,6 +27,7 @@ local string_split = string.split
 local NodeDef = techage.NodeDef
 local Tube = techage.Tube
 local is_cart_available = minecart.is_nodecart_available
+local techage_counting_hit = techage.counting_hit
 
 -------------------------------------------------------------------
 -- Database
@@ -253,6 +254,14 @@ function techage.remove_node(pos, oldnode, oldmetadata)
 	end
 end
 
+-- Repairs the node number after it was erased by `backend.delete_invalid_entries`
+function techage.repair_number(pos)
+	local number = techage.get_node_number(pos)
+	if number then
+		backend.set_nodepos(number, pos)
+	end
+end
+
 
 -------------------------------------------------------------------
 -- Node register function
@@ -324,6 +333,7 @@ function techage.send_multi(src, numbers, topic, payload)
 		if ninfo and ninfo.name and ninfo.pos then
 			local ndef = NodeDef[ninfo.name]
 			if ndef and ndef.on_recv_message then
+				techage_counting_hit()
 				ndef.on_recv_message(ninfo.pos, src, topic, payload)
 			end
 		end
@@ -336,6 +346,7 @@ function techage.send_single(src, number, topic, payload)
 	if ninfo and ninfo.name and ninfo.pos then
 		local ndef = NodeDef[ninfo.name]
 		if ndef and ndef.on_recv_message then
+			techage_counting_hit()
 			return ndef.on_recv_message(ninfo.pos, src, topic, payload)
 		end
 	end
