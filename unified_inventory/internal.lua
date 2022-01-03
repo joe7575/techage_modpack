@@ -1,5 +1,6 @@
 local S = minetest.get_translator("unified_inventory")
 local F = minetest.formspec_escape
+local ui = unified_inventory
 
 -- This pair of encoding functions is used where variable text must go in
 -- button names, where the text might contain formspec metacharacters.
@@ -9,269 +10,310 @@ local F = minetest.formspec_escape
 -- This is a game engine bug, and in the anticipation that it might be
 -- fixed some day we don't want to rely on it.  So for safety we apply
 -- an encoding that avoids all formspec metacharacters.
-function unified_inventory.mangle_for_formspec(str)
+
+function ui.mangle_for_formspec(str)
 	return string.gsub(str, "([^A-Za-z0-9])", function (c) return string.format("_%d_", string.byte(c)) end)
 end
-function unified_inventory.demangle_for_formspec(str)
+function ui.demangle_for_formspec(str)
 	return string.gsub(str, "_([0-9]+)_", function (v) return string.char(v) end)
 end
 
-function unified_inventory.get_per_player_formspec(player_name)
-	local lite = unified_inventory.lite_mode and not minetest.check_player_privs(player_name, {ui_full=true})
 
-	local ui = {}
-	ui.pagecols = unified_inventory.pagecols
-	ui.pagerows = unified_inventory.pagerows
-	ui.page_y = unified_inventory.page_y
-	ui.formspec_y = unified_inventory.formspec_y
-	ui.main_button_x = unified_inventory.main_button_x
-	ui.main_button_y = unified_inventory.main_button_y
-	ui.craft_result_x = unified_inventory.craft_result_x
-	ui.craft_result_y = unified_inventory.craft_result_y
-	ui.form_header_y = unified_inventory.form_header_y
+function ui.get_per_player_formspec(player_name)
+	local draw_lite_mode = ui.lite_mode and not minetest.check_player_privs(player_name, {ui_full=true})
 
-	if lite then
-		ui.pagecols = 4
-		ui.pagerows = 6
-		ui.page_y = 0.25
-		ui.formspec_y = 0.47
-		ui.main_button_x = 8.2
-		ui.main_button_y = 6.5
-		ui.craft_result_x = 2.8
-		ui.craft_result_y = 3.4
-		ui.form_header_y = -0.1
-	end
-
-	ui.items_per_page = ui.pagecols * ui.pagerows
-	return ui, lite
+	local style = table.copy(draw_lite_mode and ui.style_lite or ui.style_full)
+	style.is_lite_mode = draw_lite_mode
+	return style
 end
 
-function unified_inventory.get_formspec(player, page)
+local function formspec_button(ui_peruser, name, image, offset, pos, scale, label)
+	local element = 'image_button'
+	if minetest.registered_items[image] then
+		element = 'item_image_button'
+	elseif image:find(":", 1, true) then
+		image = "unknown_item.png"
+	end
+	local spc = (1-scale)*ui_peruser.btn_size/2
+	local size = ui_peruser.btn_size*scale
+	return string.format("%s[%f,%f;%f,%f;%s;%s;]", element,
+		(offset.x or offset[1]) + ( ui_peruser.btn_spc * (pos.x or pos[1]) ) + spc,
+		(offset.y or offset[2]) + ( ui_peruser.btn_spc * (pos.y or pos[2]) ) + spc,
+		size, size, image, name) ..
+		string.format("tooltip[%s;%s]", name, F(label or name))
+end
+
+local function formspec_add_filters(player, formspec, style)
+	local button_row = 0
+	local button_col = 0
+	local n = #formspec + 1
+
+	-- Main buttons
+
+	local filtered_inv_buttons = {}
+
+	for i, def in pairs(ui.buttons) do
+		if not (style.is_lite_mode and def.hide_lite) then
+			table.insert(filtered_inv_buttons, def)
+		end
+	end
+
+	for i, def in pairs(filtered_inv_buttons) do
+		if style.is_lite_mode and i > 4 then
+			button_row = 1
+			button_col = 1
+		end
+
+		if def.type == "image" then
+			local pos_x = style.main_button_x + style.btn_spc * (i - 1) - button_col * style.btn_spc * 4
+			local pos_y = style.main_button_y + button_row * style.btn_spc
+			if (def.condition == nil or def.condition(player) == true) then
+				formspec[n] = string.format("image_button[%f,%f;%f,%f;%s;%s;]",
+					pos_x, pos_y, style.btn_size, style.btn_size,
+					F(def.image),
+					F(def.name))
+				formspec[n+1] = "tooltip["..F(def.name)..";"..(def.tooltip or "").."]"
+				n = n+2
+			else
+				formspec[n] = string.format("image[%f,%f;%f,%f;%s^[colorize:#808080:alpha]",
+					pos_x, pos_y, style.btn_size, style.btn_size,
+					def.image)
+				n = n+1
+			end
+		end
+	end
+end
+
+local function formspec_add_categories(player, formspec, ui_peruser)
+	local player_name = player:get_player_name()
+	local n = #formspec + 1
+
+	local categories_pos = {
+		ui_peruser.page_x,
+		ui_peruser.page_y-ui_peruser.btn_spc-0.5
+	}
+	local categories_scroll_pos = {
+		ui_peruser.page_x,
+		ui_peruser.form_header_y - (ui_peruser.is_lite_mode and 0 or 0.2)
+	}
+
+	formspec[n] = string.format("background9[%f,%f;%f,%f;%s;false;3]",
+		ui_peruser.page_x-0.1, categories_scroll_pos[2],
+		(ui_peruser.btn_spc * ui_peruser.pagecols) + 0.13, 1.4 + (ui_peruser.is_lite_mode and 0 or 0.2),
+		"ui_smallbg_9_sliced.png")
+	n = n + 1
+
+	formspec[n] = string.format("label[%f,%f;%s]",
+		ui_peruser.page_x,
+		ui_peruser.form_header_y + (ui_peruser.is_lite_mode and 0.3 or 0.2), F(S("Category:")))
+	n = n + 1
+
+	local scroll_offset = 0
+	local category_count = #ui.category_list
+	if category_count > ui_peruser.pagecols then
+		scroll_offset = ui.current_category_scroll[player_name]
+	end
+
+	for index, category in ipairs(ui.category_list) do
+		local column = index - scroll_offset
+		if column > 0 and column <= ui_peruser.pagecols then
+			local scale = 0.8
+			if ui.current_category[player_name] == category.name then
+				scale = 1
+			end
+			formspec[n] = formspec_button(ui_peruser, "category_"..category.name, category.symbol, categories_pos, {column-1, 0}, scale, category.label)
+			n = n + 1
+		end
+	end
+	if category_count > ui_peruser.pagecols and scroll_offset > 0 then
+		-- prev
+		formspec[n] = formspec_button(ui_peruser, "prev_category", "ui_left_icon.png", categories_scroll_pos, {ui_peruser.pagecols - 2, 0}, 0.8, S("Scroll categories left"))
+		n = n + 1
+	end
+	if category_count > ui_peruser.pagecols and category_count - scroll_offset > ui_peruser.pagecols then
+		-- next
+		formspec[n] = formspec_button(ui_peruser, "next_category", "ui_right_icon.png", categories_scroll_pos, {ui_peruser.pagecols - 1, 0}, 0.8, S("Scroll categories right"))
+	end
+end
+
+local function formspec_add_search_box(player, formspec, ui_peruser)
+	local player_name = player:get_player_name()
+	local n = #formspec + 1
+
+	formspec[n] = "field_close_on_enter[searchbox;false]"
+
+	formspec[n+1] = string.format("field[%f,%f;%f,%f;searchbox;;%s]",
+		ui_peruser.page_buttons_x, ui_peruser.page_buttons_y,
+		ui_peruser.searchwidth - 0.1, ui_peruser.btn_size,
+		F(ui.current_searchbox[player_name]))
+	formspec[n+2] = string.format("image_button[%f,%f;%f,%f;ui_search_icon.png;searchbutton;]",
+		ui_peruser.page_buttons_x + ui_peruser.searchwidth, ui_peruser.page_buttons_y,
+		ui_peruser.btn_size,ui_peruser.btn_size)
+	formspec[n+3] = "tooltip[searchbutton;" ..F(S("Search")) .. "]"
+	formspec[n+4] = string.format("image_button[%f,%f;%f,%f;ui_reset_icon.png;searchresetbutton;]",
+		ui_peruser.page_buttons_x + ui_peruser.searchwidth + ui_peruser.btn_spc,
+		ui_peruser.page_buttons_y,
+		ui_peruser.btn_size, ui_peruser.btn_size)
+	formspec[n+5] = "tooltip[searchresetbutton;"..F(S("Reset search and display everything")).."]"
+
+	if ui.activefilter[player_name] ~= "" then
+		formspec[n+6] = string.format("label[%f,%f;%s: %s]",
+			ui_peruser.page_x, ui_peruser.page_y - 0.25,
+			F(S("Filter")), F(ui.activefilter[player_name]))
+	end
+end
+
+local function formspec_add_item_browser(player, formspec, ui_peruser)
+	local player_name = player:get_player_name()
+	local n = #formspec + 1
+
+	-- Controls to flip items pages
+
+	local btnlist = {
+		{ "ui_skip_backward_icon.png", "start_list", S("First page") },
+		{ "ui_doubleleft_icon.png",    "rewind3",    S("Back three pages") },
+		{ "ui_left_icon.png",          "rewind1",    S("Back one page") },
+		{ "ui_right_icon.png",         "forward1",   S("Forward one page") },
+		{ "ui_doubleright_icon.png",   "forward3",   S("Forward three pages") },
+		{ "ui_skip_forward_icon.png",  "end_list",   S("Last page") },
+	}
+
+	if ui_peruser.is_lite_mode then
+		btnlist[2] = nil
+		btnlist[5] = nil
+	end
+
+	local bn = 0
+	for _, b in pairs(btnlist) do
+		formspec[n] =  string.format("image_button[%f,%f;%f,%f;%s;%s;]",
+			ui_peruser.page_buttons_x + ui_peruser.btn_spc*bn,
+			ui_peruser.page_buttons_y + ui_peruser.btn_spc,
+			ui_peruser.btn_size, ui_peruser.btn_size,
+			b[1],b[2])
+		formspec[n+1] = "tooltip["..b[2]..";"..F(b[3]).."]"
+		bn = bn + 1
+		n = n + 2
+	end
+
+	-- Items list
+	if #ui.filtered_items_list[player_name] == 0 then
+		local no_matches = S("No matching items")
+		if ui_peruser.is_lite_mode then
+			no_matches = S("No matches.")
+		end
+
+		formspec[n] = "label["..ui_peruser.page_x..","..(ui_peruser.page_y+0.15)..";" .. F(no_matches) .. "]"
+		return
+	end
+
+	local dir = ui.active_search_direction[player_name]
+	local list_index = ui.current_index[player_name]
+	local page2 = math.floor(list_index / (ui_peruser.items_per_page) + 1)
+	local pagemax = math.floor(
+		(#ui.filtered_items_list[player_name] - 1)
+			/ (ui_peruser.items_per_page) + 1)
+	for y = 0, ui_peruser.pagerows - 1 do
+		for x = 0, ui_peruser.pagecols - 1 do
+			local name = ui.filtered_items_list[player_name][list_index]
+			local item = minetest.registered_items[name]
+			if item then
+				-- Clicked on current item: Flip crafting direction
+				if name == ui.current_item[player_name] then
+					local cdir = ui.current_craft_direction[player_name]
+					if cdir == "recipe" then
+						dir = "usage"
+					elseif cdir == "usage" then
+						dir = "recipe"
+					end
+				else
+				-- Default: use active search direction by default
+					dir = ui.active_search_direction[player_name]
+				end
+
+				local button_name = "item_button_" .. dir .. "_"
+					.. ui.mangle_for_formspec(name)
+				formspec[n] = ("item_image_button[%f,%f;%f,%f;%s;%s;]"):format(
+					ui_peruser.page_x + x * ui_peruser.btn_spc,
+					ui_peruser.page_y + y * ui_peruser.btn_spc,
+					ui_peruser.btn_size, ui_peruser.btn_size,
+					name, button_name
+				)
+				formspec[n + 1] = ("tooltip[%s;%s]"):format(
+					button_name, minetest.formspec_escape(item.description)
+				)
+				n = n + 2
+				list_index = list_index + 1
+			end
+		end
+	end
+	formspec[n] = string.format("label[%f,%f;%s: %s]",
+		ui_peruser.page_buttons_x + ui_peruser.btn_spc * (ui_peruser.is_lite_mode and 1 or 2),
+		ui_peruser.page_buttons_y + 0.1 + ui_peruser.btn_spc * 2,
+		F(S("Page")), S("@1 of @2",page2,pagemax))
+end
+
+function ui.get_formspec(player, page)
 
 	if not player then
 		return ""
 	end
 
 	local player_name = player:get_player_name()
-	local ui_peruser,draw_lite_mode = unified_inventory.get_per_player_formspec(player_name)
+	local ui_peruser = ui.get_per_player_formspec(player_name)
 
-	unified_inventory.current_page[player_name] = page
-	local pagedef = unified_inventory.pages[page]
+	ui.current_page[player_name] = page
+	local pagedef = ui.pages[page]
 
 	if not pagedef then
 		return "" -- Invalid page name
 	end
 
-	local formspec = {
-		"size[14,10]",
+	local fs = {
+		"formspec_version[4]",
+		"size["..ui_peruser.formw..","..ui_peruser.formh.."]",
 		pagedef.formspec_prepend and "" or "no_prepend[]",
-		unified_inventory.standard_background -- Background
+		ui.standard_background
 	}
-	local n = 4
 
-	if draw_lite_mode then
-		formspec[1] = "size[11,7.7]"
-		formspec[3] = unified_inventory.standard_background
-	end
-
-	if unified_inventory.is_creative(player_name)
-	and page == "craft" then
-		formspec[n] = "background[0,"..(ui_peruser.formspec_y + 2)..";1,1;ui_single_slot.png]"
-		n = n+1
-	end
-
-	local perplayer_formspec = unified_inventory.get_per_player_formspec(player_name)
+	local perplayer_formspec = ui.get_per_player_formspec(player_name)
 	local fsdata = pagedef.get_formspec(player, perplayer_formspec)
 
-	formspec[n] = fsdata.formspec
-	n = n+1
+	fs[#fs + 1] = fsdata.formspec
 
-	local button_row = 0
-	local button_col = 0
-
-	-- Main buttons
-
-	local filtered_inv_buttons = {}
-
-	for i, def in pairs(unified_inventory.buttons) do
-		if not (draw_lite_mode and def.hide_lite) then
-			table.insert(filtered_inv_buttons, def)
-		end
-	end
-
-	for i, def in pairs(filtered_inv_buttons) do
-
-		if draw_lite_mode and i > 4 then
-			button_row = 1
-			button_col = 1
-		end
-
-		if def.type == "image" then
-			if (def.condition == nil or def.condition(player) == true) then
-				formspec[n] = "image_button["
-				formspec[n+1] = ( ui_peruser.main_button_x + 0.65 * (i - 1) - button_col * 0.65 * 4)
-				formspec[n+2] = ","..(ui_peruser.main_button_y + button_row * 0.7)..";0.8,0.8;"
-				formspec[n+3] = F(def.image)..";"
-				formspec[n+4] = F(def.name)..";]"
-				formspec[n+5] = "tooltip["..F(def.name)
-				formspec[n+6] = ";"..(def.tooltip or "").."]"
-				n = n+7
-			else
-				formspec[n] = "image["
-				formspec[n+1] = ( ui_peruser.main_button_x + 0.65 * (i - 1) - button_col * 0.65 * 4)
-				formspec[n+2] = ","..(ui_peruser.main_button_y + button_row * 0.7)..";0.8,0.8;"
-				formspec[n+3] = F(def.image).."^[colorize:#808080:alpha]"
-				n = n+4
-
-			end
-		end
-	end
+	formspec_add_filters(player, fs, ui_peruser)
 
 	if fsdata.draw_inventory ~= false then
 		-- Player inventory
-		formspec[n] = "listcolors[#00000000;#00000000]"
-		formspec[n+1] = string.gsub(unified_inventory.standard_inv, "YYY", ui_peruser.formspec_y + 3.5)
-		n = n+2
+		fs[#fs + 1] = "listcolors[#00000000;#00000000]"
+		fs[#fs + 1] = ui_peruser.standard_inv
 	end
 
 	if fsdata.draw_item_list == false then
-		return table.concat(formspec, "")
+		return table.concat(fs, "")
 	end
 
-	-- Controls to flip items pages
-	local start_x = 9.2
+	formspec_add_categories(player, fs, ui_peruser)
+	formspec_add_search_box(player, fs, ui_peruser)
+	formspec_add_item_browser(player, fs, ui_peruser)
 
-	if not draw_lite_mode then
-		formspec[n] =
-			"image_button[" .. (start_x + 0.6 * 0)
-				.. ",9;.8,.8;ui_skip_backward_icon.png;start_list;]"
-			.. "tooltip[start_list;" .. F(S("First page")) .. "]"
-
-			.. "image_button[" .. (start_x + 0.6 * 1)
-				.. ",9;.8,.8;ui_doubleleft_icon.png;rewind3;]"
-			.. "tooltip[rewind3;" .. F(S("Back three pages")) .. "]"
-			.. "image_button[" .. (start_x + 0.6 * 2)
-				.. ",9;.8,.8;ui_left_icon.png;rewind1;]"
-			.. "tooltip[rewind1;" .. F(S("Back one page")) .. "]"
-
-			.. "image_button[" .. (start_x + 0.6 * 3)
-				.. ",9;.8,.8;ui_right_icon.png;forward1;]"
-			.. "tooltip[forward1;" .. F(S("Forward one page")) .. "]"
-			.. "image_button[" .. (start_x + 0.6 * 4)
-				.. ",9;.8,.8;ui_doubleright_icon.png;forward3;]"
-			.. "tooltip[forward3;" .. F(S("Forward three pages")) .. "]"
-
-			.. "image_button[" .. (start_x + 0.6 * 5)
-				.. ",9;.8,.8;ui_skip_forward_icon.png;end_list;]"
-			.. "tooltip[end_list;" .. F(S("Last page")) .. "]"
-	else
-		formspec[n] =
-			"image_button[" .. (8.2 + 0.65 * 0)
-				.. ",5.8;.8,.8;ui_skip_backward_icon.png;start_list;]"
-			.. "tooltip[start_list;" .. F(S("First page")) .. "]"
-			.. "image_button[" .. (8.2 + 0.65 * 1)
-				.. ",5.8;.8,.8;ui_left_icon.png;rewind1;]"
-			.. "tooltip[rewind1;" .. F(S("Back one page")) .. "]"
-			.. "image_button[" .. (8.2 + 0.65 * 2)
-				.. ",5.8;.8,.8;ui_right_icon.png;forward1;]"
-			.. "tooltip[forward1;" .. F(S("Forward one page")) .. "]"
-			.. "image_button[" .. (8.2 + 0.65 * 3)
-				.. ",5.8;.8,.8;ui_skip_forward_icon.png;end_list;]"
-			.. "tooltip[end_list;" .. F(S("Last page")) .. "]"
-	end
-	n = n+1
-
-	-- Search box
-	formspec[n] = "field_close_on_enter[searchbox;false]"
-	n = n+1
-
-	if not draw_lite_mode then
-		formspec[n] = "field[9.5,8.325;3,1;searchbox;;"
-			.. F(unified_inventory.current_searchbox[player_name]) .. "]"
-		formspec[n+1] = "image_button[12.2,8.1;.8,.8;ui_search_icon.png;searchbutton;]"
-			.. "tooltip[searchbutton;" ..F(S("Search")) .. "]"
-		formspec[n+2] = "image_button[12.9,8.1;.8,.8;ui_reset_icon.png;searchresetbutton;]"
-			.. "tooltip[searchbutton;" ..F(S("Search")) .. "]"
-			.. "tooltip[searchresetbutton;" ..F(S("Reset search and display everything")) .. "]"
-	else
-		formspec[n] = "field[8.5,5.225;2.2,1;searchbox;;"
-			.. F(unified_inventory.current_searchbox[player_name]) .. "]"
-		formspec[n+1] = "image_button[10.3,5;.8,.8;ui_search_icon.png;searchbutton;]"
-			.. "tooltip[searchbutton;" ..F(S("Search")) .. "]"
-		formspec[n+2] = "image_button[11,5;.8,.8;ui_reset_icon.png;searchresetbutton;]"
-			.. "tooltip[searchbutton;" ..F(S("Search")) .. "]"
-			.. "tooltip[searchresetbutton;" ..F(S("Reset search and display everything")) .. "]"
-	end
-	n = n+3
-
-	local no_matches = S("No matching items")
-	if draw_lite_mode then
-		no_matches = S("No matches.")
-	end
-
-	-- Items list
-	if #unified_inventory.filtered_items_list[player_name] == 0 then
-		formspec[n] = "label[8.2,"..ui_peruser.form_header_y..";" .. F(no_matches) .. "]"
-	else
-		local dir = unified_inventory.active_search_direction[player_name]
-		local list_index = unified_inventory.current_index[player_name]
-		local page2 = math.floor(list_index / (ui_peruser.items_per_page) + 1)
-		local pagemax = math.floor(
-			(#unified_inventory.filtered_items_list[player_name] - 1)
-				/ (ui_peruser.items_per_page) + 1)
-		for y = 0, ui_peruser.pagerows - 1 do
-			for x = 0, ui_peruser.pagecols - 1 do
-				local name = unified_inventory.filtered_items_list[player_name][list_index]
-				local item = minetest.registered_items[name]
-				if item then
-					-- Clicked on current item: Flip crafting direction
-					if name == unified_inventory.current_item[player_name] then
-						local cdir = unified_inventory.current_craft_direction[player_name]
-						if cdir == "recipe" then
-							dir = "usage"
-						elseif cdir == "usage" then
-							dir = "recipe"
-						end
-					else
-					-- Default: use active search direction by default
-						dir = unified_inventory.active_search_direction[player_name]
-					end
-
-					local button_name = "item_button_" .. dir .. "_"
-						.. unified_inventory.mangle_for_formspec(name)
-					formspec[n] = ("item_image_button[%f,%f;.81,.81;%s;%s;]"):format(
-						8.2 + x * 0.7, ui_peruser.formspec_y + ui_peruser.page_y + y * 0.7,
-						name, button_name
-					)
-					formspec[n + 1] = ("tooltip[%s;%s \\[%s\\]]"):format(
-						button_name, minetest.formspec_escape(item.description),
-						item.mod_origin or "??"
-					)
-					n = n + 2
-					list_index = list_index + 1
-				end
-			end
-		end
-		formspec[n] = "label[8.2,"..ui_peruser.form_header_y..";"..F(S("Page")) .. ": "
-			.. S("@1 of @2",page2,pagemax).."]"
-	end
-	n= n+1
-
-	if unified_inventory.activefilter[player_name] ~= "" then
-		formspec[n] = "label[8.2,"..(ui_peruser.form_header_y + 0.4)..";" .. F(S("Filter")) .. ":]"
-		formspec[n+1] = "label[9.1,"..(ui_peruser.form_header_y + 0.4)..";"..F(unified_inventory.activefilter[player_name]).."]"
-	end
-	return table.concat(formspec, "")
+	return table.concat(fs)
 end
 
-function unified_inventory.set_inventory_formspec(player, page)
+function ui.set_inventory_formspec(player, page)
 	if player then
-		player:set_inventory_formspec(unified_inventory.get_formspec(player, page))
+		player:set_inventory_formspec(ui.get_formspec(player, page))
 	end
+end
+
+local function valid_def(def)
+	return (not def.groups.not_in_creative_inventory
+			or def.groups.not_in_creative_inventory == 0)
+		and def.description
+		and def.description ~= ""
 end
 
 --apply filter to the inventory list (create filtered copy of full one)
-function unified_inventory.apply_filter(player, filter, search_dir)
+function ui.apply_filter(player, filter, search_dir)
 	if not player then
 		return false
 	end
@@ -290,7 +332,9 @@ function unified_inventory.apply_filter(player, filter, search_dir)
 			return true
 		end
 	else
-		local lang = minetest.get_player_information(player_name).lang_code
+		local player_info = minetest.get_player_information(player_name)
+		local lang = player_info and player_info.lang_code or ""
+
 		ffilter = function(name, def)
 			local lname = string.lower(name)
 			local ldesc = string.lower(def.description)
@@ -300,78 +344,37 @@ function unified_inventory.apply_filter(player, filter, search_dir)
 				or llocaldesc and string.find(llocaldesc, lfilter, 1, true)
 		end
 	end
-	unified_inventory.filtered_items_list[player_name]={}
-	for name, def in pairs(minetest.registered_items) do
-		if (not def.groups.not_in_creative_inventory
-			or def.groups.not_in_creative_inventory == 0)
-		and def.description
-		and def.description ~= ""
-		and ffilter(name, def) then
-			table.insert(unified_inventory.filtered_items_list[player_name], name)
+	ui.filtered_items_list[player_name]={}
+	local category = ui.current_category[player_name] or 'all'
+	if category == 'all' then
+		for name, def in pairs(minetest.registered_items) do
+			if valid_def(def)
+			and ffilter(name, def) then
+				table.insert(ui.filtered_items_list[player_name], name)
+			end
 		end
-	end
-	table.sort(unified_inventory.filtered_items_list[player_name])
-	unified_inventory.filtered_items_list_size[player_name] = #unified_inventory.filtered_items_list[player_name]
-	unified_inventory.current_index[player_name] = 1
-	unified_inventory.activefilter[player_name] = filter
-	unified_inventory.active_search_direction[player_name] = search_dir
-	unified_inventory.set_inventory_formspec(player,
-	unified_inventory.current_page[player_name])
-end
-
-function unified_inventory.items_in_group(groups)
-	local items = {}
-	for name, item in pairs(minetest.registered_items) do
-		for _, group in pairs(groups:split(',')) do
-			if item.groups[group] then
-				table.insert(items, name)
+	elseif category == 'uncategorized' then
+		for name, def in pairs(minetest.registered_items) do
+			if (not ui.find_category(name))
+			and valid_def(def)
+			and ffilter(name, def) then
+				table.insert(ui.filtered_items_list[player_name], name)
+			end
+		end
+	else
+		for name,exists in pairs(ui.registered_category_items[category]) do
+			local def = minetest.registered_items[name]
+			if exists and def
+			and valid_def(def)
+			and ffilter(name, def) then
+				table.insert(ui.filtered_items_list[player_name], name)
 			end
 		end
 	end
-	return items
-end
-
-function unified_inventory.sort_inventory(inv)
-	local inlist = inv:get_list("main")
-	local typecnt = {}
-	local typekeys = {}
-	for _, st in ipairs(inlist) do
-		if not st:is_empty() then
-			local n = st:get_name()
-			local w = st:get_wear()
-			local m = st:get_metadata()
-			local k = string.format("%s %05d %s", n, w, m)
-			if not typecnt[k] then
-				typecnt[k] = {
-					name = n,
-					wear = w,
-					metadata = m,
-					stack_max = st:get_stack_max(),
-					count = 0,
-				}
-				table.insert(typekeys, k)
-			end
-			typecnt[k].count = typecnt[k].count + st:get_count()
-		end
-	end
-	table.sort(typekeys)
-	local outlist = {}
-	for _, k in ipairs(typekeys) do
-		local tc = typecnt[k]
-		while tc.count > 0 do
-			local c = math.min(tc.count, tc.stack_max)
-			table.insert(outlist, ItemStack({
-				name = tc.name,
-				wear = tc.wear,
-				metadata = tc.metadata,
-				count = c,
-			}))
-			tc.count = tc.count - c
-		end
-	end
-	if #outlist > #inlist then return end
-	while #outlist < #inlist do
-		table.insert(outlist, ItemStack(nil))
-	end
-	inv:set_list("main", outlist)
+	table.sort(ui.filtered_items_list[player_name])
+	ui.filtered_items_list_size[player_name] = #ui.filtered_items_list[player_name]
+	ui.current_index[player_name] = 1
+	ui.activefilter[player_name] = filter
+	ui.active_search_direction[player_name] = search_dir
+	ui.set_inventory_formspec(player, ui.current_page[player_name])
 end

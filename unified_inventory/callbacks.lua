@@ -19,11 +19,12 @@ minetest.register_on_joinplayer(function(player)
 	unified_inventory.active_search_direction[player_name] = "nochange"
 	unified_inventory.apply_filter(player, "", "nochange")
 	unified_inventory.current_searchbox[player_name] = ""
+	unified_inventory.current_category[player_name] = "all"
+	unified_inventory.current_category_scroll[player_name] = 0
 	unified_inventory.alternate[player_name] = 1
 	unified_inventory.current_item[player_name] = nil
 	unified_inventory.current_craft_direction[player_name] = "recipe"
-	unified_inventory.set_inventory_formspec(player,
-	unified_inventory.default)
+	unified_inventory.set_inventory_formspec(player, unified_inventory.default)
 
 	-- Refill slot
 	local refill = minetest.create_detached_inventory(player_name.."refill", {
@@ -67,6 +68,41 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if fields.searchbox
 	and fields.searchbox ~= unified_inventory.current_searchbox[player_name] then
 		unified_inventory.current_searchbox[player_name] = fields.searchbox
+	end
+
+
+	local clicked_category
+	for name, value in pairs(fields) do
+		local category_name = string.match(name, "^category_(.+)$")
+		if category_name then
+			clicked_category = category_name
+			break
+		end
+	end
+
+	if clicked_category
+	and clicked_category ~= unified_inventory.current_category[player_name] then
+		unified_inventory.current_category[player_name] = clicked_category
+		unified_inventory.apply_filter(player, unified_inventory.current_searchbox[player_name], "nochange")
+		unified_inventory.set_inventory_formspec(player,
+				unified_inventory.current_page[player_name])
+	end
+
+	if fields.next_category then
+		local scroll = math.min(#unified_inventory.category_list-ui_peruser.pagecols, unified_inventory.current_category_scroll[player_name] + 1)
+		if scroll ~= unified_inventory.current_category_scroll[player_name] then
+			unified_inventory.current_category_scroll[player_name] = scroll
+			unified_inventory.set_inventory_formspec(player,
+					unified_inventory.current_page[player_name])
+		end
+	end
+	if fields.prev_category then
+		local scroll = math.max(0, unified_inventory.current_category_scroll[player_name] - 1)
+		if scroll ~= unified_inventory.current_category_scroll[player_name] then
+			unified_inventory.current_category_scroll[player_name] = scroll
+			unified_inventory.set_inventory_formspec(player,
+					unified_inventory.current_page[player_name])
+		end
 	end
 
 	for i, def in pairs(unified_inventory.buttons) do
@@ -121,11 +157,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	-- Check clicked item image button
 	local clicked_item
 	for name, value in pairs(fields) do
-		local new_dir, mangled_item = string.match(name, "^item_button_([a-z]+)_(.*)$")
+		local new_dir, mangled_item = string.match(name, "^[0-9]*_?item_button_([a-z]+)_(.*)$")
 		if new_dir and mangled_item then
 			clicked_item = unified_inventory.demangle_for_formspec(mangled_item)
 			if string.sub(clicked_item, 1, 6) == "group:" then
 				-- Change search filter to this group
+				unified_inventory.current_category[player_name] = "all"
 				apply_new_filter(player, clicked_item, new_dir)
 				return
 			end

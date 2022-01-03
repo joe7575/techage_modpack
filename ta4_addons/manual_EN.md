@@ -55,3 +55,17 @@ box: x, y, w, h, color
 checkbox: x, y, name, label, selected
 
 For further information of the meaning of these elements, please consult Minetest's lua_api.txt.
+
+## Matrix Screen
+
+[ta4_addons_matrix_screen|image]
+
+The matrix screen is a 16x16px display.
+Different palettes with 64 colors each are available.
+
+To program the display, you can send a base64 encoded string as a payload for the "pixels" command.
+This string has to be 256 characters long. Each character corresponds to a pixel, line by line from the upper left-hand corner to the lower right-hand corner. 
+
+It is recommended to use the TA4 Matrix Screen Programmer in order to create such strings easily.
+
+The color palette can be changed with the "palette" command.

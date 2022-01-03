@@ -2,6 +2,7 @@ techage.add_to_manual('EN', {
   "1,TA4 Addons",
   "2,Touchscreen",
   "3,Supported Elements and their properties",
+  "2,Matrix Screen",
 }, {
   "Currently\\, the following extensions for TA4 are available:\n"..
   "\n"..
@@ -56,11 +57,25 @@ techage.add_to_manual('EN', {
   "\n"..
   "For further information of the meaning of these elements\\, please consult Minetest's lua_api.txt.\n"..
   "\n",
+  "\n"..
+  "\n"..
+  "The matrix screen is a 16x16px display.\n"..
+  "Different palettes with 64 colors each are available.\n"..
+  "\n"..
+  "To program the display\\, you can send a base64 encoded string as a payload for the \"pixels\" command.\n"..
+  "This string has to be 256 characters long. Each character corresponds to a pixel\\, line by line from the upper left-hand corner to the lower right-hand corner. \n"..
+  "\n"..
+  "It is recommended to use the TA4 Matrix Screen Programmer in order to create such strings easily.\n"..
+  "\n"..
+  "The color palette can be changed with the \"palette\" command.\n"..
+  "\n",
 }, {
   "",
   "ta4_addons_touchscreen",
   "ta4_addons_touchscreen",
+  "ta4_addons_matrix_screen",
 }, {
+  "",
   "",
   "",
   "",
