@@ -269,7 +269,7 @@ local function store_connection(pos, peer_pos)
 	meta:set_string("peer_pos", P2S(peer_pos))
 	meta:set_string("channel", "")
 	meta:set_string("formspec", "")
-	meta:set_string("infotext", "Connected with "..P2S(peer_pos))
+	meta:set_string("infotext", "Connected to "..P2S(peer_pos))
 end
 
 local function prepare_pairing(pos)

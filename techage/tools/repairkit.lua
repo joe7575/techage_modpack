@@ -17,7 +17,7 @@ local S = techage.S
 local Cable1 = techage.ElectricCable
 local Cable2 = techage.TA4_Cable
 local Pipe2 = techage.LiquidPipe
-local menu = dofile(minetest.get_modpath("techage") .. "/tools/submenu.lua")   
+local menu = techage.menu
 
 local function network_check(start_pos, Cable, player_name)
 --	local ndef = techage.networks.net_def(start_pos, Cable.tube_type)
@@ -109,6 +109,11 @@ local function read_state(itemstack, user, pointed_thing)
 					consumption = dump(consumption)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": consumption = "..consumption.." kud    ")
 				end
+				local flowrate = techage.send_single("0", number, "flowrate", nil)
+				if flowrate and flowrate ~= "" and flowrate ~= "unsupported" then
+					flowrate = dump(flowrate)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": flowrate = "..flowrate.."    ")
+				end
 				local owner = M(pos):get_string("owner") or ""
 				if owner ~= "" then
 					minetest.chat_send_player(user:get_player_name(), S("Node owner")..": "..owner.."    ")
@@ -149,7 +154,18 @@ local function settings_menu(pos, playername)
 	local number = techage.get_node_number(pos)
 	local node = minetest.get_node(pos)
 	local ndef = minetest.registered_nodes[node.name]
-	local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
+	local form_def
+	
+	if ndef then
+		if ndef.ta3_formspec or ndef.ta4_formspec then
+			form_def = ndef.ta3_formspec or ndef.ta4_formspec
+		elseif ndef.ta5_formspec then
+			local player = minetest.get_player_by_name(playername)
+			if techage.get_expoints(player) >= ndef.ta5_formspec.ex_points then
+				form_def = ndef.ta5_formspec.menu
+			end
+		end
+	end
 	
 	context[playername] = pos
 	if form_def then
@@ -170,7 +186,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local number = techage.get_node_number(pos)
 		local node = minetest.get_node(pos)
 		local ndef = minetest.registered_nodes[node.name]
-		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
+		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec or ndef.ta5_formspec.menu)
 		
 		if form_def then
 			if menu.eval_input(pos, form_def, fields, playername) then

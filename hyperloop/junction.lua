@@ -28,12 +28,18 @@ Tube:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
 		if out_dir <= 5 then
 			Stations:update_connections(pos, out_dir, peer_pos)
 			local s = hyperloop.get_connection_string(pos)
-			M(pos):set_string("infotext", S("Station connected with ")..s)
+			M(pos):set_string("infotext", S("Station connected to ")..s)
 		end
 	elseif node.name == "hyperloop:junction" then
 		Stations:update_connections(pos, out_dir, peer_pos)
 		local s = hyperloop.get_connection_string(pos)
-		M(pos):set_string("infotext", S("Junction connected with ")..s)
+		M(pos):set_string("infotext", S("Junction connected to ")..s)
+	elseif Tube.secondary_node_names[node.name] then
+		if out_dir == 5 then
+			Stations:update_connections(pos, out_dir, peer_pos)
+			local s = hyperloop.get_connection_string(pos)
+			M(pos):set_string("conn_to", s)
+		end
 	end
 end)
 

@@ -37,7 +37,7 @@ local function generate_string(sortedList)
 		"label[1.8,0;"..S("Station/Junction").."]"..
 		"label[5.4,0;"..S("Position").."]"..
 		"label[7.9,0;"..S("Owner").."]"..
-		"label[10,0;"..S("Conn. with").."]"}
+		"label[10,0;"..S("Conn. to").."]"}
 	for idx,dataSet in ipairs(sortedList) do
 		if idx == 23 then
 			break

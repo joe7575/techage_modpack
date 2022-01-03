@@ -45,6 +45,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	techage.remove_node(pos, oldnode, oldmetadata)
+	techage.del_mem(pos)
 end
 
 local function formspec2()

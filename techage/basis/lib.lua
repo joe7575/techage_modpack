@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -26,6 +26,117 @@ local Input = {
 	0,1,2,3,      -- 5
 	20,21,22,23,  -- 6
 }
+
+--  Input data to turn a "facedir" block to the right/left
+local ROTATION = {
+	{5,14,11,16},  -- x+
+	{7,12,9,18},   -- x-
+	{0,1,2,3},     -- y+
+	{22,21,20,23}, -- y-
+	{6,15,8,17},   -- z+
+	{4,13,10,19},  -- z-
+}
+
+local FACEDIR_TO_ROT = {[0] =
+	{x=0.000000, y=0.000000, z=0.000000},
+	{x=0.000000, y=4.712389, z=0.000000},
+	{x=0.000000, y=3.141593, z=0.000000},
+	{x=0.000000, y=1.570796, z=0.000000},
+	{x=4.712389, y=0.000000, z=0.000000},
+	{x=3.141593, y=1.570796, z=1.570796},
+	{x=1.570796, y=4.712389, z=4.712389},
+	{x=3.141593, y=4.712389, z=4.712389},
+	{x=1.570796, y=0.000000, z=0.000000},
+	{x=0.000000, y=4.712389, z=1.570796},
+	{x=4.712389, y=1.570796, z=4.712389},
+	{x=0.000000, y=1.570796, z=4.712389},
+	{x=0.000000, y=0.000000, z=1.570796},
+	{x=4.712389, y=0.000000, z=1.570796},
+	{x=0.000000, y=3.141593, z=4.712389},
+	{x=1.570796, y=3.141593, z=4.712389},
+	{x=0.000000, y=0.000000, z=4.712389},
+	{x=1.570796, y=0.000000, z=4.712389},
+	{x=0.000000, y=3.141593, z=1.570796},
+	{x=4.712389, y=0.000000, z=4.712389},
+	{x=0.000000, y=0.000000, z=3.141593},
+	{x=0.000000, y=1.570796, z=3.141593},
+	{x=0.000000, y=3.141593, z=3.141593},
+	{x=0.000000, y=4.712389, z=3.141593},
+}
+
+local RotationViaYAxis = {}
+
+for _,row in ipairs(ROTATION) do
+	for i = 1,4 do
+		local val = row[i]
+		local left  = row[i == 1 and 4 or i - 1] 
+		local right = row[i == 4 and 1 or i + 1] 
+		RotationViaYAxis[val] = {left, right}
+	end
+end
+
+function techage.facedir_to_rotation(facedir)
+	return FACEDIR_TO_ROT[facedir]
+end
+
+function techage.param2_turn_left(param2)
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
+end
+
+function techage.param2_turn_right(param2)
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
+end
+
+-------------------------------------------------------------------------------
+-- Rotate nodes around the center
+-------------------------------------------------------------------------------
+function techage.positions_center(lpos)
+	local c = {x=0, y=0, z=0}
+	for _,v in ipairs(lpos) do
+		c = vector.add(c, v)
+	end
+	c = vector.divide(c, #lpos)
+	c = vector.round(c)
+	c.y = 0
+	return c
+end
+
+function techage.rotate_around_axis(v, c, turn)
+	local dx, dz = v.x - c.x, v.z - c.z
+	if turn == "l" then
+		return {
+			x = c.x - dz,
+			y = v.y,
+			z = c.z + dx,
+		}
+	elseif turn == "r" then
+		return {
+			x = c.x + dz,
+			y = v.y,
+			z = c.z - dx,
+		}
+	elseif turn == "" then
+		return v
+	else -- turn 180 degree
+		return {
+			x = c.x - dx,
+			y = v.y,
+			z = c.z - dz,
+		}
+	end
+end
+
+-- Function returns a list ẃith the new node positions
+-- turn is one of "l", "r", "2l", "2r"
+-- cpos is the center pos (optional)
+function techage.rotate_around_center(nodes1, turn, cpos)
+	cpos = cpos or techage.positions_center(nodes1)
+	local nodes2 = {}
+	for _,pos in ipairs(nodes1) do
+		nodes2[#nodes2 + 1] = techage.rotate_around_axis(pos, cpos, turn)
+	end
+	return nodes2
+end
 
 -- allowed for digging
 local RegisteredNodesToBeDug = {}
@@ -330,6 +441,14 @@ function techage.mydump(o, indent, nested, level)
 	return "{"..table.concat(t, ", ").."}"
 end
 
+function techage.vector_dump(posses)
+	local t = {}
+	for _,pos in ipairs(posses) do
+		t[#t + 1] = minetest.pos_to_string(pos)
+	end
+	return table.concat(t, " ")
+end
+
 -- title bar help (width is the fornmspec width)
 function techage.question_mark_help(width, tooltip)
 	local x = width- 0.6
@@ -343,3 +462,88 @@ function techage.wrench_tooltip(x, y)
 		"tooltip["..x..","..y..";0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 
+-------------------------------------------------------------------------------
+-- Terminal history buffer
+-------------------------------------------------------------------------------
+local BUFFER_DEPTH = 10
+
+function techage.historybuffer_add(pos, s)
+	local mem = techage.get_mem(pos)
+	mem.hisbuf = mem.hisbuf or {}
+	
+	if #s > 2 then
+		table.insert(mem.hisbuf, s)
+		if #mem.hisbuf > BUFFER_DEPTH then
+			table.remove(mem.hisbuf, 1)
+		end
+		mem.hisbuf_idx = #mem.hisbuf + 1
+	end
+end
+
+function techage.historybuffer_priv(pos)
+	local mem = techage.get_mem(pos)
+	mem.hisbuf = mem.hisbuf or {}
+	mem.hisbuf_idx = mem.hisbuf_idx or 1
+	
+	mem.hisbuf_idx = math.max(1, mem.hisbuf_idx - 1)
+	return mem.hisbuf[mem.hisbuf_idx]
+end
+
+function techage.historybuffer_next(pos)
+	local mem = techage.get_mem(pos)
+	mem.hisbuf = mem.hisbuf or {}
+	mem.hisbuf_idx = mem.hisbuf_idx or 1
+	
+	mem.hisbuf_idx = math.min(#mem.hisbuf, mem.hisbuf_idx + 1)
+	return mem.hisbuf[mem.hisbuf_idx]
+end
+
+-------------------------------------------------------------------------------
+-- Player TA5 Experience Points
+-------------------------------------------------------------------------------
+function techage.get_expoints(player)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			return meta:get_int("techage_ex_points")
+		end
+	end
+end
+
+-- Can only be used from one collider
+function techage.add_expoint(player, number)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			if not meta:contains("techage_collider_number") then
+				meta:set_string("techage_collider_number", number)
+			end
+			if meta:get_string("techage_collider_number") == number then
+				meta:set_int("techage_ex_points", meta:get_int("techage_ex_points") + 1)
+				return true
+			else
+				minetest.chat_send_player(player:get_player_name(), "[techage] More than one collider is not allowed!")
+				return false
+			end
+		end
+	end
+end
+
+function techage.on_remove_collider(player)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			meta:set_string("techage_collider_number", "")
+		end
+	end
+end
+
+function techage.set_expoints(player, ex_points)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			meta:set_int("techage_ex_points", ex_points)
+			return true
+		end
+	end
+end

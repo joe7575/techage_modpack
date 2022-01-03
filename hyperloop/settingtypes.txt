@@ -12,4 +12,4 @@ hyperloop_free_tube_placement_enabled (free tube placement enabled) bool false
 # The ticket block has an additional field for specifying a subnet name.
 # Stations with the same subnet name (optional) represent an isolated
 # subnet within the Hyperloop network.
-hyperloop_subnet_enabled (enable building of subnets) bool false
+hyperloop_subnet_enabled (enable building of subnets) bool true

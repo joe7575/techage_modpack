@@ -57,8 +57,8 @@ Save=Speichern
 
 ### junction.lua ###
 
-Station connected with =Station verbunden mit 
-Junction connected with =Anschlussstelle verbunden mit 
+Station connected to =Station verbunden mit
+Junction connected to =Anschlussstelle verbunden mit
 Hyperloop Junction Block=Hyperloop Anschlussstelle
 Hyperloop Pillar=Hyperloop Stütze
 
@@ -77,7 +77,7 @@ Dist.=Entf.
 Station/Junction=Station/Anschlussstelle
 Position=Position
 Owner=Besitzer
-Conn. with=Verb. mit
+Conn. to=Verb. mit
 Close=Schließen
 Hyperloop Station Book=Hyperloop Stationsbuch
 

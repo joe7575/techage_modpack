@@ -35,13 +35,14 @@
 	2020-03-12  v2.05  minetest translator added (thanks to acmgit/Clyde)
 	2020-06-14  v2.06  The default value for `hyperloop_free_tube_placement_enabled` is now true
         2021-02-07  v2.07  tube_crowbar: Add tube length check
+        2021-11-01  v2.08  Enable the use of hyperloop networks for other mods
 
 ]]--
 
 hyperloop = {}
 
 -- Version for compatibility checks, see history
-hyperloop.version = 2.06
+hyperloop.version = 2.08
 
 if minetest.global_exists("techage") and techage.version < 0.06 then
 	error("[hyperloop] Hyperloop requires techage version 0.06 or newer!")
@@ -71,7 +72,7 @@ else
 	hyperloop.wifi_enabled = minetest.settings:get_bool("hyperloop_wifi_enabled")
 	hyperloop.wifi_crafting_enabled = minetest.settings:get_bool("hyperloop_wifi_crafting_enabled")
 	hyperloop.free_tube_placement_enabled = minetest.settings:get_bool("hyperloop_free_tube_placement_enabled", true)
-        hyperloop.subnet_enabled = minetest.settings:get_bool("hyperloop_subnet_enabled")
+        hyperloop.subnet_enabled = minetest.settings:get_bool("hyperloop_subnet_enabled", true)
 
 	dofile(minetest.get_modpath("hyperloop") .. "/network.lua")
 	dofile(minetest.get_modpath("hyperloop") .. "/data_base.lua")

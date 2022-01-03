@@ -195,7 +195,7 @@ minetest.register_craft({
 	}
 })
 
-if minetest.get_modpath("minecart") then
+if minetest.global_exists("minecart") then
 	register_sign({
 		name = "sign_add_cart", 
 		description = S('Sign "add to cart"'), 
@@ -273,7 +273,7 @@ if minetest.get_modpath("doc") then
 	})
 end
 
-if minetest.get_modpath("doc") and minetest.get_modpath("minecart") then
+if minetest.get_modpath("doc") and minetest.global_exists("minecart") then
 	doc.add_entry("signs_bot", "sign_add_cart", {
 		name = S('Sign "add to cart"'),
 		data = {

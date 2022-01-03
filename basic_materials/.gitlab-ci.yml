@@ -1,8 +1,0 @@
-stages:
-  - test
-
-luacheck:
- stage: test
- image: pipelinecomponents/luacheck:latest
- script:
-  - luacheck .

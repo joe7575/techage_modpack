@@ -213,7 +213,9 @@ function minecart.monitoring_remove_cart(owner, userID)
 	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
 		-- Cart stopped?
 		if tCartsOnRail[owner][userID].objID == 0 then
-			-- Can directly be deleted
+			-- Mark as "to be deleted" by monitoring (if part of monitoring)
+			tCartsOnRail[owner][userID].objID = nil
+			-- And delete directly in addition
 			tCartsOnRail[owner][userID] = nil
 		else -- Cart running
 			-- Mark as "to be deleted" by monitoring
@@ -292,7 +294,7 @@ minetest.register_chatcommand("stopcart", {
 					minecart.remove_entity(entity, data.pos)
 				else
 					-- Cart as zombie/invalid/corrupted
-					-- nothing to do
+					minetest.log("warning", "[Minecart] data.objID ~= 0, but no entity available!")
 				end
 				minetest.add_item(player_pos, ItemStack({name = data.node_name}))
 				minecart.monitoring_remove_cart(owner, userID)

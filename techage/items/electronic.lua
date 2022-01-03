@@ -39,6 +39,10 @@ minetest.register_craftitem("techage:ta4_leds", {
 	inventory_image = "techage_leds.png",
 })
 
+minetest.register_craftitem("techage:ta5_aichip", {
+	description = S("TA5 AI Chip"),
+	inventory_image = "techage_aichip.png",
+})
 
 techage.recipes.add("ta2_electronic_fab", {
 	output = "techage:vacuum_tube 2",
@@ -73,4 +77,10 @@ techage.recipes.add("ta4_electronic_fab", {
 techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta4_leds 8",
 	input = {"basic_materials:plastic_sheet 4", "basic_materials:copper_wire 1", "techage:ta4_silicon_wafer 1"}
+})
+
+techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:ta5_aichip 2",
+	input = {"techage:ta4_leds 8", "basic_materials:copper_wire 1", "basic_materials:gold_wire 1", "techage:ta4_silicon_wafer 1"},
+	ex_points = 10,
 })

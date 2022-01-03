@@ -1,4 +1,4 @@
-# TA4: Future
+# TA4: Present
 
 Renewable energy sources such as wind, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.
 
@@ -287,9 +287,9 @@ Note 2: Tanks or silos with different contents must not be connected to a pipe s
 Cracking breaks long chains of hydrocarbons into short chains using a catalyst.
 Gibbsite powder serves as a catalyst (is not consumed). It can be used to convert bitumen into fueloil, fueloil into naphtha and naphtha into gasoline.
 
-In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones. 
-Here iron powder is required as a catalyst (is not consumed). It can be used to convert gasoline into naphtha,
-naphtha into fueloil, and fueloil into bitumen.
+In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones.
+Here iron powder is required as a catalyst (is not consumed). It can be used to convert gas (propane) into isobutane,
+isobutane into gasoline, gasoline into naphtha, naphtha into fueloil, and fueloil into bitumen.
 
 
 [ta4_reactor|plan]
@@ -463,11 +463,40 @@ Only the appearance of the TA4 button/switch has changed. The functionality is t
 
 [ta4_button|image]
 
+### TA4 2x Button
+
+This block has two buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
+
+[ta4_button_2x|image]
+
+
 ### TA4 4x Button
 
 This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
 
 [ta4_button_4x|image]
+
+### TA4 2x Signal Lamp
+
+This block has two lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for both lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
+
+- Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
+- Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
+- Switch lamp 1 to orange: `$send_cmnd(1234, "amber", 1)`
+- Switch lamp 2 off: `$send_cmnd(1234, "off", 2)`
+
+[ta4_signallamp_2x|image]
+
+### TA4 4x Signal Lamp
+
+This block has four lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for all lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
+
+- Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
+- Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
+- Switch lamp 3 to orange: `$send_cmnd(1234, "amber", 3)`
+- Switch lamp 4 off: `$send_cmnd(1234, "off", 4)`
+
+[ta4_signallamp_4x|image]
 
 ### TA4 Player Detector
 
@@ -487,28 +516,6 @@ The functionality is the same as for the TA3 detector. In addition, the detector
 This counter can be queried with the 'count' command and reset with 'reset'.
 
 [ta4_detector|image]
-
-### TA4 Move Controller
-
-The TA4 Move Controller is similar to "Door Controller 2", but the selected blocks are not removed, but can be moved.
-Since the moving blocks can take players and mobs standing on the block with them, elevators and similar transport systems can be built with them.
-
-Instructions:
-
-- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
-- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 100 m)
-- The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
-- you can also fly through walls or other blocks
-- The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
-- A "handover" can also be programmed in the controller via the open-ended wrench menu. By entering a block number, the blocks are then transferred to the next move controller. In this way, connected movements can also be implemented using several Move Controllers.
-
-The Move Controller supports the following techage commands:
-
-- `a2b` Move block from A to B.
-- `b2a` Move block from B to A.
-- `move` Move block to the other side
-
-[ta4_movecontroller|image]
 
 ### TA4 Sequencer
 
@@ -539,6 +546,54 @@ The TA4 sequencer supports the following techage commands:
 The `goto` command is only accepted when the sequencer is stopped.
 
 [ta4_sequencer|image]
+
+
+
+## Move/Turn Controller
+
+### TA4 Move Controller
+
+The TA4 Move Controller is similar to "Door Controller 2", but the selected blocks are not removed, but can be moved.
+Since the moving blocks can take players and mobs standing on the block with them, elevators and similar transport systems can be built with them.
+
+Instructions:
+
+- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
+- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 100 m)
+- The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
+- you can also fly through walls or other blocks
+- The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
+- A "handover" can also be programmed in the controller via the open-ended wrench menu. By entering a block number, the blocks are then transferred to the next move controller. In this way, connected movements can also be implemented using several Move Controllers.
+
+The Move Controller supports the following techage commands:
+
+- `a2b` Move block from A to B.
+- `b2a` Move block from B to A.
+- `move` Move block to the other side
+
+**Important instructions:**
+
+- If several blocks are to be moved, the block that is to take the players/mobs must be clicked first when training.
+- If the block that is supposed to take the players/mobs has a reduced height, the height must be set in the controller using the open-ended wrench menu (e.g. height = 0.5). Otherwise the player/mob will not be "found" and will not be taken away.
+
+[ta4_movecontroller|image]
+
+### TA4 Turn Controller
+
+The TA4 turn controller is similar to the "Move Controller", but the selected blocks are not moved, but rotated around their center to the right or left.
+
+Instructions:
+
+- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
+- The movement can be tested with the menu buttons "Turn left" and "Turn right"
+
+The turn controller supports the following techage commands:
+
+- `left` Turn left
+- `right` Turn right
+- `uturn` Turn 180 degrees 
+
+[ta4_turncontroller|image]
 
 
 
@@ -617,7 +672,116 @@ The red mud must be pumped into the filler pipe.
 
 
 
+## TA4 Collider (Particle Accelerator)
+
+The Collider is a research facility that conducts basic research. Experience points can be collected here, which are required for TA5 (Future Age).
+
+Like its original at CERN in Geneva, the collider must be built underground. The standard setting here is Y <= -28. The value can, however, be changed by the server personnel via configuration. Please ask or try the "TA4 Collider Detector Worker" block.
+
+Only one collider can be operated per player. So it makes no sense to set up two or more colliders. Experience points are credited to the player who owns the collider. The experience points cannot be transferred.
+
+A collider consists of a "ring" made of tubes and magnets as well as a detector with a cooling system.
+
+- The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.
+- The TA4 Collider Detector magnets (22 pieces) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.
+- In addition, cooling is required, which must also be installed at the detector. Isobutane is required for cooling.
+- The system requires quite a bit of electricity. Therefore, it makes sense to have your own power supply.
+
+The plan shows the facility from above:
+
+- the gray block is the detector with the worker block in the middle
+- the red blocks are the magnets, the blue the vacuum tubes
+
+[techage_collider_plan|plan]
+
+### Detector
+
+The detector is set up automatically with the help of the "TA4 Collider Detector Worker" block (similar to the derrick). All of the materials required for this must first be placed in the worker block. The detector is shown symbolically on the worker block. The detector is set up across the worker block.
+
+The detector can also be dismantled again with the help of the worker block.
+
+The connections for electricity, gas and vacuum tubes are located on the two front sides of the detector. A TA4 pump must be connected at the top in order to suck the tube empty / to create the vacuum.
+
+The cooling system must be connected to the rear of the detector. The cooling system is shown in the plan on the right. In addition to the TA4 heat exchanger of the energy storage unit (which is used here for cooling), a TA4 cooler block is also required.
+
+Note: The arrow on the heat exchanger must point away from the detector. The heat exchanger must also be supplied with electricity.
+
+[ta4_cooler|plan]
+
+### Control / TA4 Terminal
+
+The collider is controlled via a TA4 terminal (not via the TA4 Lua controller terminal).
+
+This terminal must be connected to the detector. The number of the detector is displayed as info text on the worker block.
+
+The terminal supports the following commands:
+
+- `connect <number>` (connect to the detector)
+- `start` (starting the detector)
+- `stop` (stop the detector)
+- `test <number>` (checking a magnet)
+- `points` (query of the experience points already achieved)
+
+If an error occurs on a magnet during the `start`, the number of the magnet is output. The `test` command can be used to request further information on the magnet error.
+
+[ta4_terminal|image]
+
+
+
+### Construction
+
+In addition to the building blocks, the following is required for the collider:
+
+- electricity (145 ku)
+- TA4 tank with at least 250 units of isobutane
+
+The following sequence is recommended when setting up the collider:
+
+- Put a forceload block. Only the detector with the cooling system has to be in the area of ​​the forceload block.
+- Set the worker block, fill it with items and set up the detector via the menu
+- Build the ring with tubes and magnets
+- Connect all magnets and the detector with power cables
+- Connect all magnets and the detector with the yellow tubes and pump the isobutane into the tube system with a pump
+- Install a TA4 pump as a vacuum pump on the detector and switch it on (no additional tank is required). If the pump goes into "standby", the vacuum is established. This will take a few seconds
+- assemble the cooler (heat exchanger) and connect it to the power cable
+- Place the TA4 terminal in front of the detector and connect it to the detector via `connect <number>`
+- Switch on / connect the power supply
+- switch on the cooler (heat exchanger)
+- Switch on the detector via `start` on the TA4 terminal. After a few test steps, the detector goes into normal operation or outputs an error.
+- The collider has to run continuously and then gradually delivers experience points. For 10 points, the collider has to run for a few hours
+
+[techage_ta4c|image]
+
+
+
+
 ## More TA4 Blocks
+
+### TA4 Recipe Block
+
+Up to 10 recipes can be saved in the recipe block. These recipes can then be called up via a TA4 Autocrafter command. This enables the autocrafter's recipe to be configured using a command. The recipes in the recipe block can also be queried directly using a command.
+
+`input <index>` reads a recipe from the TA4 recipe block. `<index>` is the number of the recipe. The block returns a list of recipe ingredients.
+
+Example: `$send_cmnd(1234, "input", 1)`
+
+[ta4_recipeblock|image] 
+
+### TA4 Autocrafter
+
+The function corresponds to that of TA3.
+
+The processing power is 4 items every 4 s. The autocrafter requires 9 ku of electricity for this.
+
+In addition, the TA4 Autocrafter supports the selection of different recipes using the following commands:
+
+`recipe <number>.<index>` switches the autocrafter to a recipe from the TA4 Recipe Block. `<number>` is the number of the recipe block, `<index>` the recipe number. Example: `$send_cmnd(1234, "recipe", 5467.1)`
+
+Alternatively, a recipe can also be selected via the list of ingredients, such as:
+`$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
+All technical names of a recipe must be specified here, separated by commas. See also the command `input` in the TA4 recipe block.
+
+[ta4_autocrafter|image] 
 
 ### TA4 Tank
 
@@ -631,7 +795,7 @@ A TA4 tank can hold 2000 units or 200 barrels of liquid.
 
 See TA3 pump.
 
-The TA4 pump pumps 8 units of liquid every two seconds.
+The TA4 pump pumps 8 units of liquid every two seconds. The pump also supports the `flowrate` command. This means that the total flow rate through the pump can be queried. 
 
 [ta4_pump|image]
 

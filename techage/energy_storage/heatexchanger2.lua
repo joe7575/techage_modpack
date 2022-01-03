@@ -9,6 +9,7 @@
 	See LICENSE.txt for more information
 	
 	TA4 Heat Exchanger2 (middle part)
+	(alternatively used as cooler for the TA4 collider)
 
 ]]--
 
@@ -31,6 +32,7 @@ local PWR_CAPA = {
 	[9] = GRVL_CAPA * 7 * 7 * 7,  -- 286 kuh
 }
 local DOWN = 5
+local PWR_NEEDED = 5
 
 local function heatexchanger1_cmnd(pos, topic, payload)
 	return techage.transfer({x = pos.x, y = pos.y - 1, z = pos.z}, 
@@ -75,7 +77,25 @@ local function stop_sound(pos)
 	end
 end
 
+local function cooler_formspec(self, pos, nvm)
+	return "size[4,2]"..
+		"box[0,-0.1;3.8,0.5;#c6e8ff]" ..
+		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA4 Heat Exchanger")) .. "]" ..
+		"image_button[1.5,1;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[1.5,1;1,1;"..self:get_state_tooltip(nvm).."]"
+end
+
 local function can_start(pos, nvm)
+	-- Used as cooler for the collider?
+	if heatexchanger1_cmnd(pos, "detector") then
+		if power.power_available(pos, Cable, DOWN) then
+			nvm.used_as_cooler = true
+			return true
+		else
+			return S("No power")
+		end
+	end
+	-- Used as heat exchanger 
 	local netID = networks.determine_netID(pos, Cable, DOWN)
 	if heatexchanger1_cmnd(pos, "netID") ~= netID then
 		return S("Power network connection error")
@@ -97,21 +117,32 @@ local function can_start(pos, nvm)
 end
 
 local function start_node(pos, nvm)
-	nvm.win_pos = heatexchanger1_cmnd(pos, "window")
-	power.start_storage_calc(pos, Cable, DOWN)
-	play_sound(pos)
-	heatexchanger1_cmnd(pos, "start")
+	if nvm.used_as_cooler then
+		play_sound(pos)
+	else
+		nvm.win_pos = heatexchanger1_cmnd(pos, "window")
+		power.start_storage_calc(pos, Cable, DOWN)
+		play_sound(pos)
+		heatexchanger1_cmnd(pos, "start")
+	end
 end
 
 local function stop_node(pos, nvm)
-	power.start_storage_calc(pos, Cable, DOWN)
-	stop_sound(pos)
-	heatexchanger1_cmnd(pos, "stop")
+	if nvm.used_as_cooler then
+		stop_sound(pos)
+	else
+		power.start_storage_calc(pos, Cable, DOWN)
+		stop_sound(pos)
+		heatexchanger1_cmnd(pos, "stop")
+	end
 end
 
 local function formspec(self, pos, nvm)
 	local data
 	
+	if nvm.used_as_cooler then
+		return cooler_formspec(self, pos, nvm)
+	end
 	if techage.is_running(nvm) then
 		data = power.get_network_data(pos, Cable, DOWN)
 	end
@@ -135,11 +166,9 @@ local function check_TES_integrity(pos, nvm)
 	end
 	if (nvm.ticks % 30) == 0 then -- every minute
 		return heatexchanger1_cmnd(pos, "volume")
-	end
-	if (nvm.ticks % 30) == 10 then -- every minute
-		return heatexchanger3_cmnd(pos, "diameter") ~= nil or S("inlet/pipe error")
-	end
-	if (nvm.ticks % 30) == 20 then -- every minute
+	elseif (nvm.ticks % 30) == 10 then -- every minute
+		return heatexchanger1_cmnd(pos, "diameter") ~= nil or S("inlet/pipe error")
+	elseif (nvm.ticks % 30) == 20 then -- every minute
 		return heatexchanger3_cmnd(pos, "diameter") ~= nil or S("inlet/pipe error")
 	end
 	local netID = networks.determine_netID(pos, Cable, DOWN)
@@ -166,8 +195,38 @@ local State = techage.NodeStates:new({
 	formspec_func = formspec,
 })
 
+local function cooler_timer(pos, nvm)
+	local err = false
+	if power.consume_power(pos, Cable, DOWN, PWR_NEEDED) ~= PWR_NEEDED then
+		State:fault(pos, nvm, "No power")
+		stop_sound(pos)
+		return true		
+	end
+
+	-- Cyclically check pipe connections
+	nvm.ticks = (nvm.ticks or 0) + 1
+	if (nvm.ticks % 5) == 0 then -- every 10 s
+		err = heatexchanger1_cmnd(pos, "detector") ~= true
+	elseif (nvm.ticks % 5) == 1 then -- every 10 s
+		err = heatexchanger3_cmnd(pos, "detector") ~= true
+	elseif (nvm.ticks % 5) == 2 then -- every 10 s
+		err = heatexchanger1_cmnd(pos, "cooler") ~= true
+	elseif (nvm.ticks % 5) == 3 then -- every 10 s
+		err = heatexchanger3_cmnd(pos, "cooler") ~= true
+	end
+	if err then
+		State:fault(pos, nvm, "Pipe connection error")
+		stop_sound(pos)
+	end
+	return true		
+end
+
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
+	if nvm.used_as_cooler then
+		cooler_timer(pos, nvm)
+		return true
+	end
 	local res = check_TES_integrity(pos, nvm)
 	if res ~= true then
 		State:fault(pos, nvm, res)
@@ -304,26 +363,10 @@ techage.register_node({"techage:heatexchanger2"}, {
 		else
 			stop_sound(pos)
 		end
-		-- convert to v1
-		if not nvm.capa_max then
-			local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
-			local nvm1 = techage.get_nvm(pos1)
-			nvm.capa_max = nvm1.capa_max or 1
-			nvm.capa = nvm1.capa or 0
-			
-			local own_num = techage.add_node(pos, "techage:heatexchanger2")
-			State:node_init(pos, nvm, own_num)
-			if nvm1.running then
-				State:start(pos, nvm)
-			end
-			M(pos):set_string("owner", M(pos1):get_string("owner"))
-			M(pos):set_string("infotext", S("TA4 Heat Exchanger")..": "..own_num)
-			
-			M(pos1):set_string("node_number", "")
-			M(pos1):set_string("infotext", "")
-			techage.del_mem(pos1)
-			Cable:after_place_node(pos)
-			Cable:after_place_node(pos1)
+		-- Attempt to restart the system as the heat exchanger goes into error state
+		-- when parts of the storage block are unloaded.
+		if nvm.techage_state == techage.FAULT then
+			start_node(pos, nvm)
 		end
 	end,
 })

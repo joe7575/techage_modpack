@@ -95,7 +95,7 @@ local function compile(s, tRes)
 				return exception(tRes, i, "Order error!")
 			end
 			start_idx = start_idx or idx
-			if old_idx ~= 0 and not tCode[old_idx].next_idx then
+			if old_idx ~= 0 and tCode[old_idx] and not tCode[old_idx].next_idx then
 				tCode[old_idx].next_idx = idx
 			end
 			if cmnd1 == "send" then
@@ -215,15 +215,12 @@ local function on_receive_fields(pos, formname, fields, player)
 	local mem = techage.get_mem(pos)
 	nvm.running = nvm.running or false
 	
-	print(1, dump(fields))
 	if fields.stop then
 		nvm.running = false
 		minetest.get_node_timer(pos):stop()
 		logic.infotext(meta, S("TA4 Sequencer"), S("stopped"))
 	elseif not nvm.running then
-		print(2)
 		if fields.tab == "2" then
-			print(3)
 			meta:set_string("formspec", formspec_help(meta))
 			return
 		elseif fields.tab == "1" then

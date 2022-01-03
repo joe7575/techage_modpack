@@ -3,14 +3,14 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
 	
 	Consumer node basis functionality.
 	It handles:
-	- up to 3 stages of nodes (TA2/TA3/TA4)
+	- up to 4 stages of nodes (TA2/TA3/TA4/TA5)
 	- power consumption
 	- node state handling
 	- registration of passive and active nodes
@@ -119,7 +119,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 	if not node_name_prefix then
 		node_name_prefix = "techage:ta"
 	end
-	for stage = 2,4 do
+	for stage = 2,5 do
 		local name_pas = node_name_prefix..stage.."_"..base_name.."_pas"
 		local name_act = node_name_prefix..stage.."_"..base_name.."_act"
 		local name_inv = "TA"..stage.." "..inv_name
@@ -178,6 +178,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				local node = minetest.get_node(pos)
 				meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
 				meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
+				meta:set_string("owner", placer:get_player_name())
 				-- Delete existing node number. Needed for Digtron compatibility.
 				if (meta:contains("node_number")) then
 					meta:set_string("node_number", "")
@@ -298,5 +299,5 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 			end
 		end
 	end
-	return names[1], names[2], names[3]
+	return names[1], names[2], names[3], names[4]
 end

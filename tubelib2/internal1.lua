@@ -132,7 +132,7 @@ end
 -- pairing functions
 --------------------------------------------------------------------------------------
 
--- Pairing helper function
+-- Pairing helper function. NOT USED (see internal2.lua)!!!
 function Tube:store_teleport_data(pos, peer_pos)		
 	local meta = M(pos)
 	meta:set_string("tele_pos", S(peer_pos))

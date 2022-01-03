@@ -61,11 +61,14 @@ local BASE_ENV = {
 			if separator == "" then separator = " " end
 			return safer_lua.Array(unpack(string.split(str, separator, include_empty, max_splits, sep_is_pattern))) 
 		end,
+		split2 = function(str, separator, include_empty, max_splits, sep_is_pattern) 
+			if separator == "" then separator = " " end
+			return unpack(string.split(str, separator, include_empty, max_splits, sep_is_pattern))
+		end,
 		trim = string.trim,
 	},
 	tonumber = tonumber,
 	tostring = tostring,
-	unpack = unpack,
 	type = type,
 	ticks = 0,
 }

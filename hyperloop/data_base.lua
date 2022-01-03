@@ -54,7 +54,7 @@ minetest.register_on_shutdown(function()
 end)
 
 -- delete data base entries without corresponding nodes
-minetest.after(5, check_data_base)
+--minetest.after(5, check_data_base)
 
 -- store data after one hour
 minetest.after(60*60, update_mod_storage)

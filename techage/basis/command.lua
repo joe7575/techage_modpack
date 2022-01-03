@@ -262,6 +262,28 @@ function techage.repair_number(pos)
 	end
 end
 
+-- Like techage.add_node, but use the old number again
+function techage.unpack_node(pos, name, number)
+	if item_handling_node(name) then
+		Tube:after_place_node(pos)
+	end
+	local key = minetest.hash_node_position(pos)
+	NumbersToBeRecycled[key] = nil
+	if number then
+		backend.set_nodepos(number, pos)
+	end
+end
+
+-- Like techage.remove_node but don't store the number for this position
+function techage.pack_node(pos, oldnode, number)
+	if number then
+		NodeInfoCache[number] = nil
+	end
+	if oldnode and item_handling_node(oldnode.name) then
+		Tube:after_dig_node(pos)
+	end
+end
+
 
 -------------------------------------------------------------------
 -- Node register function
@@ -544,3 +566,62 @@ function techage.get_inv_state(inv, listname)
     end
     return state
 end
+
+minetest.register_chatcommand("ta_send", {
+	description = minetest.formspec_escape(
+			"Send a techage command to the block with the number given: /ta_send <number> <command> [<data>]"),
+    func = function(name, param)
+		local num, cmnd, payload = param:match('^([0-9]+)%s+(%w+)%s*(.*)$')
+
+		if num and cmnd then
+			if techage.not_protected(num, name) then
+				local resp = techage.send_single("0", num, cmnd, payload)
+				if type(resp) == "string" then
+					return true, resp
+				else
+					return true, dump(resp)
+				end
+			else
+				return false, "Destination block is protected"
+			end
+		end
+		return false, "Syntax: /ta_send <number> <command> [<data>]"
+    end
+})
+
+minetest.register_chatcommand("expoints", {
+    privs = {
+       server = true
+    },
+    func = function(name, param)
+		local player_name, points = param:match("^(%S+)%s*(%d*)$")
+		if player_name then
+			local player = minetest.get_player_by_name(player_name)
+			if player then
+				if points and points ~= "" then
+					if techage.set_expoints(player, tonumber(points)) then
+						return true, "The player "..player_name.." now has "..points.." experience points."
+					end
+				else
+					points = techage.get_expoints(player)
+					return true, "The player "..player_name.." has "..points.." experience points."
+				end
+			else
+				return false, "Unknown player "..player_name
+			end
+		end
+		return false, "Syntax error!  Syntax:  /expoints <name> [<points>]"
+    end
+})
+
+minetest.register_chatcommand("my_expoints", {
+    func = function(name, param)
+		local player = minetest.get_player_by_name(name)
+		if player then
+			local points = techage.get_expoints(player)
+			if points then
+				return true, "You have "..points.." experience points."
+			end
+		end
+    end
+})

@@ -54,8 +54,8 @@ techage.Items = {
 	ta2_forceload = "techage:forceload",
 	ta2_driveaxle = "techage:axle",
 	ta2_generator = "techage:ta2_generator_off",
-        ta2_winch = "techage:ta2_winch",
-        ta2_weight_chest = "techage:ta2_weight_chest",
+    ta2_winch = "techage:ta2_winch",
+    ta2_weight_chest = "techage:ta2_weight_chest",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",
@@ -126,6 +126,7 @@ techage.Items = {
 	ta3_injector = "techage:ta3_injector_pas",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
+	techage_ta4c = "techage_ta4c.png",
 	ta4_windturbine = "techage:ta4_wind_turbine",
 	ta4_pillar = "techage:pillar",
 	ta4_blinklamp = "techage:rotor_signal_lamp_off",
@@ -191,11 +192,22 @@ techage.Items = {
 	ta4_electricmeter = "techage:ta4_electricmeter",
 	ta4_transformer = "techage:ta4_transformer",
 	power_reduction = "techage_power_reduction.png",
+	ta4_button_2x = "techage:ta4_button_2x",
 	ta4_button_4x = "techage:ta4_button_4x",
 	ta4_sequencer = "techage:ta4_sequencer",
 	ta4_movecontroller = "techage:ta4_movecontroller",
+	ta4_turncontroller = "techage:ta4_turncontroller",
+	ta4_signallamp_2x = "techage:ta4_signallamp_2x",
+	ta4_signallamp_4x = "techage:ta4_signallamp_4x",
+	ta4_terminal = "techage:terminal3",
+	ta4_autocrafter = "techage:ta4_autocrafter_pas",
+	ta4_recipeblock = "techage:ta4_recipeblock",
+	----------------------------
+	ta5_flycontroller = "techage:ta5_flycontroller",
+        ta5_aichip = "techage:ta5_aichip",
+        ta5_tele_pipe = "techage:ta5_tele_pipe",
+        ta5_tele_tube = "techage:ta5_tele_tube",
 
-	--ta4_ "", 
 }
 
 function techage.add_manual_items(table_with_items)

@@ -65,7 +65,9 @@ dofile(MP.."/nodes.lua")
 dofile(MP.."/bot_sensor.lua")
 dofile(MP.."/node_sensor.lua")
 dofile(MP.."/crop_sensor.lua")
-dofile(MP.."/cart_sensor.lua")
+if minetest.global_exists("minecart") then
+	dofile(MP.."/cart_sensor.lua")
+end
 dofile(MP.."/chest.lua")
 dofile(MP.."/legacy.lua")
 dofile(MP.."/techage.lua")

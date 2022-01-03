@@ -199,6 +199,12 @@ function signs_bot.infotext(pos, state)
 	meta:set_string("infotext", S("Robot Box").." "..number..": "..state)
 end
 
+local function free_start_pos(pos, mem)
+	local param2 = (minetest.get_node(pos).param2 + 1) % 4
+	local robot_pos = lib.next_pos(pos, param2, 1)
+	return signs_bot.lib.is_air_like(robot_pos)
+end
+
 local function reset_robot(pos, mem)
 	mem.robot_param2 = (minetest.get_node(pos).param2 + 1) % 4
 	mem.robot_pos = lib.next_pos(pos, mem.robot_param2, 1)
@@ -208,24 +214,26 @@ end
 
 function signs_bot.start_robot(base_pos)
 	local mem = tubelib2.get_mem(base_pos)
-	mem.steps = nil
-	mem.script = "cond_move"
-	local meta = M(base_pos)
-	signs_bot.reset(base_pos, mem)
-	mem.running = true
-	mem.charging = false
-	mem.error = false
-	mem.stored_node = nil
-	if minetest.global_exists("techage") then
-		mem.capa = mem.capa or 0 -- enable power consumption
-	else
-		mem.capa = nil
+	if free_start_pos(base_pos, mem) then
+		mem.steps = nil
+		mem.script = "cond_move"
+		local meta = M(base_pos)
+		signs_bot.reset(base_pos, mem)
+		mem.running = true
+		mem.charging = false
+		mem.error = false
+		mem.stored_node = nil
+		if minetest.global_exists("techage") then
+			mem.capa = mem.capa or 0 -- enable power consumption
+		else
+			mem.capa = nil
+		end
+		meta:set_string("formspec", formspec(base_pos, mem))
+		signs_bot.infotext(base_pos, S("running"))
+		reset_robot(base_pos, mem)
+		minetest.get_node_timer(base_pos):start(CYCLE_TIME)
+		return true
 	end
-	meta:set_string("formspec", formspec(base_pos, mem))
-	signs_bot.infotext(base_pos, S("running"))
-	reset_robot(base_pos, mem)
-	minetest.get_node_timer(base_pos):start(CYCLE_TIME)
-	return true
 end
 
 function signs_bot.stop_robot(base_pos, mem)

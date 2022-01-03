@@ -256,7 +256,12 @@ function minecart.add_nodecart(pos, node_name, param2, cargo, owner, userID)
 		if not minecart.is_rail(pos) then
 			pos2 = minetest.find_node_near(pos, 1, minecart.lRails)
 			if not pos2 or not minecart.is_rail(pos2) then
-				pos2 = minetest.find_node_near(pos, 2, minecart.lRails)
+				-- If no rail is around, use an available cart as new search center
+				pos2 = minetest.find_node_near(pos, 1, minecart.lRailsExt)
+				-- ...and search again.
+				if pos2 then
+					pos2 = minetest.find_node_near(pos2, 1, minecart.lRails)
+				end
 			end
 		else
 			pos2 = vector.new(pos)

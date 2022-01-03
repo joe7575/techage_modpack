@@ -239,17 +239,19 @@ signs_bot.register_botcommand("drop_items", {
 	end,
 })
 
-signs_bot.register_botcommand("punch_cart", {
-	mod = "item",
-	params = "",
-	num_param = 0,
-	description = S("Punch a rail cart to start it"),
-	cmnd = function(base_pos, mem)
-		local punch_dir = minetest.facedir_to_dir(mem.robot_param2)
-		minecart.punch_cart(mem.robot_pos, mem.robot_param2, 1, punch_dir)
-		return signs_bot.DONE
-	end,
-})
+if minetest.global_exists("minecart") then
+	signs_bot.register_botcommand("punch_cart", {
+		mod = "item",
+		params = "",
+		num_param = 0,
+		description = S("Punch a rail cart to start it"),
+		cmnd = function(base_pos, mem)
+			local punch_dir = minetest.facedir_to_dir(mem.robot_param2)
+			minecart.punch_cart(mem.robot_pos, mem.robot_param2, 1, punch_dir)
+			return signs_bot.DONE
+		end,
+	})
+end
 
 -- def is a table with following data:
 --	{

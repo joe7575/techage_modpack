@@ -57,8 +57,8 @@ minetest.register_on_mods_loaded(function()
 					-- mark all entity carts as zombified
 					if cart.objID ~= 0 then
 						cart.objID = -1
-						minecart.push(1, cart)
 					end
+					minecart.push(1, cart)
 				end
 			end
 		end

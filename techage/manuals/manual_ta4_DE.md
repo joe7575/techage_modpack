@@ -1,4 +1,4 @@
-# TA4: Zukunft
+# TA4: Gegenwart
 
 Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.
 
@@ -294,7 +294,8 @@ Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Le
 Beim Cracken werden lange Kette von Kohlenwasserstoffen unter Verwendung eines Katalysator in kurze Ketten gebrochen.
 Als Katalysator dient Gibbsitpulver (wird nicht verbraucht). Damit kann Bitumen in Schweröl, Schweröl in Naphtha und Naphtha in Benzin umgewandelt werden.
 
-Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln. Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Benzin in Naphtha, 
+Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln.
+Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Propangas in Isobutan, Isobutan in Benzin, Benzin in Naphtha,
 Naphtha in Schweröl und Schweröl in Bitumen umgewandelt werden.
 
 [ta4_reactor|plan]
@@ -470,11 +471,39 @@ Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalitä
 
 [ta4_button|image]
 
+### TA4 2x Taster / 2x Button
+
+Dieser Block hat zwei Taster, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für beide Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für beide Taster das Kommando konfiguriert werden, welches gesendet werden soll.
+
+[ta4_button_2x|image]
+
 ### TA4 4x Taster / 4x Button
 
 Dieser Block hat vier Taster, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für jeden Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für jeden Taster das Kommando konfiguriert werden, welches gesendet werden soll.
 
 [ta4_button_4x|image]
+
+### TA4 2x Signallampe / 2x Signal Lamp
+
+Dieser Block hat zwei Lampen, die individuell angesteuert werden können. Jede Lampe kann die Farben "rot", "grün" und "orange" anzeigen. Über das Schraubenschlüssel-Menü kann für beide Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:
+
+- Lampe 1 auf rot schalten: `$send_cmnd(1234, "red", 1)`
+- Lampe 2 auf grün schalten: `$send_cmnd(1234, "green", 2)`
+- Lampe 1 auf orange schalten: `$send_cmnd(1234, "amber", 1)`
+- Lampe 2 aus schalten: `$send_cmnd(1234, "off", 2)`
+
+[ta4_signallamp_2x|image]
+
+### TA4 4x Signallampe / 4x Signal Lamp
+
+Dieser Block hat vier Lampen, die individuell angesteuert werden können. Jede Lampe kann die Farben "rot", "grün" und "orange" anzeigen. Über das Schraubenschlüssel-Menü kann für alle Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:
+
+- Lampe 1 auf rot schalten: `$send_cmnd(1234, "red", 1)`
+- Lampe 2 auf grün schalten: `$send_cmnd(1234, "green", 2)`
+- Lampe 3 auf orange schalten: `$send_cmnd(1234, "amber", 3)`
+- Lampe 4 aus schalten: `$send_cmnd(1234, "off", 4)`
+
+[ta4_signallamp_4x|image]
 
 ### TA4 Spieler Detektor / Player Detector
 
@@ -494,28 +523,6 @@ Die Funktionalität ist gleich wie beim TA3 Detektor / Detector. Zusätzlich zä
 Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zurücksetzen.
 
 [ta4_detector|image]
-
-### TA4 Move Controller
-
-Der TA4 Move Controller ist ähnlich zum "Door Controller 2", aber die ausgewählten Blöcke werden nicht entfernt, sondern können bewegt werden.
-Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block stehen, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.
-
-Anleitung:
-
-- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
-- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)
-- mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
-- man kann auch durch Wände oder andere Blöcke fliegen
-- auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
-- Über das Gabelschlüssel-Menü kann im Controller auch ein "handover" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller  realisieren.
-
-Der Move Controller unterstützt folgende techage Kommandos:
-
-- `a2b`  Bewege Block von A nach B
-- `b2a`  Bewege Block von B nach A
-- `move` Bewege Block auf die andere Seite
-
-[ta4_movecontroller|image]
 
 
 ### TA4 Sequenzer
@@ -547,6 +554,56 @@ Der TA4 Sequenzer unterstützt folgende techage Kommandos:
 Das `goto` Kommando wird nur angenommen, wenn der Sequenzer gestoppt ist.
 
 [ta4_sequencer|image]
+
+
+
+
+## Move/Dreh-Controller
+
+### TA4 Move Controller
+
+Der TA4 Move Controller ist ähnlich zum "Door Controller 2", aber die ausgewählten Blöcke werden nicht entfernt, sondern können bewegt werden.
+Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block stehen, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.
+
+Anleitung:
+
+- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
+- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)
+- mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
+- man kann auch durch Wände oder andere Blöcke fliegen
+- auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
+- Über das Gabelschlüssel-Menü kann im Controller auch ein "handover" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.
+
+Der Move Controller unterstützt folgende techage Kommandos:
+
+- `a2b`  Bewege Block von A nach B
+- `b2a`  Bewege Block von B nach A
+- `move` Bewege Block auf die andere Seite
+
+**Wichtige Hinweise:**
+
+- Sofern mehrere Blöcke bewegt werden sollen, muss der Block, der die Spieler/Mobs mitnehmen soll, beim Antrainieren als erstes angeklickt werden.
+- Hat der Block, der die Spieler/Mobs mitnehmen soll, eine reduzierte Höhe, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht "gefunden" und damit nicht mitgenommen.
+
+[ta4_movecontroller|image]
+
+### TA4 Drehcontroller / Turn Controller
+
+Der TA4 Drehcontroller ist ähnlich zum Move Controller", aber die ausgewählten Blöcke werden nicht bewegt, sondern um ihr Zentrum nach rechts oder links gedreht.
+
+Anleitung:
+
+- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
+- mit den Menü-Tasten "Drehe links" sowie "Drehe rechts" kann die Bewegung getestet werden
+
+Der Drehcontroller unterstützt folgende techage Kommandos:
+
+- `left`  Drehe nach links
+- `right`  Drehe nach rechts
+- `uturn`  Drehe um 180 Grad
+
+[ta4_turncontroller|image]
+
 
 
 
@@ -623,8 +680,116 @@ In den Einfüllstutzen muss Rotschlamm mittels einer Pumpe geleitet werden.
 
 
 
+## TA4 Teilchenbeschleuniger / Collider
+
+Der Teilchenbeschleuniger ist eine Forschungsanlage, bei der Grundlagenforschung betrieben wird. Hier können Erfahrungspunkte (experience points) gesammelt werden, welche für TA5 (Future Age) benötigt werden.
+
+Der Teilchenbeschleuniger muss wie sein Original am CERN in Genf unterirdisch aufgebaut werden. Die Standardeinstellung ist hier Y <= -28. Der Wert kann aber per Konfiguration vom Server Personal geändert werden. Ab besten nachfragen, oder mit dem "TA4 Collider Detector Worker" Block ausprobieren.
+
+Pro Spieler kann nur ein Teilchenbeschleuniger betrieben werden. Es macht also keinen Sinn, zwei oder mehrere Teilchenbeschleuniger aufzubauen. Erfahrungspunkte werden dem Spieler gutgeschrieben, dem der Teilchenbeschleuniger gehört. Die Erfahrungspunkte können nicht übertragen werden.
+
+Ein Teilchenbeschleuniger besteht aus einem "Ring" aus Röhren und Magneten sowie dem Detektor mit Kühlanlage. 
+
+- Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.
+- Die TA4 Collider Detector Magnete (22 Stück) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.
+- Zusätzlich wird eine Kühlung benötigt, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Isobutan benötigt.
+- Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.
+
+Der Plan zeigt die Anlage von oben:
+
+- der graue Block ist der Detektor mit dem Worker-Block in der Mitte
+- die roten Blöcke sind die Magnete, das blaue die Vakuumröhren
+
+[techage_collider_plan|plan]
+
+### Detektor
+
+Der Detektor wird mit Hilfe des "TA4 Collider Detector Worker" Blocks automatisch aufgebaut (ähnlich wie beim Bohrturm). Alle dazu notwendigen Materialien müssen zuvor in den Worker-Block gelegt werden. Auf dem Worker-Block ist der Detektor symbolisch dargestellt. Der Detektor wird über dem Worker-Block in Querrichtung errichtet.
+
+Der Detektor kann mit Hilfe des Worker-Blocks auch wieder abgebaut werden.
+
+Auf den beiden Stirnseiten des Detektors befinden sich die Anschlüsse für Strom, Gas und Vakuumröhre. Oben muss eine TA4 Pumpe angeschlossen werden, um die Röhre leer zu saugen / das Vakuum zu erzeugen.
+
+Auf der Rückseite des Detektors muss das Kühlsystem angeschlossen werden. Im Plan rechts ist das Kühlsystem abgebildet. Hier wird neben dem TA4 Wärmetauscher des Energiespeichers (welcher hier zur Kühlung genutzt wird), auch ein TA4 Kühlerblock benötigt. 
+
+Hinweis: Der Pfeil des Wärmetauschers muss vom Detektor weg zeigen. Auch der Wärmetauscher muss mit Strom versorgt werden.
+
+[ta4_cooler|plan]
+
+### Steuerung / TA4 Terminal
+
+Der Teilchenbeschleuniger wird über ein TA4 Terminal gesteuert (nicht über das TA4 Lua Controller Terminal).
+
+Dieses Terminal muss mit dem Detektor verbunden werden. Die Nummer des Detektors wird als Infotext am Worker-Block angezeigt.
+
+Das Terminal unterstützt folgende Kommandos:
+
+- `connect <number>` (verbinden mit dem Detektor)
+- `start` (starten des Detektors)
+- `stop` (stoppen des Detektors)
+- `test <number>` (überprüfen eines Magneten)
+- `points` (abfragen der bereits erreichten Erfahrungspunkte)
+
+Tritt beim `start` an einem Magneten ein Fehler auf, so wird die Nummer des Magneten ausgegeben. Über das `test` Kommando können weitere Informationen zum Fehler des Magneten angefordert werden.
+
+[ta4_terminal|image]
+
+
+
+### Aufbau
+
+Für den Teilchenbeschleunigers wird außer den Blöcken für den Bau folgendes benötigt:
+
+- Strom (145 ku)
+- TA4 Tank mit mindestens 250 Einheiten Isobutan
+
+Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:
+
+- Einen Forceload Block setzen. Nur der Detektor mit der Kühlanlage muss sich im Bereich des Forceload Blockes befinden. 
+- Den Worker-Block setzen, mit Items füllen und den Detektor über das Menü aufbauen
+- Den Ring mit Röhren und Magneten aufbauen
+- Alle Magnete und den Detektor mit Stromkabel verbinden
+- Alle Magnete und den Detektor mit den gelben Röhren verbinden und das Isobutan mit einer Pumpe in das Röhrensystem pumpen.
+- Eine TA4 Pumpe als Vakuumpumpe auf dem Detektor installieren und einschalten (es wird kein zusätzlicher Tank benötigt). Geht die Pumpe in den "standby", ist das Vakuum hergestellt. Dies dauert einige Sekunden
+- den Kühler (Wärmetauscher) aufbauen und mit dem Stromkabel verbinden
+- Das TA4 Terminal vor den Detektor setzen und über `connect <nummer>`  mit dem Detektor verbinden
+- Die Stromversorgung einschalten/herstellen
+- den Kühler (Wärmetauscher) einschalten
+- den Detektor über `start` am TA4 Terminal einschalten. Der Detektor geht nach einigen Prüfschritten in den Normalbetrieb oder gibt einen Fehler aus.
+- Der Teilchenbeschleunigers muss im Dauerbetrieb laufen und liefert dann nach und nach Erfahrungspunkte. Für 10 Punkte muss der Teilchenbeschleuniger schon einige Stunden laufen.
+
+[techage_ta4c|image]
+
+
+
 
 ## Weitere TA4 Blöcke
+
+### TA4 Rezept Block
+
+Im Rezept Block können bis zu 10 Rezepte gespeichert werden. Diese Rezepte können dann über ein TA4 Autocrafter Kommando abgerufen werden. Dies ermöglicht eine Rezept-Konfiguration des Autocrafters über ein Kommando. Die Rezepte des Rezept Blocks können auch direkt per Kommando abgefragt werden.
+
+`input <index>` liest ein Rezept aus dem TA4 Rezeptblock. `<index>` ist die Nummer des Rezepts. Der Block gibt eine Liste von Rezept-Zutaten zurück. 
+
+Beispiel: `$send_cmnd(1234, "input", 1)`
+
+[ta4_recipeblock|image]
+
+### TA4 Autocrafter
+
+Die Funktion entspricht der von TA3.  
+
+Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Autocrafter benötigt hierfür 9 ku Strom.
+
+Zusätzlich unterstützt der TA4 Autocrafter die Auswahl unterschiedlicher Rezepte über folgende Kommandos:
+
+`recipe <number>.<index>`  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. `<number>` ist die Nummer des Rezept Blocks, `<index>` die Rezept-Nummer. Beispiel: `$send_cmnd(1234, "recipe", 5467.1)`
+
+Alternativ  kann ein Rezept auch über die Zutatenliste ausgewählt werden, wie bspw.:
+`$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
+Hier müssen alle technische Namen eines Rezeptes durch Kommas getrennt angegeben werden. Siehe auch das Kommando `input` beim TA4 Rezept Block.
+
+[ta4_autocrafter|image]
 
 ### TA4 Tank / TA4 Tank
 
@@ -638,7 +803,7 @@ In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.
 
 Siehe TA3 Pumpe.
 
-Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.
+Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando `flowrate`. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.
 
 [ta4_pump|image]
 

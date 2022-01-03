@@ -278,3 +278,11 @@ function Network:serialize()
 	return minetest.serialize(self)
 end
 	
+-- Return a pos/item table with all network nodes, the node at pos is connected with
+function Network:get_node_table(pos)
+	local tRes = {}
+	local key = S(pos)
+	get_stations(self.tStations, key, tRes)	
+	tRes[key] = nil
+	return tRes
+end

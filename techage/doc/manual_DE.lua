@@ -117,6 +117,7 @@ techage.manual_DE.aTitel = {
   "3,Tür/Tor Blöcke / Door/Gate Blocks",
   "3,TA3 Tür Controller / Door Controller",
   "3,TA3 Tür Controller II / Door Controller II",
+  "3,TA3 Sound Block",
   "3,TA3 Mesecons Umsetzer / TA3 Mesecons Converter",
   "2,Detektoren",
   "3,TA3 Detektor / Detector",
@@ -138,7 +139,7 @@ techage.manual_DE.aTitel = {
   "3,TechAge Programmer",
   "3,TechAge Kelle / Trowel",
   "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
-  "1,TA4: Zukunft",
+  "1,TA4: Gegenwart",
   "2,Windkraftanlage",
   "3,TA4 Windkraftanlage / Wind Turbine",
   "3,TA4 Windkraftanlagengondel / Wind Turbine Nacelle",
@@ -183,12 +184,17 @@ techage.manual_DE.aTitel = {
   "3,TA4 Lua Controller Terminal",
   "2,TA4 Logik-/Schalt-Module",
   "3,TA4 Taster/Schalter / Button/Switch",
+  "3,TA4 2x Taster / 2x Button",
   "3,TA4 4x Taster / 4x Button",
+  "3,TA4 2x Signallampe / 2x Signal Lamp",
+  "3,TA4 4x Signallampe / 4x Signal Lamp",
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
-  "3,TA4 Move Controller",
   "3,TA4 Sequenzer",
+  "2,Move/Dreh-Controller",
+  "3,TA4 Move Controller",
+  "3,TA4 Drehcontroller / Turn Controller",
   "2,TA4 Lampen",
   "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
   "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
@@ -197,7 +203,13 @@ techage.manual_DE.aTitel = {
   "3,Fundament-Ebene",
   "3,Schotter-Ebene",
   "3,Einfüll-Ebene",
+  "2,TA4 Teilchenbeschleuniger / Collider",
+  "3,Detektor",
+  "3,Steuerung / TA4 Terminal",
+  "3,Aufbau",
   "2,Weitere TA4 Blöcke",
+  "3,TA4 Rezept Block",
+  "3,TA4 Autocrafter",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
   "3,TA4 Ofenheizung / furnace heater",
@@ -215,10 +227,27 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
+  "1,TA5: Zukunft",
+  "2,Energiequellen",
+  "3,TA5 Fusionsreaktor (geplant)",
+  "2,Energiespeicher",
+  "3,TA5 Hybrid-Speicher (geplant)",
+  "2,Logik Blöcke",
+  "2,Transport und Verkehr",
+  "3,TA5 Flug Controller",
+  "3,TA5 Hyperloop Kiste / TA5 Hyperloop Chest",
+  "3,TA5 Hyperloop Tank / TA5 Hyperloop Tank",
+  "3,Hyperloop Teleport Blöcke (geplant)",
+  "3,TA5 Container (geplant)",
+  "3,TA5 Teleport Block Gegenstände / TA5 Teleport Block Items",
+  "3,TA5 Teleport Block Flüssigkeiten / TA5 Teleport Block Liquids",
+  "3,TA5-Raumgleiter (geplant)",
+  "2,Weitere TA5 Blöcke/Items",
+  "3,TA5 KI Chip / TA5 AI Chip",
 }
 
 techage.manual_DE.aText = {
-  "Tech Age ist eine Technik-Mod mit 4 Entwicklungsstufen:\n"..
+  "Tech Age ist eine Technik-Mod mit 5 Entwicklungsstufen:\n"..
   "\n"..
   "TA1: Eisenzeitalter (Iron Age) \n"..
   "Benutze Werkzeuge und Hilfsmittel wie Köhler\\, Kohlebrenner\\, Kiessieb\\, Hammer\\, Hopper um notwendige Erze und Metalle zu schürfen und zu verarbeiten.\n"..
@@ -229,8 +258,11 @@ techage.manual_DE.aText = {
   "TA3: Ölzeitalter (Oil Age)\n"..
   "Suche und fördere Öl\\, baute Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.\n"..
   "\n"..
-  "TA4: Zukunft (Future Age)\n"..
+  "TA4: Gegenwart (Present)\n"..
   "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
+  "\n"..
+  "TA5: Zukunft (Future)\n"..
+  "Maschinen zur Überwindung von Raum und Zeit\\, neue Energiequellen und andere Errungenschaften prägen dein Leben.\n"..
   "\n"..
   "Hinweis: Mit Klicken auf die Pluszeichen kommst du in die Unterkapitel dieser Anleitung.\n"..
   "\n"..
@@ -1113,6 +1145,16 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Mir dem Sound Block  können veschiedene Sounds/Laute abgespielt werden. Es sind alle Sounds der Mods Techage\\, Signs Bot\\, Hyperloop\\, Unified Inventory\\, TA4 Jetpack und Minetest Game verfügbar.\n"..
+  "\n"..
+  "Die Sounds können über das Menü und über ein Kommando ausgewählt und abgespielt werden.\n"..
+  "\n"..
+  "  - Kommando 'on' zum Abspielen eines Sounds\n"..
+  "  - Kommando 'sound <idx>' zur Auswahl eines Sounds über den Index\n"..
+  "  - Kommando 'gain <volume>' zum Einstellen der Lautstärke über den '<volume>'  Wert (0 bis 1.0).\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Der Mesecons Umsetzer dient zur Umwandlung von Techage on/off Kommandos in Mesecons Signale und umgekehrt.\n"..
   "Dazu müssen eine oder mehrere Knotennummern eingegeben und der Konverter mit Mesecons Blöcken \n"..
   "über Mesecons Leitungen verbunden werden. Den Mesecons Umsetzer kann man auch mit dem Programmer konfigurieren.\n"..
@@ -1436,7 +1478,8 @@ techage.manual_DE.aText = {
   "Beim Cracken werden lange Kette von Kohlenwasserstoffen unter Verwendung eines Katalysator in kurze Ketten gebrochen.\n"..
   "Als Katalysator dient Gibbsitpulver (wird nicht verbraucht). Damit kann Bitumen in Schweröl\\, Schweröl in Naphtha und Naphtha in Benzin umgewandelt werden.\n"..
   "\n"..
-  "Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt\\, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln. Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Benzin in Naphtha\\, \n"..
+  "Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt\\, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln.\n"..
+  "Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Propangas in Isobutan\\, Isobutan in Benzin\\, Benzin in Naphtha\\,\n"..
   "Naphtha in Schweröl und Schweröl in Bitumen umgewandelt werden.\n"..
   "\n"..
   "\n"..
@@ -1562,7 +1605,29 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Dieser Block hat zwei Taster\\, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für beide Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für beide Taster das Kommando konfiguriert werden\\, welches gesendet werden soll.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Dieser Block hat vier Taster\\, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für jeden Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für jeden Taster das Kommando konfiguriert werden\\, welches gesendet werden soll.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dieser Block hat zwei Lampen\\, die individuell angesteuert werden können. Jede Lampe kann die Farben \"rot\"\\, \"grün\" und \"orange\" anzeigen. Über das Schraubenschlüssel-Menü kann für beide Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:\n"..
+  "\n"..
+  "  - Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "  - Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
+  "  - Lampe 1 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 1)'\n"..
+  "  - Lampe 2 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 2)'\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dieser Block hat vier Lampen\\, die individuell angesteuert werden können. Jede Lampe kann die Farben \"rot\"\\, \"grün\" und \"orange\" anzeigen. Über das Schraubenschlüssel-Menü kann für alle Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:\n"..
+  "\n"..
+  "  - Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "  - Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
+  "  - Lampe 3 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 3)'\n"..
+  "  - Lampe 4 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 4)'\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1576,26 +1641,6 @@ techage.manual_DE.aText = {
   "\n",
   "Die Funktionalität ist gleich wie beim TA3 Detektor / Detector. Zusätzlich zählt der Detector aber die weitergegebenen Items. \n"..
   "Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zurücksetzen.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Der TA4 Move Controller ist ähnlich zum \"Door Controller 2\"\\, aber die ausgewählten Blöcke werden nicht entfernt\\, sondern können bewegt werden.\n"..
-  "Da die bewegten Blöcke Spieler und Mobs mitnehmen können\\, die auf dem Block stehen\\, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.\n"..
-  "\n"..
-  "Anleitung:\n"..
-  "\n"..
-  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
-  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)\n"..
-  "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
-  "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
-  "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
-  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller  realisieren.\n"..
-  "\n"..
-  "Der Move Controller unterstützt folgende techage Kommandos:\n"..
-  "\n"..
-  "  - 'a2b'  Bewege Block von A nach B\n"..
-  "  - 'b2a'  Bewege Block von B nach A\n"..
-  "  - 'move' Bewege Block auf die andere Seite\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1620,6 +1665,47 @@ techage.manual_DE.aText = {
   "  - 'stop'  Den Sequenzer anhalten\n"..
   "\n"..
   "Das 'goto' Kommando wird nur angenommen\\, wenn der Sequenzer gestoppt ist.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
+  "Der TA4 Move Controller ist ähnlich zum \"Door Controller 2\"\\, aber die ausgewählten Blöcke werden nicht entfernt\\, sondern können bewegt werden.\n"..
+  "Da die bewegten Blöcke Spieler und Mobs mitnehmen können\\, die auf dem Block stehen\\, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.\n"..
+  "\n"..
+  "Anleitung:\n"..
+  "\n"..
+  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)\n"..
+  "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
+  "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
+  "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
+  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.\n"..
+  "\n"..
+  "Der Move Controller unterstützt folgende techage Kommandos:\n"..
+  "\n"..
+  "  - 'a2b'  Bewege Block von A nach B\n"..
+  "  - 'b2a'  Bewege Block von B nach A\n"..
+  "  - 'move' Bewege Block auf die andere Seite\n"..
+  "\n"..
+  "*Wichtige Hinweise:*\n"..
+  "\n"..
+  "  - Sofern mehrere Blöcke bewegt werden sollen\\, muss der Block\\, der die Spieler/Mobs mitnehmen soll\\, beim Antrainieren als erstes angeklickt werden.\n"..
+  "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA4 Drehcontroller ist ähnlich zum Move Controller\"\\, aber die ausgewählten Blöcke werden nicht bewegt\\, sondern um ihr Zentrum nach rechts oder links gedreht.\n"..
+  "\n"..
+  "Anleitung:\n"..
+  "\n"..
+  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+  "  - mit den Menü-Tasten \"Drehe links\" sowie \"Drehe rechts\" kann die Bewegung getestet werden\n"..
+  "\n"..
+  "Der Drehcontroller unterstützt folgende techage Kommandos:\n"..
+  "\n"..
+  "  - 'left'  Drehe nach links\n"..
+  "  - 'right'  Drehe nach rechts\n"..
+  "  - 'uturn'  Drehe um 180 Grad\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1675,7 +1761,99 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Teilchenbeschleuniger ist eine Forschungsanlage\\, bei der Grundlagenforschung betrieben wird. Hier können Erfahrungspunkte (experience points) gesammelt werden\\, welche für TA5 (Future Age) benötigt werden.\n"..
+  "\n"..
+  "Der Teilchenbeschleuniger muss wie sein Original am CERN in Genf unterirdisch aufgebaut werden. Die Standardeinstellung ist hier Y <= -28. Der Wert kann aber per Konfiguration vom Server Personal geändert werden. Ab besten nachfragen\\, oder mit dem \"TA4 Collider Detector Worker\" Block ausprobieren.\n"..
+  "\n"..
+  "Pro Spieler kann nur ein Teilchenbeschleuniger betrieben werden. Es macht also keinen Sinn\\, zwei oder mehrere Teilchenbeschleuniger aufzubauen. Erfahrungspunkte werden dem Spieler gutgeschrieben\\, dem der Teilchenbeschleuniger gehört. Die Erfahrungspunkte können nicht übertragen werden.\n"..
+  "\n"..
+  "Ein Teilchenbeschleuniger besteht aus einem \"Ring\" aus Röhren und Magneten sowie dem Detektor mit Kühlanlage. \n"..
+  "\n"..
+  "  - Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.\n"..
+  "  - Die TA4 Collider Detector Magnete (22 Stück) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.\n"..
+  "  - Zusätzlich wird eine Kühlung benötigt\\, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Isobutan benötigt.\n"..
+  "  - Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.\n"..
+  "\n"..
+  "Der Plan zeigt die Anlage von oben:\n"..
+  "\n"..
+  "  - der graue Block ist der Detektor mit dem Worker-Block in der Mitte\n"..
+  "  - die roten Blöcke sind die Magnete\\, das blaue die Vakuumröhren\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Detektor wird mit Hilfe des \"TA4 Collider Detector Worker\" Blocks automatisch aufgebaut (ähnlich wie beim Bohrturm). Alle dazu notwendigen Materialien müssen zuvor in den Worker-Block gelegt werden. Auf dem Worker-Block ist der Detektor symbolisch dargestellt. Der Detektor wird über dem Worker-Block in Querrichtung errichtet.\n"..
+  "\n"..
+  "Der Detektor kann mit Hilfe des Worker-Blocks auch wieder abgebaut werden.\n"..
+  "\n"..
+  "Auf den beiden Stirnseiten des Detektors befinden sich die Anschlüsse für Strom\\, Gas und Vakuumröhre. Oben muss eine TA4 Pumpe angeschlossen werden\\, um die Röhre leer zu saugen / das Vakuum zu erzeugen.\n"..
+  "\n"..
+  "Auf der Rückseite des Detektors muss das Kühlsystem angeschlossen werden. Im Plan rechts ist das Kühlsystem abgebildet. Hier wird neben dem TA4 Wärmetauscher des Energiespeichers (welcher hier zur Kühlung genutzt wird)\\, auch ein TA4 Kühlerblock benötigt. \n"..
+  "\n"..
+  "Hinweis: Der Pfeil des Wärmetauschers muss vom Detektor weg zeigen. Auch der Wärmetauscher muss mit Strom versorgt werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Teilchenbeschleuniger wird über ein TA4 Terminal gesteuert (nicht über das TA4 Lua Controller Terminal).\n"..
+  "\n"..
+  "Dieses Terminal muss mit dem Detektor verbunden werden. Die Nummer des Detektors wird als Infotext am Worker-Block angezeigt.\n"..
+  "\n"..
+  "Das Terminal unterstützt folgende Kommandos:\n"..
+  "\n"..
+  "  - 'connect <number>' (verbinden mit dem Detektor)\n"..
+  "  - 'start' (starten des Detektors)\n"..
+  "  - 'stop' (stoppen des Detektors)\n"..
+  "  - 'test <number>' (überprüfen eines Magneten)\n"..
+  "  - 'points' (abfragen der bereits erreichten Erfahrungspunkte)\n"..
+  "\n"..
+  "Tritt beim 'start' an einem Magneten ein Fehler auf\\, so wird die Nummer des Magneten ausgegeben. Über das 'test' Kommando können weitere Informationen zum Fehler des Magneten angefordert werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Für den Teilchenbeschleunigers wird außer den Blöcken für den Bau folgendes benötigt:\n"..
+  "\n"..
+  "  - Strom (145 ku)\n"..
+  "  - TA4 Tank mit mindestens 250 Einheiten Isobutan\n"..
+  "\n"..
+  "Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:\n"..
+  "\n"..
+  "  - Einen Forceload Block setzen. Nur der Detektor mit der Kühlanlage muss sich im Bereich des Forceload Blockes befinden.\n"..
+  "  - Den Worker-Block setzen\\, mit Items füllen und den Detektor über das Menü aufbauen\n"..
+  "  - Den Ring mit Röhren und Magneten aufbauen\n"..
+  "  - Alle Magnete und den Detektor mit Stromkabel verbinden\n"..
+  "  - Alle Magnete und den Detektor mit den gelben Röhren verbinden und das Isobutan mit einer Pumpe in das Röhrensystem pumpen.\n"..
+  "  - Eine TA4 Pumpe als Vakuumpumpe auf dem Detektor installieren und einschalten (es wird kein zusätzlicher Tank benötigt). Geht die Pumpe in den \"standby\"\\, ist das Vakuum hergestellt. Dies dauert einige Sekunden\n"..
+  "  - den Kühler (Wärmetauscher) aufbauen und mit dem Stromkabel verbinden\n"..
+  "  - Das TA4 Terminal vor den Detektor setzen und über 'connect <nummer>'  mit dem Detektor verbinden\n"..
+  "  - Die Stromversorgung einschalten/herstellen\n"..
+  "  - den Kühler (Wärmetauscher) einschalten\n"..
+  "  - den Detektor über 'start' am TA4 Terminal einschalten. Der Detektor geht nach einigen Prüfschritten in den Normalbetrieb oder gibt einen Fehler aus.\n"..
+  "  - Der Teilchenbeschleunigers muss im Dauerbetrieb laufen und liefert dann nach und nach Erfahrungspunkte. Für 10 Punkte muss der Teilchenbeschleuniger schon einige Stunden laufen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
+  "Im Rezept Block können bis zu 10 Rezepte gespeichert werden. Diese Rezepte können dann über ein TA4 Autocrafter Kommando abgerufen werden. Dies ermöglicht eine Rezept-Konfiguration des Autocrafters über ein Kommando. Die Rezepte des Rezept Blocks können auch direkt per Kommando abgefragt werden.\n"..
+  "\n"..
+  "'input <index>' liest ein Rezept aus dem TA4 Rezeptblock. '<index>' ist die Nummer des Rezepts. Der Block gibt eine Liste von Rezept-Zutaten zurück. \n"..
+  "\n"..
+  "Beispiel: '$send_cmnd(1234\\, \"input\"\\, 1)'\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA3.  \n"..
+  "\n"..
+  "Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Autocrafter benötigt hierfür 9 ku Strom.\n"..
+  "\n"..
+  "Zusätzlich unterstützt der TA4 Autocrafter die Auswahl unterschiedlicher Rezepte über folgende Kommandos:\n"..
+  "\n"..
+  "'recipe <number>.<index>'  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. '<number>' ist die Nummer des Rezept Blocks\\, '<index>' die Rezept-Nummer. Beispiel: '$send_cmnd(1234\\, \"recipe\"\\, 5467.1)'\n"..
+  "\n"..
+  "Alternativ  kann ein Rezept auch über die Zutatenliste ausgewählt werden\\, wie bspw.:\n"..
+  "'$send_cmnd(1234\\, \"recipe\"\\, \"default:coal_lump\\,\\,\\,default:stick\")'\n"..
+  "Hier müssen alle technische Namen eines Rezeptes durch Kommas getrennt angegeben werden. Siehe auch das Kommando 'input' beim TA4 Rezept Block.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Siehe TA3 Tank.\n"..
   "\n"..
   "In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.\n"..
@@ -1684,7 +1862,7 @@ techage.manual_DE.aText = {
   "\n",
   "Siehe TA3 Pumpe.\n"..
   "\n"..
-  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.\n"..
+  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando 'flowrate'. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1796,6 +1974,81 @@ techage.manual_DE.aText = {
   "  - Werkzeuge können nicht recycelt werden\n"..
   "\n"..
   "Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Maschinen zur Überwindung von Raum und Zeit\\, neue Energiequellen und andere Errungenschaften prägen dein Leben. \n"..
+  "\n"..
+  "Für die Herstellung und Nutzung von TA5 Maschinen und Blöcken sind Erfahrungspunkte (experience points) notwendig. Diese können nur über den Teilchenbeschleuniger aus TA4 erarbeitet werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "Der TA5 Flug Controller ist ähnlich zum TA4 Move Controller. Im Gegensatz zum TA4 Move Controller können hier mehrere Bewegungen zu einer Flugstrecke kombiniert werden. Diese Flugstrecke kann im Eingabefeld über mehrere x\\,y\\,z Angaben definiert werden (eine Bewegung pro Zeile). Über \"Speichern\" wird die Flugstrecke geprüft und gespeichert. Bei einem Fehler wird eine Fehlermeldung ausgegeben.\n"..
+  "\n"..
+  "Mit der Taste \"Test\" wird die Flugstrecke mit den absoluten Koordinaten zur Überprüfung im Chat ausgegeben.\n"..
+  "\n"..
+  "Die maximale Distanz für die gesammte Flugstrecke beträgt 500 m.\n"..
+  "\n"..
+  "Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die TA5 Hyperloop Kiste erlaubt den Transport von Gegenständen über ein Hyperloop Netzwerk.\n"..
+  "\n"..
+  "Die TA5 Hyperloop Kiste muss man dazu auf eine Hyperloop Junction stellen. Die Kiste besitzt ein spezielles Menü\\, mit dem man das Pairing von zwei Kisten durchführen kann. Dinge\\, die in der Kiste sind\\, werden zur Gegenstelle teleportiert. Die Kiste kann auch mit einem  Schieber gefüllt/geleert werden.\n"..
+  "\n"..
+  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für die Kiste eingeben\\, dann kannst du bei der anderen Kiste diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
+  "\n"..
+  "Die Nutzung der TA5 Hyperloop Kiste benötigt 20 Erfahrungspunkte.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA5 Hyperloop Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.\n"..
+  "\n"..
+  "Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank  besitzt ein spezielles Menü\\, mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten\\, die in dem Tank sind\\, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.\n"..
+  "\n"..
+  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank eingeben\\, dann kannst du bei dem anderen Tank diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
+  "\n"..
+  "Die Nutzung des TA5 Hyperloop Tanks benötigt 20 Erfahrungspunkte.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne Hyperloop-Röhren.\n"..
+  "\n"..
+  "Die Nutzung der Hyperloop Teleport Blöcke benötigt 120 Erfahrungspunkte.\n"..
+  "\n",
+  "Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wieder auszupacken.\n"..
+  "\n"..
+  "Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.\n"..
+  "\n",
+  "Teleportblöcke erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.\n"..
+  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
+  "\n"..
+  "Teleportblöcke benötigen jeweils 12 ku Strom.\n"..
+  "\n"..
+  "Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teleportblöcke erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.\n"..
+  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
+  "\n"..
+  "Teleportblöcke benötigen jeweils 12 ku Strom.\n"..
+  "\n"..
+  "Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.\n"..
+  "\n",
+  "",
+  "Der TA5 KI Chip wird teilweise zur Herstellung von TA5 Blöcken benötigt. Der TA5 KI Chip kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 10 Erfahrungspunkte benötigt.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1918,6 +2171,7 @@ techage.manual_DE.aItemName = {
   "ta3_doorblock",
   "ta3_doorcontroller",
   "ta3_doorcontroller",
+  "ta3_soundblock",
   "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
@@ -1984,12 +2238,17 @@ techage.manual_DE.aItemName = {
   "ta4_terminal",
   "",
   "ta4_button",
+  "ta4_button_2x",
   "ta4_button_4x",
+  "ta4_signallamp_2x",
+  "ta4_signallamp_4x",
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
-  "ta4_movecontroller",
   "ta4_sequencer",
+  "",
+  "ta4_movecontroller",
+  "ta4_turncontroller",
   "",
   "ta4_growlight",
   "ta4_streetlamp",
@@ -1999,6 +2258,12 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "",
+  "",
+  "ta4_terminal",
+  "techage_ta4c",
+  "",
+  "ta4_recipeblock",
+  "ta4_autocrafter",
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
@@ -2016,6 +2281,23 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "techage_ta5",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta5_flycontroller",
+  "ta4_chest",
+  "ta4_tank",
+  "",
+  "",
+  "ta5_tele_tube",
+  "ta5_tele_pipe",
+  "",
+  "",
+  "ta5_aichip",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -2157,6 +2439,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2212,9 +2495,37 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "techage_collider_plan",
+  "ta4_cooler",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

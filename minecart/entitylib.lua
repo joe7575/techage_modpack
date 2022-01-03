@@ -217,9 +217,20 @@ local function on_step(self, dtime)
 				recording_waypoints(self)
 				self.rec_time = self.rec_time + 2.0
 			end
-			recording_junctions(self)
+			if recording_junctions(self) then
+				local pos = vector.round(self.object:get_pos())
+				minecart.stop_recording(self, pos, true)	
+				local player = minetest.get_player_by_name(self.driver)
+				minecart.manage_attachment(player, self, false)
+				minecart.entity_to_node(pos, self)
+			end
 		else
-			player_ctrl(self)
+			if player_ctrl(self) then
+				local pos = vector.round(self.object:get_pos())
+				local player = minetest.get_player_by_name(self.driver)
+				minecart.manage_attachment(player, self, false)
+				minecart.entity_to_node(pos, self)
+			end
 		end
 	end
 end
@@ -241,7 +252,7 @@ local function on_entitycard_punch(self, puncher, time_from_last_punch, tool_cap
 				-- Dig cart
 				if self.driver then
 					-- remove cart as driver
-					minecart.stop_recording(self, pos)	
+					minecart.stop_recording(self, pos, true)	
 					minecart.monitoring_remove_cart(self.owner, self.userID)
 					minecart.remove_entity(self, pos, puncher)
 					minecart.manage_attachment(puncher, self, false)
@@ -273,12 +284,13 @@ local function on_entitycard_rightclick(self, clicker)
 		if self.driver then
 			-- get off
 			local pos = vector.round(self.object:get_pos())
+			minecart.stop_recording(self, pos, true)	
 			minecart.manage_attachment(clicker, self, false)
 			minecart.entity_to_node(pos, self)
 		else
 			-- get on
 			local pos = vector.round(self.object:get_pos())
-			minecart.stop_recording(self, pos)	
+			minecart.stop_recording(self, pos, true)	
 			minecart.manage_attachment(clicker, self, true)
 		end
 	end
