@@ -21,6 +21,7 @@ techage.shared_tank = {}
 local liquid = networks.liquid
 local hyperloop = techage.hyperloop
 local remote_pos = techage.hyperloop.remote_pos
+local is_paired = techage.hyperloop.is_paired
 local menu = techage.menu
 
 local function formspec(pos)
@@ -36,10 +37,10 @@ local function formspec(pos)
 end
 
 function techage.shared_tank.node_timer(pos)
-	if techage.is_activeformspec(pos) then
+	if techage.is_activeformspec(pos) and is_paired(pos) then
 		M(pos):set_string("formspec", formspec(pos))
 		return true
-	end	
+	end
 	return false
 end
 
@@ -47,10 +48,10 @@ function techage.shared_tank.on_rightclick(pos, node, clicker)
 	--if hyperloop.is_client(pos) then
 		techage.set_activeformspec(pos, clicker)
 		minetest.get_node_timer(pos):start(2)
-	--end	
+	--end
 	M(pos):set_string("formspec", formspec(pos))
 end
-	
+
 function techage.shared_tank.can_dig(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return false
@@ -60,26 +61,47 @@ function techage.shared_tank.can_dig(pos, player)
 end
 
 function techage.shared_tank.peek_liquid(pos, indir)
-	pos = remote_pos(pos)
-	local nvm = techage.get_nvm(pos)
-	return liquid.srv_peek(nvm)
+	if is_paired(pos) then
+		pos = remote_pos(pos)
+		local nvm = techage.get_nvm(pos)
+		return liquid.srv_peek(nvm)
+	end
 end
 
 function techage.shared_tank.take_liquid(pos, indir, name, amount)
-	pos = remote_pos(pos)
-	local nvm = techage.get_nvm(pos)
-	amount, name = liquid.srv_take(nvm, name, amount)
-	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(pos))
+	if is_paired(pos) then
+		pos = remote_pos(pos)
+		local nvm = techage.get_nvm(pos)
+		amount, name = liquid.srv_take(nvm, name, amount)
+		if techage.is_activeformspec(pos) then
+			M(pos):set_string("formspec", formspec(pos))
+		end
+		return amount, name
 	end
-	return amount, name
+	return 0, name
 end
-	
+
 function techage.shared_tank.put_liquid(pos, indir, name, amount)
-	pos = remote_pos(pos)
-	-- check if it is not powder
-	local ndef = minetest.registered_craftitems[name] or {}
-	if not ndef.groups or ndef.groups.powder ~= 1 then
+	if is_paired(pos) then
+		pos = remote_pos(pos)
+		-- check if it is not powder
+		local ndef = minetest.registered_craftitems[name] or {}
+		if not ndef.groups or ndef.groups.powder ~= 1 then
+			local nvm = techage.get_nvm(pos)
+			local ndef = NDEF(pos)
+			local leftover = liquid.srv_put(nvm, name, amount, ndef.liquid.capa)
+			if techage.is_activeformspec(pos) then
+				M(pos):set_string("formspec", formspec(pos))
+			end
+			return leftover
+		end
+	end
+	return amount
+end
+
+function techage.shared_tank.untake_liquid(pos, indir, name, amount)
+	if is_paired(pos) then
+		pos = remote_pos(pos)
 		local nvm = techage.get_nvm(pos)
 		local ndef = NDEF(pos)
 		local leftover = liquid.srv_put(nvm, name, amount, ndef.liquid.capa)
@@ -89,17 +111,6 @@ function techage.shared_tank.put_liquid(pos, indir, name, amount)
 		return leftover
 	end
 	return amount
-end
-
-function techage.shared_tank.untake_liquid(pos, indir, name, amount)
-	pos = remote_pos(pos)
-	local nvm = techage.get_nvm(pos)
-	local ndef = NDEF(pos)
-	local leftover = liquid.srv_put(nvm, name, amount, ndef.liquid.capa)
-	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(pos))
-	end
-	return leftover
 end
 
 techage.shared_tank.formspec = formspec

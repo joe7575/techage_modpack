@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Constructioon Plans for TA machines
 
 ]]--
@@ -162,8 +162,8 @@ techage.ConstructionPlans["steamengine"] = {
 	{false, BOIL2, false, PI090, false, false, false},
 	{false, BOIL1, false, PI090, false, false, false},
 	{false, FIBOX, false, PK090, CYLIN, FLYWH, false},
-} 
-		
+}
+
 --
 -- TA2 Storage
 --
@@ -185,7 +185,7 @@ techage.ConstructionPlans["ta2_storage"] = {
 	{false, false, false, AXL90, WCHST, false, false},
 	{false, false, false, AXL90, false, false, false},
 	{AXL00, AXL00, AXL00, GRBOX, false, false, false},
-} 
+}
 
 --
 -- Item Transport
@@ -201,7 +201,7 @@ techage.ConstructionPlans["itemtransport"] = {
 	{false},
 	{false},
 	{CHEST, PUSHR, TB000, GRIND, PUSHR, DISTR, TB000, SIEV2, PUSHR, TB000, CHEST},
-} 
+}
 
 --
 -- Gravel Rinser
@@ -215,7 +215,7 @@ local TK090 = {"techage_tube_knee.png^[transformR90", "techage:tubeS"} -- '7'
 local TK180 = {"techage_tube_knee.png^[transformR180", "techage:tubeS"}
 local TK270 = {"techage_tube_knee.png^[transformR270", "techage:tubeS"}
 
-techage.ConstructionPlans["gravelrinser"] = {	
+techage.ConstructionPlans["gravelrinser"] = {
 	{false, false, false, SIDEV, false, false, false, false},
 	{false, GLASS, WATER, GLASS, GLASS, GLASS, GLASS, GLASS},
 	{false, DDIRT, DDIRT, TK000, RINSR, TK270, HOPPR, CHEST},
@@ -290,8 +290,8 @@ techage.ConstructionPlans["ta3_tank"] = {
 --
 -- TA3 Oil Loading station
 --
-local MCART = {minetest.inventorycube("carts_cart_top.png", 
-		"carts_cart_side.png^minecart_logo.png", "carts_cart_side.png^minecart_logo.png"), 
+local MCART = {minetest.inventorycube("carts_cart_top.png",
+		"carts_cart_side.png^minecart_logo.png", "carts_cart_side.png^minecart_logo.png"),
 		"minecart:cart"}
 local PRAIL = {"carts_rail_straight_pwr.png", "carts:powerrail"}
 local PRAIH = {"carts_rail_straight_pwr.png^[transformR90", "carts:powerrail"}
@@ -491,6 +491,26 @@ techage.ConstructionPlans["ta4_cooler"] = {
 	{false, STEEL, false, HEXR2, false, false, PIPEV, false, false},
 	{false, STEEL, PIPEH, HEXR3, PIPEH, PIPEH, PN180, false, false},
 	{false, false, false, false, false, false, false, false, false},
+}
+
+--
+-- TA5 Teleport Blocks
+--
+local TELEP = {"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_teleport.png", "techage:ta5_tele_pipe"}
+local TELET = {"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_teleport.png", "techage:ta5_tele_tube"}
+local PUMP4 = {"techage_filling_ta4.png^techage_appl_pump.png^techage_frame_ta4.png", "techage:t4_pump"}
+local ARROW = {"techage_form_arrow.png"}
+
+techage.ConstructionPlans["ta5_teleport"] = {
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, CHEST, PushR, TELET, false, ARROW, false, TELET, Tubes, CHEST, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, CHEST, Tubes, TELET, false, ARROW, false, TELET, PushR, CHEST, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, TANK4, PUMP4, TELEP, false, ARROW, false, TELEP, PIPEH, TANK4, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, TANK4, PIPEH, TELEP, false, ARROW, false, TELEP, PUMP4, TANK4, false},
 }
 
 function techage.add_manual_plans(table_with_plans)

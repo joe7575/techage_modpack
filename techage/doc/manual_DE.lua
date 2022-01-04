@@ -237,12 +237,13 @@ techage.manual_DE.aTitel = {
   "3,TA5 Flug Controller",
   "3,TA5 Hyperloop Kiste / TA5 Hyperloop Chest",
   "3,TA5 Hyperloop Tank / TA5 Hyperloop Tank",
-  "3,Hyperloop Teleport Blöcke (geplant)",
-  "3,TA5 Container (geplant)",
+  "3,TA5-Raumgleiter (geplant)",
+  "2,Teleport Blöcke",
   "3,TA5 Teleport Block Gegenstände / TA5 Teleport Block Items",
   "3,TA5 Teleport Block Flüssigkeiten / TA5 Teleport Block Liquids",
-  "3,TA5-Raumgleiter (geplant)",
+  "3,Hyperloop Teleport Blöcke (geplant)",
   "2,Weitere TA5 Blöcke/Items",
+  "3,TA5 Container (geplant)",
   "3,TA5 KI Chip / TA5 AI Chip",
 }
 
@@ -2019,35 +2020,39 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.\n"..
+  "\n",
+  "Mit Teleport-Blöcken können Dinge zwischen zwei Teleport-Blöcken übertragen werden\\, ohne dass sich dazwischen eine Röhre oder Leitung befinden muss. Für das Pairing der Blöcke musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden. Das Pairung kann nur von einem Spieler durchgeführt werden (Spielername wird geprüft) und muss vor einem Server-Neustart abgeschlossen sein. Anderenfalls gehen die Pairing-Daten verloren.\n"..
+  "\n"..
+  "Der Plan rechts zeigt\\, wie die Blöcke genutzt werden können.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Diese Teleport-Blöcke erlauben die Übertragung von Gegenständen und ersetzen somit eine Röhre. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.\n"..
+  "\n"..
+  "Ein Teleport-Block benötigt 12 ku Strom.\n"..
+  "\n"..
+  "Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Diese Teleport-Blöcke erlauben die Übertragung von Flüssigkeiten und ersetzen somit eine gelbe Leitung. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.\n"..
+  "\n"..
+  "Ein Teleport-Block benötigt 12 ku Strom.\n"..
+  "\n"..
+  "Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne Hyperloop-Röhren.\n"..
   "\n"..
   "Die Nutzung der Hyperloop Teleport Blöcke benötigt 120 Erfahrungspunkte.\n"..
   "\n",
+  "",
   "Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wieder auszupacken.\n"..
   "\n"..
   "Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.\n"..
   "\n",
-  "Teleportblöcke erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.\n"..
-  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
-  "\n"..
-  "Teleportblöcke benötigen jeweils 12 ku Strom.\n"..
-  "\n"..
-  "Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Teleportblöcke erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.\n"..
-  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
-  "\n"..
-  "Teleportblöcke benötigen jeweils 12 ku Strom.\n"..
-  "\n"..
-  "Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.\n"..
-  "\n",
-  "",
   "Der TA5 KI Chip wird teilweise zur Herstellung von TA5 Blöcken benötigt. Der TA5 KI Chip kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 10 Erfahrungspunkte benötigt.\n"..
   "\n"..
   "\n"..
@@ -2289,12 +2294,13 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "ta5_flycontroller",
-  "ta4_chest",
-  "ta4_tank",
+  "ta5_chest",
+  "ta5_tank",
   "",
   "",
   "ta5_tele_tube",
   "ta5_tele_pipe",
+  "",
   "",
   "",
   "ta5_aichip",
@@ -2538,6 +2544,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "ta5_teleport",
   "",
   "",
   "",
@@ -2545,4 +2552,3 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
 }
-
