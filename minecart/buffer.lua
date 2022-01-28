@@ -37,7 +37,7 @@ local function remote_station_name(pos)
 	end
 end
 
-local function on_punch(pos, node, puncher)
+function minecart.update_buffer_infotext(pos)
 	local name = M(pos):get_string("name")
 	local dest = remote_station_name(pos)
 	if dest then
@@ -45,6 +45,10 @@ local function on_punch(pos, node, puncher)
 	else
 		M(pos):set_string("infotext", name .. ": " .. S("Not connected!"))
 	end
+end
+
+local function on_punch(pos, node, puncher)
+	minecart.update_buffer_infotext(pos)
 	M(pos):set_string("formspec", formspec(pos))
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 

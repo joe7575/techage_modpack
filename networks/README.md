@@ -125,3 +125,6 @@ Required: tubelib2
 
 **2021-09-18  V0.10**
 - Add support for colored cables (PR #1 by Thomas--S)
+
+**2022-01-06  V0.11**
+- Support for junction rotation added

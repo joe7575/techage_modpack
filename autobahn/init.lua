@@ -104,7 +104,7 @@ local function control_player(player_name)
 	if player then
 		local pos = player:get_pos()
 		if pos then
-			--pos.y = math.floor(pos.y)
+			pos.y = math.floor(pos.y)
 			local node = minetest.get_node(pos)
 			if string.sub(node.name,1,13) == "autobahn:node" then
 				minetest.after(0.5, control_player, player_name)
@@ -114,7 +114,13 @@ local function control_player(player_name)
 				if string.sub(node.name,1,13) == "autobahn:node" then
 					minetest.after(0.5, control_player, player_name)
 				else
-					reset_player_privs(player)
+					pos.y = pos.y + 2
+					node = minetest.get_node(pos)
+					if string.sub(node.name,1,13) == "autobahn:node" then
+						minetest.after(0.5, control_player, player_name)
+					else
+						reset_player_privs(player)
+					end
 				end
 			end
 		end

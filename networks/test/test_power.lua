@@ -38,9 +38,9 @@ local power = networks.power
 -------------------------------------------------------------------------------
 local Cable = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 100, 
+	max_tube_length = 100,
 	tube_type = "pwr",
-	primary_node_names = {"networks:cableS", "networks:cableA", "networks:switch_on"}, 
+	primary_node_names = {"networks:cableS", "networks:cableA", "networks:switch_on"},
 	secondary_node_names = {},  -- Names will be added via 'power.register_nodes'
 	after_place_tube = function(pos, param2, tube_type, num_tubes, tbl)
 		local name = minetest.get_node(pos).name
@@ -85,7 +85,7 @@ if HIDDEN then
 		"default:mese",
 		"default:diamondblock",
 	})
-end	
+end
 
 -- Use global callback instead of node related functions
 Cable:register_on_tube_update2(function(pos, outdir, tlib2, node)
@@ -215,7 +215,7 @@ minetest.register_node("networks:generator", {
 	after_place_node = function(pos)
 		local outdir = networks.side_to_outdir(pos, "F")
 		M(pos):set_int("outdir", outdir)
-		Cable:after_place_node(pos, {outdir})		
+		Cable:after_place_node(pos, {outdir})
 		M(pos):set_string("infotext", "off")
 		tubelib2.init_mem(pos)
 	end,
@@ -251,7 +251,7 @@ minetest.register_node("networks:generator", {
 		local mem = tubelib2.get_mem(pos)
 		if mem.running then
 			-- generator storage capa = 2 * performance
-			return {level = (mem.load or 0) / GEN_MAX, perf = GEN_MAX, capa = GEN_MAX * 2} 
+			return {level = (mem.load or 0) / GEN_MAX, perf = GEN_MAX, capa = GEN_MAX * 2}
 		end
 	end,
 	paramtype2 = "facedir",
@@ -281,7 +281,7 @@ minetest.register_node("networks:storage", {
 	after_place_node = function(pos)
 		local outdir = networks.side_to_outdir(pos, "F")
 		M(pos):set_int("outdir", outdir)
-		Cable:after_place_node(pos, {outdir})		
+		Cable:after_place_node(pos, {outdir})
 		tubelib2.init_mem(pos)
 		M(pos):set_string("infotext", "off")
 	end,
@@ -384,7 +384,7 @@ end
 minetest.register_node("networks:consumer", {
 	description = "Consumer",
 	tiles = {'networks_con.png^[colorize:#000000:50'},
-	
+
 	on_timer = function(pos, elapsed)
 		local consumed = power.consume_power(pos, Cable, nil, CON_MAX)
 		if consumed == CON_MAX then
@@ -418,7 +418,7 @@ minetest.register_node("networks:consumer_on", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	paramtype = "light",
-	light_source = minetest.LIGHT_MAX,	
+	light_source = minetest.LIGHT_MAX,
 	paramtype2 = "facedir",
 	diggable = false,
 	drop = "",
@@ -464,7 +464,7 @@ minetest.register_node("networks:switch_on", {
 	on_rightclick = function(pos, node, clicker)
 		if power.turn_switch_off(pos, Cable, "networks:switch_off", "networks:switch_on") then
 			minetest.sound_play("doors_glass_door_open", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 		end
@@ -498,7 +498,7 @@ minetest.register_node("networks:switch_off", {
 	on_rightclick = function(pos, node, clicker)
 		if power.turn_switch_on(pos, Cable, "networks:switch_off", "networks:switch_on") then
 			minetest.sound_play("doors_glass_door_open", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 		end
@@ -538,7 +538,7 @@ local function replace_node(itemstack, placer, pointed_thing)
 		end
 		if res then
 			minetest.sound_play("default_dig_snappy", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 		elseif placer and placer.get_player_name then
@@ -571,15 +571,15 @@ minetest.register_chatcommand("power_data", {
 		local data = power.get_network_data(pos, Cable)
 		if data then
 			local s = string.format("Netw %u: generated = %u/%u, consumed = %u, storage load = %u/%u",
-				data.netw_num, round(data.provided), 
-				data.available, round(data.consumed), 
+				data.netw_num, round(data.provided),
+				data.available, round(data.consumed),
 				round(data.curr_load), round(data.max_capa))
 			return true, s
 		end
 		return false, "No valid node position!"
-		
+
     end
 })
 
 return Cable
- 
+

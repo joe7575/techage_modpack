@@ -55,7 +55,7 @@ optional: intllib
 
 
 ## License
-Copyright (C) 2017-2021 Joachim Stolberg
+Copyright (C) 2017-2022 Joachim Stolberg
 Code: Licensed under the GNU LGPL version 2.1 or later.
       See LICENSE.txt and http://www.gnu.org/licenses/lgpl-2.1.txt  
 Textures: CC0
@@ -89,5 +89,6 @@ Textures: CC0
 - 2020-05-31  v1.9  * Generator function 'get_tube_line' added, storage improvements
 - 2021-01-23  v2.0  * Add functions for easy & fast 'valid side' checking (PR #8)
 - 2021-05-24  v2.1  * Add API functions 'register_on_tube_update2'
+- 2022-01-05  v2.2  * Extend the 'node.param2' support for all 24 possible values
 
 

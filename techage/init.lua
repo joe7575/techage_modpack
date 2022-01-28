@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.06
+techage.version = 1.07
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -24,8 +24,8 @@ elseif minetest.global_exists("ironage") then
 elseif minetest.global_exists("techpack") then
 	minetest.log("error", "[techage] Techage can't be used together with the modpack techpack!")
 	return
-elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.9 then
-	minetest.log("error", "[techage] Techage requires tubelib2 version 1.9 or newer!")
+elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
+	minetest.log("error", "[techage] Techage requires tubelib2 version 2.2 or newer!")
 	return
 elseif minetest.global_exists("minecart") and minecart.version < 1.08 then
 	minetest.log("error", "[techage] Techage requires minecart version 1.08 or newer!")
@@ -172,6 +172,8 @@ dofile(MP.."/ta2_energy_storage/ta2_weight_chest.lua")
 dofile(MP.."/liquids/liquid_pipe.lua")
 dofile(MP.."/liquids/valve.lua")
 dofile(MP.."/liquids/pipe_wall_entry.lua")
+dofile(MP.."/fusion_reactor/gas_pipe.lua")
+
 
 -- Basic Machines
 dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
@@ -228,6 +230,7 @@ dofile(MP.."/tools/repairkit.lua")
 dofile(MP.."/tools/pipe_wrench.lua")
 dofile(MP.."/basic_machines/blackhole.lua")
 dofile(MP.."/basic_machines/forceload.lua")
+dofile(MP.."/tools/screwdriver.lua")
 
 -- Lamps
 dofile(MP.."/lamps/lib.lua")
@@ -386,7 +389,7 @@ dofile(MP.."/items/moreblocks.lua")
 dofile(MP.."/carts/tank_cart.lua")
 dofile(MP.."/carts/chest_cart.lua")
 
--- Collider
+-- TA4 Collider
 dofile(MP.."/collider/vacuumtube.lua")
 dofile(MP.."/collider/magnet.lua")
 dofile(MP.."/collider/inlets.lua")
@@ -394,9 +397,20 @@ dofile(MP.."/collider/cooler.lua")
 dofile(MP.."/collider/detector.lua")
 dofile(MP.."/collider/worker.lua")
 
+-- TA5 Teleport
 dofile(MP.."/teleport/teleport_tube.lua")
 dofile(MP.."/teleport/teleport_pipe.lua")
 
+-- TA5 Fusion Reactor
+dofile(MP.."/fusion_reactor/shell.lua")
+dofile(MP.."/fusion_reactor/magnet.lua")
+dofile(MP.."/fusion_reactor/controller.lua")
+dofile(MP.."/fusion_reactor/heatexchanger3.lua")
+dofile(MP.."/fusion_reactor/heatexchanger2.lua")
+dofile(MP.."/fusion_reactor/heatexchanger1.lua")
+dofile(MP.."/fusion_reactor/generator.lua")
+dofile(MP.."/fusion_reactor/turbine.lua")
+dofile(MP.."/fusion_reactor/ta5_pump.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil

@@ -21,6 +21,7 @@ local NS = hyperloop.NS
 local I, _ = dofile( minetest.get_modpath("hyperloop").."/intllib.lua")
 
 local Stations = hyperloop.Stations
+local PlayerNameTags = {}
 
 local function enter_display(tStation, text)
     -- determine position
@@ -76,8 +77,9 @@ local function on_arrival(tDeparture, tArrival, player_name, sound)
 			player:set_look_yaw(yaw)
 		end
 		-- set player name again
-		if tArrival.attributes then
-			player:set_nametag_attributes(tArrival.attributes)
+		if PlayerNameTags[player_name] then
+			player:set_nametag_attributes(PlayerNameTags[player_name])
+			PlayerNameTags[player_name] = nil
 		end
 	end
 	-- play arrival sound
@@ -136,10 +138,11 @@ end
 local function on_start_travel(pos, node, clicker)
 	-- arrival data
 	local meta = M(pos)
+	local player_name = clicker:get_player_name()
 	local tDeparture, departure_pos = hyperloop.get_base_station(pos)
 	local arrival_pos = hyperloop.get_arrival(departure_pos)
 	if arrival_pos == nil then
-		minetest.chat_send_player(clicker:get_player_name(), S("[Hyperloop] No booking entered!"))
+		minetest.chat_send_player(player_name, S("[Hyperloop] No booking entered!"))
 		return
 	end
 	local tArrival = hyperloop.get_station(arrival_pos)
@@ -160,8 +163,8 @@ local function on_start_travel(pos, node, clicker)
 	clicker:set_pos(pos)
 	-- rotate player to look in move direction
 	clicker:set_look_horizontal(hyperloop.facedir_to_rad(tDeparture.facedir))
-    -- hide player name
-	tArrival.attributes = clicker:get_nametag_attributes()
+	-- hide player name
+	PlayerNameTags[player_name] = clicker:get_nametag_attributes()
 	clicker:set_nametag_attributes({text = "     "})
 	
 	-- activate display
@@ -188,7 +191,7 @@ local function on_start_travel(pos, node, clicker)
 	hyperloop.close_pod_door(tDeparture)
 
 	atime = atime - 7 -- substract start/arrival time
-	minetest.after(4.9, on_travel, tDeparture, tArrival, clicker:get_player_name(), atime)
+	minetest.after(4.9, on_travel, tDeparture, tArrival, player_name, atime)
 end
 
 -- Hyperloop Seat

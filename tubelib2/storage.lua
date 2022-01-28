@@ -29,7 +29,7 @@ local function update_mod_storage()
 			storage:set_string(k, minetest.serialize(v))
 			MemStore[k] = nil  -- remove from memory
 		end
-	end	
+	end
 	-- run every 10 minutes
 	minetest.after(600, update_mod_storage)
 end
@@ -37,7 +37,7 @@ end
 minetest.register_on_shutdown(function()
 	for k,v in pairs(MemStore) do
 		storage:set_string(k, minetest.serialize(v))
-	end	
+	end
 end)
 
 minetest.after(600, update_mod_storage)
@@ -52,14 +52,14 @@ local function empty_block(block)
 	end
 	return empty
 end
-	
+
 minetest.after(1, function()
 	local tbl = storage:to_table()
 	for k,v in pairs(tbl.fields) do
 		if empty_block(v) then
 			storage:set_string(k, "")
 		end
-	end	
+	end
 end)
 
 --
@@ -81,7 +81,7 @@ local function new_node(block, node_key)
 end
 
 local function unlock(pos)
-	local block_key = math.floor((pos.z+32768)/16)*4096*4096 + 
+	local block_key = math.floor((pos.z+32768)/16)*4096*4096 +
 		math.floor((pos.y+32768)/16)*4096 + math.floor((pos.x+32768)/16)
 	local node_key = (pos.z%16)*16*16 + (pos.y%16)*16 + (pos.x%16)
 	local block = MemStore[block_key] or new_block(block_key)

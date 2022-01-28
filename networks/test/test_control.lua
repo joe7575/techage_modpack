@@ -37,7 +37,7 @@ minetest.register_node("networks:client", {
 		local outdir = networks.side_to_outdir(pos, "F")
 		M(pos):set_int("outdir", outdir)
 		M(pos):set_string("infotext", "off")
-		Cable:after_place_node(pos, {outdir})	
+		Cable:after_place_node(pos, {outdir})
 		tubelib2.init_mem(pos)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata)
@@ -89,7 +89,7 @@ minetest.register_node("networks:server_off", {
 		"networks_sto.png^[colorize:#F05100:60",
 	},
 	after_place_node = function(pos)
-		Cable:after_place_node(pos)		
+		Cable:after_place_node(pos)
 	end,
 	after_dig_node = function(pos)
 		Cable:after_dig_node(pos)
@@ -108,13 +108,13 @@ minetest.register_node("networks:server_on", {
 		"networks_sto.png^[colorize:#F05100:60",
 	},
 	after_place_node = function(pos)
-		Cable:after_place_node(pos)		
+		Cable:after_place_node(pos)
 	end,
 	after_dig_node = function(pos)
 		Cable:after_dig_node(pos)
 	end,
 	paramtype = "light",
-	light_source = 8,	
+	light_source = 8,
 	paramtype2 = "facedir",
 	drop = "networks:server_off",
 	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory = 1},

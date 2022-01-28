@@ -27,6 +27,8 @@ local NumNodes = 0  -- Used to determine the number of network nodes
 local Flip = tubelib2.Turn180Deg
 local get_nodename = networks.get_nodename
 local get_node = networks.get_node
+local tubelib2_get_pos = tubelib2.get_pos
+local tubelib2_side_to_dir = tubelib2.side_to_dir
 
 -------------------------------------------------------------------------------
 -- Debugging
@@ -48,7 +50,7 @@ local function netw_num(netID)
 	end
 	return DbgNetIDs[netID]
 end
-	
+
 local function network_nodes(netID, network)
 	local tbl = {}
 	for node_type,table in pairs(network or {}) do
@@ -99,7 +101,7 @@ minetest.register_entity("networks:marker_cube", {
 -- Helper
 -------------------------------------------------------------------------------
 -- return the networks table from the node definition
-local function net_def(pos, netw_type) 
+local function net_def(pos, netw_type)
 	local ndef = minetest.registered_nodes[get_nodename(pos)]
 	if ndef and ndef.networks then
 		return ndef.networks[netw_type]
@@ -107,12 +109,12 @@ local function net_def(pos, netw_type)
 	error("Node " ..  get_nodename(pos) .. " at ".. P2S(pos) .. " has no 'ndef.networks'")
 end
 
-local function net_def2(pos, node_name, netw_type) 
+local function net_def2(pos, node_name, netw_type)
 	local ndef = minetest.registered_nodes[node_name]
 	if ndef and ndef.networks then
 		return ndef.networks[netw_type]
 	end
-	return net_def(pos, netw_type) 
+	return net_def(pos, netw_type)
 end
 
 -- Don't allow direct connections between to nodes of the same type
@@ -255,7 +257,7 @@ local function collect_network_nodes(pos, tlib2, outdir)
 	local t = minetest.get_us_time()
 	Route = {}
 	NumNodes = 0
-	pos_already_reached(pos) 
+	pos_already_reached(pos)
 	local netw = {}
 	local node = N(pos)
 	local netw_type = tlib2.tube_type
@@ -341,7 +343,7 @@ local function set_netID(pos, outdir, netID)
 	local hash = minetest.hash_node_position(pos)
 	NetIDs[hash] = NetIDs[hash] or {}
 	NetIDs[hash][outdir] = netID
-end	
+end
 
 local function get_netID(pos, outdir)
 	local hash = minetest.hash_node_position(pos)
@@ -410,7 +412,7 @@ networks.Flip = tubelib2.Turn180Deg
 -- networks.net_def(pos, netw_type)
 networks.net_def = net_def
 
---	sides:                               outdir: 
+--	sides:                               outdir:
 --              U
 --              |    B
 --              |   /                              6  (N)
@@ -426,6 +428,17 @@ networks.net_def = net_def
 --         F    |
 --              D
 --
+
+-- Determine the pos relative to the given 'pos', 'param2'
+-- and the path based on 'sides' like "FUL"
+function networks.get_relpos(pos, sides, param2)
+	local pos1 = {x = pos.x, y = pos.y, z = pos.z}
+	for side in sides:gmatch(".") do
+		pos1 = tubelib2_get_pos(pos1, tubelib2_side_to_dir(side, param2))
+	end
+	return pos1
+end
+
 -- networks.side_to_outdir(pos, side)
 networks.side_to_outdir = side_to_outdir
 
@@ -445,9 +458,9 @@ networks.network_nodes = network_nodes
 networks.get_network = get_network
 
 -- return the networks table from the node definition
--- networks.net_def(pos, netw_type) 
+-- networks.net_def(pos, netw_type)
 networks.net_def = net_def
-	
+
 -- Function returns {outdir} or all node dirs with connections
 -- networks.get_outdirs(pos, tlib2, outdir)
 networks.get_outdirs = get_outdirs
@@ -472,11 +485,11 @@ function networks.determine_netID(pos, tlib2, outdir)
 	assert(outdir)
 	local netID = get_netID(pos, outdir)
 	if netID and Networks[tlib2.tube_type] and Networks[tlib2.tube_type][netID] then
-		return netID 
+		return netID
 	elseif netID == 0 then
 		return -- no network available
 	end
-	
+
 	local netw = collect_network_nodes(pos, tlib2, outdir)
 	if netw.num_nodes > 1 then
 		netID = determine_netID(netw)

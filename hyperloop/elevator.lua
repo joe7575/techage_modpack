@@ -21,7 +21,7 @@ local NS = hyperloop.NS
 
 -- To store elevator floors and formspecs
 local Cache = {}
-
+local PlayerNameTags = {}
 local kPLAYER_OVER_GROUND = 0.5
 
 -------------------------------------------------------------------------------
@@ -381,8 +381,9 @@ local function on_arrival_floor(tDeparture, tArrival, player_name, snd)
 	if player ~= nil then
 		tArrival.pos.y = tArrival.pos.y - kPLAYER_OVER_GROUND
 		player:set_pos(tArrival.pos)
-		if tArrival.attributes then
-			player:set_nametag_attributes(tArrival.attributes)
+		if PlayerNameTags[player_name] then
+			player:set_nametag_attributes(PlayerNameTags[player_name])
+			PlayerNameTags[player_name] = nil
 		end
 		tArrival.pos.y = tArrival.pos.y + kPLAYER_OVER_GROUND
 	end
@@ -395,10 +396,8 @@ local function on_travel(tDeparture, tArrival, player_name, seconds)
 	door_command(tDeparture.pos, tDeparture.facedir, "darken", false)
 	door_command(tArrival.pos, tArrival.facedir, "darken", false)
 	if player ~= nil then
-		tArrival.attributes = player:get_nametag_attributes()
+		PlayerNameTags[player_name] = player:get_nametag_attributes()
 		player:set_nametag_attributes({text = "     "})
-	else
-		tArrival.attributes = nil
 	end
 	local snd = minetest.sound_play("ele_norm", {
 			pos = tDeparture.pos,

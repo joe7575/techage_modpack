@@ -125,6 +125,7 @@ function minecart.stop_recording(self, pos, force_exit)
 				local length = speed * self.runtime
 				local fmt = S("[minecart] Speed = %u m/s, Time = %u s, Route length = %u m")
 				minetest.chat_send_player(self.driver, string.format(fmt, speed, self.runtime, length))
+				minecart.update_buffer_infotext(self.start_pos)
 			end
 		elseif #self.checkpoints <= 3 then
 			minetest.chat_send_player(self.driver, S("[minecart] Your route is too short to record!"))

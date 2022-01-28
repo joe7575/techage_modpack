@@ -93,7 +93,7 @@ function Tube:get_node_lvm(pos)
 end
 
 -- Read param2 from a primary node at the given position.
--- If dir == nil then node_pos = pos 
+-- If dir == nil then node_pos = pos
 -- Function returns param2, new_pos or nil
 function Tube:get_primary_node_param2(pos, dir)
 	local npos = vector.add(pos, Dir6dToVector[dir or 0])
@@ -104,7 +104,7 @@ function Tube:get_primary_node_param2(pos, dir)
 end
 
 -- Check if node at given position is a tube node
--- If dir == nil then node_pos = pos 
+-- If dir == nil then node_pos = pos
 -- Function returns true/false
 function Tube:is_primary_node(pos, dir)
 	local npos = vector.add(pos, Dir6dToVector[dir or 0])
@@ -113,7 +113,7 @@ function Tube:is_primary_node(pos, dir)
 end
 
 -- Get secondary node at given position
--- If dir == nil then node_pos = pos 
+-- If dir == nil then node_pos = pos
 -- Function returns node and new_pos or nil
 function Tube:get_secondary_node(pos, dir)
 	local npos = vector.add(pos, Dir6dToVector[dir or 0])
@@ -124,7 +124,7 @@ function Tube:get_secondary_node(pos, dir)
 end
 
 -- Get special registered nodes at given position
--- If dir == nil then node_pos = pos 
+-- If dir == nil then node_pos = pos
 -- Function returns node and new_pos or nil
 function Tube:get_special_node(pos, dir)
 	local npos = vector.add(pos, Dir6dToVector[dir or 0])
@@ -135,7 +135,7 @@ function Tube:get_special_node(pos, dir)
 end
 
 -- Check if node at given position is a secondary node
--- If dir == nil then node_pos = pos 
+-- If dir == nil then node_pos = pos
 -- Function returns true/false
 function Tube:is_secondary_node(pos, dir)
 	local npos = vector.add(pos, Dir6dToVector[dir or 0])
@@ -144,7 +144,7 @@ function Tube:is_secondary_node(pos, dir)
 end
 
 -- Check if node at given position is a special node
--- If dir == nil then node_pos = pos 
+-- If dir == nil then node_pos = pos
 -- Function returns true/false
 function Tube:is_special_node(pos, dir)
 	local npos = vector.add(pos, Dir6dToVector[dir or 0])
@@ -216,7 +216,7 @@ end
 function Tube:get_tube_data(pos, dir1, dir2, num_tubes, state)
 	local param2, tube_type = self:encode_param2(dir1, dir2, num_tubes)
 	return pos, param2, tube_type, num_tubes, state
-end	
+end
 
 -- Return pos for a primary_node and true if num_conn < 2, else false
 function Tube:friendly_primary_node(pos, dir)
@@ -238,12 +238,12 @@ function Tube:vector_to_dir(v)
 	end
 end
 
--- Check all 6 possible positions for known nodes considering preferred_pos 
+-- Check all 6 possible positions for known nodes considering preferred_pos
 -- and the players fdir and return dir1, dir2 and the number of tubes to connect to (0..2).
 function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 	local tbl = {}
 	local allowed = table.copy(self.valid_dirs)
-	
+
 	-- If the node at players "prefered position" is a tube,
 	-- then the other side of the new tube shall point to the player.
 	if preferred_pos then
@@ -282,7 +282,7 @@ function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 	elseif #tbl >= 2 then
 		return tbl[1], tbl[2], 2
 	end
-	
+
 	-- Check for secondary nodes (chests and so on)
 	for dir = 1,6 do
 		if allowed[dir] then
@@ -301,8 +301,8 @@ function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 			end
 		end
 	end
-	
-	-- player pointed to an unknown node to force the tube orientation? 
+
+	-- player pointed to an unknown node to force the tube orientation?
 	if preferred_pos and fdir then
 		if tbl[1] == Turn180Deg[fdir] and allowed[fdir] then
 			tbl[2] = fdir
@@ -310,7 +310,7 @@ function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 			tbl[2] = Turn180Deg[fdir]
 		end
 	end
-	
+
 	-- dir1, dir2 still unknown?
 	if fdir then
 		if #tbl == 0 and allowed[Turn180Deg[fdir]] then
@@ -324,14 +324,14 @@ function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 	end
 
 	if #tbl >= 2 and tbl[1] ~= tbl[2] then
-		local num_tubes = (self:connected(pos, tbl[1]) and 1 or 0) + 
+		local num_tubes = (self:connected(pos, tbl[1]) and 1 or 0) +
 				(self:connected(pos, tbl[2]) and 1 or 0)
 		return tbl[1], tbl[2], math.min(2, num_tubes)
 	end
 end
 
 -- Determine a tube side without connection, increment the number of connections
--- and return the new data to be able to update the node: 
+-- and return the new data to be able to update the node:
 -- new_pos, dir1, dir2, num_connections (1, 2)
 function Tube:add_tube_dir(pos, dir)
 	local param2, npos = self:get_primary_node_param2(pos, dir)
@@ -359,7 +359,7 @@ function Tube:add_tube_dir(pos, dir)
 end
 
 -- Decrement the number of tube connections
--- and return the new data to be able to update the node: 
+-- and return the new data to be able to update the node:
 -- new_pos, dir1, dir2, num_connections (0, 1)
 function Tube:del_tube_dir(pos, dir)
 	local param2, npos = self:get_primary_node_param2(pos, dir)
@@ -372,9 +372,9 @@ function Tube:del_tube_dir(pos, dir)
 		end
 	end
 end
-	
+
 -- Pairing helper function
-function Tube:store_teleport_data(pos, peer_pos)		
+function Tube:store_teleport_data(pos, peer_pos)
 	local meta = M(pos)
 	meta:set_string("tele_pos", S(peer_pos))
 	meta:set_string("channel", nil)
@@ -409,7 +409,7 @@ function Tube:dbg_out()
 		end
 	end
 end
-	
+
 -- Walk to the end of the tube line and return pos and outdir of both head tube nodes.
 -- If no tube is available, return nil
 function Tube:walk_tube_line(pos, dir)
@@ -429,4 +429,4 @@ function Tube:walk_tube_line(pos, dir)
 		end
 	end
 	return table.copy(pos), dir, 0
-end	
+end

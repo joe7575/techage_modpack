@@ -26,9 +26,9 @@ local liquid = networks.liquid
 -------------------------------------------------------------------------------
 local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 100, 
+	max_tube_length = 100,
 	tube_type = "liq",
-	primary_node_names = {"networks:pipeS", "networks:pipeA", "networks:valve_on"}, 
+	primary_node_names = {"networks:pipeS", "networks:pipeA", "networks:valve_on"},
 	secondary_node_names = {},  -- Names will be added via 'liquids.register_nodes'
 	after_place_tube = function(pos, param2, tube_type, num_tubes, tbl)
 		local name = minetest.get_node(pos).name
@@ -212,7 +212,7 @@ end
 local function after_place_node(pos)
 	local outdir = networks.side_to_outdir(pos, "B")
 	M(pos):set_int("outdir", outdir)
-	Pipe:after_place_node(pos, {outdir})		
+	Pipe:after_place_node(pos, {outdir})
 	M(pos):set_string("infotext", "off")
 	tubelib2.init_mem(pos)
 end
@@ -261,7 +261,7 @@ minetest.register_node("networks:pump_on", {
 	on_timer = pumping,
 	on_rightclick = on_rightclick,
 	paramtype = "light",
-	light_source = 8,	
+	light_source = 8,
 	paramtype2 = "facedir",
 	diggable = false,
 	drop = "",
@@ -289,7 +289,7 @@ local function register_tank(name, description, liquid_name, liquid_amount)
 			'networks_tank.png^[colorize:#007577:60',
 		},
 		after_place_node = function(pos)
-			Pipe:after_place_node(pos)		
+			Pipe:after_place_node(pos)
 			local mem = tubelib2.init_mem(pos)
 			mem.liquid = {}
 			mem.liquid.name = liquid_name
@@ -319,7 +319,7 @@ register_tank("networks:tank1", "Water Tank", "water", STORAGE_CAPA)
 register_tank("networks:tank2", "Milk Tank", "milk", STORAGE_CAPA)
 register_tank("networks:tank3", "Empty Tank", nil, 0)
 
-liquid.register_nodes({"networks:tank1", "networks:tank2", "networks:tank3"}, 
+liquid.register_nodes({"networks:tank1", "networks:tank2", "networks:tank3"},
 	Pipe, "tank", nil, {
 		capa = STORAGE_CAPA,
 		peek = function(pos, indir)
@@ -375,7 +375,7 @@ minetest.register_node("networks:valve_on", {
 	on_rightclick = function(pos, node, clicker)
 		if liquid.turn_valve_off(pos, Pipe, "networks:valve_off", "networks:valve_on") then
 			minetest.sound_play("doors_glass_door_open", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 		end
@@ -409,7 +409,7 @@ minetest.register_node("networks:valve_off", {
 	on_rightclick = function(pos, node, clicker)
 		if liquid.turn_valve_on(pos, Pipe, "networks:valve_off", "networks:valve_on") then
 			minetest.sound_play("doors_glass_door_open", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 		end

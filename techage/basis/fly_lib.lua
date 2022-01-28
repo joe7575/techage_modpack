@@ -242,9 +242,8 @@ local function attach_objects(pos, offs, parent, yoffs)
 		local dir = vector.subtract(obj:get_pos(), pos)
 		local entity = obj:get_luaentity()
 		if entity then
-			if entity.name == "__builtin:item" then  -- dropped items
-				--obj:set_attach(objref, "", {x=0, y=0, z=0}, {x=0, y=0, z=0}, true) -- hier kracht es
-			elseif entity.name ~= "techage:move_item" then
+			local mod = entity.name:gmatch("(.-):")()
+			if techage.RegisteredMobsMods[mod] then
 				dir.y = dir.y + yoffs
 				attach_single_object(parent, obj, dir)
 			end
@@ -694,11 +693,11 @@ function flylib.rotate_nodes(pos, posses1, rot)
 	for i, pos1 in ipairs(posses1) do
 		local node = techage.get_node_lvm(pos1)
 		if rot == "l" then
-			param2 = techage.param2_turn_left(node.param2)
-		elseif rot == "r" then
 			param2 = techage.param2_turn_right(node.param2)
+		elseif rot == "r" then
+			param2 = techage.param2_turn_left(node.param2)
 		else
-			param2 = techage.param2_turn_left(techage.param2_turn_left(node.param2))
+			param2 = techage.param2_turn_right(techage.param2_turn_right(node.param2))
 		end
 		if not minetest.is_protected(pos1, owner) and is_simple_node(pos1) then
 			minetest.remove_node(pos1)

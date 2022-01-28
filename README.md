@@ -47,6 +47,12 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2022-01-28
+
+Updated Mods:
+- techage (fusion reactor added)
+
+
 #### 2022-01-04
 
 Updated Mods:

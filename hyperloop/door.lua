@@ -73,6 +73,7 @@ end
 -- door command based on the station data table
 function hyperloop.open_pod_door(tStation)
 	if tStation ~= nil then
+		tStation.facedir = tStation.facedir or 0
 		local door_pos = hyperloop.new_pos(tStation.pos, tStation.facedir, "1F1L", 1)
 		local door_facedir = (tStation.facedir + 1) % 4
 		door_command(door_pos, door_facedir, "open")
@@ -82,6 +83,7 @@ end
 -- door command based on the station data table
 function hyperloop.close_pod_door(tStation)
 	if tStation ~= nil then
+		tStation.facedir = tStation.facedir or 0
 		local door_pos = hyperloop.new_pos(tStation.pos, tStation.facedir, "1F1L", 1)
 		local door_facedir = (tStation.facedir + 1) % 4
 		door_command(door_pos, door_facedir, "close")
@@ -91,6 +93,7 @@ end
 -- door command based on the station data table
 function hyperloop.animate_pod_door(tStation)
 	if tStation ~= nil then
+		tStation.facedir = tStation.facedir or 0
 		local door_pos = hyperloop.new_pos(tStation.pos, tStation.facedir, "1F1L", 1)
 		local door_facedir = (tStation.facedir + 1) % 4
 		door_command(door_pos, door_facedir, "animate")

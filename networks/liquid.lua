@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Liquid API for liquid pumping and storing nodes
 
 ]]--
@@ -42,8 +42,8 @@ end
 --	capa = CAPACITY,
 --	peek = function(pos, indir), -- returns: liquid name
 --	put = function(pos, indir, name, amount),  -- returns: liquid leftover or 0
---	take = function(pos, indir, name, amount), -- returns: taken, name 
---	untake = function(pos, indir, name, amount), -- returns: leftover	
+--	take = function(pos, indir, name, amount), -- returns: taken, name
+--	untake = function(pos, indir, name, amount), -- returns: leftover
 -- }
 function networks.liquid.register_nodes(names, tlib2, node_type, valid_sides, liquid_callbacks)
 	if node_type == "pump" then
@@ -57,14 +57,14 @@ function networks.liquid.register_nodes(names, tlib2, node_type, valid_sides, li
 	else
 		error("parameter error")
 	end
-	
+
 	if node_type == "tank" then
 		assert(type(liquid_callbacks) == "table")
 	end
-	
+
 	tlib2:add_secondary_node_names(names)
 	networks.registered_networks.liquid[tlib2.tube_type] = tlib2
-	
+
 	for _, name in ipairs(names) do
 		local ndef = minetest.registered_nodes[name]
 		local tbl = ndef.networks or {}
@@ -136,7 +136,7 @@ function networks.liquid.take(pos, tlib2, outdir, name, amount, show_debug_cube)
 			end
 			taken, name = liq.take(item.pos, item.indir, name, amount)
 			if taken and name and taken > 0 then
-				break 
+				break
 			end
 		end
 	end
@@ -188,7 +188,7 @@ function networks.liquid.srv_put(nvm, name, amount, capa)
 	assert(name)
 	assert(amount and amount >= 0)
 	assert(capa and capa > 0)
-	
+
 	nvm.liquid = nvm.liquid or {}
 	amount = amount or 0
 	if not nvm.liquid.name then
@@ -211,7 +211,7 @@ end
 
 function networks.liquid.srv_take(nvm, name, amount)
 	assert(amount and amount >= 0)
-	
+
 	nvm.liquid = nvm.liquid or {}
 	amount = amount or 0
 	if not name or nvm.liquid.name == name then
@@ -220,7 +220,7 @@ function networks.liquid.srv_take(nvm, name, amount)
 		if nvm.liquid.amount > amount then
 			nvm.liquid.amount = nvm.liquid.amount - amount
 			return amount, name
-		else 
+		else
 			local rest = nvm.liquid.amount
 			local name = nvm.liquid.name
 			nvm.liquid.amount = 0

@@ -85,6 +85,7 @@ techage.Items = {
 	ta3_powerswitchbox = "techage:powerswitch_box",
 	ta3_powerterminal = "techage:ta3_power_terminal",
 	ta3_trowel = "techage:trowel",
+	ta3_screwdriver = "techage:screwdriver",
 	ta3_tinygenerator = "techage:tiny_generator",
 	ta3_akkublock = "techage:ta3_akku",
 	ta3_furnace = "techage:ta3_furnace_pas",
@@ -203,13 +204,18 @@ techage.Items = {
 	ta4_autocrafter = "techage:ta4_autocrafter_pas",
 	ta4_recipeblock = "techage:ta4_recipeblock",
 	----------------------------
+	techage_ta5 = "techage:ta5_fr_nucleus",
 	ta5_flycontroller = "techage:ta5_flycontroller",
 	ta5_aichip = "techage:ta5_aichip",
 	ta5_tele_pipe = "techage:ta5_tele_pipe",
 	ta5_tele_tube = "techage:ta5_tele_tube",
 	ta5_chest = "techage:ta5_hl_chest",
 	ta5_tank = "techage:ta5_hl_tank",
-
+	ta5_magnet = "techage:ta5_magnet1",
+	ta5_pump = "techage:ta5_pump",
+	ta5_fr_shell = "techage:ta5_fr_shell",
+	ta5_fr_nucleus = "techage:ta5_fr_nucleus",
+	ta5_fr_controller = "techage:ta5_fr_controller_pas",
 }
 
 function techage.add_manual_items(table_with_items)

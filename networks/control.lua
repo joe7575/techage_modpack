@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Control API to control other network nodes which have a control interface
 
 ]]--
@@ -40,13 +40,13 @@ end
 -- }
 function networks.control.register_nodes(names, control_callbacks)
 	assert(type(control_callbacks) == "table")
-	
+
 	for _, name in ipairs(names) do
 		minetest.override_item(name, {control = control_callbacks})
 	end
 end
 
--- Send a message with 'topic' string and any 'payload 'to all 'tlib2' network 
+-- Send a message with 'topic' string and any 'payload 'to all 'tlib2' network
 -- nodes of type 'node_type'.
 -- Function returns the number of nodes the message was sent to.
 function networks.control.send(pos, tlib2, outdir, node_type, topic, payload)
@@ -63,7 +63,7 @@ function networks.control.send(pos, tlib2, outdir, node_type, topic, payload)
 	return cnt
 end
 
--- Send a request with 'topic' string to all 'tlib2' network 
+-- Send a request with 'topic' string to all 'tlib2' network
 -- nodes of type 'node_type'.
 -- Function returns a list with all responses.
 function networks.control.request(pos, tlib2, outdir, node_type, topic)

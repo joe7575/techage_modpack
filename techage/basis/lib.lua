@@ -80,12 +80,55 @@ function techage.facedir_to_rotation(facedir)
 end
 
 function techage.param2_turn_left(param2)
-	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
 end
 
 function techage.param2_turn_right(param2)
-	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
 end
+
+-- Roll a block in north direction (south is vice versa)
+local RollNorth = {
+	{0,4,22,8},
+	{1,5,23,9},
+	{2,6,20,10},
+	{3,7,21,11},
+	{12,13,14,15},
+	{16,19,18,17},
+}
+-- Roll a block in east direction (west is vice versa)
+local RollEast = {
+	{0,12,20,16},
+	{1,13,21,17},
+	{2,14,22,18},
+	{3,15,23,19},
+	{4,7,6,5},
+	{8,9,10,11},
+}
+
+-- Generate a table for all facedir and param2 values:
+--   TurnUp[facedir][param2] = new_param2
+local TurnUp = {[0] = {}, {}, {}, {}}
+
+for i = 1,6 do
+	for j = 1,4 do
+		local idx = RollNorth[i][j]
+		TurnUp[0][idx] = RollNorth[i][j == 4 and 1 or j + 1]  -- north
+		TurnUp[2][idx] = RollNorth[i][j == 1 and 4 or j - 1]  -- south
+
+		idx = RollEast[i][j]
+		TurnUp[1][idx] = RollEast[i][j == 4 and 1 or j + 1]   -- east
+		TurnUp[3][idx] = RollEast[i][j == 1 and 4 or j - 1]   -- west
+	end
+end
+
+-- facedir is from the players (0..3)
+-- param2 is from the node (0..23)
+function techage.param2_turn_up(facedir, param2)
+	return TurnUp[facedir % 4][param2 % 24]
+end
+
+
 
 -------------------------------------------------------------------------------
 -- Rotate nodes around the center
@@ -219,25 +262,6 @@ function techage.get_node_lvm(pos)
 		}
 	end
 	return {name="ignore", param2=0}
-end
-
---
--- Functions used to hide electric cable and biogas pipes
---
--- Overridden method of tubelib2!
-function techage.get_primary_node_param2(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local param2 = M(npos):get_int("tl2_param2")
-	if param2 ~= 0 then
-		return param2, npos
-	end
-end
-
--- Overridden method of tubelib2!
-function techage.is_primary_node(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local param2 = M(npos):get_int("tl2_param2")
-	return param2 ~= 0
 end
 
 function techage.is_air_like(name)
@@ -462,6 +486,14 @@ function techage.wrench_tooltip(x, y)
 		"tooltip["..x..","..y..";0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 
+techage.RegisteredMobsMods = {}
+
+-- Register mobs mods for the move/fly controllers
+function techage.register_mobs_mods(mod)
+	techage.RegisteredMobsMods[mod] = true
+end
+
+
 -------------------------------------------------------------------------------
 -- Terminal history buffer
 -------------------------------------------------------------------------------
@@ -546,4 +578,51 @@ function techage.set_expoints(player, ex_points)
 			return true
 		end
 	end
+end
+
+-------------------------------------------------------------------------------
+-- Scheduler for a table-based, cyclic call of functions
+-------------------------------------------------------------------------------
+local TABLE_SIZE = 256
+techage.scheduler = {}
+
+local function add_to_table(tbl, i, func)
+	while i < TABLE_SIZE do
+		if not tbl[i] then
+			tbl[i] = func
+			return i + 1
+		end
+		i = i + 1
+	end
+	return i
+end
+
+function techage.scheduler.init(pos)
+	local mem = techage.get_mem(pos)
+	mem.sched_idx = 0
+end
+
+-- tFunc     : (empty) table of functions
+-- call_rate : (2,4,8,16,32,64 or 128)
+-- offset    : 0-128
+-- func      : function to be called
+function techage.scheduler.register(tFunc, call_rate, offset, func)
+	local i= 0
+	while i < TABLE_SIZE do
+		if (i % call_rate) == offset then
+			i = add_to_table(tFunc, i, func)
+		else
+			i = i + 1
+		end
+	end
+	return tFunc
+end
+
+-- tFunc   : table of functions
+-- default : default function (optional)
+-- Returns a function to be called be the callee
+function techage.scheduler.get(pos, tFunc, default)
+	local mem = techage.get_mem(pos)
+	mem.sched_idx = ((mem.sched_idx or 0) + 1) % TABLE_SIZE
+	return tFunc[mem.sched_idx] or default or function() end
 end

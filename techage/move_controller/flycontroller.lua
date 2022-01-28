@@ -96,7 +96,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 			nvm.lpos1 = {}
 			nvm.lpos2 = {}
 			nvm.moveBA = false
-			nvm.running = true
+			nvm.running = nil
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
@@ -109,7 +109,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 			if not err then
 				meta:set_string("path", fields.path)
 			end
-			nvm.running = false
+			nvm.running = nil
 			local text = #pos_list.." "..S("block positions are stored.")
 			meta:set_string("status", text)
 			nvm.lpos1 = pos_list
@@ -128,12 +128,12 @@ minetest.register_node("techage:ta5_flycontroller", {
 			local name = player:get_player_name()
 			mark.stop(name)
 			nvm.moveBA = false
-			nvm.running = true
+			nvm.running = nil
 		elseif fields.test then
 			local path, err = fly.to_path(fields.path, MAX_DIST)
 			if err then
 				meta:set_string("status", err)
-			elseif path and nvm.lpos1 then
+			elseif path and nvm.lpos1 and nvm.lpos1[1] then
 				local pos = table.copy(nvm.lpos1[1])
 				if pos then
 					for _, offs in ipairs(path) do
@@ -179,8 +179,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.move then
 			meta:set_string("status", "")
-			nvm.moveBA = nvm.moveBA == false
-			if fly.move_to_other_pos(pos, nvm.moveBA == false) then
+			if fly.move_to_other_pos(pos, nvm.moveBA) then
 				nvm.moveBA = nvm.moveBA == false
 				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))

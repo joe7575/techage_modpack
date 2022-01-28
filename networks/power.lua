@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Power API for power consuming and generating nodes
 
 ]]--
@@ -26,8 +26,8 @@ networks.registered_networks.power = {}
 local DEFAULT_DATA = {
 	curr_load = 0,  -- network storage value
 	max_capa = 0,   -- network storage capacity
-	consumed = 0,   -- consumed power by consumers 
-	provided = 0,   -- provided power by generators 
+	consumed = 0,   -- consumed power by consumers
+	provided = 0,   -- provided power by generators
 	available = 0,  -- max. available generator power
 	netw_num = 0,   -- network number
 }
@@ -75,7 +75,7 @@ local function get_power_data(pos, tlib2, outdir, netID)
 		max_perf = max_perf,      -- max. available power
 		consumed = 0,             -- consumed power
 		provided = 0,             -- provided power
-		available = 0,            -- available power          
+		available = 0,            -- available power
 		num_nodes = netw.num_nodes,
 	}
 	return Power[netID]
@@ -101,10 +101,10 @@ function networks.power.register_nodes(names, tlib2, node_type, valid_sides)
 	else
 		error("parameter error")
 	end
-	
+
 	tlib2:add_secondary_node_names(names)
 	networks.registered_networks.power[tlib2.tube_type] = tlib2
-	
+
 	for _, name in ipairs(names) do
 		local ndef = minetest.registered_nodes[name]
 		local tbl = ndef.networks or {}
@@ -193,12 +193,12 @@ function networks.power.provide_power(pos, tlib2, outdir, amount, cp1, cp2)
 		local pwr = Power[netID] or get_power_data(pos, tlib2, outdir, netID)
 		local x = pwr.curr_load / pwr.max_capa
 		OBS("provide_power", pos, {outdir = outdir, amount = amount}, pwr)
-		
+
 		pwr.available = pwr.available + amount
 		amount = math.min(amount, pwr.max_capa - pwr.curr_load)
 		cp1 = cp1 or 0.8
 		cp2 = cp2 or 1.0
-		
+
 		if x < cp1 then  -- charge with full power
 			pwr.curr_load = pwr.curr_load + amount
 			pwr.provided = pwr.provided + amount
@@ -273,7 +273,7 @@ function networks.power.transfer_duplex(pos, netw1, outdir1, netw2, outdir2, amo
 		local pwr2 = Power[netID2] or get_power_data(pos, netw2, outdir2, netID2)
 		local lvl = pwr1.curr_load / pwr1.max_capa - pwr2.curr_load / pwr2.max_capa
 		local moved
-		
+
 		pwr2.available = pwr2.available + amount
 		pwr1.available = pwr1.available + amount
 		if lvl > 0 then
@@ -294,13 +294,13 @@ function networks.power.transfer_duplex(pos, netw1, outdir1, netw2, outdir2, amo
 			pwr1.provided = (pwr1.provided or 0) + moved
 		else
 			moved = 0
-		end	
+		end
 		OBS("transfer_duplex", pos, pwr1, pwr2)
 		return {
-			curr_load1 = pwr1.curr_load, 
-			curr_load2 = pwr2.curr_load, 
-			max_capa1 = pwr1.max_capa, 
-			max_capa2 = pwr2.max_capa, 
+			curr_load1 = pwr1.curr_load,
+			curr_load2 = pwr2.curr_load,
+			max_capa1 = pwr1.max_capa,
+			max_capa2 = pwr2.max_capa,
 			moved = moved}
 	end
 end
@@ -317,7 +317,7 @@ function networks.power.transfer_simplex(pos, netw1, outdir1, netw2, outdir2, am
 		local pwr2 = Power[netID2] or get_power_data(pos, netw2, outdir2, netID2)
 		local lvl = pwr1.curr_load / pwr1.max_capa - pwr2.curr_load / pwr2.max_capa
 		local moved
-		
+
 		pwr2.available = pwr2.available + amount
 		if lvl > 0 then
 			-- transfer from netw1 to netw2
@@ -329,13 +329,13 @@ function networks.power.transfer_simplex(pos, netw1, outdir1, netw2, outdir2, am
 			pwr2.provided = (pwr2.provided or 0) + moved
 		else
 			moved = 0
-		end	
+		end
 		OBS("transfer_simplex", pos, pwr1, pwr2)
 		return {
-			curr_load1 = pwr1.curr_load, 
-			curr_load2 = pwr2.curr_load, 
-			max_capa1 = pwr1.max_capa, 
-			max_capa2 = pwr2.max_capa, 
+			curr_load1 = pwr1.curr_load,
+			curr_load2 = pwr2.curr_load,
+			max_capa1 = pwr1.max_capa,
+			max_capa2 = pwr2.max_capa,
 			moved = moved}
 	end
 end
@@ -347,7 +347,7 @@ function networks.power.turn_switch_on(pos, tlib2, name_off, name_on)
 	local node = N(pos)
 	local meta = M(pos)
 	local changed = false
-	
+
 	if node.name == name_off then
 		node.name = name_on
 		changed = true
@@ -356,14 +356,14 @@ function networks.power.turn_switch_on(pos, tlib2, name_off, name_on)
 	else
 		return false
 	end
-	
+
 	if meta:contains("netw_param2") then
 		meta:set_int("netw_param2", meta:get_int("netw_param2_copy"))
-	else	
+	else
 		node.param2 = meta:get_int("netw_param2_copy")
 	end
 	meta:set_int("netw_param2_copy", 0)
-	
+
 	if changed then
 		minetest.swap_node(pos, node)
 	end
@@ -376,7 +376,7 @@ function networks.power.turn_switch_off(pos, tlib2, name_off, name_on)
 	local node = N(pos)
 	local meta = M(pos)
 	local changed = false
-	
+
 	if node.name == name_on then
 		node.name = name_off
 		changed = true
@@ -385,18 +385,18 @@ function networks.power.turn_switch_off(pos, tlib2, name_off, name_on)
 	else
 		return false
 	end
-	
+
 	if meta:contains("netw_param2") then
 		meta:set_int("netw_param2_copy", meta:get_int("netw_param2"))
 		--meta:set_int("netw_param2", 0)
-	else	
+	else
 		meta:set_int("netw_param2_copy", node.param2)
 	end
-	
+
 	if changed then
 		minetest.swap_node(pos, node)
 	end
-	
+
 	if meta:contains("netw_param2") then
 		node.param2 = meta:get_int("netw_param2")
 	end
@@ -426,8 +426,8 @@ function networks.power.get_network_data(pos, tlib2, outdir)
 			local res = {
 				curr_load = pwr.curr_load,             -- network storage value
 				max_capa = pwr.max_capa,               -- network storage capacity
-				consumed = consumed,                   -- consumed power by consumers 
-				provided = provided,                   -- provided power by generators 
+				consumed = consumed,                   -- consumed power by consumers
+				provided = provided,                   -- provided power by generators
 				available = available,                 -- max. available generator power
 				netw_num = networks.netw_num(netID),   -- network number
 			}

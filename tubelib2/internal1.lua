@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	internal1.lua
-	
+
 	First level functions behind the API
 
 ]]--
@@ -133,7 +133,7 @@ end
 --------------------------------------------------------------------------------------
 
 -- Pairing helper function. NOT USED (see internal2.lua)!!!
-function Tube:store_teleport_data(pos, peer_pos)		
+function Tube:store_teleport_data(pos, peer_pos)
 	local meta = M(pos)
 	meta:set_string("tele_pos", S(peer_pos))
 	meta:set_string("channel", nil)
@@ -183,14 +183,14 @@ function Tube:update_after_place_tube(pos, placer, pointed_thing)
 	if self.valid_dirs[dir1] and self.valid_dirs[dir2] and tValidNum[num_tubes] then
 		self.clbk_after_place_tube(self:get_tube_data(pos, dir1, dir2, num_tubes))
 	end
-	
+
 	if num_tubes >= 1 then
 		local npos, d1, d2, num = self:add_tube_dir(pos, dir1)
 		if npos and self.valid_dirs[d1] and self.valid_dirs[d2] and num < 2 then
 			self.clbk_after_place_tube(self:get_tube_data(npos, d1, d2, num+1))
 		end
 	end
-	
+
 	if num_tubes >= 2 then
 		local npos, d1, d2, num = self:add_tube_dir(pos, dir2)
 		if npos and self.valid_dirs[d1] and self.valid_dirs[d2] and num < 2 then
@@ -198,25 +198,25 @@ function Tube:update_after_place_tube(pos, placer, pointed_thing)
 		end
 	end
 	return true, dir1, dir2, num_tubes
-end	
-	
+end
+
 function Tube:update_after_dig_tube(pos, param2)
 	local dir1, dir2 = self:decode_param2(pos, param2)
-	
+
 	local npos, d1, d2, num = self:del_tube_dir(pos, dir1)
 	if npos and self.valid_dirs[d1] and self.valid_dirs[d2] and tValidNum[num] then
 		self.clbk_after_place_tube(self:get_tube_data(npos, d1, d2, num))
 	else
 		dir1 = nil
 	end
-	
+
 	npos, d1, d2, num = self:del_tube_dir(pos, dir2)
 	if npos and self.valid_dirs[d1] and self.valid_dirs[d2] and tValidNum[num] then
 		self.clbk_after_place_tube(self:get_tube_data(npos, d1, d2, num))
 	else
 		dir2 = nil
 	end
-	
+
 	return dir1, dir2
 end
 
@@ -229,7 +229,7 @@ function Tube:replace_nodes(pos1, pos2, dir1, dir2)
 		pos = get_pos(pos, dir1)
 	end
 	self.clbk_after_place_tube(self:get_tube_data(pos2, dir1, dir2, 1))
-end	
+end
 
 function Tube:switch_nodes(pos, dir, state)
 	pos = get_pos(pos, dir)

@@ -10,19 +10,22 @@
 
 ]]--
 
+local SideToDir = {B=1, R=2, F=3, L=4, D=5, U=6}
+local tubelib2_dir_to_side = tubelib2.dir_to_side
+
 local function bit(p)
   return 2 ^ (p - 1)  -- 1-based indexing
 end
 
 -- Typical call:  if hasbit(x, bit(3)) then ...
 local function hasbit(x, p)
-  return x % (p + p) >= p       
+  return x % (p + p) >= p
 end
 
 local function setbit(x, p)
   return hasbit(x, p) and x or x + p
 end
-	
+
 local function get_node_box(val, size, boxes)
 	local fixed = {{-size, -size, -size, size, size, size}}
 	for i = 1,6 do
@@ -65,20 +68,6 @@ function networks.register_junction(name, size, boxes, tlib2, node, index)
 	return names
 end
 
-local SideToDir = {B=1, R=2, F=3, L=4}
-local function dir_to_dir2(dir, param2)
-	if param2 == 0 then
-		return dir
-	elseif param2 == 1 then
-		return ({4,1,2,3,5,6})[dir]
-	elseif param2 == 2 then
-		return ({3,4,1,2,5,6})[dir]
-	elseif param2 == 3 then
-		return ({2,3,4,1,5,6})[dir]
-	end
-	return dir
-end
-
 function networks.junction_type(pos, network, default_side, param2)
 	local connected = function(self, pos, dir)
 		if network:is_primary_node(pos, dir) then
@@ -96,7 +85,7 @@ function networks.junction_type(pos, network, default_side, param2)
 		val = setbit(val, bit(SideToDir[default_side]))
 	end
 	for dir = 1,6 do
-		local dir2 = dir_to_dir2(dir, param2)
+		local dir2 = SideToDir[tubelib2_dir_to_side(dir, param2 or 0)]
 		if network.force_to_use_tubes then
 			if connected(network, pos, dir) then
 				val = setbit(val, bit(dir2))
@@ -107,10 +96,13 @@ function networks.junction_type(pos, network, default_side, param2)
 			if connected(network, pos, dir) then
 				val = setbit(val, bit(dir2))
 			elseif network:is_secondary_node(pos, dir) then
-				val = setbit(val, bit(dir2))
+				local node = network:get_secondary_node(pos, dir)
+				if network:is_valid_dir(node, networks.Flip[dir]) then
+					val = setbit(val, bit(dir2))
+				end
 			end
 		end
 	end
 	return val
-end	
+end
 

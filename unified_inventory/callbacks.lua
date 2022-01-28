@@ -1,3 +1,5 @@
+local ui = unified_inventory
+
 local function default_refill(stack)
 	stack:set_count(stack:get_stack_max())
 	local itemdef = minetest.registered_items[stack:get_name()]
@@ -48,11 +50,11 @@ end)
 
 local function apply_new_filter(player, search_text, new_dir)
 	local player_name = player:get_player_name()
+
 	minetest.sound_play("click", {to_player=player_name, gain = 0.1})
-	unified_inventory.apply_filter(player, search_text, new_dir)
-	unified_inventory.current_searchbox[player_name] = search_text
-	unified_inventory.set_inventory_formspec(player,
-			unified_inventory.current_page[player_name])
+	ui.apply_filter(player, search_text, new_dir)
+	ui.current_searchbox[player_name] = search_text
+	ui.set_inventory_formspec(player, ui.current_page[player_name])
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
@@ -65,9 +67,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 
 	-- always take new search text, even if not searching on it yet
+	local dirty_search_filter = false
+
 	if fields.searchbox
 	and fields.searchbox ~= unified_inventory.current_searchbox[player_name] then
 		unified_inventory.current_searchbox[player_name] = fields.searchbox
+		dirty_search_filter = true
 	end
 
 
@@ -88,19 +93,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				unified_inventory.current_page[player_name])
 	end
 
-	if fields.next_category then
-		local scroll = math.min(#unified_inventory.category_list-ui_peruser.pagecols, unified_inventory.current_category_scroll[player_name] + 1)
-		if scroll ~= unified_inventory.current_category_scroll[player_name] then
-			unified_inventory.current_category_scroll[player_name] = scroll
-			unified_inventory.set_inventory_formspec(player,
-					unified_inventory.current_page[player_name])
-		end
-	end
-	if fields.prev_category then
-		local scroll = math.max(0, unified_inventory.current_category_scroll[player_name] - 1)
-		if scroll ~= unified_inventory.current_category_scroll[player_name] then
-			unified_inventory.current_category_scroll[player_name] = scroll
-			unified_inventory.set_inventory_formspec(player,
+	if fields.next_category or fields.prev_category then
+		local step = fields.next_category and 1 or -1
+		local scroll_old = ui.current_category_scroll[player_name]
+		local scroll_new = math.max(0, math.min(#ui.category_list - ui_peruser.pagecols, scroll_old + step))
+
+		if scroll_old ~= scroll_new then
+			ui.current_category_scroll[player_name] = scroll_new
+			ui.set_inventory_formspec(player,
 					unified_inventory.current_page[player_name])
 		end
 	end
@@ -197,13 +197,16 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	if fields.searchbutton
 			or fields.key_enter_field == "searchbox" then
-		unified_inventory.apply_filter(player, unified_inventory.current_searchbox[player_name], "nochange")
-		unified_inventory.set_inventory_formspec(player,
-				unified_inventory.current_page[player_name])
-		minetest.sound_play("paperflip2",
-				{to_player=player_name, gain = 1.0})
+		if dirty_search_filter then
+			ui.apply_filter(player, ui.current_searchbox[player_name], "nochange")
+			ui.set_inventory_formspec(player, ui.current_page[player_name])
+			minetest.sound_play("paperflip2",
+					{to_player=player_name, gain = 1.0})
+		end
 	elseif fields.searchresetbutton then
-		apply_new_filter(player, "", "nochange")
+		if ui.activefilter[player_name] ~= "" then
+			apply_new_filter(player, "", "nochange")
+		end
 	end
 
 	-- alternate buttons

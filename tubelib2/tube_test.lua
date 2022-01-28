@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	tube_test.lua
-	
+
 	THIS FILE IS ONLY FOR TESTING PURPOSES
 
 ]]--
@@ -62,10 +62,10 @@ local Tube = tubelib2.Tube:new({
 	-- dirs_to_check = {1,2,3,4}, -- horizontal only
 	-- dirs_to_check = {5,6},  -- vertical only
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 10, 
+	max_tube_length = 10,
 	show_infotext = true,
-	primary_node_names = {"tubelib2:tubeS", "tubelib2:tubeA"}, 
-	secondary_node_names = {"default:chest", "default:chest_open", 
+	primary_node_names = {"tubelib2:tubeS", "tubelib2:tubeA"},
+	secondary_node_names = {"default:chest", "default:chest_open",
 			"tubelib2:source", "tubelib2:junction", "tubelib2:teleporter"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes, tbl)
 		minetest.swap_node(pos, {name = "tubelib2:tube"..tube_type, param2 = param2})
@@ -102,7 +102,7 @@ minetest.register_node("tubelib2:tubeS", {
 		"tubelib2_hole.png",
 		"tubelib2_hole.png",
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		--local t = minetest.get_us_time()
 		if not Tube:after_place_tube(pos, placer, pointed_thing) then
@@ -112,11 +112,11 @@ minetest.register_node("tubelib2:tubeS", {
 		--print("place time", minetest.get_us_time() - t)
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -143,11 +143,11 @@ minetest.register_node("tubelib2:tubeA", {
 		"tubelib2_tube.png",
 		"tubelib2_hole.png",
 	},
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -174,7 +174,7 @@ local function push_item(pos)
 	--print("on_timer: dest_pos="..S(dest_pos).."  dest_dir="..dest_dir)
 	local inv = minetest.get_inventory({type="node", pos=dest_pos})
 	local stack = ItemStack("default:dirt")
-	
+
 	if on_push_item then
 		return on_push_item(dest_pos, dest_dir, stack)
 	elseif inv then
@@ -204,7 +204,7 @@ minetest.register_node("tubelib2:source", {
 	after_place_node = function(pos, placer)
 		local tube_dir = ((minetest.dir_to_facedir(placer:get_look_dir()) + 2) % 4) + 1
 		M(pos):set_int("tube_dir", tube_dir)
-		Tube:after_place_node(pos, {tube_dir})		
+		Tube:after_place_node(pos, {tube_dir})
 		minetest.get_node_timer(pos):start(2)
 	end,
 
@@ -212,14 +212,14 @@ minetest.register_node("tubelib2:source", {
 		local tube_dir = tonumber(oldmetadata.fields.tube_dir or 0)
 		Tube:after_dig_node(pos, {tube_dir})
 	end,
-	
+
 	on_timer = function(pos, elapsed)
 		if not push_item(pos) then
 			print("push_item error")
 		end
 		return true
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -245,7 +245,7 @@ minetest.register_node("tubelib2:junction", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_node(pos)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -264,7 +264,7 @@ local sFormspec = "size[7.5,3]"..
 	"field[0.5,1;7,1;channel;Enter channel string;]" ..
 	"button_exit[2,2;3,1;exit;Save]"
 
-local function store_connection(pos, peer_pos)		
+local function store_connection(pos, peer_pos)
 	local meta = M(pos)
 	meta:set_string("peer_pos", P2S(peer_pos))
 	meta:set_string("channel", "")
@@ -332,7 +332,7 @@ minetest.register_node("tubelib2:teleporter", {
 			pairing(pos, fields.channel)
 		end
 	end,
-	
+
 	on_push_item = function(pos, dir, item)
 		local tube_dir = M(pos):get_int("tube_dir")
 		if dir == tubelib2.Turn180Deg[tube_dir] then
@@ -343,13 +343,13 @@ minetest.register_node("tubelib2:teleporter", {
 			end
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		stop_pairing(pos, oldmetadata)
 		local tube_dir = tonumber(oldmetadata.fields.tube_dir or 0)
 		Tube:after_dig_node(pos, {tube_dir})
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -363,7 +363,7 @@ minetest.register_node("tubelib2:teleporter", {
 -- Tool
 -------------------------------------------------------------------------------
 local function read_param2(pos, player)
-	local node = minetest.get_node(pos)	
+	local node = minetest.get_node(pos)
 	local dir1, dir2, num_tubes = Tube:decode_param2(pos, node.param2)
 	minetest.chat_send_player(player:get_player_name(), "[Tubelib2] pos="..P2S(pos)..", dir1="..dir1..", dir2="..dir2..", num_tubes="..num_tubes)
 end
@@ -378,7 +378,7 @@ local function remove_tube(itemstack, placer, pointed_thing)
 		end
 	else
 		local dir = (minetest.dir_to_facedir(placer:get_look_dir()) % 4) + 1
-		minetest.chat_send_player(placer:get_player_name(), 
+		minetest.chat_send_player(placer:get_player_name(),
 			"[Tool Help] dir="..dir.."\n"..
 			"    left: remove node\n"..
 			"    right: repair tube line\n")
@@ -399,7 +399,7 @@ end
 --		end
 --	else
 --		local dir = (minetest.dir_to_facedir(placer:get_look_dir()) % 4) + 1
---		minetest.chat_send_player(placer:get_player_name(), 
+--		minetest.chat_send_player(placer:get_player_name(),
 --			"[Tool Help] dir="..dir.."\n"..
 --			"    left: remove node\n"..
 --			"    right: repair tube line\n")
@@ -411,22 +411,22 @@ local function repair_tube(itemstack, placer, pointed_thing)
 		local pos = pointed_thing.under
 		local _, _, fpos1, fpos2, _, _, cnt1, cnt2 = Tube:tool_repair_tube(pos)
 		local length = cnt1 + cnt2
-		
+
 		local s = "Tube from " .. P2S(fpos1) .. " to " .. P2S(fpos2) .. ". Lenght = " .. length
 		minetest.chat_send_player(placer:get_player_name(), s)
-		
+
 		if length > Tube.max_tube_length then
 			local s = string.char(0x1b) .. "(c@#ff0000)" .. "Tube length error!"
 			minetest.chat_send_player(placer:get_player_name(), s)
 		end
-		
+
 		minetest.sound_play("carts_cart_new", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 	else
 		local dir = (minetest.dir_to_facedir(placer:get_look_dir()) % 4) + 1
-		minetest.chat_send_player(placer:get_player_name(), 
+		minetest.chat_send_player(placer:get_player_name(),
 			"[Tool Help] dir="..dir.."\n"..
 			"    left: remove node\n"..
 			"    right: repair tube line\n")

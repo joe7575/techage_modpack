@@ -95,7 +95,7 @@ function networks.hide_node(pos, node, placer)
 	local inv = placer:get_inventory()
 	local stack = inv:get_stack("main", 1)
 	local taken = stack:take_item(1)
-	
+
 	if taken:get_count() == 1 and tFillingMaterial[taken:get_name()] then
 		local meta = M(pos)
 		meta:set_string("netw_name", node.name)
