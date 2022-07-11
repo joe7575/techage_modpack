@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -90,6 +90,18 @@ local function inv_state(nvm)
 	if num == 0 then return "empty" end
 	if num == 8 then return "full" end
 	return "loaded"
+end
+
+local function inv_state_num(nvm)
+	local num = 0
+	for _,item in ipairs(nvm.inventory or {}) do
+		if item.count and item.count > 0 then
+			num = num + 1
+		end
+	end
+	if num == 0 then return 0 end
+	if num == 8 then return 2 end
+	return 1
 end
 
 local function max_stacksize(item_name)
@@ -324,10 +336,15 @@ local function count_number_of_chests(pos)
 	local node = techage.get_node_lvm(pos)
 	local dir = techage.side_to_outdir("B", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
+	local param2 = node.param2
 	local cnt = 1
 	while cnt < 50 do
 		node = techage.get_node_lvm(pos1)
 		if node.name ~= "techage:ta4_chest_dummy" then
+			break
+		end
+		local meta = M(pos1)
+		if meta:contains("param2") and meta:get_int("param2") ~= param2 then
 			break
 		end
 		pos1 = tubelib2.get_pos(pos1, dir)
@@ -339,10 +356,15 @@ end
 local function search_chest_in_front(pos, node)
 	local dir = techage.side_to_outdir("F", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
+	local param2 = node.param2
 	local cnt = 1
 	while cnt < 50 do
 		node = techage.get_node_lvm(pos1)
 		if node.name ~= "techage:ta4_chest_dummy" then
+			break
+		end
+		local meta = M(pos1)
+		if meta:contains("param2") and meta:get_int("param2") ~= param2 then
 			break
 		end
 		pos1 = tubelib2.get_pos(pos1, dir)
@@ -517,6 +539,7 @@ minetest.register_node("techage:ta4_chest", {
 		if search_chest_in_front(pos, node) then
 			node.name = "techage:ta4_chest_dummy"
 			minetest.swap_node(pos, node)
+			M(pos):set_int("param2", node.param2)
 		else
 			local nvm = techage.get_nvm(pos)
 			gen_inv(nvm)
@@ -597,15 +620,29 @@ techage.register_node({"techage:ta4_chest"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
-			return get_count(nvm, tonumber(payload) or 0)
+			return get_count(nvm, tonumber(payload or 1) or 1)
 		elseif topic == "itemstring" then
 			local nvm = techage.get_nvm(pos)
-			return get_itemstring(nvm, tonumber(payload) or 0)
+			return get_itemstring(nvm, tonumber(payload or 1) or 1)
 		elseif topic == "state" then
 			local nvm = techage.get_nvm(pos)
 			return inv_state(nvm)
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 140 and payload[1] == 1 then  -- Inventory Item Count
+			local nvm = techage.get_nvm(pos)
+			return 0, {get_count(nvm, tonumber(payload[2] or 1) or 1)}
+		elseif topic == 140 and payload[1] == 2 then  -- Inventory Item Name
+			local nvm = techage.get_nvm(pos)
+			return 0, get_itemstring(nvm, tonumber(payload[2] or 1) or 1)
+		elseif topic == 131 then  -- Chest State
+			local nvm = techage.get_nvm(pos)
+			return 0, {inv_state_num(nvm)}
+		else
+			return 2, ""
 		end
 	end,
 })

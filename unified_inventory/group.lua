@@ -1,30 +1,5 @@
 local S = minetest.get_translator("unified_inventory")
 
-function unified_inventory.canonical_item_spec_matcher(spec)
-	local specname = ItemStack(spec):get_name()
-	if specname:sub(1, 6) ~= "group:" then
-		return function (itemname)
-			return itemname == specname
-		end
-	end
-
-	local group_names = specname:sub(7):split(",")
-	return function (itemname)
-		local itemdef = minetest.registered_items[itemname]
-		for _, group_name in ipairs(group_names) do
-			if (itemdef.groups[group_name] or 0) == 0 then
-				return false
-			end
-		end
-		return true
-	end
-end
-
-function unified_inventory.item_matches_spec(item, spec)
-	local itemname = ItemStack(item):get_name()
-	return unified_inventory.canonical_item_spec_matcher(spec)(itemname)
-end
-
 function unified_inventory.extract_groupnames(groupname)
 	local specname = ItemStack(groupname):get_name()
 	if specname:sub(1, 6) ~= "group:" then
@@ -32,22 +7,6 @@ function unified_inventory.extract_groupnames(groupname)
 	end
 	local group_names = specname:sub(7):split(",")
 	return table.concat(group_names, S(" and ")), #group_names
-end
-
-unified_inventory.registered_group_items = {
-	mesecon_conductor_craftable = "mesecons:wire_00000000_off",
-	stone = "default:cobble",
-	wood = "default:wood",
-	book = "default:book",
-	sand = "default:sand",
-	leaves = "default:leaves",
-	tree = "default:tree",
-	vessel = "vessels:glass_bottle",
-	wool = "wool:white",
-}
-
-function unified_inventory.register_group_item(groupname, itemname)
-	unified_inventory.registered_group_items[groupname] = itemname
 end
 
 

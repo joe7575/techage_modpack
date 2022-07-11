@@ -16,12 +16,11 @@
 tubelib2.version = 2.2
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("tubelib2")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = tubelib2.S
 
 -- Cardinal directions, regardless of orientation
 local Dir2Str = {"north", "east", "south", "west", "down", "up"}
@@ -119,8 +118,8 @@ local function update2(self, pos1, dir1, pos2, dir2)
 		-- reset next tube(s) to head tube(s) again
 		local param2 = self:encode_param2(dir1, dir2, 2)
 		self:update_after_dig_tube(pos1, param2)
-		M(get_pos(pos1, dir1)):set_string("infotext", I("Maximum length reached!"))
-		M(get_pos(pos1, dir2)):set_string("infotext", I("Maximum length reached!"))
+		M(get_pos(pos1, dir1)):set_string("infotext", S("Maximum length reached!"))
+		M(get_pos(pos1, dir2)):set_string("infotext", S("Maximum length reached!"))
 		return false
 	end
 	self:infotext(fpos1, fpos2)
@@ -399,7 +398,7 @@ end
 -- The returned pos is the destination position, dir
 -- is the direction into the destination node.
 function Tube:get_connected_node_pos(pos, dir)
-	local key = S(pos)
+	local key = P2S(pos)
 	if self.connCache[key] and self.connCache[key][dir] then
 		local item = self.connCache[key][dir]
 		return item.pos2, Turn180Deg[item.dir2]
@@ -457,10 +456,10 @@ function Tube:prepare_pairing(pos, tube_dir, sFormspec)
 	elseif tube_dir then
 		meta:set_int("tube_dir", tube_dir)
 		meta:set_string("channel", nil)
-		meta:set_string("infotext", I("Pairing is missing"))
+		meta:set_string("infotext", S("Pairing is missing"))
 		meta:set_string("formspec", sFormspec)
 	else
-		meta:set_string("infotext", I("Connection to a tube is missing!"))
+		meta:set_string("infotext", S("Connection to a tube is missing!"))
 	end
 end
 
@@ -477,7 +476,7 @@ function Tube:pairing(pos, channel)
 		self.pairingList[channel] = pos
 		local meta = M(pos)
 		meta:set_string("channel", channel)
-		meta:set_string("infotext", I("Pairing is missing").." ("..channel..")")
+		meta:set_string("infotext", S("Pairing is missing (@1)", channel))
 		return false
 	end
 end
@@ -493,7 +492,7 @@ function Tube:stop_pairing(pos, oldmetadata, sFormspec)
 				peer_meta:set_string("channel", nil)
 				peer_meta:set_string("tele_pos", nil)
 				peer_meta:set_string("formspec", sFormspec)
-				peer_meta:set_string("infotext", I("Pairing is missing"))
+				peer_meta:set_string("infotext", S("Pairing is missing"))
 			end
 		elseif oldmetadata.fields.channel then
 			self.pairingList[oldmetadata.fields.channel] = nil

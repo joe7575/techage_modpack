@@ -55,7 +55,10 @@ local function switch_off(pos, is_button)
 	elseif name == "techage:ta4_button_on" then
 		logic.swap_node(pos, "techage:ta4_button_off")
 	end
-	logic.send_off(pos, M(pos))
+	local meta = M(pos)
+	if not meta:contains("command") or meta:get_string("command") == "on" then
+		logic.send_off(pos, M(pos))
+	end
 	if not is_button then
 		minetest.sound_play("techage_button", {
 				pos = pos,
@@ -149,6 +152,9 @@ local function on_rightclick_on(pos, node, clicker)
 	if fixed == "true" then
 		if can_access(pos, clicker) then
 			switch_on(pos)
+			local mem = techage.get_mem(pos)
+			mem.clicker = clicker and clicker:get_player_name()
+			mem.time = math.floor(minetest.get_us_time() / 100000)
 		end
 	end
 end
@@ -331,3 +337,31 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
+
+techage.register_node({
+		"techage:ta4_button_off", "techage:ta4_button_on",
+	}, {
+		on_recv_message = function(pos, src, topic, payload)
+			if topic == "name" then
+				local mem = techage.get_mem(pos)
+				return mem.clicker or ""
+			elseif topic == "time" then
+				local mem = techage.get_mem(pos)
+				return mem.time or 0
+			else
+				return "unsupported"
+			end
+		end,
+		on_beduino_request_data = function(pos, src, topic, payload)
+			if topic == 144 then  -- Player Name
+				local mem = techage.get_mem(pos)
+				return 0, mem.clicker
+			elseif topic == 149 then  --time
+				local mem = techage.get_mem(pos)
+				return 0, {mem.time or 0}
+			else
+				return 2, ""
+			end
+		end,
+	}
+)

@@ -14,6 +14,7 @@
 local S = minetest.get_translator("ta4_jetpack")
 
 local liquid = networks.liquid
+local LQD = function(pos) return (minetest.registered_nodes[tubelib2.get_node_lvm(pos).name] or {}).liquid end
 
 local ta4_jetpack = {}
 
@@ -333,12 +334,12 @@ local function load_fuel(itemstack, user, pointed_thing)
 			local value = get_fuel_value(name)
 			local newvalue
 			
-			if user:get_player_control().sneak then -- back to tank?
-				local amount = math.min(value, FUEL_UNIT)
-				local rest = liquid.srv_put(nvm, "techage:hydrogen", amount, MAX_FUEL)
-				newvalue = value - amount + rest
+			if user:get_player_control().sneak then  -- back to tank?
+				local amount = math.max(math.min(value, FUEL_UNIT), 0)
+				local rest = liquid.srv_put(nvm, "techage:hydrogen", amount, LQD(pos).capa)
+				newvalue = value - (amount - rest)
 			else
-				local amount = math.min(FUEL_UNIT, MAX_FUEL - value)
+				local amount = math.max(math.min(FUEL_UNIT, MAX_FUEL - value), 0)
 				local taken = liquid.srv_take(nvm, "techage:hydrogen", amount)
 				newvalue = value + taken
 			end

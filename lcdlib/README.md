@@ -2,7 +2,7 @@
 
 This LCD Lib is based on Display Lib and Font Lib from Pierre-Yves Rollo
 
-**Dependancies**: default
+**Dependancies**: none
 
 **License**: LGPL
 

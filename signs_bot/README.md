@@ -184,4 +184,6 @@ optional: farming redo, node_io, doc, techage, minecart, xdecor, compost
 - 2021-05-04  v1.08  * Add print command, improve error msg
 - 2021-08-22  v1.09  * Add soup commands and signs, add aspen sign
 - 2021-09-18  v1.10  * Add techage command 'set <num>' to the Bot Control Unit
+- 2022-03-19  V1.11  * Extend farming (and add ethereal) support (Thanks to nixnoxus)
+
 

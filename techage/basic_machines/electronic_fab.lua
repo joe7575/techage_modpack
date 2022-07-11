@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -74,8 +74,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 local function making(pos, crd, nvm, inv)
+	local owner = M(pos):get_string("owner")
 	local rtype = RecipeType[crd.stage]
-	local recipe = recipes.get(nvm, rtype)
+	local recipe = recipes.get(nvm, rtype, owner)
 	local output = ItemStack(recipe.output.name.." "..recipe.output.num)
 	if inv:room_for_item("dst", output) then
 		for _,item in ipairs(recipe.input) do
@@ -201,6 +202,12 @@ local tubing = {
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)

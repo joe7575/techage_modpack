@@ -121,3 +121,22 @@ minetest.register_node("signs_bot:robot_foot", {
 	},
 	sounds = default.node_sound_metal_defaults(),
 })
+
+minetest.register_lbm({
+	label = "[signs_bot] Remove lost robots",
+	name = "signs_bot:lost_robot_remove",
+	nodenames = {"signs_bot:robot"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		local found = false
+		tubelib2.walk_over_all(function(npos, node, mem)
+			if node.name == "signs_bot:box" and mem.robot_pos and
+				vector.equals(pos, mem.robot_pos) then
+				found = true
+			end
+		end, "robot_pos")
+		if not found then
+			signs_bot.remove_robot({robot_pos = pos})
+		end
+	end
+})

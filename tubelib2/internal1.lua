@@ -15,13 +15,12 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("tubelib2")
-local I,_ = dofile(MP.."/intllib.lua")
+-- Load support for I18n.
+local S = tubelib2.S
 
 local Tube = tubelib2.Tube
 local Turn180Deg = tubelib2.Turn180Deg
@@ -71,11 +70,11 @@ end
 
 -- pos/dir are the pos of the stable secondary node pointing to the head tube node.
 function Tube:del_from_cache(pos, dir)
-	local key = S(pos)
+	local key = P2S(pos)
 	if self.connCache[key] and self.connCache[key][dir] then
 		local pos2 = self.connCache[key][dir].pos2
 		local dir2 = self.connCache[key][dir].dir2
-		local key2 = S(pos2)
+		local key2 = P2S(pos2)
 		if self.connCache[key2] and self.connCache[key2][dir2] then
 			self.connCache[key2][dir2] = nil
 			if self.debug_info then self.debug_info(pos2, "del") end
@@ -89,7 +88,7 @@ end
 
 -- pos/dir are the pos of the secondary nodes pointing to the head tube nodes.
 function Tube:add_to_cache(pos1, dir1, pos2, dir2)
-	local key = S(pos1)
+	local key = P2S(pos1)
 	if not self.connCache[key] then
 		self.connCache[key] = {}
 	end
@@ -120,9 +119,9 @@ function Tube:infotext(pos1, pos2)
 	if self.show_infotext then
 		if pos1 and pos2 then
 			if vector.equals(pos1, pos2) then
-				M(pos1):set_string("infotext", I("Not connected!"))
+				M(pos1):set_string("infotext", S("Not connected!"))
 			else
-				M(pos1):set_string("infotext", I("Connected with ")..S(pos2))
+				M(pos1):set_string("infotext", S("Connected to @1", P2S(pos2)))
 			end
 		end
 	end
@@ -135,10 +134,10 @@ end
 -- Pairing helper function. NOT USED (see internal2.lua)!!!
 function Tube:store_teleport_data(pos, peer_pos)
 	local meta = M(pos)
-	meta:set_string("tele_pos", S(peer_pos))
+	meta:set_string("tele_pos", P2S(peer_pos))
 	meta:set_string("channel", nil)
 	meta:set_string("formspec", nil)
-	meta:set_string("infotext", I("Paired with ")..S(peer_pos))
+	meta:set_string("infotext", S("Paired with @1", P2S(peer_pos)))
 	return meta:get_int("tube_dir")
 end
 

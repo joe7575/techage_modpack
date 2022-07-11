@@ -1,9 +1,9 @@
 tubelib2 = {}
 
-local MP = minetest.get_modpath("tubelib2")
+-- Load support for I18n.
+tubelib2.S = minetest.get_translator("tubelib2")
 
--- Load support for intllib.
-dofile(MP .. "/intllib.lua")
+local MP = minetest.get_modpath("tubelib2")
 dofile(MP .. "/internal2.lua")
 dofile(MP .. "/internal1.lua")
 dofile(MP .. "/tube_api.lua")

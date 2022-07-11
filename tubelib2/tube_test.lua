@@ -82,9 +82,9 @@ Tube:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
 		print(P2S(pos).." to the "..sdir..": Not connected")
 	elseif Tube:is_secondary_node(peer_pos) then
 		local node = minetest.get_node(peer_pos)
-		print(P2S(pos).." to the "..sdir..": Connected with "..node.name.." at "..P2S(peer_pos).."/"..peer_in_dir)
+		print(P2S(pos).." to the "..sdir..": Connected to "..node.name.." at "..P2S(peer_pos).."/"..peer_in_dir)
 	else
-		print(P2S(pos).." to the "..sdir..": Connected with "..P2S(peer_pos).."/"..peer_in_dir)
+		print(P2S(pos).." to the "..sdir..": Connected to "..P2S(peer_pos).."/"..peer_in_dir)
 		for i, pos, node in Tube:get_tube_line(pos, out_dir) do
 			print("walk", P2S(pos), node.name)
 		end
@@ -127,6 +127,7 @@ minetest.register_node("tubelib2:tubeS", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 3, cracky = 3, snappy = 3},
@@ -159,6 +160,7 @@ minetest.register_node("tubelib2:tubeA", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 3, cracky = 3, snappy = 3, not_in_creative_inventory=1},
@@ -222,8 +224,6 @@ minetest.register_node("tubelib2:source", {
 
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
-	paramtype = "light",
-	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 3, cracky = 3, snappy = 3},
 	sounds = default.node_sound_glass_defaults(),
@@ -248,8 +248,6 @@ minetest.register_node("tubelib2:junction", {
 
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
-	paramtype = "light",
-	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 3, cracky = 3, snappy = 3},
 	sounds = default.node_sound_glass_defaults(),
@@ -352,8 +350,6 @@ minetest.register_node("tubelib2:teleporter", {
 
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
-	paramtype = "light",
-	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 3, cracky = 3, snappy = 3},
 	sounds = default.node_sound_glass_defaults(),
@@ -438,7 +434,7 @@ minetest.register_node("tubelib2:tool", {
 	description = "Tubelib2 Tool",
 	inventory_image = "tubelib2_tool.png",
 	wield_image = "tubelib2_tool.png",
-	use_texture_alpha = true,
+	use_texture_alpha = "clip",
 	groups = {cracky=1, book=1},
 	on_use = remove_tube,
 	on_place = repair_tube,

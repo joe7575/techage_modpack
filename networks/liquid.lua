@@ -181,16 +181,16 @@ end
 
 function networks.liquid.srv_peek(nvm)
 	nvm.liquid = nvm.liquid or {}
-	return nvm.liquid.name
+	nvm.liquid.amount = math.floor((nvm.liquid.amount or 0) + 0.5)
+	return nvm.liquid.amount > 0 and nvm.liquid.name
 end
 
 function networks.liquid.srv_put(nvm, name, amount, capa)
 	assert(name)
-	assert(amount and amount >= 0)
 	assert(capa and capa > 0)
-
+	amount = math.floor((amount or 0) + 0.5)
 	nvm.liquid = nvm.liquid or {}
-	amount = amount or 0
+	
 	if not nvm.liquid.name then
 		nvm.liquid.name = name
 		nvm.liquid.amount = amount
@@ -210,10 +210,9 @@ function networks.liquid.srv_put(nvm, name, amount, capa)
 end
 
 function networks.liquid.srv_take(nvm, name, amount)
-	assert(amount and amount >= 0)
-
+	amount = math.floor((amount or 0) + 0.5)
 	nvm.liquid = nvm.liquid or {}
-	amount = amount or 0
+	
 	if not name or nvm.liquid.name == name then
 		name = nvm.liquid.name
 		nvm.liquid.amount = nvm.liquid.amount or 0

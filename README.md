@@ -3,7 +3,7 @@
 This modpack covers all necessary and useful mods to be able to use techage.
 All mods have the own README.txt. For further information please consult these files.
 
-This modpack includes:
+This modpack contains:
 - techage: The main mod
 - ta4_jetpack: A Jetpack for techage with hydrogen as fuel and TA4 recipe
 - ta4_paraglider: A Paraglider for techage with TA4 recipe
@@ -45,6 +45,12 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 
 ### History
+
+
+#### 2022-07-11
+
+Updated Mods:
+- techage (fusion reactor added)
 
 
 #### 2022-01-28

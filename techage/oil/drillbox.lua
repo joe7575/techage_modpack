@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -149,7 +149,7 @@ local function drilling(pos, crd, nvm, inv)
 		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
 		nvm.drill_pos.y = nvm.drill_pos.y-1
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-	elseif techage.can_node_dig(node, ndef) then
+	elseif techage.can_dig_node(node.name, ndef) then
 		local drop_name = techage.dropped_node(node, ndef)
 		if drop_name then
 			local item = ItemStack(drop_name)
@@ -254,6 +254,12 @@ local tubing = {
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
 	end,
 	on_node_load = function(pos, node)
 		CRD(pos).State:on_node_load(pos)

@@ -19,9 +19,9 @@ local lib = signs_bot.lib
 local bot_inv_put_item = signs_bot.bot_inv_put_item
 local bot_inv_take_item = signs_bot.bot_inv_take_item
 
-local function soil_availabe(pos)
+local function soil_availabe(pos, trellis)
 	local node = minetest.get_node_or_nil(pos)
-	if node.name == "air" then
+	if node.name == (trellis or "air") then
 		node = minetest.get_node_or_nil({x=pos.x, y=pos.y-1, z=pos.z})
 		if node and minetest.get_item_group(node.name, "soil") >= 1 then
 			return true
@@ -33,13 +33,13 @@ end
 local function planting(base_pos, mem, slot)
 	local pos = mem.pos_tbl and mem.pos_tbl[mem.steps]
 	mem.steps = (mem.steps or 1) + 1
-	if pos and lib.not_protected(base_pos, pos) and soil_availabe(pos) then
+	if pos and lib.not_protected(base_pos, pos) then
 		local stack = bot_inv_take_item(base_pos, slot, 1)
 		if stack and stack ~= "" then
 			local plant = stack:get_name()
 			if plant then
 				local item = signs_bot.FarmingSeed[plant]
-				if item then
+				if item and soil_availabe(pos, signs_bot.FarmingNeedTrellis[item]) then
 					if minetest.registered_nodes[item] then
 						local p2 = minetest.registered_nodes[item].place_param2 or 1
 						minetest.set_node(pos, {name = item, param2 = p2})
@@ -87,13 +87,20 @@ local function harvesting(base_pos, mem)
 	if pos and lib.not_protected(base_pos, pos) then
 		local node = minetest.get_node_or_nil(pos)
 		if signs_bot.FarmingCrop[node.name] then
-			minetest.remove_node(pos)
+			local trellis = signs_bot.FarmingKeepTrellis[node.name]
+			if trellis then
+				minetest.set_node(pos, {name = trellis})
+			elseif not trellis then
+				minetest.remove_node(pos)
+			end
 			-- Do not cache the result of get_node_drops; it is a probabilistic function!
 			local drops = minetest.get_node_drops(node.name)
 			for _,itemstring in ipairs(drops) do
-				local leftover = bot_inv_put_item(base_pos, 0,  ItemStack(itemstring))
-				if leftover and leftover:get_count() > 0 then
-					signs_bot.lib.drop_items(mem.robot_pos, leftover)
+				if not trellis or trellis ~= itemstring then
+					local leftover = bot_inv_put_item(base_pos, 0,  ItemStack(itemstring))
+					if leftover and leftover:get_count() > 0 then
+						signs_bot.lib.drop_items(mem.robot_pos, leftover)
+					end
 				end
 			end
 		end

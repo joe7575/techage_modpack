@@ -129,16 +129,22 @@ function tubelib2.get_mem_data(pos, key, default)
 	return tubelib2.get_mem(pos)[key] or default
 end
 
-function tubelib2.walk_over_all(clbk)
+function tubelib2.walk_over_all(clbk, key)
 	local data = storage:to_table()
 	for block_key,sblock in pairs(data.fields) do
 		local block = minetest.deserialize(sblock)
 		for node_key,mem in pairs(block) do
-			if mem then
-				if node_key ~= "used" and node_key ~= "best_before" then
+			if mem and node_key ~= "used" and node_key ~= "best_before" then
+				if key == nil or (type(mem) == "table" and mem[key] ~= nil) then
 					local pos = keys_to_pos(block_key, node_key)
 					local node = tubelib2.get_node_lvm(pos)
-					clbk(pos, node, mem)
+					if key ~= nil then
+						-- only specified 'key'
+						clbk(pos, node, {[key] = mem[key]})
+					else
+						-- without specified 'key'
+						clbk(pos, node, mem)
+					end
 				end
 			end
 		end

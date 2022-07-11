@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.07
+techage.version = 1.08
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -285,6 +285,7 @@ dofile(MP.."/logic/timer.lua")
 dofile(MP.."/logic/lua_logic.lua")  -- old
 dofile(MP.."/logic/logic_block.lua")  -- new
 dofile(MP.."/logic/node_detector.lua")
+dofile(MP.."/logic/light_detector.lua")
 dofile(MP.."/logic/player_detector.lua")
 dofile(MP.."/logic/mba_detector.lua")
 dofile(MP.."/logic/cart_detector.lua")
@@ -412,8 +413,8 @@ dofile(MP.."/fusion_reactor/generator.lua")
 dofile(MP.."/fusion_reactor/turbine.lua")
 dofile(MP.."/fusion_reactor/ta5_pump.lua")
 
+-- Beduino extensions
+dofile(MP.."/beduino/kv_store.lua")
+
 -- Prevent other mods from using IE
 techage.IE = nil
-
-
-function techage.icta_register_condition(key, tData) end

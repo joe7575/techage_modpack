@@ -14,19 +14,17 @@ end
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
 	unified_inventory.players[player_name] = {}
-	unified_inventory.current_index[player_name] = 1
+	unified_inventory.current_index[player_name] = 1 -- Item (~page) index
 	unified_inventory.filtered_items_list[player_name] =
-	unified_inventory.items_list
+		unified_inventory.items_list
 	unified_inventory.activefilter[player_name] = ""
 	unified_inventory.active_search_direction[player_name] = "nochange"
-	unified_inventory.apply_filter(player, "", "nochange")
 	unified_inventory.current_searchbox[player_name] = ""
 	unified_inventory.current_category[player_name] = "all"
 	unified_inventory.current_category_scroll[player_name] = 0
 	unified_inventory.alternate[player_name] = 1
 	unified_inventory.current_item[player_name] = nil
 	unified_inventory.current_craft_direction[player_name] = "recipe"
-	unified_inventory.set_inventory_formspec(player, unified_inventory.default)
 
 	-- Refill slot
 	local refill = minetest.create_detached_inventory(player_name.."refill", {
@@ -46,6 +44,14 @@ minetest.register_on_joinplayer(function(player)
 		end,
 	}, player_name)
 	refill:set_size("main", 1)
+end)
+
+minetest.register_on_mods_loaded(function()
+       minetest.register_on_joinplayer(function(player)
+               -- After everything is initialized, set up the formspec
+               ui.apply_filter(player, "", "nochange")
+               ui.set_inventory_formspec(player, unified_inventory.default)
+       end)
 end)
 
 local function apply_new_filter(player, search_text, new_dir)
@@ -244,11 +250,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			unified_inventory.current_page[player_name])
 end)
 
-if minetest.delete_detached_inventory then
-	minetest.register_on_leaveplayer(function(player)
-		local player_name = player:get_player_name()
-		minetest.delete_detached_inventory(player_name.."_bags")
-		minetest.delete_detached_inventory(player_name.."craftrecipe")
-		minetest.delete_detached_inventory(player_name.."refill")
-	end)
-end
+minetest.register_on_leaveplayer(function(player)
+	local player_name = player:get_player_name()
+	minetest.remove_detached_inventory(player_name.."_bags")
+	minetest.remove_detached_inventory(player_name.."refill")
+end)

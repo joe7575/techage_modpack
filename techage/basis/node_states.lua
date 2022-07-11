@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -66,12 +66,14 @@ local N = techage.get_node_lvm
 -- TechAge machine states
 --
 
-techage.RUNNING = 1	-- in normal operation/turned on
-techage.BLOCKED = 2     -- a pushing node is blocked due to a full destination inventory
-techage.STANDBY = 3	-- nothing to do (e.g. no input items), or node (world) not loaded
-techage.NOPOWER = 4	-- only for power consuming nodes, no operation
-techage.FAULT   = 5	-- any fault state (e.g. wrong source items), which can be fixed by the player
-techage.STOPPED = 6	-- not operational/turned off
+techage.RUNNING  = 1  -- in normal operation/turned on
+techage.BLOCKED  = 2  -- a pushing node is blocked due to a full destination inventory
+techage.STANDBY  = 3  -- nothing to do (e.g. no input items), or node (world) not loaded
+techage.NOPOWER  = 4  -- only for power consuming nodes, no operation
+techage.FAULT    = 5  -- any fault state (e.g. wrong source items), which can be fixed by the player
+techage.STOPPED  = 6  -- not operational/turned off
+techage.UNLOADED = 7  -- Map block unloaded
+techage.INACTIVE = 8  -- Map block loaded but node is not actively working
 
 techage.StatesImg = {
 	"techage_inv_button_on.png",
@@ -133,13 +135,15 @@ local function has_power(pos, nvm)
 	return true
 end
 
-local function swap_node(pos, name)
+local function swap_node(pos, new_name, old_name)
 	local node = techage.get_node_lvm(pos)
-	if node.name == name then
+	if node.name == new_name then
 		return
 	end
-	node.name = name
-	minetest.swap_node(pos, node)
+	if node.name == old_name then
+		node.name = new_name
+		minetest.swap_node(pos, node)
+	end
 end
 
 -- true if node_timer should be executed
@@ -174,7 +178,7 @@ function NodeStates:new(attr)
 		cycle_time = attr.cycle_time, -- for running state
 		standby_ticks = attr.standby_ticks, -- for standby state
 		-- optional
-                countdown_ticks = attr.countdown_ticks or 1,
+		countdown_ticks = attr.countdown_ticks or 1,
 		node_name_passive = attr.node_name_passive,
 		node_name_active = attr.node_name_active,
 		infotext_name = attr.infotext_name,
@@ -220,7 +224,7 @@ function NodeStates:stop(pos, nvm)
 		self.stop_node(pos, nvm, state)
 	end
 	if self.node_name_passive then
-		swap_node(pos, self.node_name_passive)
+		swap_node(pos, self.node_name_passive, self.node_name_active)
 	end
 	if self.infotext_name then
 		local number = M(pos):get_string("node_number")
@@ -257,7 +261,7 @@ function NodeStates:start(pos, nvm)
 		end
 		nvm.techage_countdown = self.countdown_ticks
 		if self.node_name_active then
-			swap_node(pos, self.node_name_active)
+			swap_node(pos, self.node_name_active, self.node_name_passive)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -288,7 +292,7 @@ function NodeStates:standby(pos, nvm, err_string)
 	if state == RUNNING or state == BLOCKED then
 		nvm.techage_state = STANDBY
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -313,7 +317,7 @@ function NodeStates:blocked(pos, nvm, err_string)
 	if state == RUNNING then
 		nvm.techage_state = BLOCKED
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -337,7 +341,7 @@ function NodeStates:nopower(pos, nvm, err_string)
 	if state ~= NOPOWER then
 		nvm.techage_state = NOPOWER
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -362,7 +366,7 @@ function NodeStates:fault(pos, nvm, err_string)
 	if state == RUNNING or state == STOPPED then
 		nvm.techage_state = FAULT
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -476,6 +480,40 @@ function NodeStates:on_receive_message(pos, topic, payload)
 		return techage.liquid.get_liquid_amount(nvm)
 	else
 		return "unsupported"
+	end
+end
+
+function NodeStates:on_beduino_receive_cmnd(pos, topic, payload)
+	if topic == 1 then
+		if payload[1] == 0 then
+			self:stop(pos, techage.get_nvm(pos))
+			return 0
+		else
+			self:start(pos, techage.get_nvm(pos))
+			return 0
+		end
+	else
+		return 2  -- unknown or invalid topic
+	end
+end
+
+function NodeStates:on_beduino_request_data(pos, topic, payload)
+	local nvm = techage.get_nvm(pos)
+	if topic == 128 then
+		return 0, techage.get_node_lvm(pos).name
+	elseif topic == 129 then
+		local node = minetest.get_node(pos)
+		if node.name == "ignore" then  -- unloaded node?
+			return 0, {techage.UNLOADED}
+		elseif nvm.techage_state == RUNNING then
+			local ttl = (nvm.last_active or 0) + 2 * (self.cycle_time or 0)
+			if ttl < minetest.get_gametime() then
+				return 0, {techage.INACTIVE}
+			end
+		end
+		return 0, {nvm.techage_state or STOPPED}
+	else
+		return 2, ""  -- topic is unknown or invalid
 	end
 end
 

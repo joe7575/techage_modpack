@@ -144,7 +144,7 @@ minetest.register_entity("minecart:marker", {
 	initial_properties = {
 		visual = "upright_sprite",   
 		textures = {"minecart_marker_cube.png"},
-		use_texture_alpha = true,     
+		use_texture_alpha = minecart.CLIP,
 		physical = false,
 		glow = 12,
 		static_save = false,
@@ -196,23 +196,27 @@ function minecart.is_owner(player, owner)
 end
 
 function minecart.get_buffer_pos(pos, player_name)
-	local pos1 = minecart.find_node_near_lvm(pos, 1, {"minecart:buffer"})
-	if pos1 then
-		local meta = minetest.get_meta(pos1)
-		if player_name == nil or player_name == meta:get_string("owner") then
-			return pos1
+	if pos then
+		local pos1 = minecart.find_node_near_lvm(pos, 1, {"minecart:buffer"})
+		if pos1 then
+			local meta = minetest.get_meta(pos1)
+			if player_name == nil or player_name == meta:get_string("owner") then
+				return pos1
+			end
 		end
 	end
 end
 
 function minecart.get_buffer_name(pos)
-	local pos1 = minecart.find_node_near_lvm(pos, 1, {"minecart:buffer"})
-	if pos1 then
-		local name = M(pos1):get_string("name")
-		if name ~= "" then
-			return name
+	if pos then
+		local pos1 = minecart.find_node_near_lvm(pos, 1, {"minecart:buffer"})
+		if pos1 then
+			local name = M(pos1):get_string("name")
+			if name ~= "" then
+				return name
+			end
+			return P2S(pos1)
 		end
-		return P2S(pos1)
 	end
 end
 

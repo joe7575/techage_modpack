@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2021 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -30,6 +30,7 @@ local HELP = S("Syntax:\n") ..
 	S(" - 'send <node num> <cmnd>' (techage command)\n") ..
 	S(" - 'goto <num>'  (jump to another line)\n") ..
 	S(" - 'stop' (stop the execution)\n") ..
+	S(" - 'nop' (do nothing)\n") ..
 	S("\n") ..
 	S("Example:\n") ..
 	" -- move controller commands\n" ..
@@ -108,7 +109,7 @@ local function compile(s, tRes)
 				tCode[idx] = {next_idx = tonumber(cmnd2) or 1}
 			elseif cmnd1 == "stop" then
 				tCode[idx] = false
-			elseif cmnd1 == nil then
+			elseif cmnd1 == nil or cmnd1 == "nop" then
 				tCode[idx] = {}
 			end
 			old_idx = idx
@@ -290,18 +291,18 @@ minetest.register_craft({
 	},
 })
 
-local INFO = [[Commands: 'goto <num>', 'stop']]
+local INFO = [[Commands: 'goto <num>', 'stop', 'on', 'off']]
 
 techage.register_node({"techage:ta4_sequencer"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "goto" and not nvm.running then
+		if (topic == "goto" or topic == "on") and not nvm.running then
 			local mem = techage.get_mem(pos)
 			nvm.running = true
 			mem.idx = tonumber(payload or 1) or 1
 			restart_timer(pos, 0.1)
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
-		elseif topic == "stop" then
+		elseif topic == "stop" or topic == "off" then
 			nvm.running = false
 			minetest.get_node_timer(pos):stop()
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("stopped"))
@@ -310,5 +311,24 @@ techage.register_node({"techage:ta4_sequencer"}, {
 		else
 			return "unsupported"
 		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 13 then
+			if payload[1] ~= 0 and not nvm.running then
+				local mem = techage.get_mem(pos)
+				nvm.running = true
+				mem.idx = tonumber(payload or 1) or 1
+				restart_timer(pos, 0.1)
+				logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
+				return 0
+			elseif payload[1] == 0 then
+				nvm.running = false
+				minetest.get_node_timer(pos):stop()
+				logic.infotext(M(pos), S("TA4 Sequencer"), S("stopped"))
+				return 0
+			end
+		end
+		return 2
 	end,
 })

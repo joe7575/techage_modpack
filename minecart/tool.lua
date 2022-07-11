@@ -102,7 +102,7 @@ minetest.register_node("minecart:tool", {
 	inventory_image = "minecart_tool.png",
 	wield_image = "minecart_tool.png",
 	liquids_pointable = true,
-	use_texture_alpha = true,
+	use_texture_alpha = minecart.CLIP,
 	groups = {cracky=1, book=1},
 	on_use = click_left,
 	on_place = click_right,

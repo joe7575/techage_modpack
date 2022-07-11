@@ -46,6 +46,7 @@ local function count_trues(t)
 end
 
 local function nucleus(t)
+	t = techage.tbl_filter(t, function(v, k, t) return type(v) == "table" end)
 	if #t == 4 then
 		if vector.equals(t[1], t[2]) and vector.equals(t[3], t[4]) then
 			return true
@@ -267,6 +268,12 @@ minetest.register_node("techage:ta5_fr_controller_act", {
 techage.register_node({"techage:ta5_fr_controller_pas", "techage:ta5_fr_controller_act"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return State:on_beduino_request_data(pos, topic, payload)
 	end,
 })
 

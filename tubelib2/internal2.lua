@@ -13,14 +13,12 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 
--- Load support for intllib.
-local MP = minetest.get_modpath("tubelib2")
-local I,IS = dofile(MP.."/intllib.lua")
-
+-- Load support for I18n.
+local S = tubelib2.S
 
 local Tube = {}
 
@@ -376,10 +374,10 @@ end
 -- Pairing helper function
 function Tube:store_teleport_data(pos, peer_pos)
 	local meta = M(pos)
-	meta:set_string("tele_pos", S(peer_pos))
+	meta:set_string("tele_pos", P2S(peer_pos))
 	meta:set_string("channel", nil)
 	meta:set_string("formspec", nil)
-	meta:set_string("infotext", I("Connected with ")..S(peer_pos))
+	meta:set_string("infotext", S("Connected to @1", P2S(peer_pos)))
 	return meta:get_int("tube_dir")
 end
 
@@ -393,7 +391,7 @@ function Tube:get_next_teleport_node(pos, dir)
 		local meta = M(npos)
 		local s = meta:get_string("tele_pos")
 		if s ~= "" then
-			local tele_pos = P(s)
+			local tele_pos = S2P(s)
 			local tube_dir = M(tele_pos):get_int("tube_dir")
 			if tube_dir ~= 0 then
 				return tele_pos, tube_dir
@@ -405,7 +403,7 @@ end
 function Tube:dbg_out()
 	for pos1,item1 in pairs(self.connCache) do
 		for dir1,item2 in pairs(item1) do
-			print("pos1="..pos1..", dir1="..dir1..", pos2="..S(item2.pos2)..", dir2="..item2.dir2)
+			print("pos1="..pos1..", dir1="..dir1..", pos2="..P2S(item2.pos2)..", dir2="..item2.dir2)
 		end
 	end
 end

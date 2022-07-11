@@ -417,6 +417,10 @@ minetest.register_node("signs_bot:box", {
 	end,
 	
 	after_place_node = function(pos, placer, itemstack)
+		if not placer or not placer:is_player() then
+			minetest.remove_node(pos)
+			minetest.add_item(pos, itemstack)
+		end
 		local mem = tubelib2.init_mem(pos)
 		mem.running = false
 		mem.error = false

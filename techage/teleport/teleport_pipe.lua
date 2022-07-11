@@ -161,19 +161,21 @@ liquid.register_nodes({"techage:ta5_tele_pipe"}, Pipe, "tank", {"L"}, {
 		nvm.oil_amount = nvm.oil_amount or 0
 		if not blocked and techage.is_operational(nvm) then
 			local rmt_pos = teleport.get_remote_pos(pos)
-			local rmt_nvm = techage.get_nvm(rmt_pos)
-			if techage.is_operational(rmt_nvm) then
-				local pipe_dir = M(rmt_pos):get_int("pipe_dir")
-				blocked = true
-				local leftover = liquid.put(rmt_pos, Pipe, pipe_dir, name, amount)
-				blocked = false
-				if leftover < amount then
-					State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-					State:keep_running(rmt_pos, rmt_nvm, COUNTDOWN_TICKS)
+			if rmt_pos then
+				local rmt_nvm = techage.get_nvm(rmt_pos)
+				if techage.is_operational(rmt_nvm) then
+					local pipe_dir = M(rmt_pos):get_int("pipe_dir")
+					blocked = true
+					local leftover = liquid.put(rmt_pos, Pipe, pipe_dir, name, amount)
+					blocked = false
+					if leftover < amount then
+						State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+						State:keep_running(rmt_pos, rmt_nvm, COUNTDOWN_TICKS)
+					end
+					return leftover
+				else
+					State:blocked(pos, nvm, S("Remote block error"))
 				end
-				return leftover
-			else
-				State:blocked(pos, nvm, S("Remote block error"))
 			end
 		end
 		return amount
@@ -183,6 +185,12 @@ liquid.register_nodes({"techage:ta5_tele_pipe"}, Pipe, "tank", {"L"}, {
 techage.register_node({"techage:ta5_tele_pipe"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return State:on_beduino_request_data(pos, topic, payload)
 	end,
 })
 

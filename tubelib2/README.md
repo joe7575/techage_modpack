@@ -50,8 +50,7 @@ func(node, pos, out_dir, peer_pos, peer_in_dir) will be called for every change 
 
 
 ## Dependencies
-default  
-optional: intllib
+optional: default
 
 
 ## License
@@ -90,5 +89,6 @@ Textures: CC0
 - 2021-01-23  v2.0  * Add functions for easy & fast 'valid side' checking (PR #8)
 - 2021-05-24  v2.1  * Add API functions 'register_on_tube_update2'
 - 2022-01-05  v2.2  * Extend the 'node.param2' support for all 24 possible values
+- 2022-03-11  v2.2.1 * Changed to minetest 5.0 translation (#12)
 
 

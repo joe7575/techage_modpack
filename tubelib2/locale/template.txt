@@ -1,0 +1,8 @@
+# textdomain: tubelib2
+Not connected!=
+Paired with @1=
+Connected to @1=
+Maximum length reached!=
+Pairing is missing=
+Connection to a tube is missing!=
+Pairing is missing (@1)=

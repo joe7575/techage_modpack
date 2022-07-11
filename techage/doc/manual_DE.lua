@@ -124,6 +124,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Wagen Detektor / Cart Detector",
   "3,TA3 Block Detektor / Node Detector",
   "3,TA3 Spieler Detektor / Player Detector",
+  "3,TA3 Lichtdetektor",
   "2,TA3 Maschinen",
   "3,TA3 Schieber / Pusher",
   "3,TA3 Verteiler / Distributor",
@@ -1145,9 +1146,15 @@ techage.manual_DE.aText = {
   "\n"..
   "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
   "\n"..
-  "Über ein 'exchange' Kommando können einzelne Böcke gesetzt\\, entfernt\\, bzw. durch andere Blöcke ersetzt werden. Die Slot-Nummer des Inventars (1 .. 16) muss als payload übergeben werden\\, also:\n"..
+  "Mit '$send_cmnd(node_number\\, \"exchange\"\\, 2)' können einzelne Böcke gesetzt\\, entfernt\\, bzw. durch andere Blöcke aus dem Inventar ersetzt werden. \n"..
   "\n"..
-  "    $send_cmnd(node_number\\, \"exchange\"\\, 2)\n"..
+  "Mit '$send_cmnd(node_number\\, \"set\"\\, 2)' kann ein Block aus dem Inventory explizit gesetzt werden\\, sofern der Inventory Slot nicht leer ist.\n"..
+  "\n"..
+  "Mit '$send_cmnd(node_number\\, \"dig\"\\, 2)' kann ein Block wieder entfernt werden\\, sofern der Inventory Slot leer ist. \n"..
+  "\n"..
+  "Mit '$send_cmnd(node_number\\, \"get\"\\, 2)' wird der Name des gesetzten Blocks zurückgeliefert. \n"..
+  "\n"..
+  "Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.\n"..
   "\n"..
   "Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.\n"..
   "\n"..
@@ -1159,7 +1166,7 @@ techage.manual_DE.aText = {
   "\n"..
   "  - Kommando 'on' zum Abspielen eines Sounds\n"..
   "  - Kommando 'sound <idx>' zur Auswahl eines Sounds über den Index\n"..
-  "  - Kommando 'gain <volume>' zum Einstellen der Lautstärke über den '<volume>'  Wert (0 bis 1.0).\n"..
+  "  - Kommando 'gain <volume>' zum Einstellen der Lautstärke über den '<volume>'  Wert (1 bis 5).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1195,6 +1202,11 @@ techage.manual_DE.aText = {
   "\n",
   "Der Spieler Detektor sendet ein 'on'-Kommando\\, wenn er einen Spieler in einem Umkreis von 4 m um den Block herum erkennt. Verlässt der Spieler wieder den Bereich\\, wird ein 'off'-Kommando gesendet.\n"..
   "Soll die Suche auf bestimmte Spieler eingegrenzt werden\\, so können diese Spielernamen auch eingegeben werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Lichtdetektor sendet einen 'on'-Kommando\\, wenn der Lichtpegel des darüber liegenden Blocks einen bestimmten Pegel überschreitet\\, der über das Rechtsklickmenü eingestellt werden kann.\n"..
+  "Mit einen TA4 Lua Controller kann die genaue Lichtstärke mit $get_cmd(num\\, 'light_level') ermitteln werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1680,6 +1692,7 @@ techage.manual_DE.aText = {
   "\n"..
   "  - 'goto <num>'  Zu einer Kommandozeile springen und damit den Sequenzer starten\n"..
   "  - 'stop'  Den Sequenzer anhalten\n"..
+  "  - 'on' und 'off' als Alias für 'goto 1' bzw. 'stop'\n"..
   "\n"..
   "Das 'goto' Kommando wird nur angenommen\\, wenn der Sequenzer gestoppt ist.\n"..
   "\n"..
@@ -1907,7 +1920,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:\n"..
   "\n"..
-  "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\n"..
+  "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\nMit '$send_cmnd(1234\\, \"config\"\\, \"\")' wird die Konfiguration gelöscht\n"..
   "  - 'pull' dient zum Absetzen eines Auftrags an den Schieber:\nBeispiel: '$send_cmnd(1234\\, \"pull\"\\, \"default:dirt 8\")'\nAls Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den 'stopped' Mode und sendet ein \"off\" Kommando zurück an den Sender des \"pull\" Kommandos.\n"..
   "\n"..
   "\n"..
@@ -2240,6 +2253,7 @@ techage.manual_DE.aItemName = {
   "ta3_cartdetector",
   "ta3_nodedetector",
   "ta3_playerdetector",
+  "ta3_lightdetector",
   "ta3_grinder",
   "ta3_pusher",
   "ta3_distributor",
@@ -2475,6 +2489,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

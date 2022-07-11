@@ -374,7 +374,9 @@ Please note, that this is not a technical distinction, only a logical.
 | "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
 | "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
 | "output"     | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
-| "input"      | `<index>`                                                    | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
+| "input"      | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
+| "name"       | \<player name>                                               | Player name of the TA3/TA4 Player Detector or TA4 Button     |
+| "time"       | number                                                       | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
 
 
 
@@ -390,14 +392,19 @@ Please note, that this is not a technical distinction, only a logical.
 | "red, "amber", "green", "off"    | nil          | set Signal Tower color                                       |
 | "red, "amber", "green", "off" | lamp number (1..4) | Set the signal lamp color. Valid for "TA4 2x Signal Lamp" and "TA4 4x Signal Lamp" |
 | "port"                          | string<br />`<color>=on/off` | Enable/disable a Distributor filter slot..<br />Example: `"yellow=on"`<br />colors: red, green, blue, yellow |
+| "config" | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |
 | "text"                           | text string  | Text to be used for the Sensor Chest menu                    |
 | "reset"                          | nil          | Reset the item counter of the TA4 Item Detector block        |
 | "pull"                           | item  string | Start the TA4 pusher to pull/push items.<br /> Example: `default:dirt 8` |
 | "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |
-| "exchange" | inventory slot number | place/remove/exchange an block by means of the TA3 Door Controller II (techage:ta3_doorcontroller2) |
+| "exchange" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Exchange a block<br />*idx* is the inventory slot number (1..n) of/for the block to be exchanged |
+| "set" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Set/add a block<br />*idx* is the inventory slot number (1..n) with the block to be set |
+| "dig" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Dig/remove a block<br />*idx* is the empty inventory slot number (1..n) for the block |
 | "a2b" | nil | TA4 Move Controller command to move the block(s) from position A to B |
 | "b2a" | nil | TA4 Move Controller command to move the block(s) from position B to A |
 | "move" | nil | TA4 Move Controller command to move the block(s) to the opposite position |
+| "move2" | x,y,z | TA4 Move Controller command to move the block(s) by the given<br /> x/y/z-distance. Valid ranges for x, y, and z are -100 to 100. |
+| "reset" | nil | Reset TA4 Move Controller (move block(s) to start position) |
 | "left" | nil | TA4 Turn Controller command to turn the block(s) to the left |
 | "right" | nil | TA4 Turn Controller command to turn the block(s) to the right |
 | "uturn" | nil | TA4 Turn Controller command to turn the block(s) 180 degrees |

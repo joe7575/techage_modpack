@@ -109,7 +109,7 @@ minetest.register_node("hyperloop:tube_crowbar", {
 	description = S("Hyperloop Tube Crowbar"),
 	inventory_image = "hyperloop_tubecrowbar.png",
 	wield_image = "hyperloop_tubecrowbar.png",
-	use_texture_alpha = true,
+	use_texture_alpha = hyperloop.CLIP,
 	groups = {cracky=1, book=1},
 	on_use = remove_tube,
 	on_place = repair_tubes,
