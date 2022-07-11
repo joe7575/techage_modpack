@@ -163,7 +163,7 @@ minetest.register_node("signs_bot:missing", {
 	drawtype = "glasslike",
 	paramtype = "light",
 	sunlight_propagates = true,
-	use_texture_alpha = true,
+	use_texture_alpha = minetest.features.use_texture_alpha_string_modes and "blend" or true,
 	is_ground_content = false,
 	groups = {snappy=3,cracky=3,oddly_breakable_by_hand=3, not_in_creative_inventory = 1},
 	drop = "",
