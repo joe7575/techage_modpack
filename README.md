@@ -50,8 +50,10 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 #### 2022-07-11
 
 Updated Mods:
-- techage (fusion reactor added)
-
+- techage V1.08 with improvements and bug fixes
+- tubelib2
+- unified_inventory
+- lcdlib
 
 #### 2022-01-28
 

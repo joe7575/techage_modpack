@@ -333,7 +333,7 @@ local function move_tick()
 	for _,player in ipairs(minetest.get_connected_players()) do
 		local controls = player:get_player_control()
 		local is_moving = controls.up or controls.down or controls.left or controls.right
-		local velocity = player:get_player_velocity()
+		local velocity = player:get_velocity()
 		velocity.y = 0
 		local horizontal_speed = vector.length(velocity)
 		local has_velocity = horizontal_speed > 0.05
