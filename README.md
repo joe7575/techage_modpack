@@ -47,6 +47,24 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2022-08-06
+
+Updated Mods:
+- autobahn (fix MT5.5+ "deprecated" warnings)
+- compost (fix MT5.5+ "deprecated" warnings)
+- hyperloop (fix MT5.5+ "deprecated" warnings, add french translation)
+- tubelib2 (fix MT5.5+ "deprecated" warnings)
+- networks (Add improvement for liquid handling)
+- signs_bot (fix MT5.5+ "deprecated" warnings)
+- minecart (fix MT5.5+ "deprecated" warnings)
+- safer_lua (fix MT5.5+ "deprecated" warnings)
+- techpack_stairway (fix MT5.5+ "deprecated" warnings)
+- techage (many improvements, see: https://github.com/joe7575/techage/commits/master)
+- ta4_jetpack (Fix the 3d_armor _material issue)
+- datastorage (fix MT5.5+ "deprecated" warnings)
+- stamina (fix MT5.5+ "deprecated" warnings)
+
+
 #### 2022-07-11
 
 Updated Mods:
