@@ -66,10 +66,11 @@ end
 
 local function set_player_attribute(player, key, value)
 	if player.get_meta then
-		if value == nil then
-			player:get_meta():set_string(key, "")
-		else
-			player:get_meta():set_string(key, tostring(value))
+		local meta = player:get_meta()
+		if meta and value == nil then
+			meta:set_string(key, "")
+		elseif meta then
+			meta:set_string(key, tostring(value))
 		end
 	else
 		player:set_attribute(key, value)
@@ -78,7 +79,8 @@ end
 
 local function get_player_attribute(player, key)
 	if player.get_meta then
-		return player:get_meta():get_string(key)
+		local meta = player:get_meta()
+		return meta and meta:get_string(key) or ""
 	else
 		return player:get_attribute(key)
 	end
@@ -520,12 +522,14 @@ minetest.register_on_joinplayer(function(player)
 		size = {x = 24, y = 24},
 		text = "stamina_hud_fg.png",
 		number = level,
+		text2 = "stamina_hud_bg.png",
+		item = settings.visual_max,
 		alignment = {x = -1, y = -1},
 		offset = {x = -266, y = -110},
 		max = 0,
 	})
-	stamina.set_saturation(player, level)
 	set_hud_id(player, id)
+	stamina.set_saturation(player, level)
 	-- reset poisoned
 	stamina.set_poisoned(player, false)
 	-- remove legacy hud_id from player metadata
