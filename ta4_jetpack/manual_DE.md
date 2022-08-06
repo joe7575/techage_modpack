@@ -9,7 +9,7 @@ Das Jetpack ist inspiriert vom Jetpack von spirit689 (https://github.com/spirit6
 
 - TA4 Jetpack, Jetpack Controller und Trainingsmatte herstellen (craften)
 - Verwende die '3d_armor' Erweiterung des Spielermenüs, um das Jetpack auf deinem Rücken zu schnallen
-- Du kannst das Jetpack auftanken, indem du mit dem Controller und mit der linken Maustaste auf einen Wasserstofftanks klickst
+- Du kannst das Jetpack auftanken, indem du mit dem Controller und mit der linken Maustaste auf einen TA3/TA4 Tank mit Wasserstoff klickst
 - Schalte den Controller mit der rechten Maustaste ein und überprüfe den Füllstand des Kraftstofftanks (der kleine farbige Balken unter dem Reglersymbol).
 - Verwende die Leertaste, um das Jetpack zu aktivieren und die WASD-Tasten, um die Richtung zu steuern
 - Vor dem ersten Flug solltest du einige Trainingsstarts und Landungen auf der Trainingsmatte durchführen

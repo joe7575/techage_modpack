@@ -1,15 +1,13 @@
 # textdomain: ta4_jetpack
-
-Jetpack Training Mat=Jetpack Trainingsmatte
-TA4 Jetpack=TA4 Jetpac
-TA4 Jetpack Controller Off=TA4 Jetpack Controller Aus
-TA4 Jetpack Controller On=TA4 Jetpack Controller An
-Use the controller (left click) to fill the tank with hydrogen=Benutze den Controller (linksklick) um den Tank mit Wasserstoff zu füllen
 You are too heavy: Check your bags!=Du bist zu schwer: Prüfe deine Rucksäcke!
 You are too heavy: Check your crafting menu!=Du bist zu schwer: Prüfe dein Crafting Menü!
 You are too heavy: Check your inventory!=Du bist zu schwer: Prüfe dein Inventar!
 You may not transport @1 with a jetpack!=Du darfst @1 nicht mit dem Jetpack transportieren!
-[Jetpack]=[Jetpack]
 [Jetpack] You don't have your jetpack on your back!=[Jetpack] Du hast dein Jetpack nicht auf dem Rücken!
+[Jetpack]=[Jetpack]
 [Jetpack] Your tank is empty!=[Jetpack] Dein Tank ist leer!
-##### not used anymore #####
+Use the controller (left click) to fill the tank with hydrogen=Benutze den Controller (linksklick) um den Tank mit Wasserstoff zu füllen
+TA4 Jetpack Controller On=TA4 Jetpack Controller An
+TA4 Jetpack Controller Off=TA4 Jetpack Controller Aus
+TA4 Jetpack=TA4 Jetpac
+Jetpack Training Mat=Jetpack Trainingsmatte

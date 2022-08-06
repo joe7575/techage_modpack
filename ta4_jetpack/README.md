@@ -11,7 +11,7 @@ and by the historical game Lunar Lander.
 Instructions:
 - Craft TA4 Jetpack, Jetpack Controller and Training Mat
 - Use the armor extension (3d_armor) of the player menu to strap the Jetpack on your back
-- You can refuel the jetpack by left-clicking with the controller on a hydrogen tank
+- You can refuel the jetpack by left-clicking with the controller on a TA3/TA4 tank previously charged with hydrogen
 - Turn the controller on by right-click and check the fuel tank level (the small colored bar below the controller icon)
 - Use the space bar to activate the Jetpack and the WASD keys to control the direction
 - Before your first flight you should do some training starts and landings on the Training Mat 

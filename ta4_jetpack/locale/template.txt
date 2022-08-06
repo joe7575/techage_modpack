@@ -1,13 +1,13 @@
-Jetpack Training Mat=
-TA4 Jetpack=
-TA4 Jetpack Controller Off=
-TA4 Jetpack Controller On=
-Use the controller (left click) to fill the tank with hydrogen=
+# textdomain: ta4_jetpack
 You are too heavy: Check your bags!=
 You are too heavy: Check your crafting menu!=
 You are too heavy: Check your inventory!=
 You may not transport @1 with a jetpack!=
-[Jetpack]=
 [Jetpack] You don't have your jetpack on your back!=
+[Jetpack]=
 [Jetpack] Your tank is empty!=
-##### not used anymore #####
+Use the controller (left click) to fill the tank with hydrogen=
+TA4 Jetpack Controller On=
+TA4 Jetpack Controller Off=
+TA4 Jetpack=
+Jetpack Training Mat=

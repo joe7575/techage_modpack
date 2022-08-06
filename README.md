@@ -1,7 +1,7 @@
 # Modpack Tech Age [techage]
 
 This modpack covers all necessary and useful mods to be able to use techage.
-All mods have the own README.txt. For further information please consult these files.
+All mods have their own README.txt. For further information please consult these files.
 
 This modpack contains:
 - techage: The main mod

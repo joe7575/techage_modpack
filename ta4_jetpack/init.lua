@@ -320,6 +320,10 @@ end
 
 minetest.after(WEAR_CYCLE, jetpack_wearout)
 
+local function round(val)
+	return math.floor((val * 10) + 0.5) / 10.0
+end
+
 local function load_fuel(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos then
@@ -340,11 +344,11 @@ local function load_fuel(itemstack, user, pointed_thing)
 				newvalue = value - (amount - rest)
 			else
 				local amount = math.max(math.min(FUEL_UNIT, MAX_FUEL - value), 0)
-				local taken = liquid.srv_take(nvm, "techage:hydrogen", amount)
+				local taken = liquid.srv_take(nvm, "techage:hydrogen", math.floor(amount))
 				newvalue = value + taken
 			end
 			set_fuel_value(name, newvalue)
-			minetest.chat_send_player(name, S("[Jetpack]") .. ": " .. newvalue .. "/" .. MAX_FUEL)
+			minetest.chat_send_player(name, S("[Jetpack]") .. ": " .. round(newvalue) .. "/" .. MAX_FUEL)
 		end
 	end
 	return itemstack
@@ -417,7 +421,7 @@ minetest.register_tool("ta4_jetpack:controller_off", {
 	stack_max = 1,
 })
 
-armor:register_armor("ta4_jetpack:jetpack", {
+armor:register_armor("ta4_jetpack:jetpack_material", {
     description = S("TA4 Jetpack"),
     texture = "ta4_jetpack_jetpack.png",
     inventory_image = "ta4_jetpack_jetpack_inv.png",
@@ -440,6 +444,8 @@ armor:register_armor("ta4_jetpack:jetpack", {
 		Jetpacks[name] = nil
 	end
 })
+
+minetest.register_alias("ta4_jetpack:jetpack", "ta4_jetpack:jetpack_material")
 
 -- For some reason, prevent to move/put/take a running controller
 minetest.register_allow_player_inventory_action(function(player, action, inventory, inventory_info)

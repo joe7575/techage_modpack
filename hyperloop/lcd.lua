@@ -115,10 +115,10 @@ local generate_texture = function(lines)
 end
 
 local lcds = {
-	[2] = {delta = {x =  0.437, y = 0, z = 0}, yaw = math.pi / -2},
-	[3] = {delta = {x = -0.437, y = 0, z = 0}, yaw = math.pi /  2},
-	[4] = {delta = {x = 0, y = 0, z =  0.437}, yaw = 0},
-	[5] = {delta = {x = 0, y = 0, z = -0.437}, yaw = math.pi},
+	[2] = {delta = {x =  0.425, y = 0, z = 0}, yaw = math.pi / -2},
+	[3] = {delta = {x = -0.425, y = 0, z = 0}, yaw = math.pi /  2},
+	[4] = {delta = {x = 0, y = 0, z =  0.425}, yaw = 0},
+	[5] = {delta = {x = 0, y = 0, z = -0.425}, yaw = math.pi},
 }
 
 local clearscreen = function(pos)
