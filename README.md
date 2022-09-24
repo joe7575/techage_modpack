@@ -47,6 +47,16 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2022-09-24
+
+Updated Mods:
+- techage (fix database backend bug, further bugfixes and improvements)
+- lcdlib (fix MT5.5+ "deprecated" warnings)
+- signs_bot (add new commands)
+- networks (add 'networks.liquid.get_liquids')
+- ta4_paraglider (Fix bug "Add nil player check in paraglider")
+- unified_inventory (Add support for colored items (#213))
+
 #### 2022-08-17
 
 Updated Mods:
