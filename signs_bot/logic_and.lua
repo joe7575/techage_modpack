@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signal AND.
 	Signal is sent, if all input signals are received.
 ]]--
@@ -25,7 +25,7 @@ local lib = signs_bot.lib
 local function inputs(tbl)
 	local out = {}
 	for _,v in ipairs(tbl) do
-		if v then 
+		if v then
 			out[#out + 1] = "1"
 		else
 			out[#out + 1] = "0"
@@ -33,7 +33,7 @@ local function inputs(tbl)
 	end
 	return table.concat(out, " ")
 end
-	
+
 local function update_infotext(pos, dest_pos, cmnd)
 	local mem = tubelib2.get_mem(pos)
 	local text = table.concat({
@@ -49,7 +49,7 @@ local function update_infotext(pos, dest_pos, cmnd)
 		inputs(mem.inputs or {})
 	}, " ")
 	M(pos):set_string("infotext", text)
-end	
+end
 
 local function all_inputs(mem)
 	mem.inputs = mem.inputs or {}
@@ -94,7 +94,7 @@ local function signs_bot_get_signal(pos, node)
 end
 
 -- switch to normal texture
-local function turn_off(pos)	
+local function turn_off(pos)
 	local node = minetest.get_node(pos)
 	if node.name == "signs_bot:and2" or node.name == "signs_bot:and3" then
 		node.name = "signs_bot:and1"
@@ -103,7 +103,7 @@ local function turn_off(pos)
 end
 
 -- switch to not zero texture
-local function not_zero(pos)	
+local function not_zero(pos)
 	local node = minetest.get_node(pos)
 	if node.name == "signs_bot:and1" or node.name == "signs_bot:and3" then
 		node.name = "signs_bot:and2"
@@ -133,7 +133,7 @@ local function signs_bot_on_signal(pos, node, signal)
 	signal = tonumber(signal) or 1
 	mem.inputs = mem.inputs or {}
 	mem.inputs[signal] = true
-	
+
 	if all_inputs(mem) then
 		send_signal(pos)
 	else
@@ -156,14 +156,14 @@ minetest.register_node("signs_bot:and1", {
 		"signs_bot_sensor2.png^signs_bot_and1.png",
 		"signs_bot_sensor2.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local mem = tubelib2.init_mem(pos)
 		mem.inputs = {}
 		infotext(pos)
 	end,
-	
+
 	signs_bot_get_signal = signs_bot_get_signal,
 	signs_bot_on_signal = signs_bot_on_signal,
 	update_infotext = update_infotext,
@@ -248,8 +248,8 @@ if minetest.get_modpath("doc") then
 		data = {
 			item = "signs_bot:and1",
 			text = table.concat({
-				S("Signal is sent, if all input signals are received."), 
-			}, "\n")		
+				S("Signal is sent, if all input signals are received."),
+			}, "\n")
 		},
 	})
 end

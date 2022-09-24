@@ -21,11 +21,42 @@ local logic = techage.logic
 
 local WRENCH_MENU = {
 	{
+		type = "dropdown",
+		choices = "switch,on button,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s",
+		name = "type",
+		label = S("Type"),
+		tooltip = S("Button or switch"),
+		default = "1",
+	},
+	{
+		type = "numbers",
+		name = "numbers",
+		label = S("Number"),
+		tooltip = S("Destination block number(s)"),
+		default = "",
+		check = techage.check_numbers,
+	},
+	{
 		type = "ascii",
 		name = "command",
 		label = S("Command"),
 		tooltip = S("Command to be sent"),
 		default = "on",
+	},
+	{
+		type = "dropdown",
+		choices = "private,protected,public",
+		name = "access",
+		label = S("Access"),
+		tooltip = S("Button protection"),
+		default = "1",
+	},
+	{
+		type = "ascii",
+		name = "decription",
+		label = S("Infotext"),
+		tooltip = S("Change the block name (infotext)"),
+		default = "",
 	},
 }
 
@@ -56,7 +87,8 @@ local function switch_off(pos, is_button)
 		logic.swap_node(pos, "techage:ta4_button_off")
 	end
 	local meta = M(pos)
-	if not meta:contains("command") or meta:get_string("command") == "on" then
+	if meta:get_string("off_command") ~= "true" and 
+			(not meta:contains("command") or meta:get_string("command") == "on") then
 		logic.send_off(pos, M(pos))
 	end
 	if not is_button then
@@ -74,22 +106,18 @@ local function formspec(meta)
 	if idx == 0 then idx = 1 end
 	local access_idx = meta:get_string("public") == "true" and 3 or meta:get_string("protected") == "true" and 2 or 1
 	return "size[7.5,6]"..
-		"dropdown[0.2,0;3;type;switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]"..
+		"dropdown[0.2,0;3;type;switch,on button,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]"..
 		"field[0.5,2;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
 		"label[0.2,3;"..S("Access:").."]"..
 		"dropdown[3,3;4;access;private,protected,public;"..access_idx.."]"..
 		"button_exit[2,4;3,1;exit;"..S("Save").."]"
 end
 
-local function on_receive_fields(pos, formname, fields, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return
-	end
+local function store_fields_data(pos, fields)
 	local meta = M(pos)
-	if not techage.check_numbers(fields.numbers, player:get_player_name()) then
-		return
-	end
 	meta:set_string("numbers", fields.numbers)
+	meta:set_string("off_command", "")
+	
 	if fields.access == "protected" then
 		meta:set_string("protected", "true")
 		meta:set_string("public", "")
@@ -106,34 +134,62 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.type == "switch" then
 		meta:set_int("cycle_idx", 1)
 		cycle_time = 0
-	elseif fields.type == "button 1s" then
+	elseif fields.type == "on button" then
 		meta:set_int("cycle_idx", 2)
+		meta:set_string("off_command", "true")
+		cycle_time = 1
+	elseif fields.type == "button 1s" then
+		meta:set_int("cycle_idx", 3)
 		cycle_time = 1
 	elseif fields.type == "button 2s" then
-		meta:set_int("cycle_idx", 3)
+		meta:set_int("cycle_idx", 4)
 		cycle_time = 2
 	elseif fields.type == "button 4s" then
-		meta:set_int("cycle_idx", 4)
+		meta:set_int("cycle_idx", 5)
 		cycle_time = 4
 	elseif fields.type == "button 8s" then
-		meta:set_int("cycle_idx", 5)
+		meta:set_int("cycle_idx", 6)
 		cycle_time = 8
 	elseif fields.type == "button 16s" then
-		meta:set_int("cycle_idx", 6)
+		meta:set_int("cycle_idx", 7)
 		cycle_time = 16
 	elseif fields.type == "button 32s" then
-		meta:set_int("cycle_idx", 7)
+		meta:set_int("cycle_idx", 8)
 		cycle_time = 32
 	end
 	if cycle_time ~= nil then
 		meta:set_int("cycle_time", cycle_time)
 	end
+	meta:set_string("access", fields.access)
+	meta:set_string("type", fields.type)
+end
+
+local function on_receive_fields(pos, formname, fields, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return
+	end
+	if not techage.check_numbers(fields.numbers, player:get_player_name()) then
+		return
+	end
+	store_fields_data(pos, fields)
+
+	local meta = M(pos)
 	logic.infotext(meta, NDEF(pos).description)
 	if fields.exit then
 		meta:set_string("formspec", nil)
 		meta:set_string("fixed" , "true")
 	else
 		meta:set_string("formspec", formspec(meta))
+	end
+end
+
+local function ta_after_formspec(pos, fields, playername)
+	store_fields_data(pos, fields)
+	local meta = M(pos)
+	if fields.decription ~= "" then
+		logic.infotext(meta, fields.decription)
+	else
+		logic.infotext(meta, NDEF(pos).description)
 	end
 end
 
@@ -269,6 +325,7 @@ minetest.register_node("techage:ta4_button_off", {
 	end,
 
 	ta4_formspec = WRENCH_MENU,
+	ta_after_formspec = ta_after_formspec,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick_on,
 	techage_set_numbers = techage_set_numbers,
@@ -305,6 +362,8 @@ minetest.register_node("techage:ta4_button_on", {
 		},
 	},
 
+	ta4_formspec = WRENCH_MENU,
+	ta_after_formspec = ta_after_formspec,
 	on_rightclick = on_rightclick_off,
 	on_timer = switch_off,
 	on_rotate = screwdriver.disallow,

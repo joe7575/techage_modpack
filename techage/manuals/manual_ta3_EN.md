@@ -526,7 +526,7 @@ This status and other information is also output when the wrench is clicked on t
 
 ### TA3 Button / Switch
 The button/switch sends `on` / `off` commands to the blocks that have been configured via the numbers.
-The button/switch can be configured as a button or a switch. If it is configured as a button, the time between the `on` and `off` commands can be set.
+The button/switch can be configured as a button or a switch. If it is configured as a button, the time between the `on` and `off` commands can be set. With the operating mode "on button" only an `on` and no `off` command is sent.
 
 The checkbox "public" can be used to set whether the button can be used by everyone (set) or only by the owner himself (not set).
 
@@ -629,8 +629,9 @@ In public mode, all players can use the preconfigured keys.
 
 ### TechAge Signal Lamp
 
-The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and
-can be colored with the airbrush tool of the mod Unified Dyes.
+The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes" and via Lua/Beduino commands.
+
+With the chat command `/ta_color` the color palette with the values for the Lua/Beduino commands is displayed and with `/ta_send color <num>` the color can be changed.
 
 [ta3_signallamp|image]
 
@@ -825,6 +826,18 @@ The processing power is up to 8 times one item every 4 seconds.
 
 [ta3_injector|image]
 
+
+### TA3 Item Flow Limiter
+
+The Flow Limiter limits the number of items that can be pushed through by using a slider. This allows the number of items that are put into an oven, for example, to be precisely adapted to the recipe.
+
+The Flow Limiter must be configured via the menu and then started. If the configured number of items has been passed, the block switches off. The next time the Flow Limiter is switched on, it again transmits the configured number of items.
+
+**Note: The Flow Limiter must be placed behind the pusher.**
+
+The Flow Limiter can also be configured and started using a Lua or Beduino controller.
+
+[ta3_item_flow_limiter_pas|image]
 
 
 

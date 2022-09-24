@@ -527,7 +527,7 @@ Dieser Status und weitere Informationen werden auch ausgegeben, wenn mit dem Sch
 ### TA3 Taster/Schalter / Button/Switch
 
 Der Taster/Schalter sendet `on`/`off` Kommandos zu den Blöcken, die über die Nummern konfiguriert wurden.
-Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert werden. Wird er als Taster konfiguriert, so kann die Zeit zwischen den `on` und `off` Kommandos eingestellt werden.
+Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert werden. Wird er als Taster konfiguriert, so kann die Zeit zwischen den `on` und `off` Kommandos eingestellt werden. Mit der Betriebsart "on button" wird nur ein `on` und kein `off` Kommandos gesendet.
 
 Über die Checkbox "public" kann eingestellt werden, ob den Taster von jedem (gesetzt), oder nur vom Besitzer selbst (nicht gesetzt) genutzt werden darf.
 
@@ -631,7 +631,9 @@ Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden,
 ### TechAge Signallampe / Signal Lamp
 
 Die Signallampe kann mit `on`/`off` Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und
-kann mit der Spritzpistole aus der Mod "Unified Dyes" farbig gemacht werden.
+kann mit der Spritzpistole aus der Mod "Unified Dyes" und über Lua/Beduino Kommandos eingefärbt werden.
+
+Mit dem Chat-Kommando `/ta_color` wird die Farbpalette mit den Werten für die Lua/Beduino Kommandos angezeigt und mit `/ta_send color <num>` kann die Farbe geändert werden.
 
 [ta3_signallamp|image]
 

@@ -16,8 +16,8 @@ local S = techage.S
 techage.menu = {}
 
 local function index(list, x)
-	for idx, v in ipairs(list) do
-		if v == x then return idx end
+	for idx, v in ipairs(list or {}) do
+		if tostring(v) == x then return idx end
 	end
 	return nil
 end
@@ -99,7 +99,6 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 				end
 				tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
 			elseif elem.type == "dropdown" then
-				local l = elem.choices:split(",")
 				if nvm.running or techage.is_running(nvm) then
 					local val = elem.default or ""
 					if meta:contains(elem.name) then
@@ -120,7 +119,13 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					if meta:contains(elem.name) then
 						val = meta:get_string(elem.name) or ""
 					end
-					local idx = index(l, val) or 1
+					local idx
+					if elem.values then
+						idx = index(elem.values, val) or 1
+					else
+						local l = elem.choices:split(",")
+						idx = index(l, val) or 1
+					end
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
 				end
 			elseif elem.type == "items" then  -- inventory
@@ -137,9 +142,9 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 	return player_inv_needed, table.concat(tbl, "")
 end
 
-local function value_check(elem, value)
+local function value_check(elem, value, player_name)
 	if elem.check then
-		return elem.check(value)
+		return elem.check(value, player_name)
 	end
 	return value ~= nil
 end
@@ -159,7 +164,7 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 						meta:set_string(elem.name, "")
 					elseif fields[elem.name]:find("^[%d ]+$") then
 						local val = tonumber(fields[elem.name])
-						if value_check(elem, val) then
+						if value_check(elem, val, player_name) then
 							meta:set_int(elem.name, val)
 							--print("set_int", elem.name, val)
 						else
@@ -173,7 +178,8 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				if fields[elem.name] then
 					if fields[elem.name] == "" then
 						meta:set_string(elem.name, "")
-					elseif fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then
+					elseif fields[elem.name]:find("^[%d ]+$") and
+							value_check(elem, fields[elem.name], player_name) then
 						meta:set_string(elem.name, fields[elem.name])
 					else
 						res = false
@@ -184,7 +190,7 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 					meta:set_string(elem.name, "")
 				elseif fields[elem.name] then
 					local val = tonumber(fields[elem.name])
-					if val and value_check(elem, val) then
+					if val and value_check(elem, val, player_name) then
 						meta:set_string(elem.name, val)
 					else
 						res = false
@@ -194,7 +200,7 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				if fields[elem.name] == ""then
 					meta:set_string(elem.name, "")
 				elseif fields[elem.name] then
-					if value_check(elem, fields[elem.name]) then
+					if value_check(elem, fields[elem.name], player_name) then
 						meta:set_string(elem.name, fields[elem.name])
 					else
 						res = false
@@ -202,7 +208,14 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				end
 			elseif elem.type == "dropdown" then
 				if fields[elem.name] ~= nil then
-					meta:set_string(elem.name, fields[elem.name])
+					if elem.values then
+						local l = elem.choices:split(",")
+						local idx = index(l, fields[elem.name]) or 1
+						local text = elem.values[idx]
+						meta:set_string(elem.name, text)
+					else
+						meta:set_string(elem.name, fields[elem.name])
+					end
 				end
 			elseif elem.type == "items" and player_name then
 				local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"

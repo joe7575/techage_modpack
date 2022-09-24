@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: The Robot itself
 
 ]]--
@@ -15,7 +15,7 @@
 local lib = signs_bot.lib
 
 -- Called when robot is started
-function signs_bot.place_robot(pos1, pos2, param2)	
+function signs_bot.place_robot(pos1, pos2, param2)
 	local node1 = tubelib2.get_node_lvm(pos1)
 	local node2 = tubelib2.get_node_lvm(pos2)
 	if lib.check_pos(pos1, node1, node2, param2) then
@@ -24,7 +24,7 @@ function signs_bot.place_robot(pos1, pos2, param2)
 end
 
 -- Called when robot is removed
-function signs_bot.remove_robot(mem)	
+function signs_bot.remove_robot(mem)
 	local pos = mem.robot_pos
 	local node = tubelib2.get_node_lvm(pos)
 	if node.name == "signs_bot:robot" then
@@ -57,7 +57,7 @@ minetest.register_node("signs_bot:robot", {
 		"signs_bot_robot_left.png",
 		"signs_bot_robot_front.png",
 		"signs_bot_robot_back.png",
-		
+
 	},
 	drawtype = "nodebox",
 	node_box = {

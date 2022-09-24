@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Node information tables for the Bot
 
 ]]--
@@ -31,7 +31,7 @@ function signs_bot.register_farming_plant(inv_seed, plantlet, crop, trellis)
 end
 
 -- inv_sapling is the sapling inventory name
--- sapling is what has to be placed on the ground 
+-- sapling is what has to be placed on the ground
 -- t1/t2 is needed for trees which require the node timer
 function signs_bot.register_tree_saplings(inv_sapling, sapling, t1, t2)
 	signs_bot.TreeSaplings[inv_sapling] = {sapling = sapling, t1 = t1 or 300, t2 = t2 or 1500}

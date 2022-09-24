@@ -229,6 +229,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
+  "3,TA4 Item Durchlaufbegrenzer / Item Flow Limiter",
   "1,TA5: Zukunft",
   "2,Energiequellen",
   "3,TA5 Fusionsreaktor",
@@ -1042,7 +1043,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Taster/Schalter sendet 'on'/'off' Kommandos zu den Blöcken\\, die über die Nummern konfiguriert wurden.\n"..
-  "Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert werden. Wird er als Taster konfiguriert\\, so kann die Zeit zwischen den 'on' und 'off' Kommandos eingestellt werden.\n"..
+  "Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert werden. Wird er als Taster konfiguriert\\, so kann die Zeit zwischen den 'on' und 'off' Kommandos eingestellt werden. Mit der Betriebsart \"on button\" wird nur ein 'on' und kein 'off' Kommandos gesendet.\n"..
   "\n"..
   "Über die Checkbox \"public\" kann eingestellt werden\\, ob den Taster von jedem (gesetzt)\\, oder nur vom Besitzer selbst (nicht gesetzt) genutzt werden darf.\n"..
   "\n"..
@@ -1125,7 +1126,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Die Signallampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
-  "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" farbig gemacht werden.\n"..
+  "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" und über Lua/Beduino Kommandos eingefärbt werden.\n"..
+  "\n"..
+  "Mit dem Chat-Kommando '/ta_color' wird die Farbpalette mit den Werten für die Lua/Beduino Kommandos angezeigt und mit '/ta_send color <num>' kann die Farbe geändert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1630,7 +1633,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "",
-  "Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter.\n"..
+  "Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter. Mit dem Schraubenschlüssel-Menü können die Daten aber nachträglich geändert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1696,6 +1699,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Das 'goto' Kommando wird nur angenommen\\, wenn der Sequenzer gestoppt ist.\n"..
   "\n"..
+  "Über das Gabelschlüssel-Menü kann beim Sequenzer die Zykluszeit (normal: 100 ms) geändert werden. \n"..
+  "\n"..
   "\n"..
   "\n",
   "",
@@ -1705,7 +1710,7 @@ techage.manual_DE.aText = {
   "Anleitung:\n"..
   "\n"..
   "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
-  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)\n"..
+  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)\n"..
   "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
   "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
   "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
@@ -1892,7 +1897,13 @@ techage.manual_DE.aText = {
   "\n",
   "Siehe TA3 Pumpe.\n"..
   "\n"..
-  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando 'flowrate'. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.\n"..
+  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. \n"..
+  "\n"..
+  "In der Betriebsart \"Durchflussbegrenzer\" kann die Anzahl der Einheiten\\, die von der Pumpe gepumpt werden\\, begrenzt werden. Die Betriebsart Durchflussbegrenzer kann über das Gabelschlüssel-Menü aktiviert werden\\, indem im Menü die Anzahl an Einheiten konfiguriert wird. Sobald die  konfigurierte Anzahl an Einheiten gepumpt wurden\\, schaltet sich die Pumpe ab. Wird die Pumpe wieder eingeschaltet\\, pumpt sie wieder die konfigurierte Anzahl an Einheiten und schaltet sich dann ab.\n"..
+  "\n"..
+  "Der Durchflussbegrenzer kann auch per Lua- oder Beduino Controller konfiguriert und gestartet werden.\n"..
+  "\n"..
+  "Zusätzlich unterstützt die Pumpe das Kommando 'flowrate'. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1918,10 +1929,14 @@ techage.manual_DE.aText = {
   "Die Funktion entspricht grundsätzlich der von TA2/TA3. Zusätzlich kann aber über ein Menü konfiguriert werden\\, welche Gegenstände aus einer TA4 Kiste geholt und weiter transportiert werden sollen.\n"..
   "Die Verarbeitungsleistung beträgt 12 Items alle 2 s\\, sofern auf beiden Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 6 Items alle 2 s.\n"..
   "\n"..
-  "Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:\n"..
+  "In der Betriebsart \"Durchlaufbegrenzer\" kann die Anzahl der Items\\, die von dem Schieber bewegt werden\\, begrenzt werden. Die Betriebsart Durchlaufbegrenzer kann über das Gabelschlüssel-Menü aktiviert werden\\, indem im Menü die Anzahl an Items konfiguriert wird. Sobald die  konfigurierte Anzahl an Items bewegt wurden\\, schaltet sich der Schieber ab. Wird der Schieber wieder eingeschaltet\\, bewegt er wieder die konfigurierte Anzahl an Items und schaltet sich dann ab.\n"..
+  "\n"..
+  "Der TA4 Schieber kann auch per Lua- oder Beduino Controller konfiguriert und gestartet werden.\n"..
+  "\n"..
+  "Hier die zusätzlichen Kommandos für den Lua Controller:\n"..
   "\n"..
   "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\nMit '$send_cmnd(1234\\, \"config\"\\, \"\")' wird die Konfiguration gelöscht\n"..
-  "  - 'pull' dient zum Absetzen eines Auftrags an den Schieber:\nBeispiel: '$send_cmnd(1234\\, \"pull\"\\, \"default:dirt 8\")'\nAls Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den 'stopped' Mode und sendet ein \"off\" Kommando zurück an den Sender des \"pull\" Kommandos.\n"..
+  "  - 'limit' dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:\nBeispiel: '$send_cmnd(1234\\, \"init\"\\, 7)'\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2004,6 +2019,10 @@ techage.manual_DE.aText = {
   "  - Werkzeuge können nicht recycelt werden\n"..
   "\n"..
   "Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA3.  \n"..
   "\n"..
   "\n"..
   "\n",
@@ -2358,6 +2377,7 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_item_flow_limiter_pas",
   "techage_ta5",
   "",
   "",
@@ -2591,6 +2611,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_top",
   "techage_collider_plan",
   "ta4_cooler",
+  "",
   "",
   "",
   "",

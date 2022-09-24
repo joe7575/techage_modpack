@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot flower cutting command
 ]]--
 
@@ -58,7 +58,7 @@ end
 local function harvesting(base_pos, mem)
 	local pos = mem.pos_tbl and mem.pos_tbl[mem.steps]
 	mem.steps = (mem.steps or 1) + 1
-	
+
 	if pos and lib.not_protected(base_pos, pos) then
 		local node = minetest.get_node_or_nil(pos)
 		if node.name ~= "default:papyrus" then
@@ -117,9 +117,9 @@ place_sign 1
 turn_around]]
 
 signs_bot.register_sign({
-	name = "flowers", 
-	description = S('Sign "flowers"'), 
-	commands = CMD, 
+	name = "flowers",
+	description = S('Sign "flowers"'),
+	commands = CMD,
 	image = "signs_bot_sign_flowers.png",
 })
 
@@ -139,9 +139,9 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:flowers",
 			text = table.concat({
 				S("Used to cut flowers on a 3x3 field."),
-				S("Place the sign in front of the field."), 
+				S("Place the sign in front of the field."),
 				S("When finished, the bot turns."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot farming commands
 ]]--
 
@@ -53,7 +53,7 @@ local function planting(base_pos, mem, slot)
 			end
 		end
 	end
-end	
+end
 
 signs_bot.register_botcommand("sow_seed", {
 	mod = "farming",
@@ -83,7 +83,7 @@ signs_bot.register_botcommand("sow_seed", {
 local function harvesting(base_pos, mem)
 	local pos = mem.pos_tbl and mem.pos_tbl[mem.steps]
 	mem.steps = (mem.steps or 1) + 1
-	
+
 	if pos and lib.not_protected(base_pos, pos) then
 		local node = minetest.get_node_or_nil(pos)
 		if signs_bot.FarmingCrop[node.name] then
@@ -135,15 +135,15 @@ local function plant_sapling(base_pos, mem, slot)
 		local item = stack and signs_bot.TreeSaplings[stack:get_name()]
 		if item and item.sapling then
 			minetest.set_node(pos, {name = item.sapling, paramtype2 = "wallmounted", param2 = 1})
-			if item.t1 ~= nil then 
+			if item.t1 ~= nil then
 				-- We have to simulate "on_place" and start the timer by hand
 				-- because the after_place_node function checks player rights and can't therefore
 				-- be used.
 				minetest.get_node_timer(pos):start(math.random(item.t1, item.t2))
-			end			
+			end
 		end
 	end
-end	
+end
 
 signs_bot.register_botcommand("plant_sapling", {
 	mod = "farming",
@@ -171,9 +171,9 @@ place_sign 1
 turn_around]]
 
 signs_bot.register_sign({
-	name = "farming", 
-	description = S('Sign "farming"'), 
-	commands = CMD, 
+	name = "farming",
+	description = S('Sign "farming"'),
+	commands = CMD,
 	image = "signs_bot_sign_farming.png",
 })
 
@@ -193,10 +193,10 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:farming",
 			text = table.concat({
 				S("Used to harvest and seed a 3x3 field."),
-				S("Place the sign in front of the field."), 
+				S("Place the sign in front of the field."),
 				S("The seed to be placed has to be in the first inventory slot of the bot."),
 				S("When finished, the bot turns."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

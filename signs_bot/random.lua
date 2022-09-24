@@ -7,8 +7,8 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
-	Signs Bot: Random Series 
+
+	Signs Bot: Random Series
 
 ]]--
 
@@ -20,7 +20,7 @@ local function gen_serie(inv_size)
 		offs = offs + 1
 	end
 	local index = 1
-	
+
 	for n = 1, (inv_size*2) do
 		tbl[#tbl + 1] = index
 		index = ((index + offs) % inv_size) + 1

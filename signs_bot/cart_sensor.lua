@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Cart Sensor
 
 ]]--
@@ -26,7 +26,7 @@ local CYCLE_TIME = 2
 
 local function update_infotext(pos, dest_pos, dest_idx)
 	M(pos):set_string("infotext", S("Cart Sensor: Connected with").." "..P2S(dest_pos).." / "..dest_idx)
-end	
+end
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -37,7 +37,7 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 	return true
 end
-	
+
 local function node_timer(pos)
 	if minecart.is_cart_available(pos, M(pos):get_int("param2"), 1) then
 		if swap_node(pos, "signs_bot:cart_sensor_on") then
@@ -69,7 +69,7 @@ minetest.register_node("signs_bot:cart_sensor", {
 		"signs_bot_sensor1.png^[transformFXR90",
 		"signs_bot_sensor1.png^[transformFXR180",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		meta:set_string("infotext", S("Cart Sensor: Not connected"))
@@ -77,7 +77,7 @@ minetest.register_node("signs_bot:cart_sensor", {
 		local node = minetest.get_node(pos)
 		meta:set_int("param2", (node.param2 + 2) % 4)
 	end,
-	
+
 	on_timer = node_timer,
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
@@ -108,7 +108,7 @@ minetest.register_node("signs_bot:cart_sensor_on", {
 		"signs_bot_sensor1.png^[transformFXR90",
 		"signs_bot_sensor1.png^[transformFXR180",
 	},
-			
+
 	on_timer = node_timer,
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
@@ -152,9 +152,9 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:cart_sensor",
 			text = table.concat({
 				S("The Cart Sensor detects and sends a signal, if a cart (Minecart) is nearby."),
-				S("the sensor range is one node/meter."), 
+				S("the sensor range is one node/meter."),
 				S("The sensor has an active side (red) that must point to the rail/cart."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

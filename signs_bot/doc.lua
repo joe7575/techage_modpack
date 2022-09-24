@@ -7,7 +7,7 @@
 
 	GPLv3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Bot Flap
 
 ]]--
@@ -145,7 +145,7 @@ doc.add_category("signs_bot",
 	name = S("Signs Bot"),
 	description = S("A robot controlled by signs, used for automated work"),
 	sorting = "custom",
-	sorting_data = {"start", "control", "sensor_doc", "tool", 
+	sorting_data = {"start", "control", "sensor_doc", "tool",
 		"box", "bot_flap", "duplicator",
 		"bot_sensor", "cart_sensor", "node_sensor", "crop_sensor", "chest", "timer",
 		"changer", "sensor_extender",

@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Sensor/Actuator Connection Tool
 
 ]]--
@@ -31,7 +31,7 @@ local function get_stored_data(placer)
 		return minetest.string_to_pos(spos), name
 	end
 end
-	
+
 local function store_data(placer, pos, name)
 	local meta = placer:get_meta()
 	if pos then
@@ -61,7 +61,7 @@ local function use_tool(itemstack, placer, pointed_thing)
 	if pointed_thing.type == "node" then
 		local pos1,ntype1 = get_stored_data(placer)
 		local pos2,ntype2 = get_current_data(pointed_thing)
-		
+
 		if ntype1 == "actuator" and (ntype2 == "sensor" or ntype2 == "repeater") then
 			pairing(pos1, pos2)
 			store_data(placer, nil, nil)
@@ -88,7 +88,7 @@ local function use_tool(itemstack, placer, pointed_thing)
 		return
 	end
 end
-			
+
 
 minetest.register_node("signs_bot:connector", {
 	description = S("Sensor Connection Tool"),

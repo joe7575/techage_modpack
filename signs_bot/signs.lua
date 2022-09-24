@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Signs
 
 ]]--
@@ -116,9 +116,9 @@ signs_bot.register_signXL = register_signXL
 
 
 register_sign({
-	name = "sign_right", 
-	description = S('Sign "turn right"'), 
-	commands = "turn_right", 
+	name = "sign_right",
+	description = S('Sign "turn right"'),
+	commands = "turn_right",
 	image = "signs_bot_sign_right.png",
 })
 
@@ -132,9 +132,9 @@ minetest.register_craft({
 })
 
 register_sign({
-	name = "sign_left", 
-	description = S('Sign "turn left"'), 
-	commands = "turn_left", 
+	name = "sign_left",
+	description = S('Sign "turn left"'),
+	commands = "turn_left",
 	image = "signs_bot_sign_left.png",
 })
 
@@ -148,9 +148,9 @@ minetest.register_craft({
 })
 
 register_sign({
-	name = "sign_take", 
-	description = S('Sign "take item"'), 
-	commands = "take_item 99\nturn_around", 
+	name = "sign_take",
+	description = S('Sign "take item"'),
+	commands = "take_item 99\nturn_around",
 	image = "signs_bot_sign_take.png",
 })
 
@@ -164,9 +164,9 @@ minetest.register_craft({
 })
 
 register_sign({
-	name = "sign_add", 
-	description = S('Sign "add item"'), 
-	commands = "add_item 99\nturn_around", 
+	name = "sign_add",
+	description = S('Sign "add item"'),
+	commands = "add_item 99\nturn_around",
 	image = "signs_bot_sign_add.png",
 })
 
@@ -180,9 +180,9 @@ minetest.register_craft({
 })
 
 register_sign({
-	name = "sign_stop", 
-	description = S('Sign "stop"'), 
-	commands = "stop", 
+	name = "sign_stop",
+	description = S('Sign "stop"'),
+	commands = "stop",
 	image = "signs_bot_sign_stop.png",
 })
 
@@ -197,9 +197,9 @@ minetest.register_craft({
 
 if minetest.global_exists("minecart") then
 	register_sign({
-		name = "sign_add_cart", 
-		description = S('Sign "add to cart"'), 
-		commands = "drop_items 99 1\npunch_cart\nturn_around", 
+		name = "sign_add_cart",
+		description = S('Sign "add to cart"'),
+		commands = "drop_items 99 1\npunch_cart\nturn_around",
 		image = "signs_bot_sign_add_cart.png",
 	})
 
@@ -213,9 +213,9 @@ if minetest.global_exists("minecart") then
 	})
 
 	register_sign({
-		name = "sign_take_cart", 
-		description = S('Sign "take from cart"'), 
-		commands = "pickup_items 1\npunch_cart\nturn_around", 
+		name = "sign_take_cart",
+		description = S('Sign "take from cart"'),
+		commands = "pickup_items 1\npunch_cart\nturn_around",
 		image = "signs_bot_sign_take_cart.png",
 	})
 
@@ -234,14 +234,14 @@ if minetest.get_modpath("doc") then
 		name = S('Sign "turn right"'),
 		data = {
 			item = "signs_bot:sign_right",
-			text = S("The Bot turns right when it detects this sign in front of it.")		
+			text = S("The Bot turns right when it detects this sign in front of it.")
 		},
 	})
 	doc.add_entry("signs_bot", "sign_left", {
 		name = S('Sign "turn left"'),
 		data = {
 			item = "signs_bot:sign_left",
-			text = S("The Bot turns left when it detects this sign in front of it.")		
+			text = S("The Bot turns left when it detects this sign in front of it.")
 		},
 	})
 	doc.add_entry("signs_bot", "sign_take", {
@@ -250,8 +250,8 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:sign_take",
 			text = table.concat({
 				S("The Bot takes items out of a chest in front of it and then turns around."),
-				S("This sign has to be placed on top of the chest."), 
-			}, "\n")			
+				S("This sign has to be placed on top of the chest."),
+			}, "\n")
 		},
 	})
 	doc.add_entry("signs_bot", "sign_add", {
@@ -260,15 +260,15 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:sign_add",
 			text = table.concat({
 				S("The Bot puts items into a chest in front of it and then turns around."),
-				S("This sign has to be placed on top of the chest."), 
-			}, "\n")			
+				S("This sign has to be placed on top of the chest."),
+			}, "\n")
 		},
 	})
 	doc.add_entry("signs_bot", "sign_stop", {
 		name = S('Sign "stop"'),
 		data = {
 			item = "signs_bot:sign_stop",
-			text = S("The Bot will stop in front of this sign until the sign is removed or the bot is turned off.")		
+			text = S("The Bot will stop in front of this sign until the sign is removed or the bot is turned off.")
 		},
 	})
 end
@@ -280,8 +280,8 @@ if minetest.get_modpath("doc") and minetest.global_exists("minecart") then
 			item = "signs_bot:sign_add_cart",
 			text = table.concat({
 				S("The Bot puts items into a minecart in front of it, pushes the cart and then turns around."),
-				S("This sign has to be placed on top of the rail at the cart end position."), 
-			}, "\n")			
+				S("This sign has to be placed on top of the rail at the cart end position."),
+			}, "\n")
 		},
 	})
 	doc.add_entry("signs_bot", "sign_take_cart", {
@@ -290,8 +290,8 @@ if minetest.get_modpath("doc") and minetest.global_exists("minecart") then
 			item = "signs_bot:sign_take_cart",
 			text = table.concat({
 				S("The Bot takes items out of a minecart in front of it, pushes the cart and then turns around."),
-				S("This sign has to be placed on top of the rail at the cart end position."), 
-			}, "\n")			
+				S("This sign has to be placed on top of the rail at the cart end position."),
+			}, "\n")
 		},
 	})
 end

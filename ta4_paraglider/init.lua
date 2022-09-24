@@ -95,55 +95,57 @@ minetest.register_entity(
 
 			if self.attached ~= nil then
 				local player = minetest.get_player_by_name(self.attached)
-				local controls = player:get_player_control()
-				local hspeed = 5.0
-				local vspeed = -1
-				self.idle = (self.idle or 1) - 1
+				if player then
+					local controls = player:get_player_control()
+					local hspeed = 5.0
+					local vspeed = -1
+					self.idle = (self.idle or 1) - 1
 
-				if controls.up then
-					vspeed = -3
-					hspeed = 8
-					player:set_look_vertical(math.tan(-vspeed / hspeed))
-					set_player_yaw(self, player, yaw)
-					self.idle = 1
-				elseif controls.down then
-					vspeed = -0.25
-					hspeed = 2
-					player:set_look_vertical(math.tan(-vspeed / hspeed))
-					set_player_yaw(self, player, yaw)
-					self.idle = 1
-				end
+					if controls.up then
+						vspeed = -3
+						hspeed = 8
+						player:set_look_vertical(math.tan(-vspeed / hspeed))
+						set_player_yaw(self, player, yaw)
+						self.idle = 1
+					elseif controls.down then
+						vspeed = -0.25
+						hspeed = 2
+						player:set_look_vertical(math.tan(-vspeed / hspeed))
+						set_player_yaw(self, player, yaw)
+						self.idle = 1
+					end
 
-				if controls.right then
-					yaw = yaw - math.pi / 60
-					vspeed = -2
-					hspeed = 4
-					player:set_look_vertical(math.tan(-vspeed / hspeed))
-					set_player_yaw(self, player, yaw)
-					self.idle = 1
-				elseif controls.left then
-					yaw = yaw + math.pi / 60
-					vspeed = -2
-					hspeed = 4
-					player:set_look_vertical(math.tan(-vspeed / hspeed))
-					set_player_yaw(self, player, yaw)
-					self.idle = 1
-				end
+					if controls.right then
+						yaw = yaw - math.pi / 60
+						vspeed = -2
+						hspeed = 4
+						player:set_look_vertical(math.tan(-vspeed / hspeed))
+						set_player_yaw(self, player, yaw)
+						self.idle = 1
+					elseif controls.left then
+						yaw = yaw + math.pi / 60
+						vspeed = -2
+						hspeed = 4
+						player:set_look_vertical(math.tan(-vspeed / hspeed))
+						set_player_yaw(self, player, yaw)
+						self.idle = 1
+					end
 
-				if self.idle == 0 then
-					player:set_look_vertical(math.tan(-vspeed / hspeed))
-					set_player_yaw(self, player, yaw)
-				end
-				
-				self.object:set_yaw(yaw)
-				local vel = vector.multiply(minetest.yaw_to_dir(yaw), hspeed)
-				vel.y = vspeed
-				self.object:set_velocity(vel)
+					if self.idle == 0 then
+						player:set_look_vertical(math.tan(-vspeed / hspeed))
+						set_player_yaw(self, player, yaw)
+					end
+					
+					self.object:set_yaw(yaw)
+					local vel = vector.multiply(minetest.yaw_to_dir(yaw), hspeed)
+					vel.y = vspeed
+					self.object:set_velocity(vel)
 
-				if node_under.name ~= "air" then
-					default.player_attached[self.attached] = false
-					local player = minetest.get_player_by_name(self.attached)
-					player:get_meta():set_int("player_physics_locked", 0)
+					if node_under.name ~= "air" then
+						default.player_attached[self.attached] = false
+						local player = minetest.get_player_by_name(self.attached)
+						player:get_meta():set_int("player_physics_locked", 0)
+					end
 				end
 			else
 				self.object:remove()
@@ -155,7 +157,9 @@ minetest.register_entity(
 					default.player_attached[self.attached] = false
 					self.object:set_detach()
 					local player = minetest.get_player_by_name(self.attached)
-					player:get_meta():set_int("player_physics_locked", 0)
+					if player then
+						player:get_meta():set_int("player_physics_locked", 0)
+					end
 				end
 				self.object:remove()
 			end

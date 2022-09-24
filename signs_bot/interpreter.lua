@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Command interpreter
 
 ]]--
@@ -20,7 +20,7 @@ local MAX_SIZE = 1000  -- max number of tokens
 local tCmdDef = {}
 local lCmdLookup = {}
 local tSymbolTbl = {}
-local CodeCache = {}	
+local CodeCache = {}
 
 local api = {}
 
@@ -92,7 +92,7 @@ local function tokenizer(script)
 	end
 	tokens[#tokens + 1] = "exit"
 	return tokens
-end	
+end
 
 local function pass1(tokens)
 	local pc = 1
@@ -125,7 +125,7 @@ local function compile(script)
 	local tokens = tokenizer(script)
 	pass1(tokens)
 	return pass2(tokens)
-end	
+end
 
 local function gen_string_cmnd(code, pc, num_param, script)
 	local tokens = tokenizer(script)
@@ -149,9 +149,9 @@ local function register_command(cmnd_name, num_param, cmnd_func, check_func)
 	assert(check_func or num_param == 0, cmnd_name..": check_func = "..dump(check_func))
 	lCmdLookup[#lCmdLookup + 1] = {num_param, cmnd_func, cmnd_name}
 	tCmdDef[cmnd_name] = {
-		num_param = num_param, 
-		cmnd = cmnd_func, 
-		name = cmnd_name, 
+		num_param = num_param,
+		cmnd = cmnd_func,
+		name = cmnd_name,
 		check = check_func,
 		opcode = #lCmdLookup,
 	}
@@ -167,7 +167,7 @@ register_command("repeat", 1,
 		cnt = tonumber(cnt) or 0
 		return cnt > 0 and cnt < 1000
 	end
-)	
+)
 
 register_command("end", 0,
 	function(base_pos, mem)
@@ -183,7 +183,7 @@ register_command("end", 0,
 		end
 		return api.DONE
 	end
-)	
+)
 
 register_command("call", 1,
 	function(base_pos, mem, addr)
@@ -197,7 +197,7 @@ register_command("call", 1,
 	function(addr)
 		return addr and tSymbolTbl[addr..":"]
 	end
-)	
+)
 
 register_command("return", 0,
 	function(base_pos, mem)
@@ -208,7 +208,7 @@ register_command("return", 0,
 		mem.Stack[#mem.Stack] = nil
 		return api.DONE
 	end
-)	
+)
 
 register_command("jump", 1,
 	function(base_pos, mem, addr)
@@ -218,7 +218,7 @@ register_command("jump", 1,
 	function(addr)
 		return addr and tSymbolTbl[addr..":"]
 	end
-)	
+)
 
 register_command("exit", 0,
 	function(base_pos, mem)
@@ -234,15 +234,20 @@ function api.register_command(cmnd_name, num_param, cmnd_func, check_func)
 	register_command(cmnd_name, num_param, cmnd_func, check_func)
 end
 
+function api.check_label(label)
+	return label and tSymbolTbl[label..":"] ~= nil
+end
+
+
 -- function returns: true/false, error_string, line-num
 function api.check_script(script)
 	local tbl = {}
 	local num_token = 0
-	
+
 	-- to fill the symbol table
 	local tokens = tokenizer(script)
 	pass1(tokens)
-	
+
 	for idx, cmnd, param1, param2, param3 in get_line_tokens(script) do
 		if tCmdDef[cmnd] then
 			num_token = num_token + 1 + tCmdDef[cmnd].num_param
@@ -270,7 +275,7 @@ function api.check_script(script)
 		return false, S("'end' missing"), 0
 	end
 	return true, S("Checked and approved"), 0
-end	
+end
 
 -- function returns: true/false, error-string
 -- default_cmnd is used for the 'cond_move'
@@ -283,7 +288,7 @@ function api.run_script(base_pos, mem)
 	local opcode = code[mem.pc]
 	if opcode then
 		local num_param, func = unpack(lCmdLookup[opcode])
-		
+
 		--dbg_out(opcode, num_param, code, mem.pc)
 		local res, err = func(base_pos, mem, code[mem.pc+1], code[mem.pc+2], code[mem.pc+3])
 		if res == api.DONE then
@@ -303,6 +308,7 @@ function api.reset_script(base_pos, mem)
 	CodeCache[hash] = nil
 	mem.pc = 1
 	mem.Stack = {}
+	mem.bot_falling = nil
 end
 
 return api

@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot move commands
 
 ]]--
@@ -24,17 +24,17 @@ local function node_and_pos(pos)
 end
 
 -- Positions to check:
---   5 6  
---  [R]1  
+--   5 6
+--  [R]1
 --   3 2
---   4 
+--   4
 function signs_bot.move_robot(mem)
 	local param2 = mem.robot_param2
 	local pos = mem.robot_pos
 	local node1, pos1 = node_and_pos(lib.next_pos(pos, param2))
 	local node2, pos2 = node_and_pos({x=pos1.x, y=pos1.y-1, z=pos1.z})
 	local node3, pos3 = node_and_pos({x=pos.x, y=pos.y-1, z=pos.z})
-	
+
 	--
 	-- One step forward (pos1)
 	--
@@ -57,17 +57,17 @@ function signs_bot.move_robot(mem)
 		minetest.sound_play('signs_bot_step', {pos = pos1})
 		return pos1
 	end
-	
+
 	--
 	-- One step up (pos5)
 	--
 	local node6, pos6 = node_and_pos({x=pos1.x, y=pos1.y+1, z=pos1.z})
 	if lib.check_pos(pos6, node6, node1, param2) then
 		local node5, pos5 = node_and_pos({x=pos.x, y=pos.y+1, z=pos.z})
-		if node5.name == "air" then 
-			if node3.name == "signs_bot:robot_leg" then 
+		if node5.name == "air" then
+			if node3.name == "signs_bot:robot_leg" then
 				return nil
-			elseif node3.name == "signs_bot:robot_foot" then 
+			elseif node3.name == "signs_bot:robot_foot" then
 				minetest.swap_node(pos3, {name="signs_bot:robot_leg"})
 			else
 				minetest.swap_node(pos, {name="signs_bot:robot_foot"})
@@ -77,12 +77,12 @@ function signs_bot.move_robot(mem)
 			return pos5
 		end
 	end
-	
+
 	--
 	-- One step down I (pos3)
 	--
 	local node4, pos4 = node_and_pos({x=pos.x, y=pos.y-2, z=pos.z})
-	if lib.check_pos(pos3, node3, node4, param2) then  -- 
+	if lib.check_pos(pos3, node3, node4, param2) then  --
 		minetest.remove_node(pos)
 		minetest.set_node(pos3, {name="signs_bot:robot", param2=param2})
 		minetest.sound_play('signs_bot_step', {pos = pos3})
@@ -98,8 +98,8 @@ function signs_bot.move_robot(mem)
 		minetest.sound_play('signs_bot_step', {pos = pos3})
 		return pos3
 	end
-end	
-	
+end
+
 
 local function backward_robot(mem)
 	local param2 = mem.robot_param2
@@ -109,7 +109,7 @@ local function backward_robot(mem)
 	local node3, pos3 = node_and_pos({x=pos.x, y=pos.y-1, z=pos.z})
 	local node4, pos4 = node_and_pos({x=pos.x, y=pos.y-2, z=pos.z})
 	local new_pos = nil
-	
+
 	if lib.check_pos(pos1, node1, node2, param2) then
 		if node3.name == "signs_bot:robot_foot" or node3.name == "signs_bot:robot_leg" then
 			minetest.remove_node(pos3)
@@ -123,7 +123,7 @@ local function backward_robot(mem)
 		mem.stored_node = node1
 		return pos1
 	end
-end	
+end
 
 signs_bot.register_botcommand("backward", {
 	mod = "move",
@@ -148,7 +148,7 @@ local function turn_robot(pos, param2, dir)
 	minetest.swap_node(pos, {name="signs_bot:robot", param2=param2})
 	minetest.sound_play('signs_bot_step', {pos = pos, gain = 0.6})
 	return param2
-end	
+end
 
 signs_bot.register_botcommand("turn_left", {
 	mod = "move",
@@ -187,15 +187,15 @@ signs_bot.register_botcommand("turn_around", {
 
 -- Positions to check:
 --   1
---  [R]  
+--  [R]
 --   2
 local function robot_up(pos, param2)
 	local node1, pos1 = node_and_pos({x=pos.x, y=pos.y+1, z=pos.z})
 	local node2, pos2 = node_and_pos({x=pos.x, y=pos.y-1, z=pos.z})
 	if lib.check_pos(pos1, node1, node2, param2) then
-		if node2.name == "signs_bot:robot_leg" then 
+		if node2.name == "signs_bot:robot_leg" then
 			return nil
-		elseif node2.name == "signs_bot:robot_foot" then 
+		elseif node2.name == "signs_bot:robot_foot" then
 			minetest.swap_node(pos, {name="signs_bot:robot_leg"})
 		else
 			minetest.swap_node(pos, {name="signs_bot:robot_foot"})
@@ -205,7 +205,7 @@ local function robot_up(pos, param2)
 		return pos1
 	end
 	return nil
-end	
+end
 
 signs_bot.register_botcommand("move_up", {
 	mod = "move",
@@ -222,7 +222,7 @@ signs_bot.register_botcommand("move_up", {
 })
 
 -- Positions to check:
---  [R]  
+--  [R]
 --   1
 --   2
 --   3
@@ -230,7 +230,7 @@ local function robot_down(pos, param2)
 	local node1, pos1 = node_and_pos({x=pos.x, y=pos.y-1, z=pos.z})
 	local node2, pos2 = node_and_pos({x=pos.x, y=pos.y-2, z=pos.z})
 	local node3, pos3 = node_and_pos({x=pos.x, y=pos.y-3, z=pos.z})
-	if lib.check_pos(pos1, node1, node2, param2) 
+	if lib.check_pos(pos1, node1, node2, param2)
 	or (node1.name == "air" and lib.check_pos(pos2, node2, node3, param2))
 	or (node1.name == "signs_bot:robot_leg" or node1.name == "signs_bot:robot_foot") then
 		minetest.remove_node(pos)
@@ -239,7 +239,7 @@ local function robot_down(pos, param2)
 		return pos1
 	end
 	return nil
-end	
+end
 
 signs_bot.register_botcommand("move_down", {
 	mod = "move",
@@ -252,6 +252,36 @@ signs_bot.register_botcommand("move_down", {
 			mem.robot_pos = new_pos
 		end
 		return signs_bot.DONE
+	end,
+})
+
+signs_bot.register_botcommand("fall_down", {
+	mod = "move",
+	params = "",
+	num_param = 0,
+	description = S("Fall into a hole/chasm (up to 10 blocks)"),
+	cmnd = function(base_pos, mem)
+		if not mem.bot_falling then
+			local pos1 = {x=mem.robot_pos.x, y=mem.robot_pos.y-1, z=mem.robot_pos.z}
+			local pos2 = {x=mem.robot_pos.x, y=mem.robot_pos.y-10, z=mem.robot_pos.z}
+			local sts, pos3 = minetest.line_of_sight(pos1, pos2)
+			if sts == false then
+				sts, _ = minetest.spawn_falling_node(mem.robot_pos)
+				if sts then
+					mem.bot_falling = 2
+					mem.robot_pos = {x=pos3.x, y=pos3.y+1, z=pos3.z}
+					return signs_bot.BUSY
+				end
+			end
+			return signs_bot.ERROR, "Too deep"
+		else
+			mem.bot_falling = mem.bot_falling - 1
+			if mem.bot_falling <= 0 then
+				mem.bot_falling = nil
+				return signs_bot.DONE
+			end
+			return signs_bot.BUSY
+		end
 	end,
 })
 
@@ -305,5 +335,5 @@ signs_bot.register_botcommand("turn_off", {
 	end,
 })
 
-	
-	
+
+

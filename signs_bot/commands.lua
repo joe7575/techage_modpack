@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Robot command interpreter
 
 ]]--
@@ -29,6 +29,9 @@ signs_bot.DONE = ci.DONE
 signs_bot.NEW = ci.NEW
 signs_bot.ERROR = ci.ERROR
 signs_bot.TURN_OFF = ci.TURN_OFF
+
+-- API functions
+signs_bot.check_label = ci.check_label
 
 local tCommands = {}
 local SortedKeys = {}
@@ -79,7 +82,7 @@ function signs_bot.get_commands()
 		end
 	end
 	return tbl
-end	
+end
 
 function signs_bot.get_help_text(cmnd)
 	if cmnd then
@@ -90,8 +93,8 @@ function signs_bot.get_help_text(cmnd)
 		end
 	end
 	return S("unknown command")
-end	
-	
+end
+
 function signs_bot.check_commands(pos, text)
 	return ci.check_script(text)
 end
@@ -107,7 +110,7 @@ local function check_sign(pos, mem)
 		if meta:get_int("err_code") ~= 0 then -- code not valid?
 			return false
 		end
-		
+
 		local node = tubelib2.get_node_lvm(pos)
 		-- correct sign direction?
 		if mem.robot_param2 == node.param2 then
@@ -187,7 +190,7 @@ function signs_bot.run_next_command(base_pos, mem)
 		signs_bot.stop_robot(base_pos, mem)
 		return false
 	end
-	if not power_consumption(mem) then 
+	if not power_consumption(mem) then
 		signs_bot.stop_robot(base_pos, mem)
 		mem.bot_state = "nopower"
 		return bot_error(base_pos, mem, "No power")
@@ -201,33 +204,33 @@ end
 
 signs_bot.register_botcommand("repeat", {
 	mod = "core",
-	params = "<num>",	
+	params = "<num>",
 	description = S("start of a 'repeat..end' block"),
-})	
+})
 
 signs_bot.register_botcommand("end", {
 	mod = "core",
-	params = "",	
+	params = "",
 	description = S("end command of a 'repeat..end' block"),
-})	
+})
 
 signs_bot.register_botcommand("call", {
 	mod = "core",
-	params = "<label>",	
+	params = "<label>",
 	description = S("call a subroutine (with 'return' statement)"),
-})	
+})
 
 signs_bot.register_botcommand("return", {
 	mod = "core",
-	params = "",	
+	params = "",
 	description = S("return from a subroutine"),
-})	
+})
 
 signs_bot.register_botcommand("jump", {
 	mod = "core",
-	params = "<label>",	
+	params = "<label>",
 	description = S("jump to a label"),
-})	
+})
 
 local function move(mem, any_sensor)
 	local new_pos = signs_bot.move_robot(mem)
@@ -244,7 +247,7 @@ end
 
 signs_bot.register_botcommand("move", {
 	mod = "move",
-	params = "<steps>",	
+	params = "<steps>",
 	num_param = 1,
 	description = S([[Move the robot 1..999 steps forward
 without paying attention to any signs.
@@ -268,7 +271,7 @@ signs_bot.register_botcommand("cond_move", {
 	num_param = 0,
 	description = S([[Walk until a sign or obstacle is
 reached. Then continue with the next command.
-When a sign has been reached, 
+When a sign has been reached,
 the current program is ended
 and the bot executes the
 new program from the sign]]),
@@ -289,7 +292,7 @@ signs_bot.register_botcommand("print", {
 	params = "<text>",
 	num_param = 1,
 	description = S([[Print given text as chat message.
-For two or more words, use the '*' character 
+For two or more words, use the '*' character
 instead of spaces, like "Hello*world"]]),
 	check = function(text)
 		return text ~= ""

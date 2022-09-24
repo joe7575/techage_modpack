@@ -57,7 +57,8 @@ The mod has an in-game help to all blocks and signs. Therefore, it is highly rec
 The commands are also all described as help in the "Sign command" node.
 All blocks or signs that are set are taken from the bot inventory.
 Any blocks or signs removed will be added back to the Bot Inventory.
-For all Inventory commands applies: If the inventory stack specified by <slot> is full, so that nothing more can be done, or just empty, so that nothing more can be removed, the next slot will automatically be used.
+`<slot>` is always the bot internal inventory stack (1..8).
+For all Inventory commands applies: If the bot inventory stack specified by `<slot>` is full, so that nothing more can be done, or just empty, so that nothing more can be removed, the next slot will automatically be used.
 
     move <steps>              - to follow one or more steps forward without signs
     cond_move                 - walk to the next sign and work it off
@@ -69,6 +70,7 @@ For all Inventory commands applies: If the inventory stack specified by <slot> i
     pause <sec>               - wait one or more seconds
     move_up                   - move up (maximum 2 times)
     move_down                 - move down
+    fall_down                 - fall into a hole/chasm (up to 10 blocks)
     take_item <num> <slot>    - take one or more items from a box
     add_item <num> <slot>     - put one or more items in a box
     add_fuel <num> <slot>     - for furnaces or similar
@@ -106,6 +108,20 @@ For all Inventory commands applies: If the inventory stack specified by <slot> i
     flame_on                  - Make fire
     flame_off                 - Put out the fire
 
+#### Techage specific commands
+
+    ignite                            - Ignite the techage charcoal lighter
+    low_batt <percent>                - Turn the bot off if the battery power is below the 
+                                        given value in percent (1..99)
+    jump_low_batt <percent> <label>   - Jump to <label> if the battery power is below the 
+                                        given value in percent (1..99)
+                                        (see "Flow control commands")
+    send_cmnd <receiver> <command>    - Send a techage command to a given node. 
+                                        Receiver is addressed by the techage node number. 
+                                        For commands with two or more words, use the '*' character
+                                        instead of spaces, e.g.: send_cmnd 3465 pull*default:dirt*2 
+
+
 #### Flow control commands
 
     jump <label>    -- jump command, <label> is a word from the characters a-z or A-Z
@@ -114,6 +130,16 @@ For all Inventory commands applies: If the inventory stack specified by <slot> i
     repeat <num>    -- start of a loop block, <num> is a number 1..999
     end             -- end of a loop block
     call <label>    -- call of a function (with return via the command 'return')
+
+#### Further jump commands
+
+    jump_check_item <num> <slot> <label>  - Check if there are <num> items in the chest like node.
+    		                                If not, jump to <label>.
+                                            <slot> is the bot inventory slot (1..8) to specify the item,
+    		                                or 0 for any item.
+    jump_low_batt <percent> <label>       - See "Techage specific commands"
+
+
 
 Example with a function at the beginning:
 
@@ -149,7 +175,7 @@ Or alternatively with the function at the end:
     return          -- end of 'foo'. Jump back
 
 ### License
-Copyright (C) 2019-2021 Joachim Stolberg
+Copyright (C) 2019-2022 Joachim Stolberg
 Copyright (C) 2021 Michal 'Micu' Cieslakiewicz (soup commands)
 Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
 
@@ -185,5 +211,6 @@ optional: farming redo, node_io, doc, techage, minecart, xdecor, compost
 - 2021-08-22  v1.09  * Add soup commands and signs, add aspen sign
 - 2021-09-18  v1.10  * Add techage command 'set <num>' to the Bot Control Unit
 - 2022-03-19  V1.11  * Extend farming (and add ethereal) support (Thanks to nixnoxus)
+- 2022-09-11  V1.12  * Add commands `jump_low_batt` , `jump_check_item`, and `fall_down`
 
 

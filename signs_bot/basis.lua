@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Robot basis block
 
 ]]--
@@ -38,7 +38,7 @@ function signs_bot.bot_inv_item_name(pos, slot)
 	local name = inv:get_stack("filter", slot):get_name()
 	if name ~= "" then return name end
 end
-	
+
 -- put items into the bot inventory and return leftover
 function signs_bot.bot_inv_put_item(pos, slot, items)
 	if not items then return end
@@ -73,7 +73,7 @@ local function take_items(inv, slot, num)
 	else
 		inv:set_stack("main", slot, nil)
 		local rest = num - stack:get_count()
-		local taken = inv:remove_item("main", ItemStack(stack:get_name().." "..rest)) 
+		local taken = inv:remove_item("main", ItemStack(stack:get_name().." "..rest))
 		stack:set_count(stack:get_count() + taken:get_count())
 		return stack
 	end
@@ -124,11 +124,11 @@ local function status(mem)
 		return S("charging")
 	end
 	return S("stopped")
-end	
+end
 
 local function formspec(pos, mem)
 	mem.running = mem.running or false
-	local cmnd = mem.running and "stop;"..S("Off") or "start;"..S("On") 
+	local cmnd = mem.running and "stop;"..S("Off") or "start;"..S("On")
 	local bot = not mem.running and "image[0.6,0;1,1;signs_bot_bot_inv.png]" or ""
 	local current_capa = mem.capa or (signs_bot.MAX_CAPA * 0.9)
 	return "size[9,8.2]"..
@@ -209,7 +209,7 @@ local function reset_robot(pos, mem)
 	mem.robot_param2 = (minetest.get_node(pos).param2 + 1) % 4
 	mem.robot_pos = lib.next_pos(pos, mem.robot_param2, 1)
 	local pos_below = {x=mem.robot_pos.x, y=mem.robot_pos.y-1, z=mem.robot_pos.z}
-	signs_bot.place_robot(mem.robot_pos, pos_below, mem.robot_param2)	
+	signs_bot.place_robot(mem.robot_pos, pos_below, mem.robot_param2)
 end
 
 function signs_bot.start_robot(base_pos)
@@ -306,7 +306,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local mem = tubelib2.get_mem(pos)
 	local meta = minetest.get_meta(pos)
-	
+
 	if fields.update then
 		meta:set_string("formspec", formspec(pos, mem))
 	elseif fields.config then
@@ -337,7 +337,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "sign" and minetest.get_item_group(name, "sign_bot_sign") ~= 1 then
 		return 0
 	end
-	if listname == "main" and bot_inv_item_name(pos, index) and 
+	if listname == "main" and bot_inv_item_name(pos, index) and
 				name ~= bot_inv_item_name(pos, index) then
 		return 0
 	end
@@ -376,7 +376,7 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 	end
 	local inv = M(pos):get_inventory()
 	local name = inv:get_stack(from_list, from_index):get_name()
-	if to_list == "main" and bot_inv_item_name(pos, to_index) and 
+	if to_list == "main" and bot_inv_item_name(pos, to_index) and
 				name ~= bot_inv_item_name(pos, to_index) then
 		return 0
 	end
@@ -388,7 +388,7 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 		return 0
 	end
 	return count
-end	
+end
 
 local drop = "signs_bot:box"
 if minetest.global_exists("techage") then
@@ -415,7 +415,7 @@ minetest.register_node("signs_bot:box", {
 		inv:set_size('sign', 6)
 		inv:set_size('filter', 8)
 	end,
-	
+
 	after_place_node = function(pos, placer, itemstack)
 		if not placer or not placer:is_player() then
 			minetest.remove_node(pos)
@@ -448,7 +448,7 @@ minetest.register_node("signs_bot:box", {
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 	allow_metadata_inventory_move = allow_metadata_inventory_move,
-	
+
 	can_dig = function(pos, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
@@ -460,11 +460,11 @@ minetest.register_node("signs_bot:box", {
 		local inv = M(pos):get_inventory()
 		return inv:is_empty("main") and inv:is_empty("sign")
 	end,
-	
+
 	on_dig = function(pos, node, puncher, pointed_thing)
 		minetest.node_dig(pos, node, puncher, pointed_thing)
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if minetest.global_exists("techage") then
 			techage.ElectricCable:after_dig_node(pos)
@@ -476,7 +476,7 @@ minetest.register_node("signs_bot:box", {
 
 	on_timer = node_timer,
 	on_rotate = screwdriver.disallow,
-	
+
 	drop = drop,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -513,7 +513,7 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:box",
 			text = table.concat({
 				S("The Box is the housing of the bot."),
-				S("Place the box and start the bot by means of the 'On' button."), 
+				S("Place the box and start the bot by means of the 'On' button."),
 				S("If the mod techage is installed, the bot needs electrical power."),
 				"",
 				S("The bot leaves the box on the right side."),
@@ -524,7 +524,7 @@ if minetest.get_modpath("doc") then
 				S("The box inventory simulates the inventory of the bot."),
 				S("You will not be able to access the inventory, if the bot is running."),
 				S("The bot can carry up to 8 stacks and 6 signs with it."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

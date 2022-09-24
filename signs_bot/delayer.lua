@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signal Delayer.
 	Signals are forwarded delayed. Subsequent signals are queued.
 ]]--
@@ -24,7 +24,7 @@ local CYCLE_TIME = 2
 
 local function update_infotext(pos, dest_pos, cmnd)
 	M(pos):set_string("infotext", S("Signal Delayer: Connected with").." "..P2S(dest_pos).." / "..cmnd)
-end	
+end
 
 local function infotext(pos)
 	local meta = M(pos)
@@ -52,7 +52,7 @@ local function signs_bot_get_signal(pos, node)
 end
 
 -- switch to normal or loaded texture
-local function turn_off(pos)	
+local function turn_off(pos)
 	local mem = tubelib2.get_mem(pos)
 	local node = minetest.get_node(pos)
 	if mem.queue > 0 then
@@ -64,7 +64,7 @@ local function turn_off(pos)
 end
 
 -- switch to loaded texture
-local function loaded(pos)	
+local function loaded(pos)
 	local node = minetest.get_node(pos)
 	if node.name == "signs_bot:delayer" or node.name == "signs_bot:delayer_on" then
 		node.name = "signs_bot:delayer_loaded"
@@ -105,10 +105,10 @@ local function signs_bot_on_signal(pos, node, signal)
 	local meta = M(pos)
 	local mem = tubelib2.get_mem(pos)
 	mem.queue = mem.queue or 0
-	
+
 	--print("signs_bot_on_signal", signal, meta:get_int("time"))
 	if signal ~= "do" or  meta:get_int("time") == 0 then return end
-		
+
 	if mem.queue <= 0 then
 		mem.queue = 1
 		mem.time = meta:get_int("time")
@@ -152,7 +152,7 @@ minetest.register_node("signs_bot:delayer", {
 		"signs_bot_sensor2.png^signs_bot_delayer.png",
 		"signs_bot_sensor2.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local mem = tubelib2.init_mem(pos)
@@ -161,7 +161,7 @@ minetest.register_node("signs_bot:delayer", {
 		infotext(pos)
 		meta:set_string("formspec", formspec(meta))
 	end,
-	
+
 	signs_bot_get_signal = signs_bot_get_signal,
 	signs_bot_on_signal = signs_bot_on_signal,
 	on_receive_fields = on_receive_fields,
@@ -265,9 +265,9 @@ if minetest.get_modpath("doc") then
 		data = {
 			item = "signs_bot:delayer",
 			text = table.concat({
-				S("Signals are forwarded delayed. Subsequent signals are queued."), 
+				S("Signals are forwarded delayed. Subsequent signals are queued."),
 				S("The delay time can be configured."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

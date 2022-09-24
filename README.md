@@ -47,6 +47,12 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2022-08-17
+
+Updated Mods:
+- techage (fix "Invalid field use_texture_alpha" errors)
+
+
 #### 2022-08-06
 
 Updated Mods:

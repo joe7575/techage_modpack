@@ -22,7 +22,7 @@ minetest.register_alias("techage:hopper_ta1", "minecart:hopper")
 minecart.register_inventory(
 	{
 		"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4",
-		"techage:meltingpot", "techage:meltingpot_active",
+		"techage:meltingpot", "techage:meltingpot_active", "techage:ta4_reactor",
 	},
 	{
 		put = {
@@ -68,7 +68,7 @@ minecart.register_inventory(
 				local meta = minetest.get_meta(pos)
 				local inv = meta:get_inventory()
 				if inv:is_empty("src") then
-					minetest.get_node_timer(pos):start(1)
+					minetest.get_node_timer(pos):start(2)
 					return true
 				end
 			end,

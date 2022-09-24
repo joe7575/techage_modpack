@@ -265,3 +265,31 @@ function networks.liquid.turn_valve_off(pos, tlib2, name_off, name_on)
 		return true
 	end
 end
+
+-------------------------------------------------------------------------------
+-- Info/Tools
+-------------------------------------------------------------------------------
+-- Return list of liquids of connected tanks
+-- Node at pos must be a pump
+function networks.liquid.get_liquids(pos, tlib2)
+	local tbl = {}
+	for _, dir in ipairs(networks.get_node_connection_dirs(pos, tlib2.tube_type)) do
+		for _,item in ipairs(get_network_table(pos, tlib2, dir, "tank")) do
+			local liq = LQD(item.pos)
+			if liq and liq.peek then
+				local liq_name = liq.peek(item.pos, item.indir)
+				if liq_name then
+					local def = minetest.registered_items[liq_name] or minetest.registered_craftitems[liq_name]
+					if def then
+						tbl[def.description] = true
+					end
+				end
+			end
+		end
+	end
+	local out = {}
+	for k,v in pairs(tbl) do
+		out[#out + 1] = k
+	end
+	return out
+end

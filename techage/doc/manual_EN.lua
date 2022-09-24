@@ -135,6 +135,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 Gravel Rinser",
   "3,TA3 Grinder",
   "3,TA3 Injector",
+  "3,TA3 Item Flow Limiter",
   "2,Tools",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -229,6 +230,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
   "3,TA4 Recycler",
+  "3,TA4 Item Flow Limiter",
   "1,TA5: Future",
   "2,Energy Sources",
   "3,TA5 Fusion Reactor",
@@ -1044,7 +1046,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The button/switch sends 'on' / 'off' commands to the blocks that have been configured via the numbers.\n"..
-  "The button/switch can be configured as a button or a switch. If it is configured as a button\\, the time between the 'on' and 'off' commands can be set.\n"..
+  "The button/switch can be configured as a button or a switch. If it is configured as a button\\, the time between the 'on' and 'off' commands can be set. With the operating mode \"on button\" only an 'on' and no 'off' command is sent.\n"..
   "\n"..
   "The checkbox \"public\" can be used to set whether the button can be used by everyone (set) or only by the owner himself (not set).\n"..
   "\n"..
@@ -1126,8 +1128,9 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and\n"..
-  "can be colored with the airbrush tool of the mod Unified Dyes.\n"..
+  "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes\" and via Lua/Beduino commands.\n"..
+  "\n"..
+  "With the chat command '/ta_color' the color palette with the values for the Lua/Beduino commands is displayed and with '/ta_send color <num>' the color can be changed.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1261,6 +1264,16 @@ techage.manual_EN.aText = {
   "The injector can also be switched to \"pull mode\". Then he only pulls items out of the chest from the positions that are defined in the configuration of the injector. In this case\\, item type and position must match. This allows to empty specific inventory entries of a chest. \n"..
   "\n"..
   "The processing power is up to 8 times one item every 4 seconds.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The Flow Limiter limits the number of items that can be pushed through by using a slider. This allows the number of items that are put into an oven\\, for example\\, to be precisely adapted to the recipe.\n"..
+  "\n"..
+  "The Flow Limiter must be configured via the menu and then started. If the configured number of items has been passed\\, the block switches off. The next time the Flow Limiter is switched on\\, it again transmits the configured number of items.\n"..
+  "\n"..
+  "*Note: The Flow Limiter must be placed behind the pusher.*\n"..
+  "\n"..
+  "The Flow Limiter can also be configured and started using a Lua or Beduino controller.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1626,7 +1639,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "",
-  "Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch.\n"..
+  "Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch. With the wrench menu\\, however\\, the data can be changed later.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1692,6 +1705,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The 'goto' command is only accepted when the sequencer is stopped.\n"..
   "\n"..
+  "The cycle time (default: 100 ms) can be changed for the sequencer via the open-end wrench menu.\n"..
+  "\n"..
   "\n"..
   "\n",
   "",
@@ -1701,7 +1716,7 @@ techage.manual_EN.aText = {
   "Instructions:\n"..
   "\n"..
   "  - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)\n"..
-  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance is 100 m)\n"..
+  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance (x+y+z) is 200 m)\n"..
   "  - The movement can be tested with the menu buttons \"Move A-B\" and \"Move B-A\"\n"..
   "  - you can also fly through walls or other blocks\n"..
   "  - The target position for the blocks can also be occupied. In this case\\, the blocks are saved \"invisibly\". This is intended for sliding doors and the like\n"..
@@ -1888,7 +1903,13 @@ techage.manual_EN.aText = {
   "\n",
   "See TA3 pump.\n"..
   "\n"..
-  "The TA4 pump pumps 8 units of liquid every two seconds. The pump also supports the 'flowrate' command. This means that the total flow rate through the pump can be queried. \n"..
+  "The TA4 pump pumps 8 units of liquid every two seconds. \n"..
+  "\n"..
+  "In the \"Flow limiter\" mode\\, the number of units pumped by the pump can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of units in the menu. Once the configured number of units have been pumped\\, the pump will turn off. When the pump is turned on again\\, it will pump the configured number of units again and then turn off.\n"..
+  "\n"..
+  "The flow limiter can also be configured and started using a Lua or Beduino controller.\n"..
+  "\n"..
+  "The pump also supports the 'flowrate' command. This allows the total flow rate through the pump to be queried.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1914,10 +1935,14 @@ techage.manual_EN.aText = {
   "The function basically corresponds to that of TA2 / TA3. In addition\\, a menu can be used to configure which objects should be taken from a TA4 chest and transported further.\n"..
   "The processing power is 12 items every 2 s\\, if TA4 tubes are used on both sides. Otherwise there are only 6 items every 2 s.\n"..
   "\n"..
-  "The TA4 pusher has two additional commands for the Lua controller:\n"..
+  "In the \"flow limiter\" mode\\, the number of items that are moved by the pusher can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of items in the menu. As soon as the configured number of items have been moved\\, the pusher switches off. If the pusher is switched on again\\, it moves the configured number of items again and then switches off.\n"..
   "\n"..
-  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\nExample: '$send_cmnd(1234\\, \"config\"\\, \"default: dirt\")'\nWith '$send_cmnd(1234\\, \"config\"\\, \"\")' the configuration is deleted\n"..
-  "  - 'pull' is used to send an order to the pusher:\nExample: '$send_cmnd(1234\\, \"pull\"\\, \"default: dirt 8\")'\nValues ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to 'stopped' mode and sends an\" off \"command back to the transmitter of the\" pull \"command.\n"..
+  "The TA4 pusher can also be configured and started using a Lua or Beduino controller.\n"..
+  "\n"..
+  "Here are the additional commands for the Lua controller:\n"..
+  "\n"..
+  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\n Example: '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\n With '$send_cmnd(1234\\, \"config\"\\, \"\")' the configuration is deleted\n"..
+  "  - 'limit' is used to set the number of items for the flow limiter mode:\n Example: '$send_cmnd(1234\\, \"init\"\\, 7)'\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2003,6 +2028,10 @@ techage.manual_EN.aText = {
   "The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.\n"..
   "\n"..
   " \n"..
+  "\n",
+  "The function corresponds to that of TA3.\n"..
+  "\n"..
+  "\n"..
   "\n",
   "Machines to overcome space and time\\, new sources of energy and other achievements shape your life.\n"..
   "\n"..
@@ -2259,6 +2288,7 @@ techage.manual_EN.aItemName = {
   "ta3_gravelrinser",
   "ta3_grinder",
   "ta3_injector",
+  "ta3_item_flow_limiter_pas",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -2353,6 +2383,7 @@ techage.manual_EN.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_item_flow_limiter_pas",
   "techage_ta5",
   "",
   "",
@@ -2520,6 +2551,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2585,6 +2617,7 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_top",
   "techage_collider_plan",
   "ta4_cooler",
+  "",
   "",
   "",
   "",

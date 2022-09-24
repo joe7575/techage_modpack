@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Changer/Control Unit for Bot Control
 
 ]]--
@@ -129,7 +129,7 @@ for idx = 1,4 do
 			local inv = meta:get_inventory()
 			inv:set_size('sign', 4)
 		end,
-		
+
 		after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", formspec)
@@ -140,7 +140,7 @@ for idx = 1,4 do
 				techage.logic.infotext(meta, S("Bot Control Unit"))
 			end
 		end,
-		
+
 		signs_bot_get_signal = signs_bot_get_signal,
 		signs_bot_on_signal = signs_bot_on_signal,
 		allow_metadata_inventory_put = allow_metadata_inventory,
@@ -176,14 +176,14 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:changer1",
 			text = table.concat({
 				S("The Bot Control Unit is used to lead the bot by means of signs."),
-				S("The unit can be loaded with up to 4 different signs and can be programmed by means of sensors."), 
+				S("The unit can be loaded with up to 4 different signs and can be programmed by means of sensors."),
 				"",
 				S("To load the unit, place a sign on the red side of the unit and click on the unit."),
 				S("The sign disappears / is moved to the inventory of the unit."),
 				S("This can be repeated 3 times."),
 				"",
 				S("Use the connection tool to connect up to 4 sensors with the Bot Control Unit."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end
@@ -204,5 +204,5 @@ if minetest.get_modpath("techage") then
 				return "unsupported"
 			end
 		end,
-	})	
+	})
 end

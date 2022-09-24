@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot cloning/pattern commands, signs, and nodes
 
 ]]--
@@ -50,7 +50,7 @@ for _,row in ipairs(Param2Matrix) do
 	end
 end
 
-local function param2_conversion(node, offs) 
+local function param2_conversion(node, offs)
 	local ndef = minetest.registered_nodes[node.name]
 	if not ndef or not ndef.paramtype2 then	return end
 	if ndef.paramtype2 == "facedir" then
@@ -59,7 +59,7 @@ local function param2_conversion(node, offs)
 		node.param2 = tWallmountedRot[(node.param2 + offs - 2) % 4]
 	end
 end
-	
+
 --
 -- Inventory functions
 --
@@ -94,11 +94,11 @@ local function pattern_copy(base_pos, mem)
 	local src_pos = mem.src_pos_tbl[mem.steps]
 	local dst_pos = mem.dst_pos_tbl[mem.steps]
 	mem.steps = mem.steps + 1
-	
+
 	if lib.not_protected(base_pos, dst_pos) then
 		local src_node = tubelib2.get_node_lvm(src_pos)
 		src_node.name = inv_get_item(base_pos, src_node.name)
-	
+
 		local dst_node = tubelib2.get_node_lvm(dst_pos)
 		inv_put_item(base_pos, mem, dst_node.name)
 		param2_conversion(src_node, mem.dir_offs)
@@ -106,7 +106,7 @@ local function pattern_copy(base_pos, mem)
 	end
 end
 
-			
+
 signs_bot.register_botcommand("pattern", {
 	mod = "copy",
 	params = "",
@@ -171,9 +171,9 @@ minetest.register_node("signs_bot:missing", {
 })
 
 signs_bot.register_sign({
-	name = "pattern", 
-	description = S('Sign "pattern"'), 
-	commands = "pattern\nturn_around", 
+	name = "pattern",
+	description = S('Sign "pattern"'),
+	commands = "pattern\nturn_around",
 	image = "signs_bot_sign_pattern.png",
 })
 
@@ -200,9 +200,9 @@ place_sign 1
 turn_around]]
 
 signs_bot.register_sign({
-	name = "copy3x3x3", 
-	description = S('Sign "copy 3x3x3"'), 
-	commands = CMND, 
+	name = "copy3x3x3",
+	description = S('Sign "copy 3x3x3"'),
+	commands = CMND,
 	image = "signs_bot_sign_copy3x3x3.png",
 })
 
@@ -222,10 +222,10 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:pattern",
 			text = table.concat({
 				S("Used to make a copy of a 3x3x3 cube."),
-				S("Place the sign in front of the pattern to be copied."), 
+				S("Place the sign in front of the pattern to be copied."),
 				S("Use the copy sign to make the copy of this pattern on a different location."),
 				S("The bot must first reach the pattern sign, then the copy sign."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end
@@ -237,9 +237,9 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:copy3x3x3",
 			text = table.concat({
 				S("Used to make a copy of a 3x3x3 cube."),
-				S("Place the sign in front of the location, where the copy should be made."), 
+				S("Place the sign in front of the location, where the copy should be made."),
 				S("Use the pattern sign to mark the pattern."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

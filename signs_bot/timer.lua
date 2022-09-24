@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot Timer
 
 ]]--
@@ -34,7 +34,7 @@ local function update_infotext(pos, dest_pos, cmnd)
 		text = S("Bot Timer").." (-- min): "..S("Connected with")
 	end
 	meta:set_string("infotext", text.." "..P2S(dest_pos).." / "..(cmnd or "none").."    ")
-end	
+end
 
 local function update_infotext_local(pos)
 	local meta = M(pos)
@@ -45,7 +45,7 @@ local function update_infotext_local(pos)
 	local signal = meta:get_string("signal_data")
 	local text1 = " (-- min): "
 	local text2 = "Not connected"
-	
+
 	if dest_pos ~= "" and signal ~= "" then
 		text2 = S("Connected with").." "..dest_pos.." / "..signal
 	end
@@ -57,7 +57,7 @@ local function update_infotext_local(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 	meta:set_string("infotext", S("Bot Timer")..text1..text2.."    ")
-end	
+end
 
 
 local function formspec(meta)
@@ -72,7 +72,7 @@ local function formspec(meta)
 end
 
 -- switch to normal texture
-local function turn_off(pos)	
+local function turn_off(pos)
 	local node = minetest.get_node(pos)
 	node.name = "signs_bot:timer"
 	minetest.swap_node(pos, node)
@@ -145,13 +145,13 @@ minetest.register_node("signs_bot:timer", {
 		"signs_bot_sensor2.png^signs_bot_timer.png",
 		"signs_bot_sensor2.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		meta:set_string("infotext", S("Bot Timer: Not connected"))
 		meta:set_string("formspec", formspec(meta))
 	end,
-	
+
 	on_receive_fields = on_receive_fields,
 	on_timer = node_timer,
 	update_infotext = update_infotext,
@@ -179,7 +179,7 @@ minetest.register_node("signs_bot:timer_on", {
 		"signs_bot_sensor2.png^signs_bot_timer_on.png",
 		"signs_bot_sensor2.png",
 	},
-			
+
 	on_timer = node_timer,
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
@@ -222,8 +222,8 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:timer",
 			text = table.concat({
 				S("Special kind of sensor."),
-				S("Can be programmed with a time in seconds, e.g. to start the bot cyclically."), 
-			}, "\n")		
+				S("Can be programmed with a time in seconds, e.g. to start the bot cyclically."),
+			}, "\n")
 		},
 	})
 end

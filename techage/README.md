@@ -63,16 +63,24 @@ It is highly recommended that you install the following mods, too:
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
 * [[ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
 
-For large servers with many player `lsqlite3` is recommended.
-The package has to be installed via [luarocks](https://luarocks.org/):
+For large servers with many players, the following packages are recommended:
 
-    luarocks install lsqlite3
+* lua-mashal for faster serialization/deserialization of data
+* lsqlite3 for storing node and network data
 
-To enable this `unsafe` package, add 'techage' to the list of trusted mods in minetest.conf:
+The packages have to be installed via [luarocks](https://luarocks.org/):
 
-    secure.trusted_mods = techage
+    luarocks --lua-version 5.1 install lsqlite3
+    luarocks --lua-version 5.1 install lua-marshal
 
-For the installation of 'luarocks' (if not already available), see [luarocks](https://luarocks.org/)
+To enable these `unsafe` packages, add 'techage' and 'lua-marshal'
+to the list of trusted mods in `minetest.conf`:
+
+    secure.trusted_mods = techage,lua-marshal
+
+and add the following line to your `world.mt` or `minetest.conf`:
+
+    techage_use_sqlite = true
 
 Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
@@ -80,6 +88,10 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 
 ### History
+
+**2022-09-03  V1.09**
+- Change the way items are pushed
+- Add "Flow Limiter" mode to TA4 pump and TA4 pusher
 
 **2022-06-06  V1.08**
 - Native support for the mod Beduino added

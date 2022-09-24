@@ -75,14 +75,15 @@ function flylib.distance(v)
 	return math.abs(v.x) + math.abs(v.y) + math.abs(v.z)
 end
 
-function flylib.to_vector(s)
+function flylib.to_vector(s, max_dist)
 	local x,y,z = unpack(string.split(s, ","))
+	x = tonumber(x) or 0
+	y = tonumber(y) or 0
+	z = tonumber(z) or 0
 	if x and y and z then
-		return {
-			x=tonumber(x) or 0,
-			y=tonumber(y) or 0,
-			z=tonumber(z) or 0,
-		}
+		if not max_dist or (math.abs(x) + math.abs(y) + math.abs(z)) <= max_dist then
+			return {x = x, y = y, z = z}
+		end
 	end
 end
 
@@ -101,7 +102,7 @@ function flylib.to_path(s, max_dist)
 					tPath = tPath or {}
 					tPath[#tPath + 1] = v
 				else
-					return tPath, S("Error: Max. length of the flight route exceeded !!")
+					return tPath, S("Error: Max. length of the flight route exceeded by @1 blocks !!", dist - max_dist)
 				end
 			else
 				return tPath, S("Error: Invalid path !!")
@@ -676,11 +677,11 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 
 	local lpos2 = {}
 	for idx = 1, #lpos1 do
-		
+
 		local pos1 = lpos1[idx]
 		local pos2 = vector.add(lpos1[idx], line)
 		lpos2[idx] = pos2
-		
+
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
 				move_node(pos, idx, pos1, {line}, max_speed, height, false, false)
@@ -700,7 +701,7 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 			return false, lpos1
 		end
 	end
-	
+
 	meta:set_string("status", "")
 	return true, lpos2
 end
@@ -794,14 +795,14 @@ end
 function flylib.exchange_node(pos, name, param2)
 	local meta = M(pos)
 	local move_block
-	
+
 	-- consider stored "objects"
 	if meta:contains("ta_move_block") then
 		move_block = meta:get_string("ta_move_block")
 	end
-	
+
 	minetest.swap_node(pos, {name = name, param2 = param2})
-	
+
 	if move_block then
 		meta:set_string("ta_move_block", move_block)
 	end
@@ -810,14 +811,14 @@ end
 function flylib.remove_node(pos)
 	local meta = M(pos)
 	local move_block
-	
+
 	-- consider stored "objects"
 	if meta:contains("ta_move_block") then
 		move_block = meta:get_string("ta_move_block")
 	end
-	
+
 	minetest.remove_node(pos)
-	
+
 	if move_block then
 		local node = minetest.deserialize(move_block)
 		minetest.add_node(pos, node)

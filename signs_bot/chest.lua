@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot Chest
 
 ]]--
@@ -51,8 +51,8 @@ local function update_infotext(pos, dest_pos, cmnd)
 	local state = get_inv_state(pos)
 	meta:set_string("infotext", S("Bot Chest: Sends signal to").." "..P2S(dest_pos).." / "..cmnd..", if "..state)
 	meta:set_string("state", state)
-	
-end	
+
+end
 
 local function formspec()
 	return "size[9,8]"..
@@ -83,7 +83,7 @@ if NODE_IO then
 			local inv = meta:get_inventory()
 			inv:set_size('main', 32)
 		end,
-		
+
 		after_place_node = function(pos, placer)
 			local mem = tubelib2.init_mem(pos)
 			mem.running = false
@@ -147,7 +147,7 @@ if NODE_IO then
 				return left_over
 			end
 		end,
-		
+
 		update_infotext = update_infotext,
 		on_rotate = screwdriver.disallow,
 		paramtype2 = "facedir",
@@ -173,7 +173,7 @@ else
 			local inv = meta:get_inventory()
 			inv:set_size('main', 32)
 		end,
-		
+
 		after_place_node = function(pos, placer)
 			local mem = tubelib2.init_mem(pos)
 			mem.running = false
@@ -212,7 +212,7 @@ else
 		groups = {cracky = 1, sign_bot_sensor = 1},
 		sounds = default.node_sound_metal_defaults(),
 	})
-end	
+end
 
 signs_bot.register_inventory({"signs_bot:chest"}, {
 	put = {
@@ -220,7 +220,7 @@ signs_bot.register_inventory({"signs_bot:chest"}, {
 			local owner = M(pos):get_string("owner")
 			minetest.after(1, check_state, pos)
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 	take = {
@@ -228,7 +228,7 @@ signs_bot.register_inventory({"signs_bot:chest"}, {
 			local owner = M(pos):get_string("owner")
 			minetest.after(1, check_state, pos)
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 })
@@ -249,11 +249,11 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:chest",
 			text = table.concat({
 				S("The Signs Bot Chest is a special chest with sensor function."),
-				S("It sends a signal depending on the chest state."), 
+				S("It sends a signal depending on the chest state."),
 				S("Possible states are 'empty', 'not empty', 'almost full'"),
 				"",
 				S("A typical use case is to turn off the bot, when the chest is almost full or empty."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

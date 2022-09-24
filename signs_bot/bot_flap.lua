@@ -7,7 +7,7 @@
 
 	GPLv3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Bot Flap
 
 ]]--
@@ -70,7 +70,7 @@ if minetest.get_modpath("doc") then
 				S("The flap is a simple block used as door for the bot."),
 				S("Place the flap in any wall, and the bot will automatically open"),
 				S("and close the flap as it passes through it."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

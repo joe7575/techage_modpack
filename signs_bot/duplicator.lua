@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs duplicator
 
 ]]--
@@ -46,7 +46,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "outp" then
 		return 0
 	end
-	if minetest.get_item_group(stack:get_name(), "sign_bot_sign") ~= 1 
+	if minetest.get_item_group(stack:get_name(), "sign_bot_sign") ~= 1
 			and stack:get_name() ~= "default:book_written" then
 		return 0
 	end
@@ -66,7 +66,7 @@ end
 local function get_template_data(stack)
 	local name = stack:get_name()
 	local data = stack:get_meta():to_table().fields
-	
+
 	if name == "default:sign_user" or name == "signs_bot:sign_cmnd" then
 		return data.description, data.cmnd
 	end
@@ -92,7 +92,7 @@ local function move_to_output(pos)
 	local outp_stack = inv:get_stack("outp", 1)
 	local dest_item = get_dest_item(inp_stack)
 	local descr, cmnd = get_template_data(temp_stack)
-	
+
 	if dest_item and descr then
 		dest_item:set_count(inp_stack:get_count())
 		local meta = dest_item:get_meta()
@@ -131,11 +131,11 @@ minetest.register_node("signs_bot:duplicator", {
 		inv:set_size('outp', 1)
 		meta:set_string("formspec", formspec)
 	end,
-	
+
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 	on_metadata_inventory_put = on_metadata_inventory_put,
-	
+
 	can_dig = function(pos, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return false
@@ -144,7 +144,7 @@ minetest.register_node("signs_bot:duplicator", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("inp") and inv:is_empty("temp") and inv:is_empty("outp")
 	end,
-	
+
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	groups = {cracky = 1},
@@ -200,7 +200,7 @@ minetest.register_node("signs_bot:sign_user", {
 		local text = nmeta:get_string("sign_name").."\n"..imeta:get_string("cmnd")
 		nmeta:set_string("formspec", formspec_user(text))
 	end,
-	
+
 	after_dig_node = lib.after_dig_sign_node,
 	drop = "",
 	on_rotate = screwdriver.disallow,
@@ -212,9 +212,9 @@ minetest.register_node("signs_bot:sign_user", {
 })
 
 signs_bot.register_sign({
-	name = "sign_blank", 
-	description = S('Sign "blank"'), 
-	commands = "", 
+	name = "sign_blank",
+	description = S('Sign "blank"'),
+	commands = "",
 	image = "signs_bot_sign_blank.png",
 })
 
@@ -234,13 +234,13 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:duplicator",
 			text = table.concat({
 				S("The Duplicator can be used to make copies of signs."),
-				S("1. Put one 'cmnd' sign to be used as template into the 'Template' inventory"), 
+				S("1. Put one 'cmnd' sign to be used as template into the 'Template' inventory"),
 				S("2. Add one or several 'blank signs' to the 'Input' inventory."),
 				S("3. Take the copies from the 'Output' inventory."),
 				"",
 				S("Written books [default:book_written] can alternatively be used as template"),
 				S("Already written signs can be used as input, too."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end
@@ -250,7 +250,7 @@ if minetest.get_modpath("doc") then
 		name = S('Sign "blank"'),
 		data = {
 			item = "signs_bot:sign_blank",
-			text = S("Needed as input for the Duplicator.")		
+			text = S("Needed as input for the Duplicator.")
 		},
 	})
 end

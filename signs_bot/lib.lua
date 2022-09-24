@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Library with helper functions
 
 ]]--
@@ -33,13 +33,13 @@ function signs_bot.lib.register_node_to_be_dug(name)
 	NotSoSimpleNodes[name] = true
 end
 
--- Determine the next robot position based on the robot position, 
+-- Determine the next robot position based on the robot position,
 -- the robot param2.
 function signs_bot.lib.next_pos(pos, param2)
 	return vector.add(pos, Face2Dir[param2])
 end
 
--- Determine the destination position based on the robot position, 
+-- Determine the destination position based on the robot position,
 -- the robot param2, and a route table like : {0,0,3}
 -- 0 = forward, 1 = right, 2 = backward, 3 = left
 function signs_bot.lib.dest_pos(pos, param2, route)
@@ -62,7 +62,7 @@ local function poke_objects(pos, param2, objects)
 		pos1 = vector.add(pos1, vector.multiply(Face2Dir[param2], 0.2))
 		obj:move_to(pos1)
 	end
-end	
+end
 
 -- check if nodeA on posA == air-like and nodeB == solid and no player around
 function signs_bot.lib.check_pos(posA, nodeA, nodeB, param2)
@@ -124,7 +124,7 @@ function signs_bot.lib.is_simple_node(node)
 		return handle_drop(ndef.drop)
 	end
 	return ndef.drop or node.name
-end	
+end
 
 -- Check rights before node is dug or inventory is used
 function signs_bot.lib.not_protected(base_pos, pos)
@@ -148,7 +148,7 @@ end
 -- Search for items in the inventory and return the item_name or nil.
 function signs_bot.lib.peek_inv(inv, listname)
 	if inv:is_empty(listname) then return nil end
-	
+
 	local inv_size =  inv:get_size(listname)
 
 	for idx in signs_bot.random(inv_size) do
@@ -174,7 +174,7 @@ end
 --
 --  Place/dig signs
 --
-function signs_bot.lib.place_sign(pos, sign, param2)				
+function signs_bot.lib.place_sign(pos, sign, param2)
 	if sign:get_name() then
 		minetest.set_node(pos, {name=sign:get_name(), param2=param2})
 		local ndef = minetest.registered_nodes[sign:get_name()]
@@ -240,8 +240,8 @@ end
 
 local NestedCounter = 0
 function signs_bot.lib.activate_extender_nodes(pos, is_sensor)
-	if is_sensor then 
-		NestedCounter = 0 
+	if is_sensor then
+		NestedCounter = 0
 	else
 		NestedCounter = NestedCounter + 1
 		if NestedCounter >= 5 then
@@ -265,11 +265,11 @@ local function start_pos(robot_pos, robot_param2, x_size, lvl_offs)
 	else
 		return dest_pos(pos, robot_param2, {3})
 	end
-end	
+end
 
 --
 -- Return a table with all positions to copy
--- 
+--
 function signs_bot.lib.gen_position_table(robot_pos, robot_param2, x_size, z_size, lvl_offs)
 	local tbl = {}
 	if robot_pos and robot_param2 and x_size and z_size and lvl_offs then

@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot tree cutting signs
 ]]--
 
@@ -62,7 +62,7 @@ turn_around]]
 
 local HELP = table.concat({
 	S("Used to harvest an aspen or pine tree trunk"),
-	S("- Place the sign in front of the tree."), 
+	S("- Place the sign in front of the tree."),
 	S("- Place a chest to the right of the sign."),
 	S("- Put a dirt stack (10 items min.) into the chest."),
         S("- Preconfigure slot 1 of the bot inventory with dirt"),

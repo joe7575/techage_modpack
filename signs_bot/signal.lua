@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signal function
 
 ]]--
@@ -43,8 +43,8 @@ function signs_bot.get_signal(actuator_pos)
 		end
 	end
 end
-	
--- Used by the pairing tool	
+
+-- Used by the pairing tool
 function signs_bot.store_signal(sensor_pos, dest_pos, signal)
 	local meta = sensor_pos and M(sensor_pos)
 	if meta then

@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	A robot controlled by signs
 
 ]]--
@@ -15,7 +15,7 @@
 signs_bot = {}
 
 -- Version for compatibility checks, see readme.md/history
-signs_bot.version = 1.09
+signs_bot.version = 1.12
 
 -- Test for MT 5.4 new string mode
 signs_bot.CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true

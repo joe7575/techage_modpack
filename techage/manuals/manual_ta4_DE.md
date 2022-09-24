@@ -467,7 +467,7 @@ Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.
 
 ### TA4 Taster/Schalter / Button/Switch
 
-Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter.
+Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter. Mit dem Schraubenschlüssel-Menü können die Daten aber nachträglich geändert werden.
 
 [ta4_button|image]
 
@@ -554,6 +554,8 @@ Der TA4 Sequenzer unterstützt folgende techage Kommandos:
 
 Das `goto` Kommando wird nur angenommen, wenn der Sequenzer gestoppt ist.
 
+Über das Gabelschlüssel-Menü kann beim Sequenzer die Zykluszeit (normal: 100 ms) geändert werden. 
+
 [ta4_sequencer|image]
 
 
@@ -569,7 +571,7 @@ Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block st
 Anleitung:
 
 - Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
-- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)
+- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)
 - mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
 - man kann auch durch Wände oder andere Blöcke fliegen
 - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
@@ -804,7 +806,13 @@ In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.
 
 Siehe TA3 Pumpe.
 
-Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando `flowrate`. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.
+Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. 
+
+In der Betriebsart "Durchflussbegrenzer" kann die Anzahl der Einheiten, die von der Pumpe gepumpt werden, begrenzt werden. Die Betriebsart Durchflussbegrenzer kann über das Gabelschlüssel-Menü aktiviert werden, indem im Menü die Anzahl an Einheiten konfiguriert wird. Sobald die  konfigurierte Anzahl an Einheiten gepumpt wurden, schaltet sich die Pumpe ab. Wird die Pumpe wieder eingeschaltet, pumpt sie wieder die konfigurierte Anzahl an Einheiten und schaltet sich dann ab.
+
+Der Durchflussbegrenzer kann auch per Lua- oder Beduino Controller konfiguriert und gestartet werden.
+
+Zusätzlich unterstützt die Pumpe das Kommando `flowrate`. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.
 
 [ta4_pump|image]
 
@@ -840,14 +848,18 @@ Aber: TA4 Schieber und TA4 Verteiler erreichen ihre volle Leistungsfähigkeit nu
 Die Funktion entspricht grundsätzlich der von TA2/TA3. Zusätzlich kann aber über ein Menü konfiguriert werden, welche Gegenstände aus einer TA4 Kiste geholt und weiter transportiert werden sollen.
 Die Verarbeitungsleistung beträgt 12 Items alle 2 s, sofern auf beiden Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 6 Items alle 2 s.
 
-Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
+In der Betriebsart "Durchlaufbegrenzer" kann die Anzahl der Items, die von dem Schieber bewegt werden, begrenzt werden. Die Betriebsart Durchlaufbegrenzer kann über das Gabelschlüssel-Menü aktiviert werden, indem im Menü die Anzahl an Items konfiguriert wird. Sobald die  konfigurierte Anzahl an Items bewegt wurden, schaltet sich der Schieber ab. Wird der Schieber wieder eingeschaltet, bewegt er wieder die konfigurierte Anzahl an Items und schaltet sich dann ab.
+
+Der TA4 Schieber kann auch per Lua- oder Beduino Controller konfiguriert und gestartet werden.
+
+Hier die zusätzlichen Kommandos für den Lua Controller:
 
 - `config` dient zur Konfiguration des Schiebers, analog zum manuellen Konfiguration über das Menü.
   Beispiel:  `$send_cmnd(1234, "config", "default:dirt")`
   Mit `$send_cmnd(1234, "config", "")` wird die Konfiguration gelöscht
-- `pull` dient zum Absetzen eines Auftrags an den Schieber:
-  Beispiel: `$send_cmnd(1234, "pull", "default:dirt 8")`
-  Als Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den `stopped` Mode und sendet ein "off" Kommando zurück an den Sender des "pull" Kommandos.
+- `limit` dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:
+  Beispiel: `$send_cmnd(1234, "init", 7)`
+  
 
 [ta4_pusher|image]
 
@@ -957,3 +969,8 @@ Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierf�
 
 [ta4_recycler|image]
 
+### TA4 Item Durchlaufbegrenzer / Item Flow Limiter
+
+Die Funktion entspricht der von TA3.  
+
+[ta4_item_flow_limiter_pas|image]

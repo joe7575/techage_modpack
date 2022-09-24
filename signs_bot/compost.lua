@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: Commands for the compost mod
 
 ]]--
@@ -25,14 +25,14 @@ local function additem(mem, stack)
 	if ndef.minecart_hopper_additem then
 		return ndef.minecart_hopper_additem(pos, stack)
 	end
-	
+
 	pos = {x = pos.x, y = pos.y - 1, z = pos.z}
 	node = minetest.get_node(pos)
 	ndef = minetest.registered_nodes[node.name]
 	if ndef and ndef.minecart_hopper_additem then
 		return ndef.minecart_hopper_additem(pos, stack)
 	end
-	
+
 	return stack
 end
 
@@ -43,7 +43,7 @@ local function takeitem(mem)
 	if ndef.minecart_hopper_takeitem then
 		return ndef.minecart_hopper_takeitem(pos, 1)
 	end
-	
+
 	pos = {x = pos.x, y = pos.y - 1, z = pos.z}
 	node = minetest.get_node(pos)
 	ndef = minetest.registered_nodes[node.name]

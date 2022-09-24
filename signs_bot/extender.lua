@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Sensor Extender
 	(passive node, the Sensor detects the extender)
 ]]--
@@ -21,7 +21,7 @@ local S = signs_bot.S
 
 local function update_infotext(pos, dest_pos, cmnd)
 	M(pos):set_string("infotext", S("Sensor Extender: Connected with").." "..P2S(dest_pos).." / "..cmnd)
-end	
+end
 
 minetest.register_node("signs_bot:sensor_extender", {
 	description = S("Sensor Extender"),
@@ -47,12 +47,12 @@ minetest.register_node("signs_bot:sensor_extender", {
 		"signs_bot_extender_side.png",
 		"signs_bot_extender_side.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		meta:set_string("infotext", S("Sensor Extender: Not connected"))
 	end,
-	
+
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -87,21 +87,21 @@ minetest.register_node("signs_bot:sensor_extender_on", {
 		"signs_bot_extender_side.png",
 		"signs_bot_extender_side.png",
 	},
-	
+
 	-- Called from the Sensor beside
 	after_place_node = function(pos)
 		minetest.get_node_timer(pos):start(1)
 		signs_bot.send_signal(pos)
 		signs_bot.lib.activate_extender_nodes(pos)
 	end,
-		
+
 	on_timer = function(pos)
 		local node = tubelib2.get_node_lvm(pos)
 		node.name = "signs_bot:sensor_extender"
 		minetest.swap_node(pos, node)
 		return false
 	end,
-	
+
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -130,9 +130,9 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:sensor_extender",
 			text = table.concat({
 				S("With the Sensor Extender, sensor signals can be sent to more than one actuator."),
-				S("Place one or more extender nearby the sensor and connect each extender"), 
-				S("with one further actuator by means of the Connection Tool."), 
-			}, "\n")		
+				S("Place one or more extender nearby the sensor and connect each extender"),
+				S("with one further actuator by means of the Connection Tool."),
+			}, "\n")
 		},
 	})
 end

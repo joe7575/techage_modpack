@@ -7,7 +7,7 @@
 
 	GPLv3
 	See LICENSE.txt for more information
-	
+
 	Signs Bot: interface for techage
 
 ]]--
@@ -19,7 +19,7 @@ local MAX_CAPA = signs_bot.MAX_CAPA
 local PWR_NEEDED = 8
 
 if minetest.get_modpath("techage") then
-	
+
 	local function on_power(pos)
 		local mem = tubelib2.get_mem(pos)
 		mem.power_available = true
@@ -35,15 +35,16 @@ if minetest.get_modpath("techage") then
 
 	local Cable = techage.ElectricCable
 	local power = networks.power
-	
+
 	signs_bot.register_inventory({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4",
-			"techage:ta3_silo", "techage:ta4_silo", "techage:ta4_sensor_chest"}, {
+			"techage:ta3_silo", "techage:ta4_silo", "techage:ta4_sensor_chest",
+			"techage:ta4_reactor"}, {
 		allow_inventory_put = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		allow_inventory_take = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		put = {
 			listname = "main",
 		},
@@ -54,10 +55,10 @@ if minetest.get_modpath("techage") then
 	signs_bot.register_inventory({"techage:meltingpot", "techage:meltingpot_active"}, {
 		allow_inventory_put = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		allow_inventory_take = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		put = {
 			listname = "src",
 		},
@@ -70,10 +71,10 @@ if minetest.get_modpath("techage") then
 			"techage:ta3_autocrafter_pas", "techage:ta3_autocrafter_act"}, {
 		allow_inventory_put = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		allow_inventory_take = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		put = {
 			listname = "src",
 		},
@@ -88,10 +89,10 @@ if minetest.get_modpath("techage") then
 			"techage:ta4_high_performance_distributor_pas", "techage:ta4_high_performance_distributor_act"}, {
 		allow_inventory_put = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		allow_inventory_take = function(pos, stack, player_name)
 			return not minetest.is_protected(pos, player_name)
-		end, 
+		end,
 		put = {
 			listname = "src",
 		},
@@ -104,7 +105,7 @@ if minetest.get_modpath("techage") then
 		return math.min(math.ceil(((curr_val or 0) * 100.0) / (max_val or 1.0)), 100)
 	end
 	signs_bot.percent_value = percent_value
-	
+
 	function signs_bot.formspec_battery_capa(max_capa, current_capa)
 		local percent = percent_value(max_capa, current_capa)
 		return "image[0.1,0;0.5,1;signs_bot_form_level_bg.png^[lowpart:"..
@@ -113,7 +114,7 @@ if minetest.get_modpath("techage") then
 
 	signs_bot.register_botcommand("ignite", {
 		mod = "techage",
-		params = "",	
+		params = "",
 		num_param = 0,
 		description = S("Ignite the techage charcoal lighter"),
 		cmnd = function(base_pos, mem)
@@ -129,7 +130,7 @@ if minetest.get_modpath("techage") then
 
 	signs_bot.register_botcommand("low_batt", {
 		mod = "techage",
-		params = "<percent>",	
+		params = "<percent>",
 		num_param = 1,
 		description = S("Turns the bot off if the\nbattery power is below the\ngiven value in percent (1..99)"),
 		check = function(val)
@@ -147,17 +148,37 @@ if minetest.get_modpath("techage") then
 		end,
 	})
 
+	signs_bot.register_botcommand("jump_low_batt", {
+		mod = "techage",
+		params = "<percent> <label>",
+		num_param = 2,
+		description = S("Jump to <label> if the\nbattery power is below the\ngiven value in percent (1..99)"),
+		check = function(val, lbl)
+			val = tonumber(val) or 5
+			return val and val > 0 and val < 100 and signs_bot.check_label(lbl)
+		end,
+		cmnd = function(base_pos, mem, val, addr)
+			val = tonumber(val) or 5
+			local pwr = percent_value(signs_bot.MAX_CAPA, mem.capa)
+			if pwr < val then
+				mem.pc = addr - 3
+				return signs_bot.DONE
+			end
+			return signs_bot.DONE
+		end,
+	})
+
 	signs_bot.register_botcommand("send_cmnd", {
 		mod = "techage",
 		params = "<receiver> <command>",
 		num_param = 2,
 		description = S([[Sends a techage command
-to a given node. 
+to a given node.
 Receiver is addressed by
 the techage node number.
-For commands with two or more 
-words, use the '*' character 
-instead of spaces, e.g.: 
+For commands with two or more
+words, use the '*' character
+instead of spaces, e.g.:
 send_cmnd 3465 pull*default:dirt*2]]),
 		check = function(address, command)
 			address = tonumber(address)
@@ -173,12 +194,12 @@ send_cmnd 3465 pull*default:dirt*2]]),
 			return signs_bot.DONE
 		end,
 	})
-	
+
 
     -- Bot in the box
 	function signs_bot.while_charging(pos, mem)
 		mem.capa = mem.capa or 0
-		
+
 		if mem.capa < signs_bot.MAX_CAPA then
 			local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 			mem.capa = mem.capa + consumed
@@ -192,7 +213,7 @@ send_cmnd 3465 pull*default:dirt*2]]),
 		end
 		return true
 	end
-	
+
 	power.register_nodes({"signs_bot:box"}, Cable, "con")
 
 	techage.register_node({"signs_bot:box"}, {
@@ -215,7 +236,7 @@ send_cmnd 3465 pull*default:dirt*2]]),
 			local inv = meta:get_inventory()
 			return techage.put_items(inv, "main", stack)
 		end,
-		
+
 		on_recv_message = function(pos, src, topic, payload)
 			local mem = tubelib2.get_mem(pos)
 			if topic == "state" then
@@ -254,7 +275,7 @@ send_cmnd 3465 pull*default:dirt*2]]),
 				return "unsupported"
 			end
 		end,
-	})	
+	})
 	techage.register_node({"signs_bot:chest"}, {
 		on_inv_request = function(pos, in_dir, access_type)
 			local meta = minetest.get_meta(pos)
@@ -275,7 +296,7 @@ send_cmnd 3465 pull*default:dirt*2]]),
 			local inv = meta:get_inventory()
 			return techage.put_items(inv, "main", stack)
 		end,
-	})	
+	})
 
 	techage.register_node_for_v1_transition({"signs_bot:box"}, function(pos, node)
 		power.update_network(pos, nil, Cable)

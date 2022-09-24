@@ -25,6 +25,11 @@ The box inventory simulates the inventory of the bot.=Das Inventar der Box simul
 You will not be able to access the inventory, if the bot is running.=Du hast keinen Zugriff auf das Inventar, sofern der Roboter unterwegs ist.
 The bot can carry up to 8 stacks and 6 signs with it.=Der Roboter kann 8 Stapel von Blöcken und 6 Zeichen transportieren.
 
+### basis.lua ###
+### techage.lua ###
+
+charging=aufladen
+
 ### bot_flap.lua ###
 
 Exit=Beenden
@@ -41,11 +46,6 @@ Bot Sensor: Not connected=Bot Sensor: Nicht verbunden
 The Bot Sensor detects any bot and sends a signal, if a bot is nearby.=Der Roboter Sensor entdeckt jeden Roboter und sendet ein Signal, sofern ein Roboter in der Nähe ist.
 The sensor direction does not care.=Die Ausrichtung des Sensor spielt keine Rolle.
 
-### bot_sensor.lua ###
-### cart_sensor.lua ###
-
-the sensor range is one node/meter.=Der Sensorbereich ist einen Block/Meter groß.
-
 ### cart_sensor.lua ###
 
 Cart Sensor: Connected with=Wagen Sensor: Verbunden mit
@@ -53,6 +53,11 @@ Cart Sensor=Wagen Sensor
 Cart Sensor: Not connected=Wagen Sensor: Nicht verbunden
 The Cart Sensor detects and sends a signal, if a cart (Minecart) is nearby.=Der Wagen Sensor sendet ein Signal, sofern ein Wagen in der Nähe ist.
 The sensor has an active side (red) that must point to the rail/cart.=Der Sensor hat eine aktive Seite (rot), welche zu den Schienen zeigen muss.
+
+### cart_sensor.lua ###
+### bot_sensor.lua ###
+
+the sensor range is one node/meter.=Der Sensorbereich ist einen Block/Meter groß.
 
 ### changer.lua ###
 
@@ -85,27 +90,28 @@ Sign 'farming'=Zeichen 'Farming'
 Used to harvest and seed a 3x3 field.=Benötigt um ein 3x3 Feld zu ernten und wieder zu sähen.
 The seed to be placed has to be in the first inventory slot of the bot.=Das Saatgut, dass gesät werden soll, muss sich an der 1. Position im Inventar befinden.
 
-### cmd_flowers.lua ###
-
-Cutting flowers, leaves and tree blocks@nin front of the robot@non a 3x3 field.=Schneide Blumen, Blätter und Baumblöcke@nin einem 3x3 großem Feld@nvor dem Roboter.
-Sign "flowers"=Zeichen "Blumen"
-Sign 'flowers'=Zeichen 'Blumen'
-Used to cut flowers on a 3x3 field.=Benötigt um ein 3x3 Blumenfeld zu ernten.
-
-### cmd_flowers.lua ###
 ### cmd_farming.lua ###
+### cmd_flowers.lua ###
 
 Place the sign in front of the field.=Platziere das Zeichen vor das Feld.
 When finished, the bot turns.=Der Roboter dreht um, wenn er fertig ist.
 
+### cmd_flowers.lua ###
+
+Cutting flowers, papyrus,@nleaves and tree blocks@nin front of the robot@non a 3x3 field.=Schneide Blumen, Papyrus,@nBlätter und Baumblöcke@nin einem 3x3 großem Feld@nvor dem Roboter.
+Sign "flowers"=Zeichen "Blumen"
+Sign 'flowers'=Zeichen 'Blumen'
+Used to cut flowers on a 3x3 field.=Benötigt um ein 3x3 Blumenfeld zu ernten.
+
 ### cmd_item.lua ###
 
-Take <num> items from a chest like node@nand put it into the item inventory.@n<slot> is the inventory slot (1..8) or 0 for any one=Nehme <num> Gegenstände aus der@nKiste oder dem Kisten-ähnlichen Block@nund tue diese in das eigene Inventar@nan der Position <slot>. Slot = (1..8)@noder 0 für irgend eine Position
-Add <num> items to a chest like node@ntaken from the item inventory.@n<slot> is the inventory slot (1..8) or 0 for any one=Lege <num> Gegenstände aus dem@neigenen Inventar in die andere Kiste.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position
-Add <num> fuel to a furnace like node@ntaken from the item inventory.@n<slot> is the inventory slot (1..8) or 0 for any one=Lege <num> Brennstoffe aus dem@neigenen Inventar in den anderen Block.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position
+Take <num> items from a chest like node@nand put it into the item inventory.@n<slot> is the bot inventory slot@n(1..8) or 0 for any one=Nehme <num> Gegenstände aus der@nKiste oder dem Kisten-ähnlichen Block@nund tue diese in das eigene Inventar@nan der Position <slot>. Slot = (1..8)@noder 0 für irgend eine Position
+Check if there are <num>@nitems in the chest like node.@nIf not, jump to <label>@n<slot> is the bot inventory slot@n(1..8) to specify the item, or 0 for any item=Prüfe, ob sich <num> Gegenstände@nin dem Kisten-ähnlichen Block befinden.@nWenn nicht, springe zu <label>@n<slot> ist der Bot-Inventar-Slot@n(1..8) um einen Gegenstand auszuwählen, oder 0 für irgendeinen Gegenstand
+Add <num> items to a chest like node@ntaken from the item inventory.@n<slot> is the bot inventory slot (1..8) or 0 for any one=Lege <num> Gegenstände aus dem@neigenen Inventar in die andere Kiste.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position
+Add <num> fuel to a furnace like node@ntaken from the item inventory.@n<slot> is the bot inventory slot (1..8) or 0 for any one=Lege <num> Brennstoffe aus dem@neigenen Inventar in den anderen Block.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position
 deprecated, use bot inventory configuration instead=veraltet, benutze stattdessen die Inventar Konfigurationsmöglichkeit
-Pick up all objects@nin a 3x3 field.@n<slot> is the inventory slot (1..8) or 0 for any one=Hebe alle Objekte in einem@n3x3 Blöcke großen Feld auf@nund lege diese in das eigene@nInventar an Position <slot> (1-8)@noder 0 für irgend eine Position
-Drop items in front of the bot.@n<slot> is the inventory slot (1..8) or 0 for any one=Lasse ein Objekt aus dem eigenen@nInventar vor dem Roboter fallen.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position
+Pick up all objects@nin a 3x3 field.@n<slot> is the bot inventory slot (1..8) or 0 for any one=Hebe alle Objekte in einem@n3x3 Blöcke großen Feld auf@nund lege diese in das eigene@nInventar an Position <slot> (1-8)@noder 0 für irgend eine Position
+Drop items in front of the bot.@n<slot> is the bot inventory slot (1..8) or 0 for any one=Lasse ein Objekt aus dem eigenen@nInventar vor dem Roboter fallen.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position
 Punch a rail cart to start it=Schlage den Wagen um ihn zu starten
 
 ### cmd_move.lua ###
@@ -116,6 +122,7 @@ Turn the robot to the right=Drehe den Roboter@nnach rechts
 Turn the robot around=Drehe den Roboter@num (180 Grad)
 Move the robot upwards=Bewege den Roboter@nnach oben
 Move the robot down=Bewege den Roboter@nnach unten
+Fall into a hole/chasm (up to 10 blocks)=Falle in ein Loch/Abgrund (bis zu 10 Blöcke)
 Stop the robot for <sec> seconds@n(1..9999)=Stoppe den Roboter@nfür <sec> Sekunden (1.9999)
 Stop the robot.=Stoppe den Roboter.
 Turn the robot off@nand put it back in the box.=Schalte den Roboter aus und@nsetze ihn damit zurück in@nseine Box.
@@ -150,6 +157,11 @@ Dig the block under the robot.@n<slot> is the inventory slot (1..8)=Entferne ein
 Dig the block above the robot.@n<slot> is the inventory slot (1..8)=Entferne einen Block über dem@nRoboter.@n<slot> ist die Position im@neigenen Inventar (1--8).
 Rotate the block in front of the robot@n<lvl> is one of:  -1   0   +1@n<steps> is one of:  1   2   3=Rotiere den Block vor dem Roboter.@nFür <lvl> ist zulässig: -1   0   +1@nFür <steps> ist zulässig: 1   2   3
 Bot torch=Bot Fackel
+
+### cmd_place.lua ###
+### cmd_soup.lua ###
+
+Error: Position protected=Fehler: Position geschützt
 
 ### cmd_sign.lua ###
 
@@ -218,11 +230,6 @@ to prevent wooden sign from catching fire.=um zu verhindern, dass das Holzschild
   4 - empty bowl (from farming or xdecor mods)=  4 - Leere Schüssel (Von der Mod farming oder xdecor)
 The result is one bowl with vegetable soup in selected inventory slot.=Das Ergebnis ist eine Schüssel mit Gemüsesuppe an der ausgewählten Inventarposition.
 
-### cmd_soup.lua ###
-### cmd_place.lua ###
-
-Error: Position protected=Fehler: Position geschützt
-
 ### cmd_trees.lua ###
 
 Used to harvest an aspen or pine tree trunk=Wird verwendet, um einen Espen- oder Kiefernstamm zu ernten
@@ -244,8 +251,8 @@ call a subroutine (with 'return' statement)=Aufruf einer Unterfunktion (mit 'ret
 return from a subroutine=Rückkehr von einer Unterfunktion
 jump to a label=Sprung zu einer Marke
 Move the robot 1..999 steps forward@nwithout paying attention to any signs.@nUp and down movements also become@ncounted as steps.=Bewege den Roboter 1..999 Schritte@nvorwärts ohne auf Zeichen zu achten.@nAuf- und Ab-Bewegungen werden auch@nals Schritte gezählt.
-Walk until a sign or obstacle is@nreached. Then continue with the next command.@nWhen a sign has been reached, @nthe current program is ended@nand the bot executes the@nnew program from the sign=Gehe bis ein Zeichen oder Hindernis@nerreicht wurde. Führe dann das nächste@nKommando aus. @nWurde ein Zeichen erreicht, so arbeite@ndie Kommandos des Zeichens als@nUnter-Prozess ab
-Print given text as chat message.@nFor two or more words, use the '*' character @ninstead of spaces, like "Hello*world"=Gebe den angegebenen Text als Chat-Nachricht aus.@nFür zwei oder mehr Wörter verwende das Zeichen '*' @nanstelle von Leerzeichen, z. B. "Hallo*Welt".
+Walk until a sign or obstacle is@nreached. Then continue with the next command.@nWhen a sign has been reached,@nthe current program is ended@nand the bot executes the@nnew program from the sign=Gehe bis ein Zeichen oder Hindernis@nerreicht wurde. Führe dann das nächste@nKommando aus. @nWurde ein Zeichen erreicht, so arbeite@ndie Kommandos des Zeichens als@nUnter-Prozess ab
+Print given text as chat message.@nFor two or more words, use the '*' character@ninstead of spaces, like "Hello*world"=Gebe den angegebenen Text als Chat-Nachricht aus.@nFür zwei oder mehr Wörter verwende das Zeichen '*' @nanstelle von Leerzeichen, z. B. "Hallo*Welt".
 
 ### compost.lua ###
 
@@ -268,6 +275,11 @@ Delay time [sec]:=Verzögerungszeit [s]:
 Signal Delayer=Signal Verzögerer
 Signals are forwarded delayed. Subsequent signals are queued.=Signale werden verzögert weitergeleitet. Nachfolgende Signale werden in die Warteschlange gestellt.
 The delay time can be configured.=Die Verzögerungszeit kann eingestellt werden.
+
+### delayer.lua ###
+### timer.lua ###
+
+Start=Start
 
 ### doc.lua ###
 
@@ -400,11 +412,6 @@ inputs=Eingängen
 Signal AND=Signal UND
 Signal is sent, if all input signals are received.=Signal wird gesendet, wenn all Eingangssignale empfangen wurden.
 
-### logic_and.lua ###
-### timer.lua ###
-
-Connected with=Verbunden mit
-
 ### node_sensor.lua ###
 
 Node Sensor: Connected with =Block Sensor: Verbunden mit 
@@ -447,13 +454,9 @@ The Bot takes items out of a minecart in front of it, pushes the cart and then t
 no power=kein Strom
 Ignite the techage charcoal lighter=Zünde den Holzkohle-Anzünder an
 Turns the bot off if the@nbattery power is below the@ngiven value in percent (1..99)=Schalte den Bot aus,@nwenn die Batterieladung kleiner@nist als der angegebene Wert@nin Prozent (1.99)
+Jump to <label> if the@nbattery power is below the@ngiven value in percent (1..99)=Springe zu <label> wenn die@nBatterieladung unter dem@ngegebenen Wert in Prozent (1..99) liegt
 fully charged=voll geladen
-Sends a techage command@nto a given node. @nReceiver is addressed by@nthe techage node number.@nFor commands with two or more @nwords, use the '*' character @ninstead of spaces, e.g.: @nsend_cmnd 3465 pull*default:dirt*2=Sende ein techage Kommando@nan einen Block mit der@nangegebenen Blocknummer.@nFür Kommandos mit zwei oder mehr @nWörtern verwende das Zeichen '*' @nanstelle des Leerzeichens, wie bspw.:@nsend_cmnd 3465 pull*default:dirt*2
-
-### techage.lua ###
-### basis.lua ###
-
-charging=aufladen
+Sends a techage command@nto a given node.@nReceiver is addressed by@nthe techage node number.@nFor commands with two or more@nwords, use the '*' character@ninstead of spaces, e.g.:@nsend_cmnd 3465 pull*default:dirt*2=Sende ein techage Kommando@nan einen Block mit der@nangegebenen Blocknummer.@nFür Kommandos mit zwei oder mehr @nWörtern verwende das Zeichen '*' @nanstelle des Leerzeichens, wie bspw.:@nsend_cmnd 3465 pull*default:dirt*2
 
 ### timer.lua ###
 
@@ -464,10 +467,11 @@ Special kind of sensor.=Spezielle Form eines Sensors.
 Can be programmed with a time in seconds, e.g. to start the bot cyclically.=Kann mit einer Zeit in Sekunden programmiert werden, um bspw. den Roboter zyklisch zu starten.
 
 ### timer.lua ###
-### delayer.lua ###
+### logic_and.lua ###
 
-Start=Start
+Connected with=Verbunden mit
 
 ### tool.lua ###
 
 Sensor Connection Tool=Sensor Verbindungswerkzeug
+

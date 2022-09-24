@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot place/remove commands
 
 ]]--
@@ -56,8 +56,8 @@ local function place_item(base_pos, robot_pos, param2, slot, route, level)
 		local taken = signs_bot.bot_inv_take_item(base_pos, slot, 1)
 		if taken then
 			local name = taken:get_name()
-			if name == "default:torch" then  
-				name = "signs_bot:torch" 
+			if name == "default:torch" then
+				name = "signs_bot:torch"
 			end
 			local def = minetest.registered_nodes[name]
 			if not def then return end
@@ -83,8 +83,8 @@ signs_bot.register_botcommand("place_front", {
 		"<lvl> is one of: -1   0   +1"),
 	check = function(slot, lvl)
 		slot = tonumber(slot) or 0
-		if not slot or slot < 0 or slot > 8 then 
-			return false 
+		if not slot or slot < 0 or slot > 8 then
+			return false
 		end
 		return tValidLevels[lvl] ~= nil
 	end,
@@ -94,7 +94,7 @@ signs_bot.register_botcommand("place_front", {
 		return place_item(base_pos, mem.robot_pos, mem.robot_param2, slot, {0}, level)
 	end,
 })
-	
+
 signs_bot.register_botcommand("place_left", {
 	mod = "place",
 	params = "<slot> <lvl>",
@@ -104,8 +104,8 @@ signs_bot.register_botcommand("place_left", {
 		"<lvl> is one of: -1   0   +1"),
 	check = function(slot, lvl)
 		slot = tonumber(slot) or 0
-		if not slot or slot < 0 or slot > 8 then 
-			return false 
+		if not slot or slot < 0 or slot > 8 then
+			return false
 		end
 		return tValidLevels[lvl] ~= nil
 	end,
@@ -115,7 +115,7 @@ signs_bot.register_botcommand("place_left", {
 		return place_item(base_pos, mem.robot_pos, mem.robot_param2, slot, {3,0}, level)
 	end,
 })
-	
+
 signs_bot.register_botcommand("place_right", {
 	mod = "place",
 	params = "<slot> <lvl>",
@@ -125,8 +125,8 @@ signs_bot.register_botcommand("place_right", {
 		"<lvl> is one of: -1   0   +1"),
 	check = function(slot, lvl)
 		slot = tonumber(slot) or 0
-		if not slot or slot < 0 or slot > 8 then 
-			return false 
+		if not slot or slot < 0 or slot > 8 then
+			return false
 		end
 		return tValidLevels[lvl] ~= nil
 	end,
@@ -232,8 +232,8 @@ signs_bot.register_botcommand("dig_front", {
 		"<lvl> is one of: -1   0   +1"),
 	check = function(slot, lvl)
 		slot = tonumber(slot) or 0
-		if not slot or slot < 0 or slot > 8 then 
-			return false 
+		if not slot or slot < 0 or slot > 8 then
+			return false
 		end
 		return tValidLevels[lvl] ~= nil
 	end,
@@ -254,8 +254,8 @@ signs_bot.register_botcommand("dig_left", {
 		"<lvl> is one of: -1   0   +1"),
 	check = function(slot, lvl)
 		slot = tonumber(slot) or 0
-		if not slot or slot < 0 or slot > 8 then 
-			return false 
+		if not slot or slot < 0 or slot > 8 then
+			return false
 		end
 		return tValidLevels[lvl] ~= nil
 	end,
@@ -276,8 +276,8 @@ signs_bot.register_botcommand("dig_right", {
 		"<lvl> is one of: -1   0   +1"),
 	check = function(slot, lvl)
 		slot = tonumber(slot) or 0
-		if not slot or slot < 0 or slot > 8 then 
-			return false 
+		if not slot or slot < 0 or slot > 8 then
+			return false
 		end
 		return tValidLevels[lvl] ~= nil
 	end,
@@ -375,7 +375,7 @@ end
 
 signs_bot.register_botcommand("rotate_item", {
 	mod = "place",
-	params = "<lvl> <steps>",	
+	params = "<lvl> <steps>",
 	num_param = 2,
 	description = S("Rotate the block in front of the robot\n"..
 		"<lvl> is one of:  -1   0   +1\n"..
@@ -393,7 +393,7 @@ signs_bot.register_botcommand("rotate_item", {
 		return rotate_item(base_pos, mem.robot_pos, mem.robot_param2, {0}, level, steps)
 	end,
 })
-	
+
 -- Simplified torch which can be placed w/o a fake player
 minetest.register_node("signs_bot:torch", {
 	description = S("Bot torch"),
@@ -412,12 +412,12 @@ minetest.register_node("signs_bot:torch", {
 		connect_back = {{-1/16, -1/16, -1/16, 1/16, 1/16, 8/16}},
 		connect_right = {{-1/16, -1/16, -1/16, 8/16, 1/16, 1/16}},
 	},
-	tiles = { 
+	tiles = {
 		-- up, down, right, left, back, front
-		"signs_bot_torch_top.png", 
-		"signs_bot_torch_bottom.png", 
+		"signs_bot_torch_top.png",
+		"signs_bot_torch_bottom.png",
 		{
-			image = "signs_bot_torch_animated.png", 
+			image = "signs_bot_torch_animated.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -426,10 +426,10 @@ minetest.register_node("signs_bot:torch", {
 				length = 4.0,
 			},
 		},
-		
+
 	},
 	connects_to = {
-		"group:pane", "group:stone", "group:glass", "group:wood", "group:tree", 
+		"group:pane", "group:stone", "group:glass", "group:wood", "group:tree",
 		"group:bakedclay", "group:soil"},
 	paramtype = "light",
 	paramtype2 = "facedir",

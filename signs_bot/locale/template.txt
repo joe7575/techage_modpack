@@ -25,6 +25,11 @@ The box inventory simulates the inventory of the bot.=
 You will not be able to access the inventory, if the bot is running.=
 The bot can carry up to 8 stacks and 6 signs with it.=
 
+### basis.lua ###
+### techage.lua ###
+
+charging=
+
 ### bot_flap.lua ###
 
 Exit=
@@ -41,11 +46,6 @@ Bot Sensor: Not connected=
 The Bot Sensor detects any bot and sends a signal, if a bot is nearby.=
 The sensor direction does not care.=
 
-### bot_sensor.lua ###
-### cart_sensor.lua ###
-
-the sensor range is one node/meter.=
-
 ### cart_sensor.lua ###
 
 Cart Sensor: Connected with=
@@ -53,6 +53,11 @@ Cart Sensor=
 Cart Sensor: Not connected=
 The Cart Sensor detects and sends a signal, if a cart (Minecart) is nearby.=
 The sensor has an active side (red) that must point to the rail/cart.=
+
+### cart_sensor.lua ###
+### bot_sensor.lua ###
+
+the sensor range is one node/meter.=
 
 ### changer.lua ###
 
@@ -85,27 +90,28 @@ Sign 'farming'=
 Used to harvest and seed a 3x3 field.=
 The seed to be placed has to be in the first inventory slot of the bot.=
 
-### cmd_flowers.lua ###
-
-Cutting flowers, leaves and tree blocks@nin front of the robot@non a 3x3 field.=
-Sign "flowers"=
-Sign 'flowers'=
-Used to cut flowers on a 3x3 field.=
-
-### cmd_flowers.lua ###
 ### cmd_farming.lua ###
+### cmd_flowers.lua ###
 
 Place the sign in front of the field.=
 When finished, the bot turns.=
 
+### cmd_flowers.lua ###
+
+Cutting flowers, papyrus,@nleaves and tree blocks@nin front of the robot@non a 3x3 field.=
+Sign "flowers"=
+Sign 'flowers'=
+Used to cut flowers on a 3x3 field.=
+
 ### cmd_item.lua ###
 
-Take <num> items from a chest like node@nand put it into the item inventory.@n<slot> is the inventory slot (1..8) or 0 for any one=
-Add <num> items to a chest like node@ntaken from the item inventory.@n<slot> is the inventory slot (1..8) or 0 for any one=
-Add <num> fuel to a furnace like node@ntaken from the item inventory.@n<slot> is the inventory slot (1..8) or 0 for any one=
+Take <num> items from a chest like node@nand put it into the item inventory.@n<slot> is the bot inventory slot@n(1..8) or 0 for any one=
+Check if there are <num>@nitems in the chest like node.@nIf not, jump to <label>@n<slot> is the bot inventory slot@n(1..8) to specify the item, or 0 for any item=
+Add <num> items to a chest like node@ntaken from the item inventory.@n<slot> is the bot inventory slot (1..8) or 0 for any one=
+Add <num> fuel to a furnace like node@ntaken from the item inventory.@n<slot> is the bot inventory slot (1..8) or 0 for any one=
 deprecated, use bot inventory configuration instead=
-Pick up all objects@nin a 3x3 field.@n<slot> is the inventory slot (1..8) or 0 for any one=
-Drop items in front of the bot.@n<slot> is the inventory slot (1..8) or 0 for any one=
+Pick up all objects@nin a 3x3 field.@n<slot> is the bot inventory slot (1..8) or 0 for any one=
+Drop items in front of the bot.@n<slot> is the bot inventory slot (1..8) or 0 for any one=
 Punch a rail cart to start it=
 
 ### cmd_move.lua ###
@@ -116,6 +122,7 @@ Turn the robot to the right=
 Turn the robot around=
 Move the robot upwards=
 Move the robot down=
+Fall into a hole/chasm (up to 10 blocks)=
 Stop the robot for <sec> seconds@n(1..9999)=
 Stop the robot.=
 Turn the robot off@nand put it back in the box.=
@@ -150,6 +157,11 @@ Dig the block under the robot.@n<slot> is the inventory slot (1..8)=
 Dig the block above the robot.@n<slot> is the inventory slot (1..8)=
 Rotate the block in front of the robot@n<lvl> is one of:  -1   0   +1@n<steps> is one of:  1   2   3=
 Bot torch=
+
+### cmd_place.lua ###
+### cmd_soup.lua ###
+
+Error: Position protected=
 
 ### cmd_sign.lua ###
 
@@ -218,11 +230,6 @@ to prevent wooden sign from catching fire.=
   4 - empty bowl (from farming or xdecor mods)=
 The result is one bowl with vegetable soup in selected inventory slot.=
 
-### cmd_soup.lua ###
-### cmd_place.lua ###
-
-Error: Position protected=
-
 ### cmd_trees.lua ###
 
 Used to harvest an aspen or pine tree trunk=
@@ -244,8 +251,8 @@ call a subroutine (with 'return' statement)=
 return from a subroutine=
 jump to a label=
 Move the robot 1..999 steps forward@nwithout paying attention to any signs.@nUp and down movements also become@ncounted as steps.=
-Walk until a sign or obstacle is@nreached. Then continue with the next command.@nWhen a sign has been reached, @nthe current program is ended@nand the bot executes the@nnew program from the sign=
-Print given text as chat message.@nFor two or more words, use the '*' character @ninstead of spaces, like "Hello*world"=
+Walk until a sign or obstacle is@nreached. Then continue with the next command.@nWhen a sign has been reached,@nthe current program is ended@nand the bot executes the@nnew program from the sign=
+Print given text as chat message.@nFor two or more words, use the '*' character@ninstead of spaces, like "Hello*world"=
 
 ### compost.lua ###
 
@@ -268,6 +275,11 @@ Delay time [sec]:=
 Signal Delayer=
 Signals are forwarded delayed. Subsequent signals are queued.=
 The delay time can be configured.=
+
+### delayer.lua ###
+### timer.lua ###
+
+Start=
 
 ### doc.lua ###
 
@@ -400,11 +412,6 @@ inputs=
 Signal AND=
 Signal is sent, if all input signals are received.=
 
-### logic_and.lua ###
-### timer.lua ###
-
-Connected with=
-
 ### node_sensor.lua ###
 
 Node Sensor: Connected with =
@@ -447,13 +454,9 @@ The Bot takes items out of a minecart in front of it, pushes the cart and then t
 no power=
 Ignite the techage charcoal lighter=
 Turns the bot off if the@nbattery power is below the@ngiven value in percent (1..99)=
+Jump to <label> if the@nbattery power is below the@ngiven value in percent (1..99)=
 fully charged=
-Sends a techage command@nto a given node. @nReceiver is addressed by@nthe techage node number.@nFor commands with two or more @nwords, use the '*' character @ninstead of spaces, e.g.: @nsend_cmnd 3465 pull*default:dirt*2=
-
-### techage.lua ###
-### basis.lua ###
-
-charging=
+Sends a techage command@nto a given node.@nReceiver is addressed by@nthe techage node number.@nFor commands with two or more@nwords, use the '*' character@ninstead of spaces, e.g.:@nsend_cmnd 3465 pull*default:dirt*2=
 
 ### timer.lua ###
 
@@ -464,9 +467,9 @@ Special kind of sensor.=
 Can be programmed with a time in seconds, e.g. to start the bot cyclically.=
 
 ### timer.lua ###
-### delayer.lua ###
+### logic_and.lua ###
 
-Start=
+Connected with=
 
 ### tool.lua ###
 

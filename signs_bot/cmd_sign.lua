@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot sign commands and nodes
 
 ]]--
@@ -24,7 +24,7 @@ local sCmnds = ""
 local lCmnds = {}
 local tCmndIdx = {}
 
-minetest.after(2, function() 
+minetest.after(2, function()
 	for idx,cmnd in ipairs(signs_bot.get_commands()) do
 		cmnd = minetest.formspec_escape(cmnd)
 		lCmnds[#lCmnds+1] = cmnd
@@ -75,7 +75,7 @@ local function add_arrow(text, line_num)
 		end
 	end
 	return table.concat(tbl, "\n")
-end	
+end
 
 local function check_syntax(pos, meta, text)
 	local res,err_msg, line_num = signs_bot.check_commands(pos, text)
@@ -92,9 +92,9 @@ local function append_line(pos, meta, line)
 	meta:set_string("signs_bot_cmnd", text)
 	meta:set_int("err_code", 1) -- zero means OK
 	meta:set_string("err_msg", S("please check the added line(s)"))
-end	
-	
-local function check_and_store(pos, meta, fields)	
+end
+
+local function check_and_store(pos, meta, fields)
 	meta:set_string("sign_name", fields.name)
 	meta:set_string("signs_bot_cmnd", fields.cmnd)
 	check_syntax(pos, meta, fields.cmnd)
@@ -138,7 +138,7 @@ minetest.register_node("signs_bot:sign_cmnd", {
 		nmeta:set_string("infotext", nmeta:get_string("sign_name"))
 		nmeta:set_string("formspec", formspec1(nmeta))
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
@@ -169,7 +169,7 @@ minetest.register_node("signs_bot:sign_cmnd", {
 			end
 		end
 	end,
-	
+
 	after_dig_node = lib.after_dig_sign_node,
 	paramtype = "light",
 	use_texture_alpha = signs_bot.CLIP,
@@ -191,7 +191,7 @@ local function get_inv_sign(base_pos, slot)
 		return taken
 	end
 end
-			
+
 -- Put one sign into the robot signs inventory
 local function put_inv_sign(base_pos, slot, item)
 	local inv = minetest.get_inventory({type="node", pos=base_pos})
@@ -285,7 +285,7 @@ local function dig_sign(base_pos, robot_pos, param2, slot)
 		meta:set_string("cmnd", cmnd)
 		meta:set_int("err_code", err_code)
 		minetest.remove_node(pos1)
-		if not put_inv_sign(base_pos, slot, sign) then	
+		if not put_inv_sign(base_pos, slot, sign) then
 			signs_bot.lib.drop_items(robot_pos, sign)
 			return signs_bot.ERROR, S("Error: Signs inventory slot is occupied")
 		end
@@ -332,7 +332,7 @@ end
 
 signs_bot.register_botcommand("trash_sign", {
 	mod = "sign",
-	params = "<slot>",	
+	params = "<slot>",
 	num_param = 1,
 	description = S("Dig the sign in front of the robot\n"..
 		"and add the cleared sign to\nthe item iventory.\n"..
@@ -346,7 +346,7 @@ signs_bot.register_botcommand("trash_sign", {
 		return trash_sign(base_pos, mem.robot_pos, mem.robot_param2, slot)
 	end,
 })
-	
+
 
 minetest.register_craft({
 	output = "signs_bot:sign_cmnd 4",
@@ -364,10 +364,10 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:sign_cmnd",
 			text = table.concat({
 				S("The 'command' sign can be programmed by the player."),
-				S("Place the sign in front of you and use the node menu to program your sequence of bot commands."), 
+				S("Place the sign in front of you and use the node menu to program your sequence of bot commands."),
 				S("The menu has an edit field for your commands and a help page with all available commands."),
 				S("The help page has a copy button to simplify the programming."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

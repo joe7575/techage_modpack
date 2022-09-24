@@ -114,6 +114,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 
+-- Player slots are preserved when unified_inventory is disabled. Do not allow modification.
+-- Fix: use a detached inventory and store the data separately.
 local function save_bags_metadata(player, bags_inv)
 	local is_empty = true
 	local bags = {}
@@ -163,7 +165,7 @@ local function load_bags_metadata(player, bags_inv)
 		save_bags_metadata(player, bags_inv)
 	end
 
-	-- Clean up deprecated garbage after saving
+	-- Legacy: Clean up old player lists
 	for i = 1, 4 do
 		local bag = "bag" .. i
 		player_inv:set_size(bag, 0)
@@ -172,45 +174,28 @@ end
 
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
-	local bags_inv = minetest.create_detached_inventory(player_name .. "_bags",{
+	local bags_inv = minetest.create_detached_inventory(player_name .. "_bags", {
+		allow_put = function(inv, listname, index, stack, player)
+			local new_slots = stack:get_definition().groups.bagslots
+			if not new_slots then
+				return 0 -- ItemStack is not a bag.
+			end
+
+			-- The execution order of `allow_put`/`allow_take` is not defined.
+			-- We do not know the replacement ItemStack if the items are swapped.
+			-- Hence, bag slot upgrades and downgrades are not possible with the
+			-- current API.
+
+			if not player:get_inventory():is_empty(listname .. "contents") then
+				-- Legacy: in case `allow_take` is not executed on old Minetest versions.
+				return 0
+			end
+			return 1
+		end,
 		on_put = function(inv, listname, index, stack, player)
 			player:get_inventory():set_size(listname .. "contents",
 					stack:get_definition().groups.bagslots)
 			save_bags_metadata(player, inv)
-		end,
-		allow_put = function(inv, listname, index, stack, player)
-			local new_slots = stack:get_definition().groups.bagslots
-			if not new_slots then
-				return 0
-			end
-			local player_inv = player:get_inventory()
-			local old_slots = player_inv:get_size(listname .. "contents")
-
-			if new_slots >= old_slots then
-				return 1
-			end
-
-			-- using a smaller bag, make sure it fits
-			local old_list = player_inv:get_list(listname .. "contents")
-			local new_list = {}
-			local slots_used = 0
-			local use_new_list = false
-
-			for i, v in ipairs(old_list) do
-				if v and not v:is_empty() then
-					slots_used = slots_used + 1
-					use_new_list = i > new_slots
-					new_list[slots_used] = v
-				end
-			end
-			if new_slots >= slots_used then
-				if use_new_list then
-					player_inv:set_list(listname .. "contents", new_list)
-				end
-				return 1
-			end
-			-- New bag is smaller: Disallow inserting
-			return 0
 		end,
 		allow_take = function(inv, listname, index, stack, player)
 			if player:get_inventory():is_empty(listname .. "contents") then
@@ -228,6 +213,20 @@ minetest.register_on_joinplayer(function(player)
 	}, player_name)
 
 	load_bags_metadata(player, bags_inv)
+end)
+
+
+minetest.register_allow_player_inventory_action(function(player, action, inventory, info)
+	-- From detached inventory -> player inventory: put & take callbacks
+	if action ~= "put" or not info.listname:find("bag%dcontents") then
+		return
+	end
+	if info.stack:get_definition().groups.bagslots then
+		-- Problem 1: empty bags could be moved into their own slots
+		-- Problem 2: cannot reliably keep track of ItemStack ownership due to
+		--> Disallow all external bag movements into this list
+		return 0
+	end
 end)
 
 -- register bag tools

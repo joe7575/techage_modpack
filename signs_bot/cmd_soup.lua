@@ -8,7 +8,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot soup cooking commands
 
 	Allows bot to use pot (xdecor:cauldron) to cook a vegetable soup

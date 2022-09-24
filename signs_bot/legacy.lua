@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Registation of standard chests and furnace
 
 ]]--
@@ -29,14 +29,14 @@ signs_bot.register_inventory({"default:chest_locked", "default:chest_locked_open
 		allow_inventory_put = function(pos, stack, player_name)
 			local owner = M(pos):get_string("owner")
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 	take = {
 		allow_inventory_take = function(pos, stack, player_name)
 			local owner = M(pos):get_string("owner")
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 })

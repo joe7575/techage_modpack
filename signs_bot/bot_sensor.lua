@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Bot Sensor
 	(passive node, the Bot detects the sensor and sends the signal)
 ]]--
@@ -22,7 +22,7 @@ local S = signs_bot.S
 
 local function update_infotext(pos, dest_pos, cmnd)
 	M(pos):set_string("infotext", S("Bot Sensor: Connected with").." "..P2S(dest_pos).." / "..cmnd)
-end	
+end
 
 minetest.register_node("signs_bot:bot_sensor", {
 	description = S("Bot Sensor"),
@@ -43,12 +43,12 @@ minetest.register_node("signs_bot:bot_sensor", {
 		"signs_bot_sensor2.png",
 		"signs_bot_sensor2.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		meta:set_string("infotext", S("Bot Sensor: Not connected"))
 	end,
-	
+
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -78,21 +78,21 @@ minetest.register_node("signs_bot:bot_sensor_on", {
 		"signs_bot_sensor2.png",
 		"signs_bot_sensor2.png",
 	},
-	
+
 	-- Called from the Bot
 	after_place_node = function(pos)
 		minetest.get_node_timer(pos):start(1)
 		signs_bot.send_signal(pos)
 		signs_bot.lib.activate_extender_nodes(pos, true)
 	end,
-		
+
 	on_timer = function(pos)
 		local node = tubelib2.get_node_lvm(pos)
 		node.name = "signs_bot:bot_sensor"
 		minetest.swap_node(pos, node)
 		return false
 	end,
-	
+
 	update_infotext = update_infotext,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -122,9 +122,9 @@ if minetest.get_modpath("doc") then
 			item = "signs_bot:bot_sensor",
 			text = table.concat({
 				S("The Bot Sensor detects any bot and sends a signal, if a bot is nearby."),
-				S("the sensor range is one node/meter."), 
+				S("the sensor range is one node/meter."),
 				S("The sensor direction does not care."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

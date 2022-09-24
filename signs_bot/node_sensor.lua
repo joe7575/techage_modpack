@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Node Sensor
 
 ]]--
@@ -25,7 +25,7 @@ local CYCLE_TIME = 2
 
 local function update_infotext(pos, dest_pos, cmnd)
 	M(pos):set_string("infotext", S("Node Sensor: Connected with ")..P2S(dest_pos).." / "..cmnd)
-end	
+end
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -39,8 +39,8 @@ local function swap_node(pos, name)
 	end
 	return false
 end
-	
-	
+
+
 local DropdownValues = {
 	[S("added")] = 1,
 	[S("removed")] = 2,
@@ -69,12 +69,12 @@ local function any_node_changed(pos)
 		return false
 	end
 	local num = #minetest.find_nodes_in_area(mem.pos1, mem.pos2, {"air"})
-	
+
 	if mem.num ~= num then
-		if mem.mode == 1 and num < mem.num then 
+		if mem.mode == 1 and num < mem.num then
 			mem.num = num
 			return true
-		elseif mem.mode == 2 and num > mem.num then 
+		elseif mem.mode == 2 and num > mem.num then
 			mem.num = num
 			return true
 		elseif mem.mode == 3 then
@@ -131,7 +131,7 @@ minetest.register_node("signs_bot:node_sensor", {
 		"signs_bot_sensor1.png^[transformFXR90",
 		"signs_bot_sensor1.png^[transformFXR180",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local mem = tubelib2.init_mem(pos)
@@ -141,7 +141,7 @@ minetest.register_node("signs_bot:node_sensor", {
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		any_node_changed(pos)
 	end,
-	
+
 	on_timer = node_timer,
 	update_infotext = update_infotext,
 	on_receive_fields = on_receive_fields,
@@ -173,7 +173,7 @@ minetest.register_node("signs_bot:node_sensor_on", {
 		"signs_bot_sensor1.png^[transformFXR90",
 		"signs_bot_sensor1.png^[transformFXR180",
 	},
-			
+
 	on_timer = node_timer,
 	update_infotext = update_infotext,
 	on_receive_fields = on_receive_fields,
@@ -220,9 +220,9 @@ if minetest.get_modpath("doc") then
 				S("The node sensor sends cyclical signals when it detects that nodes have appeared or disappeared,"),
 				S("but has to be configured accordingly."),
 				S("Valid nodes are all kind of blocks and plants."),
-				S("The sensor range is 3 nodes/meters in one direction."), 
+				S("The sensor range is 3 nodes/meters in one direction."),
 				S("The sensor has an active side (red) that must point to the observed area."),
-			}, "\n")		
+			}, "\n")
 		},
 	})
 end

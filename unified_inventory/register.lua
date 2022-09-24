@@ -207,11 +207,9 @@ ui.register_page("craft", {
 
 local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 	local name = item:get_name()
-	local count = item:get_count()
-	local wear = item:get_wear()
 	local description = item:get_meta():get_string("description")
 	local show_is_group = false
-	local displayitem = name.." "..count.." "..wear
+	local displayitem = item:to_string()
 	local selectitem = name
 	if name:sub(1, 6) == "group:" then
 		local group_name = name:sub(7)
@@ -245,6 +243,9 @@ local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 	return button
 end
 
+-- The recipe text contains parameters, hence they can yet not be translated.
+-- Instead, use a dummy translation call so that it can be picked up by the
+-- static parsing of the translation string update script
 local recipe_text = {
 	recipe = NS("Recipe @1 of @2"),
 	usage = NS("Usage @1 of @2"),

@@ -459,7 +459,7 @@ The terminal is used for input / output for the Lua controller.
 
 ### TA4 Button/Switch
 
-Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch.
+Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch. With the wrench menu, however, the data can be changed later.
 
 [ta4_button|image]
 
@@ -546,6 +546,8 @@ The TA4 sequencer supports the following techage commands:
 
 The `goto` command is only accepted when the sequencer is stopped.
 
+The cycle time (default: 100 ms) can be changed for the sequencer via the open-end wrench menu.
+
 [ta4_sequencer|image]
 
 
@@ -560,7 +562,7 @@ Since the moving blocks can take players and mobs standing on the block with the
 Instructions:
 
 - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
-- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 100 m)
+- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance (x+y+z) is 200 m)
 - The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
 - you can also fly through walls or other blocks
 - The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
@@ -796,7 +798,13 @@ A TA4 tank can hold 2000 units or 200 barrels of liquid.
 
 See TA3 pump.
 
-The TA4 pump pumps 8 units of liquid every two seconds. The pump also supports the `flowrate` command. This means that the total flow rate through the pump can be queried. 
+The TA4 pump pumps 8 units of liquid every two seconds. 
+
+In the "Flow limiter" mode, the number of units pumped by the pump can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of units in the menu. Once the configured number of units have been pumped, the pump will turn off. When the pump is turned on again, it will pump the configured number of units again and then turn off.
+
+The flow limiter can also be configured and started using a Lua or Beduino controller.
+
+The pump also supports the `flowrate` command. This allows the total flow rate through the pump to be queried.
 
 [ta4_pump|image]
 
@@ -832,14 +840,17 @@ But: TA4 pushers and TA4 distributors only achieve their full performance when u
 The function basically corresponds to that of TA2 / TA3. In addition, a menu can be used to configure which objects should be taken from a TA4 chest and transported further.
 The processing power is 12 items every 2 s, if TA4 tubes are used on both sides. Otherwise there are only 6 items every 2 s.
 
-The TA4 pusher has two additional commands for the Lua controller:
+In the "flow limiter" mode, the number of items that are moved by the pusher can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of items in the menu. As soon as the configured number of items have been moved, the pusher switches off. If the pusher is switched on again, it moves the configured number of items again and then switches off.
+
+The TA4 pusher can also be configured and started using a Lua or Beduino controller.
+
+Here are the additional commands for the Lua controller:
 
 - `config` is used to configure the pusher, analogous to manual configuration via the menu.
-  Example: `$send_cmnd(1234, "config", "default: dirt")`
-  With `$send_cmnd(1234, "config", "")` the configuration is deleted
-- `pull` is used to send an order to the pusher:
-  Example: `$send_cmnd(1234, "pull", "default: dirt 8")`
-  Values ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to `stopped` mode and sends an" off "command back to the transmitter of the" pull "command.
+   Example: `$send_cmnd(1234, "config", "default:dirt")`
+   With `$send_cmnd(1234, "config", "")` the configuration is deleted
+- `limit` is used to set the number of items for the flow limiter mode:
+   Example: `$send_cmnd(1234, "init", 7)`
 
 [ta4_pusher|image]
 
@@ -949,3 +960,10 @@ The machine can disassemble pretty much any Techage and Hyperloop blocks. But no
 The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
 
 [ta4_recycler|image] 
+
+### TA4 Item Flow Limiter
+
+The function corresponds to that of TA3.
+
+[ta4_item_flow_limiter_pas|image]
+
