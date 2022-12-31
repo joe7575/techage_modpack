@@ -128,9 +128,15 @@ TA4 Button/Switch=TA4 Schalter/Taster
 
 Access=Zugriff
 Button protection=Tastenschutz
+Type=Typ
+
+### button.lua ###
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
 Command=Kommando
 Number=Nummer
-Type=Typ
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -163,9 +169,14 @@ TA4 2x Button=TA4 2x Taster
 ### button_4x.lua ###
 
 Command to be sent (ignored for switches)=Zu sendender Befehl (wird für Schalter ignoriert)
-Destination block number=Zielblocknummer 
 Label for the button=Beschriftung für die Taste
 Momentary button or on/off switch=Taster oder Ein-/Ausschalter
+
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
+Destination block number=Zielblocknummer 
 
 ### button_2x.lua ###
 ### button_4x.lua ###
@@ -387,7 +398,7 @@ Power=Strom
 Configurable value@nfor the current limit=Konfigurierbarer Wert@nfür die Strombegrenzung
 Current limitation=Strombegrenzung
 Electrolyzer=Eletrolyseur
-If the charge of the storage@nsystem exceeds the configured value,@nthe block switches off=Überschreitet die Ladung des@nSpeichersystems den konfigurierten@nWert, schaltet sich der Block ab
+If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=unterschreitet die Ladung des@nSpeichersystems den konfigurierten@nWert, schaltet sich der Block ab
 Maximum possible@ncurrent consumption=Maximal mögliche Stromaufnahme
 Maximum power consumption [ku]=maximale Stromaufnahme
 Storage full=Speicher voll
@@ -453,7 +464,9 @@ Destination position is protected=Zielposition ist geschützt
 Error: Max. length of the flight route exceeded by @1 blocks !!=Fehler: max. Länge der Flugstrecke um @1 Blöcke überschritten !!
 No valid destination position=Keine gültige Zielposition
 No valid node at the start position=Kein gültiger Block an der Startposition
+Running=In Betrieb
 Start position is protected=Startposition ist geschützt
+Stopped=Gestoppt
 
 ### fly_lib.lua ###
 ### flycontroller.lua ###
@@ -959,6 +972,10 @@ Plastic Granules=Plastikgranulat
 
 ### player_detector.lua ###
 
+Command to send when player is detected=Befehl zum Senden, wenn ein Spieler erkannt wird
+Command to send when player moves away=Befehl zum Senden, wenn sich der Spieler wegbewegt
+Radius=Radius
+Search radius=Suchradius
 TA4 Player Detector=TA4 Spieler Detektor
 
 ### powder.lua ###
@@ -1151,12 +1168,14 @@ stopped=gestoppt
 <num> is a number from 1 to 50000 and is@n=<num> ist eine Nummer von 1 bis 50000 und ist@n
 @n=@n
 Commands=Kommandos
+Cycle time=Zykluszeit
 Example:@n=Beispiel:
 Invalid command!=Ungültiges Kommando!
 Start=Start
 Stop=Stopp
 Syntax:@n=Syntax:@n
 TA4 Sequencer=TA4 Sequenzer
+Timer cycle time (default: 100 ms)=Zykluszeit (normal: 100 ms)
 running=läuft
 the timeslot when the command is executed.@n=der Zeitpunkt, wenn der Befehl ausgeführt wird.@n
 

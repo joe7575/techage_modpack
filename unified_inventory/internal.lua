@@ -52,9 +52,11 @@ local function formspec_tab_buttons(player, formspec, style)
 
 	local filtered_inv_buttons = {}
 
-	for i, def in pairs(ui.buttons) do
+	for _, def in pairs(ui.buttons) do
 		if not (style.is_lite_mode and def.hide_lite) then
-			table.insert(filtered_inv_buttons, def)
+			if def.condition == nil or def.condition(player) or not ui.hide_disabled_buttons then
+				table.insert(filtered_inv_buttons, def)
+			end
 		end
 	end
 
@@ -71,13 +73,14 @@ local function formspec_tab_buttons(player, formspec, style)
 		local pos_y = math.floor((i - 1) / style.main_button_cols) * style.btn_spc
 
 		if def.type == "image" then
-			if (def.condition == nil or def.condition(player) == true) then
+			if (def.condition == nil or def.condition(player)) then
 				formspec[n] = string.format("image_button[%g,%g;%g,%g;%s;%s;]",
 					pos_x, pos_y, style.btn_size, style.btn_size,
 					F(def.image),
 					F(def.name))
 				formspec[n+1] = "tooltip["..F(def.name)..";"..(def.tooltip or "").."]"
 				n = n+2
+
 			else
 				formspec[n] = string.format("image[%g,%g;%g,%g;%s^[colorize:#808080:alpha]",
 					pos_x, pos_y, style.btn_size, style.btn_size,
@@ -88,9 +91,10 @@ local function formspec_tab_buttons(player, formspec, style)
 	end
 	formspec[n] = "scroll_container_end[]"
 	if needs_scrollbar then
+		local total_rows = math.ceil(#filtered_inv_buttons / style.main_button_cols)
 		formspec[n+1] = ("scrollbaroptions[max=%i;arrows=hide]"):format(
 			-- This calculation is not 100% accurate but "good enough"
-			math.ceil((#filtered_inv_buttons - 1) / style.main_button_cols) * style.btn_spc * 5
+			(total_rows - style.main_button_rows) * style.btn_spc * 10
 		)
 		formspec[n+2] = ("scrollbar[%g,%g;0.4,%g;vertical;tabbtnscroll;0]"):format(
 			style.main_button_x + style.main_button_cols * style.btn_spc - 0.1, -- x pos
@@ -329,7 +333,7 @@ function ui.set_inventory_formspec(player, page)
 	end
 end
 
-local function valid_def(def)
+function ui.is_itemdef_listable(def)
 	return (not def.groups.not_in_creative_inventory
 			or def.groups.not_in_creative_inventory == 0)
 		and def.description
@@ -342,9 +346,11 @@ function ui.apply_filter(player, filter, search_dir)
 		return false
 	end
 	local player_name = player:get_player_name()
+
 	local lfilter = string.lower(filter)
 	local ffilter
 	if lfilter:sub(1, 6) == "group:" then
+		-- Group filter: all groups of the item must match
 		local groups = lfilter:sub(7):split(",")
 		ffilter = function(name, def)
 			for _, group in ipairs(groups) do
@@ -356,6 +362,7 @@ function ui.apply_filter(player, filter, search_dir)
 			return true
 		end
 	else
+		-- Name filter: fuzzy match item names and descriptions
 		local player_info = minetest.get_player_information(player_name)
 		local lang = player_info and player_info.lang_code or ""
 
@@ -368,35 +375,41 @@ function ui.apply_filter(player, filter, search_dir)
 				or llocaldesc and string.find(llocaldesc, lfilter, 1, true)
 		end
 	end
-	ui.filtered_items_list[player_name]={}
+
+	local is_itemdef_listable = ui.is_itemdef_listable
+	local filtered_items = {}
+
 	local category = ui.current_category[player_name] or 'all'
 	if category == 'all' then
 		for name, def in pairs(minetest.registered_items) do
-			if valid_def(def)
+			if is_itemdef_listable(def)
 			and ffilter(name, def) then
-				table.insert(ui.filtered_items_list[player_name], name)
+				table.insert(filtered_items, name)
 			end
 		end
 	elseif category == 'uncategorized' then
 		for name, def in pairs(minetest.registered_items) do
-			if (not ui.find_category(name))
-			and valid_def(def)
+			if is_itemdef_listable(def)
+			and not ui.find_category(name)
 			and ffilter(name, def) then
-				table.insert(ui.filtered_items_list[player_name], name)
+				table.insert(filtered_items, name)
 			end
 		end
 	else
-		for name,exists in pairs(ui.registered_category_items[category]) do
+		-- Any other category is selected
+		for name, exists in pairs(ui.registered_category_items[category]) do
 			local def = minetest.registered_items[name]
 			if exists and def
-			and valid_def(def)
+			and is_itemdef_listable(def)
 			and ffilter(name, def) then
-				table.insert(ui.filtered_items_list[player_name], name)
+				table.insert(filtered_items, name)
 			end
 		end
 	end
-	table.sort(ui.filtered_items_list[player_name])
-	ui.filtered_items_list_size[player_name] = #ui.filtered_items_list[player_name]
+	table.sort(filtered_items)
+
+	ui.filtered_items_list_size[player_name] = #filtered_items
+	ui.filtered_items_list[player_name] = filtered_items
 	ui.current_index[player_name] = 1
 	ui.activefilter[player_name] = filter
 	ui.active_search_direction[player_name] = search_dir

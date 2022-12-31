@@ -266,7 +266,7 @@ local function collect_network_nodes(pos, tlib2, outdir)
 		-- outdir corresponds to the indir coming from
 		connection_walk(pos, outdir, Flip[outdir], node, tlib2, function(pos, indir, node)
 			local ndef = net_def2(pos, node.name, netw_type)
-			if ndef then
+			if ndef and ndef.ntype then
 				local ntype = ndef.ntype
 				if not netw[ntype] then netw[ntype] = {} end
 				netw[ntype][#netw[ntype] + 1] = {pos = pos, indir = indir}

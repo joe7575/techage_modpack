@@ -20,15 +20,48 @@ local NDEF = function(pos) return (minetest.registered_nodes[techage.get_node_lv
 local logic = techage.logic
 local CYCLE_TIME = 1
 
+local WRENCH_MENU = {
+	{
+		type = "dropdown",
+		choices = "1,2,3,4,5,6,7,8",
+		name = "radius",
+		label = S("Radius"),
+		tooltip = S("Search radius"),
+		default = "4",
+	},
+	{
+		type = "numbers",
+		name = "numbers",
+		label = S("Number"),
+		tooltip = S("Destination block number"),
+		default = "",
+		check = techage.check_numbers,
+	},
+	{
+		type = "ascii",
+		name = "command1",
+		label = "On " .. S("Command"),
+		tooltip = S("Command to send when player is detected"),
+		default = "on",
+	},
+	{
+		type = "ascii",
+		name = "command2",
+		label = "Off " .. S("Command"),
+		tooltip = S("Command to send when player moves away"),
+		default = "off",
+	},
+}
+
 local function switch_on(pos, stage)
 	if logic.swap_node(pos, "techage:ta"..stage.."_playerdetector_on") then
-		logic.send_on(pos, M(pos))
+		logic.send_cmnd(pos, "command1", "on")
 	end
 end
 
 local function switch_off(pos, stage)
 	if logic.swap_node(pos, "techage:ta"..stage.."_playerdetector_off") then
-		logic.send_off(pos, M(pos))
+		logic.send_cmnd(pos, "command2", "off")
 	end
 end
 
@@ -36,7 +69,8 @@ local function scan_for_player(pos)
 	local nvm = techage.get_nvm(pos)
 	local meta = minetest.get_meta(pos)
 	local names = meta:get_string("names") or ""
-	for _, object in pairs(minetest.get_objects_inside_radius(pos, 4)) do
+	local radius = meta:contains("radius") and meta:get_int("radius") or 4
+	for _, object in pairs(minetest.get_objects_inside_radius(pos, radius)) do
 		if object:is_player() then
 			if names == "" then
 				nvm.player_name = object:get_player_name()
@@ -228,6 +262,7 @@ minetest.register_node("techage:ta4_playerdetector_off", {
 		techage.del_mem(pos)
 	end,
 
+	ta4_formspec = WRENCH_MENU,
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
@@ -277,6 +312,7 @@ minetest.register_node("techage:ta4_playerdetector_on", {
 		techage.del_mem(pos)
 	end,
 
+	ta4_formspec = WRENCH_MENU,
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",

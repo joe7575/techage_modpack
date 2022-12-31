@@ -129,6 +129,7 @@ end
 
 local function gen_string_cmnd(code, pc, num_param, script)
 	local tokens = tokenizer(script)
+	pc = math.min(pc, #tokens)
 	if num_param == 0 then
 		return tokens[pc]
 	elseif num_param == 1 then

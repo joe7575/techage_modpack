@@ -17,9 +17,8 @@ local M = minetest.get_meta
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S = techage.S
 
-local MP = minetest.get_modpath("techage")
-local flylib = dofile(MP .. "/basis/fly_lib.lua")
 local logic = techage.logic
+local fly = techage.flylib
 
 local MarkedNodes = {} -- t[player] = {{entity, pos},...}
 local CurrentPos  -- to mark punched entities
@@ -141,9 +140,9 @@ local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
 	if node and is_simple_node(node.name) then
 		if item and item:get_name() ~= "" and minetest.registered_nodes[item:get_name()] then
-			flylib.exchange_node(pos, item:get_name(), param2)
+			fly.exchange_node(pos, item:get_name(), param2)
 		else
-			flylib.remove_node(pos)
+			fly.remove_node(pos)
 		end
 		if not techage.is_air_like(node.name) then
 			return ItemStack(node.name), node.param2
@@ -439,7 +438,7 @@ local Doors = {
 for _, name in ipairs(Doors) do
 	for _, postfix in ipairs({"a", "b", "c", "d"}) do
 		techage.register_simple_nodes({name .. "_" .. postfix}, true)
-		flylib.protect_door_from_being_opened(name .. "_" .. postfix)
+		fly.protect_door_from_being_opened(name .. "_" .. postfix)
 	end
 end
 
@@ -453,6 +452,6 @@ local ProtectorDoors = {
 for _, name in ipairs(ProtectorDoors) do
 	for _, postfix in ipairs({"b_1", "b_2", "t_1", "t_2"}) do
 		techage.register_simple_nodes({name .. "_" .. postfix}, true)
-		flylib.protect_door_from_being_opened(name .. "_" .. postfix)
+		fly.protect_door_from_being_opened(name .. "_" .. postfix)
 	end
 end

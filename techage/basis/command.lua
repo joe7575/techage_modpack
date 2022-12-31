@@ -16,6 +16,7 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 --local P = minetest.string_to_pos
 --local M = minetest.get_meta
+local has_mesecons = minetest.global_exists("mesecon")
 
 local NodeInfoCache = {}
 local NumbersToBeRecycled = {}
@@ -171,7 +172,7 @@ end)
 techage.dug_node = {}
 minetest.register_on_dignode(function(pos, oldnode, digger)
 	if not digger then return end
-	-- store pos for tools without own 'register_on_dignode'
+	-- store the position of the dug block for tools like the TA1 hammer
 	techage.dug_node[digger:get_player_name()] = pos
 end)
 
@@ -317,6 +318,13 @@ function techage.register_node(names, node_definition)
 	if node_definition.on_node_load then
 		register_lbm(names[1], names)
 	end
+
+	-- register mvps stopper
+	if has_mesecons then
+		for _, name in ipairs(names) do
+			mesecon.register_mvps_stopper(name)
+		end
+	end
 end
 
 -------------------------------------------------------------------
@@ -327,6 +335,19 @@ function techage.not_protected(number, placer_name, clicker_name)
 	local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
 	if ninfo and ninfo.pos then
 		return not_protected(ninfo.pos, placer_name, clicker_name)
+	end
+	return false
+end
+
+-- Check the given number value.
+-- Returns true if the number is valid, point to real node and
+-- and the node is not protected for the given player_name.
+function techage.check_number(number, placer_name)
+	if number then
+		if not techage.not_protected(number, placer_name, nil) then
+			return false
+		end
+		return true
 	end
 	return false
 end

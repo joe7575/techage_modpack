@@ -115,7 +115,7 @@ TA3 Booster=
 
 Access:=
 Button or switch=
-Change the node name (infotext)=
+Change the block name (infotext)=
 Command to be sent=
 Destination block number(s)=
 Infotext=
@@ -128,9 +128,15 @@ TA4 Button/Switch=
 
 Access=
 Button protection=
+Type=
+
+### button.lua ###
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
 Command=
 Number=
-Type=
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -163,9 +169,14 @@ TA4 2x Button=
 ### button_4x.lua ###
 
 Command to be sent (ignored for switches)=
-Destination block number=
 Label for the button=
 Momentary button or on/off switch=
+
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
+Destination block number=
 
 ### button_2x.lua ###
 ### button_4x.lua ###
@@ -387,7 +398,7 @@ Power=
 Configurable value@nfor the current limit=
 Current limitation=
 Electrolyzer=
-If the charge of the storage@nsystem exceeds the configured value,@nthe block switches off=
+If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=
 Maximum possible@ncurrent consumption=
 Maximum power consumption [ku]=
 Storage full=
@@ -453,7 +464,9 @@ Destination position is protected=
 Error: Max. length of the flight route exceeded by @1 blocks !!=
 No valid destination position=
 No valid node at the start position=
+Running=
 Start position is protected=
+Stopped=
 
 ### fly_lib.lua ###
 ### flycontroller.lua ###
@@ -959,6 +972,10 @@ Plastic Granules=
 
 ### player_detector.lua ###
 
+Command to send when player is detected=
+Command to send when player moves away=
+Radius=
+Search radius=
 TA4 Player Detector=
 
 ### powder.lua ###
@@ -1151,12 +1168,14 @@ stopped=
 <num> is a number from 1 to 50000 and is@n=
 @n=
 Commands=
+Cycle time=
 Example:@n=
 Invalid command!=
 Start=
 Stop=
 Syntax:@n=
 TA4 Sequencer=
+Timer cycle time (default: 100 ms)=
 running=
 the timeslot when the command is executed.@n=
 

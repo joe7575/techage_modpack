@@ -229,7 +229,7 @@ local function build_crane_up(pos, owner, height, width)
 					", "..S("Crane size")..": "..height..","..width)
 				meta:set_string("formspec", formspec(height, width))
 			else
-				chat(owner, S("Area is protected or too less space for the crane!"))
+				chat(owner, S("Area is protected or not enough space for the crane!"))
 			end
 		end
 	else

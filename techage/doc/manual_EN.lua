@@ -254,6 +254,7 @@ techage.manual_EN.aTitel = {
   "2,More TA5 Blocks/Items",
   "3,TA5 Container (planned)",
   "3,TA5 AI Chip",
+  "3,TA5 AI Chip II",
 }
 
 techage.manual_EN.aText = {
@@ -368,13 +369,19 @@ techage.manual_EN.aText = {
   "\n",
   "You need the Charcoal Pile to make charcoal. Charcoal is required for the melting furnace\\, but also\\, for example\\, in TA2 for the steam engine.\n"..
   "\n"..
+  "For the charcoal burner you need:\n"..
+  "\n"..
+  "  - a lighter block ('techage:lighter')\n"..
+  "  - 26 wooden blocks that are stacked into a pile of wood. The type of wood is irrelevant\n"..
+  "  - Dirt to cover the pile of wood\n"..
+  "  - Flint and Iron (technical name: 'fire:flint_and_steel') to light the lighter block\n"..
+  "\n"..
   "Building instructions (see also plan):\n"..
   "\n"..
-  "  - Build a 5x5 area of ​​dirt\n"..
-  "  - Place a lighter in the middle\n"..
-  "  - Build a 3x3x3 cube above it out of wood\n"..
-  "  - Cover everything with a layer of dirt to form a 5x5x5 cube\n"..
-  "  - Leave a hole to the lighter\n"..
+  "  - Build a 5x5 area of dirt\n"..
+  "  - Place 7 wood around the lighter but leave a hole to the lighter\n"..
+  "  - Build another 2 layers of wood on top\\, making a 3x3x3 wooden cube\n"..
+  "  - Cover everything with a layer of dirt into a 5x5x5 cube\\, but keep the hole to the lighter open\n"..
   "  - Light the lighter and immediately close the hole with a block of wood and dirt\n"..
   "  - If you have done everything correctly\\, the coal burner will start smoking after a few seconds\n"..
   "  - Only open the charcoal burner when the smoke has disappeared (approx. 20 min)\n"..
@@ -1486,6 +1493,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The electrolyzer has a wrench menu for setting the current consumption and the switch-off point.\n"..
   "\n"..
+  "If the power stored in the power grid falls below the specified value of the switch-off point\\, the electrolyzer switches off automatically. This prevents the storage systems from running empty.\n"..
+  "\n"..
   "\n"..
   "\n",
   "The fuel cell converts hydrogen into electricity.\n"..
@@ -1501,16 +1510,18 @@ techage.manual_EN.aText = {
   "The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products.\n"..
   "The plan on the left shows only one possible variant\\, since the arrangement of the silos and tanks depends on the recipe.\n"..
   "\n"..
+  "The primary output product is always output to the side of the reactor stand\\, regardless of whether it is a powder or a liquid. The (secondary) waste product is always discharged at the bottom of the reactor stand.\n"..
+  "\n"..
   "A reactor consists of:\n"..
   "\n"..
   "  - Various tanks and silos with the ingredients that are connected to the doser via pipes\n"..
-  "  - optionally a reactor base\\, which discharges the waste from the reactor (only necessary for recipes with two starting materials)\n"..
+  "  - optionally a reactor base\\, which discharges the waste from the reactor (only necessary for recipes with two output products)\n"..
   "  - the reactor stand\\, which must be placed on the base (if available). The stand has a power connection and draws 8 ku during operation.\n"..
   "  - The reactor vessel that has to be placed on the reactor stand\n"..
   "  - The filler pipe that must be placed on the reactor vessel\n"..
   "  - The dosing device\\, which has to be connected to the tanks or silos and the filler pipe via pipes\n"..
   "\n"..
-  "Note 1: Liquids are only stored in tanks\\, solids and substances in powder form only in silos. This applies to ingredients and raw materials.\n"..
+  "Note 1: Liquids are only stored in tanks\\, solids and substances in powder form only in silos. This applies to ingredients and output products.\n"..
   "\n"..
   "Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast\\, several tanks or silos with the same content may hang in parallel on one line.\n"..
   "\n"..
@@ -1531,7 +1542,7 @@ techage.manual_EN.aText = {
   "As with other machines:\n"..
   "\n"..
   "  - if the doser is in standby mode\\, one or more ingredients are missing\n"..
-  "  - if the doser is in the blocked state\\, the outlet tank or silo is full\\, defective or incorrectly connected\n"..
+  "  - if the doser is in the blocked state\\, the output tank or silo is full\\, defective or incorrectly connected\n"..
   "\n"..
   "The doser does not need any electricity. A recipe is processed every 10 s.\n"..
   "\n"..
@@ -1727,6 +1738,11 @@ techage.manual_EN.aText = {
   "  - 'a2b' Move block from A to B.\n"..
   "  - 'b2a' Move block from B to A.\n"..
   "  - 'move' Move block to the other side\n"..
+  "\n"..
+  "You can switch to the 'move xyz' operating mode via the wrench menu. After switching\\, the following techage commands are supported: \n"..
+  "\n"..
+  "  - 'move2' With the command\\, the flight route must also be specified as an x\\,y\\,z vector.\nExample Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
+  "  - 'reset' move block(s) back to start position\n"..
   "\n"..
   "*Important instructions:*\n"..
   "\n"..
@@ -2151,6 +2167,10 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The TA5 AI Chip II is required to build the TA5 Fusion Reactor. The TA5 AI Chip II can only be manufactured at the TA4 Electronics Fab. This requires 50 experience points.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_EN.aItemName = {
@@ -2407,6 +2427,7 @@ techage.manual_EN.aItemName = {
   "",
   "",
   "ta5_aichip",
+  "ta5_aichip2",
 }
 
 techage.manual_EN.aPlanTable = {
@@ -2657,6 +2678,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta5_teleport",
+  "",
   "",
   "",
   "",

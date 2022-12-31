@@ -14,9 +14,29 @@
 
 local S = techage.S
 
+local Stone2Gravel = {
+	["default:stone"] = "default:gravel",
+	["default:cobble"] = "default:gravel",
+	["default:desert_stone"] = "default:gravel",
+	["techage:basalt_stone"] = "techage:basalt_gravel",
+	["techage:basalt_cobble"] = "techage:basalt_gravel",
+	["techage:bauxite_stone"] = "techage:bauxite_gravel",
+	["techage:bauxite_cobble"] = "techage:bauxite_gravel",
+}
+
+function techage.register_stone_gravel_pair(stone_name, gravel_name)
+	Stone2Gravel[stone_name] = gravel_name
+end
+
+-- Pipeworks uses a fakeplayer based on the owner of the nodebraker.
+local function is_real_player(player)
+	return minetest.is_player(player) and not player.is_fake_player
+end
+
 local function handler(player_name, node, itemstack, digparams)
 	local pos = techage.dug_node[player_name]
 	if not pos then return end
+	techage.dug_node[player_name] = nil
 
 	if minetest.is_protected(pos, player_name) then
 		minetest.record_protection_violation(pos, player_name)
@@ -30,6 +50,7 @@ local function handler(player_name, node, itemstack, digparams)
 			local item = ItemStack(ndef.drop or node.name)
 			local inv = minetest.get_inventory({type="player", name=player_name})
 			if inv and inv:room_for_item("main", item) then
+				-- item should have been added and can therefore be removed again
 				local taken = inv:remove_item("main", item)
 			else
 				for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
@@ -38,8 +59,8 @@ local function handler(player_name, node, itemstack, digparams)
 				end
 			end
 		end
-		if node.name == "techage:basalt_stone" or node.name == "techage:basalt_cobble" then
-			node.name = "techage:basalt_gravel"
+		if Stone2Gravel[node.name] then
+			node.name = Stone2Gravel[node.name]
 		else
 			node.name = "default:gravel"
 		end
@@ -61,7 +82,9 @@ minetest.register_tool("techage:hammer_stone", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.01, handler, user:get_player_name(), node)
+		if is_real_player(user) then
+			minetest.after(0.01, handler, user:get_player_name(), node)
+		end
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
@@ -80,7 +103,9 @@ minetest.register_tool("techage:hammer_bronze", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.01, handler, user:get_player_name(), node)
+		if is_real_player(user) then
+			minetest.after(0.01, handler, user:get_player_name(), node)
+		end
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
@@ -99,7 +124,9 @@ minetest.register_tool("techage:hammer_steel", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.01, handler, user:get_player_name(), node)
+		if is_real_player(user) then
+			minetest.after(0.01, handler, user:get_player_name(), node)
+		end
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
@@ -118,7 +145,9 @@ minetest.register_tool("techage:hammer_mese", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.01, handler, user:get_player_name(), node)
+		if is_real_player(user) then
+			minetest.after(0.01, handler, user:get_player_name(), node)
+		end
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
@@ -137,7 +166,9 @@ minetest.register_tool("techage:hammer_diamond", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.01, handler, user:get_player_name(), node)
+		if is_real_player(user) then
+			minetest.after(0.01, handler, user:get_player_name(), node)
+		end
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,

@@ -14,7 +14,7 @@
 
 safer_lua.MaxCodeSize = 5000    -- size if source code in bytes
 safer_lua.MaxTableSize = 1000   -- sum over all table sizes
-safer_lua.MaxExeTime = 20000   -- max. execution time in us
+safer_lua.MaxExeTime = 20000    -- max. execution time in us
 
 local function memsize()
 	return safer_lua.MaxTableSize
@@ -102,7 +102,7 @@ local function format_error_str(str, label)
 		if s:find("function 'xpcall'") then
 			break
 		elseif s:find(".-%.lua:%d+:(.+)") then
-			local err = s:gsub(".-%.lua:%d+:%s*(.+)", "extern: %1")
+			local err = s:gsub(".-%.lua:%d+:%s*(.+)", "%1")
 			table.insert(tbl, err)
 		elseif s:find('%[string ".-"%]') then
 			local line, err = s:match('^%[string ".-"%]:(%d+): (.+)$')
@@ -134,6 +134,24 @@ local function compile(pos, text, label, err_clbk)
 	end
 end
 
+local function runtime_delimiter(code)
+	local time = minetest.get_us_time()
+	local timeout = function ()
+		if minetest.get_us_time() - time > safer_lua.MaxExeTime then
+			debug.sethook()
+			error("Runtime limit exceeded")
+		end
+	end
+	debug.sethook(timeout, "c")
+	code()
+	debug.sethook()
+end
+
+local function error_handler(...)
+	debug.sethook()
+	return debug.traceback(...)
+end
+
 -------------------------------------------------------------------------------
 -- Standard init/loop controller
 -------------------------------------------------------------------------------
@@ -148,7 +166,7 @@ function safer_lua.init(pos, init, loop, environ, err_clbk)
 		env.S = {}
 		env.S = map(env.S, environ)
 		setfenv(code, env)
-		local res, err = xpcall(code, debug.traceback)
+		local res, err = xpcall(runtime_delimiter, error_handler, code)
 		if not res then
 			err_clbk(pos, format_error(err, "init"))
 		else
@@ -171,7 +189,7 @@ function safer_lua.run_loop(pos, elapsed, code, err_clbk)
 		env.event = false
 		env.ticks = env.ticks + 1
 	end
-	local res, err = xpcall(code, debug.traceback)
+	local res, err = xpcall(runtime_delimiter, error_handler, code)
 	if calc_used_mem_size(env) > safer_lua.MaxTableSize then 
 		err_clbk(pos, "Error: Data memory limit exceeded")
 		return false
@@ -188,7 +206,7 @@ end
 -------------------------------------------------------------------------------
 local function thread(pos, code, err_clbk)
 	while true do
-		local res, err = xpcall(code, debug.traceback)
+		local res, err = xpcall(runtime_delimiter, error_handler, code)
 		if not res then
 			err_clbk(pos, format_error(err, "loop"))
 			return false

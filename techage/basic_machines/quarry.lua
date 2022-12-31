@@ -26,7 +26,7 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local S = techage.S
 
-local CYCLE_TIME = 3
+local CYCLE_TIME = 4
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 
@@ -205,6 +205,7 @@ local function quarry_task(pos, crd, nvm)
 
 		if not is_air_level(pos1, pos2, nvm.hole_diameter) then
 			mark_area(pos1, pos2, owner)
+			M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 			coroutine.yield()
 
 			for zoffs = 1, nvm.hole_diameter do

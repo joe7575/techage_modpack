@@ -1,0 +1,16 @@
+# textdomain: towercrane
+Area is protected.=
+Tower Crane Mast Ctrl On=
+Switch crane on/off=
+Tower Crane Mast Ctrl Off=
+Construction area size=
+Build=
+Owner=
+Crane size=
+Area is protected or too less space for the crane!=
+Invalid input!=
+Tower Crane Base=
+Tower Crane Balance=
+Tower Crane Mast=
+Tower Crane Arm=
+Tower Crane Arm2=

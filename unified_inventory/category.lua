@@ -96,6 +96,9 @@ function unified_inventory.register_category(category_name, config)
 	end
 	update_category_list()
 end
+
+-- TODO: Mark these for removal. They are pretty much useless
+
 function unified_inventory.set_category_symbol(category_name, symbol)
 	ensure_category_exists(category_name)
 	unified_inventory.registered_categories[category_name].symbol = symbol

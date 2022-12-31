@@ -168,6 +168,7 @@ signs_bot.register_botcommand("place_below", {
 	end,
 	cmnd = function(base_pos, mem, slot)
 		slot = tonumber(slot) or 0
+		mem.stored_node = {name = "air"}
 		return place_item_below(base_pos, mem.robot_pos, mem.robot_param2, slot)
 	end,
 })

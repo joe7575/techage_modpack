@@ -41,13 +41,13 @@ function safer_lua:string(pttrn)
 end
 
 local function lines(str)
-   local t = {}
-   local function helper(line)
-	  table.insert(t, line)
-	  return ""
-   end
-   helper((str:gsub("(.-)\r?\n", helper)))
-   return t
+	local t = {}
+	local function helper(line)
+		table.insert(t, line)
+		return ""
+	end
+	helper((str:gsub("(.-)\r?\n", helper)))
+	return t
 end
 
 function safer_lua:scanner(text)

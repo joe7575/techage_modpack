@@ -249,7 +249,7 @@ function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 		if friendly then
 			local v = vector.direction(pos, preferred_pos)
 			local dir1 = self:vector_to_dir(v)
-			local dir2 = Turn180Deg[fdir]
+			local dir2 = fdir < 5 and Turn180Deg[fdir] or fdir
 			return dir1, dir2, 1
 		end
 	end

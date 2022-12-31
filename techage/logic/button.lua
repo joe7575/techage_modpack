@@ -68,10 +68,7 @@ local function switch_on(pos)
 	elseif name == "techage:ta4_button_off" then
 		logic.swap_node(pos, "techage:ta4_button_on")
 	end
-	local meta = M(pos)
-	local s = meta:contains("command") and meta:get_string("command") or "on"
-	local command, payload = unpack(string.split(s, " ", false, 1))
-	logic.send_cmnd(pos, M(pos), command, payload, cycle_time)
+	logic.send_cmnd(pos, "command", "on", cycle_time)
 	minetest.sound_play("techage_button", {
 			pos = pos,
 			gain = 0.5,
@@ -87,7 +84,7 @@ local function switch_off(pos, is_button)
 		logic.swap_node(pos, "techage:ta4_button_off")
 	end
 	local meta = M(pos)
-	if meta:get_string("off_command") ~= "true" and 
+	if meta:get_string("off_command") ~= "true" and
 			(not meta:contains("command") or meta:get_string("command") == "on") then
 		logic.send_off(pos, M(pos))
 	end
@@ -117,7 +114,7 @@ local function store_fields_data(pos, fields)
 	local meta = M(pos)
 	meta:set_string("numbers", fields.numbers)
 	meta:set_string("off_command", "")
-	
+
 	if fields.access == "protected" then
 		meta:set_string("protected", "true")
 		meta:set_string("public", "")

@@ -323,6 +323,11 @@ local function door_command(floor_pos, facedir, cmnd, sound)
 	-- one step up
 	local door_pos1 = hyperloop.new_pos(floor_pos, facedir, "1B", 0)
 	local door_pos2 = hyperloop.new_pos(floor_pos, facedir, "1B", 1)
+	local meta = M(floor_pos)
+	local owner = meta:contains("owner") and meta:get_string("owner") 
+	if owner and (minetest.is_protected(door_pos1, owner) or minetest.is_protected(door_pos2, owner)) then
+		return
+	end
 	local node1 = minetest.get_node(door_pos1)
 	local node2 = minetest.get_node(door_pos2)
 	
@@ -455,6 +460,7 @@ minetest.register_node("hyperloop:elevator_bottom", {
 			"field[0.5,1.5;5,1;floor;"..S("Floor name")..";"..S("Base").."]" ..
 			"button_exit[2,3;2,1;exit;"..S("Save").."]"
 			meta:set_string("formspec", formspec)
+			meta:set_string("owner", placer:get_player_name())
 			
 			-- add upper part of the car
 			pos = Shaft:get_pos(pos, 6)

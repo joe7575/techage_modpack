@@ -254,6 +254,7 @@ techage.manual_DE.aTitel = {
   "2,Weitere TA5 Blöcke/Items",
   "3,TA5 Container (geplant)",
   "3,TA5 KI Chip / TA5 AI Chip",
+  "3,TA5 KI Chip II / TA5 AI Chip II",
 }
 
 techage.manual_DE.aText = {
@@ -360,13 +361,20 @@ techage.manual_DE.aText = {
   "\n",
   "Den Köhler brauchst du\\, um Holzkohle herzustellen. Holzkohle wird für den Brenner\\, aber auch bspw. in TA2 für die Dampfmaschine benötigt.\n"..
   "\n"..
+  "Für den Köhler brauchst du:\n"..
+  "\n"..
+  "  - einen Anzünderblock ('techage:lighter')\n"..
+  "  - 26 Hölzblöcke (wood)\\, die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle\n"..
+  "  - Erde (dirt) um den Holzhaufen abzudecken\n"..
+  "  - Flint and Iron (technischer Name: 'fire:flint_and_steel') um den Anzünderblock anzuzünden\n"..
+  "\n"..
   "Bauanleitung (siehe auch Plan):\n"..
   "\n"..
   "  - Baue eine 5x5 große Fläche aus Erde (dirt)\n"..
   "  - Platziere in die Mitte einen Anzünder (lighter)\n"..
-  "  - Baue aus Holz (wood) einen 3x3x3 großen Würfel darüber\n"..
-  "  - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel\n"..
-  "  - Lasse ein Loch zum Anzünder\n"..
+  "  - Platziere rund um den Anzünder 7 Holz (wood)\\, aber lasse ein Loch zum Anzünder frei\n"..
+  "  - Baue weitere 2 Schichten Holz darüber\\, so dass ein 3x3x3 großen Holzwürfel entsteht\n"..
+  "  - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel\\, aber lasse das Loch zum Anzünder frei\n"..
   "  - Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde\n"..
   "  - Wenn du alles richtig gemacht hast\\, beginnt der Köhler nach wenigen Sekunden an zu rauchen\n"..
   "  - Öffne den Köhler erst\\, wenn der Rauch verschwunden ist (ca. 20 min)\n"..
@@ -1479,6 +1487,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Elektrolyseur besitzt ein Schraubenschlüssel-Menü zur Einstellung der Stromaufnahme und des Abschaltpunkts.\n"..
   "\n"..
+  "Unterschreitet die im Stromnetz gespeicherte Leistung den angegebenen Wert des Abschaltpunkts\\, so schaltet sich der Elektrolyseur automatisch ab. Damit kann ein Leerlaufen der Speichersysteme verhindert werden.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Die Brennstoffzelle wandelt Wasserstoff in Strom um.\n"..
@@ -1494,16 +1504,18 @@ techage.manual_DE.aText = {
   "\n",
   "Der Reaktor dient dazu\\, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Der Plan links zeigt nur eine mögliche Variante\\, da die Anordnung der Silos und Tanks rezeptabhängig ist.\n"..
   "\n"..
+  "Das primäre Ausgabeprodukt wird immer an der Seite des Reaktorständers ausgegeben\\, unabhängig davon\\, ob es sich um ein Pulver oder eine Flüssigkeit handelt. Das (sekundäre) Abfallprodukt wird immer unten am Reaktorständers ausgegeben.\n"..
+  "\n"..
   "Ein Reaktor besteht aus:\n"..
   "\n"..
   "  - div. Tanks und Silos mit den Zutaten\\, die über Leitungen mit dem Dosierer verbunden sind\n"..
-  "  - optional einem Reaktorsockel\\, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgangsstoffen notwendig)\n"..
+  "  - optional einem Reaktorsockel\\, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgabestoffen notwendig)\n"..
   "  - dem Reaktorständer\\, der auf den Sockel gesetzt werden muss (sofern vorhanden). Der Ständer hat einen Stromanschluss und zieht bei Betrieb 8 ku.\n"..
   "  - dem eigentlichen Reaktorbehälter\\, der auf den Reaktorständer gesetzt werden muss\n"..
   "  - dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss\n"..
   "  - dem Dosierer\\, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss\n"..
   "\n"..
-  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.\n"..
+  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgabestoffe.\n"..
   "\n"..
   "Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.\n"..
   "\n"..
@@ -1524,7 +1536,7 @@ techage.manual_DE.aText = {
   "Wie auch bei anderen Maschinen:\n"..
   "\n"..
   "  - geht der Dosierer in den standby Zustand\\, so fehlen ein oder mehrere Zutaten\n"..
-  "  - geht der Dosierer in den blocked Zustand\\, so ist Ausgangstank oder Silo voll\\, defekt oder falsch angeschlossen\n"..
+  "  - geht der Dosierer in den blocked Zustand\\, so ist Ausgabetank oder Silo voll\\, defekt oder falsch angeschlossen\n"..
   "\n"..
   "Der Dosierer benötigt keinen Strom. Alle 10 s wird ein Rezept abgearbeitet.\n"..
   "\n"..
@@ -1541,7 +1553,7 @@ techage.manual_DE.aText = {
   "\n",
   "Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.\n"..
   "\n"..
-  "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechst für das Ausgangsprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
+  "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechst für das primäre Ausgabeprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1721,6 +1733,11 @@ techage.manual_DE.aText = {
   "  - 'a2b'  Bewege Block von A nach B\n"..
   "  - 'b2a'  Bewege Block von B nach A\n"..
   "  - 'move' Bewege Block auf die andere Seite\n"..
+  "\n"..
+  "Über das Schraubenschlüssel-Menü kann auf die Betriebsart 'move xyz' umgeschaltet werden.  Nach der Umschaltung werden folgende techage Kommandos unterstützt:\n"..
+  "\n"..
+  "  - 'move2'  Beim Kommando muss zusätzlich die Flugstrecke als x\\,y\\,z Vektor angegeben werden.\nBeispiel Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
+  "  - 'reset' Block/Blöcke zurück in Startposition bewegen\n"..
   "\n"..
   "*Wichtige Hinweise:*\n"..
   "\n"..
@@ -2146,6 +2163,10 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der TA5 KI Chip II wird zur Herstellung des TA5 Fusionsreaktors benötigt. Der TA5 KI Chip II kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 50 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -2402,6 +2423,7 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "ta5_aichip",
+  "ta5_aichip2",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -2652,6 +2674,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta5_teleport",
+  "",
   "",
   "",
   "",
