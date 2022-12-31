@@ -47,6 +47,47 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2022-12-31
+
+Updated Mods:
+- techage:
+  - Add wafer recipe with 'mesecons_materials:silicon'
+  - Add TA5 AI Chip II to the manual
+  - Fix movecontroller wrench menu bug
+  - Improve chemical reactor description
+  - Improve player detector wrench menu
+  - Fix 'count' command bug: default value is 0 again
+  - Movecontroller: Allow moving blocks through unloaded areas
+  - Player detector: Add wrench menu to configure search radius
+  - Movecontroller: Place unloaded flying blocks to dest pos
+  - Furnace: Don't use items filled from the top as fuel
+  - Manual improvements for the move controller
+  - Make a use for cotton seeds #104
+  - Merge pull request #102 from Niklp09/mvps2
+  - Fix broken mesecons detection
+  - Fix bug with TA1 hammer used by pipeworks nodebreaker
+  - Merge pull request #99 from Niklp09/mvps
+  - Register mvps stopper for complex techage nodes
+  - Merge pull request #98 from Niklp09/glow_gravel
+  - Fix hammer bauxite bug
+  - Fix mesecons_materials bug
+  - Add cracking recipe for isobutane
+  - Merge pull request #96 from Niklp09/ethereal
+  - Grind ethereal leaves to leave powder
+  - Improve manual, fix bug in electrolyzer menu description
+- networks (Add API function used by the techage tool)
+- safer_lua (Limit code execution time for recursive function calls (#3 by Thomas--S))
+- tubelib2:
+  - Merge pull request #18 from IFRFSX/cn
+  - Add chinese translation
+  - Merge pull request #17 from Niklp09/master
+  - Fix minor translation issue
+- signs_bot:
+  - Fix stop command bug
+  - Fix #23 (Water is moved up when a bot builds upward from under water)
+  - Fix bug remove foot after move_up command
+- hyperloop (Fix elevator area protection bug)
+
 #### 2022-09-24
 
 Updated Mods:
