@@ -47,6 +47,19 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 ### History
 
 
+#### 2023-02-04
+
+Updated Mods:
+- techage:
+  - V1.10 (see readme.md)
+- signs_bot:
+  - Fix fall_down on rail bug
+- minecart:
+  - Fix hopper bug
+  - Add Techage and Beduino command interface for cart states
+- hyperloop:
+  - Fix some bugs
+
 #### 2022-12-31
 
 Updated Mods:
