@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
@@ -59,6 +59,11 @@ minetest.register_node("minecart:terminal", {
 		local meta = M(pos)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec(pos, ""))
+		if minetest.global_exists("techage") then
+			local number = techage.add_node(pos, "minecart:terminal")
+			meta:set_string("node_number", number)
+			meta:set_string("infotext", "Cart Terminal " .. number)
+		end
 		minetest.get_node_timer(pos):start(2)
 	end,
 	
@@ -88,3 +93,42 @@ minetest.register_craft({
 		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
 	},
 })
+
+minetest.register_on_mods_loaded(function()
+	if minetest.global_exists("techage") then
+		techage.register_node({"minecart:terminal"}, {
+			on_recv_message = function(pos, src, topic, payload)
+				local number = tonumber(payload)
+				if number then
+					local owner = M(pos):get_string("owner")
+					if topic == "state" then
+						return minecart.cmnd_cart_state(owner, number)
+					elseif topic == "distance" then
+						return minecart.cmnd_cart_distance(owner, number, pos)
+					else
+						return "unsupported"
+					end
+				end
+			end,
+			on_beduino_receive_cmnd = function(pos, src, topic, payload)
+				return 2  -- unknown or invalid topic
+			end,
+			on_beduino_request_data = function(pos, src, topic, payload)
+				if topic == 128 then
+					return 0, "minecart:terminal"
+				elseif topic == 129 then  -- state
+					local owner = M(pos):get_string("owner")
+					local STATE = {unknown = 0, stopped = 1, running = 2}
+					local state = STATE[minecart.cmnd_cart_state(owner, payload[1])] or 0
+					return 0, {state}
+				elseif topic == 130 then  -- distance
+					local owner = M(pos):get_string("owner")
+					local dist = minecart.cmnd_cart_distance(owner, payload[1], pos)
+					return 0, {dist}
+				else
+					return 2, ""  -- topic is unknown or invalid
+				end
+			end,
+		})
+	end
+end)

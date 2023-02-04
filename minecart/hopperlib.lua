@@ -94,8 +94,8 @@ function minecart.untake_items(pos, param2, stack)
 	local def = RegisteredInventories[node.name]
 	local inv = minetest.get_inventory({type="node", pos=npos})
 	
-	if def and inv and def.put_listname then
-		return inv:add_item(def.put_listname, stack)
+	if def and inv and def.take_listname then
+		return inv:add_item(def.take_listname, stack)
 	elseif def and def.untake_item then
 		return def.untake_item(npos, stack)
 	else

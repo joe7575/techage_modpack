@@ -52,7 +52,7 @@ end
 if farming.mod == "redo" then
 	local fp_grows = function(def, step)
 		local crop = def.crop .. "_" .. step
-	        local node = minetest.registered_nodes[crop]
+		local node = minetest.registered_nodes[crop]
 		if node then
 			fp(def.seed, def.crop .. "_1", crop, def.trellis)
 			return node.groups and node.groups.growing
@@ -63,7 +63,9 @@ if farming.mod == "redo" then
 		-- everything except cocoa (these can only be placed on jungletree)
 		if name ~= "farming:cocoa_beans" then
 			local step = def.steps
-			while fp_grows(def, step) do step = step + 1 end
+			if step then
+				while fp_grows(def, step) do step = step + 1 end
+			end
 		end
 	end
 end

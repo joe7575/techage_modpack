@@ -212,8 +212,12 @@ minetest.register_node("hyperloop:shaft2", {
 	light_source = 2,
 	sunlight_propagates = true,
 	is_ground_content = false,
+	----- To be unbreakable -----
+	on_blast = function() end,
+	on_destruct = function () end,
+	can_dig = function() return false end,
 	diggable = false,
-	groups = {cracky = 1, not_in_creative_inventory=1},
+	groups = {cracky = 1, not_in_creative_inventory=1, unbreakable=1},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -255,8 +259,12 @@ minetest.register_node("hyperloop:shaftA2", {
 	light_source = 2,
 	sunlight_propagates = true,
 	is_ground_content = false,
+	----- To be unbreakable -----
+	on_blast = function() end,
+	on_destruct = function () end,
+	can_dig = function() return false end,
 	diggable = false,
-	groups = {cracky = 1, not_in_creative_inventory=1},
+	groups = {cracky = 1, not_in_creative_inventory=1, unbreakable=1},
 	sounds = default.node_sound_metal_defaults(),
 })
 

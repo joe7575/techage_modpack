@@ -44,6 +44,7 @@ The mod features are:
 - Ingame documentation (German and English), based on the mod "doc"
 - API to register carts from other mods
 - chat command '/mycart <num>' to output cart state and location
+- Command interface for Techage (Lua and ICTA) and for Beduino Controllers
 
 
 Technical Background
@@ -118,6 +119,45 @@ The "No speed limit" sign can be used to remove the speed limit.
 The speed limit signs must be placed next to the track so that they can
 be read from the cart. This allows different speeds in each direction of travel.
 
+## Command Interface
+
+### Techage ICTA Controller
+
+The ICTA Controller support the conditions:
+
+- "read cart state" (function returns "stopped" or "running")
+- "read cart location" (function returns the distance or the station/buffer name)
+
+See help page of the ICTA controller block.
+
+### Techage Lua Controller
+
+The Lua controller support the functions:
+
+- `$cart_state(num)`  (function returns "stopped" or "running")
+- `$cart_location(num)`  (function returns the distance or the station/buffer name)
+
+See help page of the Lua controller block.
+
+### Cart Terminal
+
+The Cart Terminal has a Techage command interface with the commands:
+
+| Command    | Data       | Description                                             |
+| ---------- | ---------- | ------------------------------------------------------- |
+| `state`    | \<cart-ID> | Returns `unknown`, `stopped`, or `running`              |
+| `distance` | \<cart-ID> | Returns the distance from the cart to the Cart Terminal |
+
+### Beduino Controller
+
+The Cart Terminal has a Beduino command interface with the commands:
+
+| Command  | Topic | Data      | Response   | Description                                             |
+| -------- | ----- | --------- | ---------- | ------------------------------------------------------- |
+| State    | 129   | [cart-id] | [state]    | Returns 0 = UNKNOWN, 1 = STOPPED, 2 = RUNNING           |
+| Distance | 130   | [cart-id] | [distance] | Returns the distance from the cart to the Cart Terminal |
+
+
 
 Migration to v2
 ---------------
@@ -153,3 +193,4 @@ History
                    Speed limit signs and cart terminal added  
 2021-09-02  V2.01  Chat command /stopcart added  
 2021-10-18  V2.02  Cart reproduction bug fixed  
+2023-01-04  V2.03  Techage and Beduino command interface added    

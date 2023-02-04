@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
@@ -90,7 +90,22 @@ local function get_cart_state_and_loc(name, userID, query_pos)
 		end
 	end
 	return "unknown", 0, "unknown"
-end	
+end
+
+-- Return the cart distance to the query_pos.
+local function get_cart_distance(name, userID, query_pos)
+	if tCartsOnRail[name] and tCartsOnRail[name][userID] then
+		local cart = tCartsOnRail[name][userID]
+		if cart.last_pos or cart.pos then
+			if cart.objID == 0 then -- stopped
+				return math.floor(vector.distance(cart.pos or cart.last_pos, query_pos))
+			else
+				return math.floor(vector.distance(cart.last_pos or cart.pos, query_pos))
+			end
+		end
+	end
+	return 0
+end
 
 local function get_cart_info(owner, userID, query_pos)
 	local state, loc, name = get_cart_state_and_loc(owner, userID, query_pos)
@@ -316,6 +331,10 @@ end
 function minecart.cmnd_cart_location(name, userID, query_pos)
 	local state, loc = get_cart_state_and_loc(name, userID, query_pos)
 	return loc
+end
+
+function minecart.cmnd_cart_distance(name, userID, query_pos)
+	return get_cart_distance(name, userID, query_pos)
 end
 
 function minecart.get_cart_list(pos, name)

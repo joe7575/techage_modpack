@@ -3,7 +3,7 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
@@ -13,7 +13,7 @@
 minecart = {}
 
 -- Version for compatibility checks, see readme.md/history
-minecart.version = 2.02
+minecart.version = 2.03
 
 minecart.hopper_enabled = minetest.settings:get_bool("minecart_hopper_enabled") ~= false
 minecart.teleport_enabled = minetest.settings:get_bool("minecart_teleport_enabled") == true
@@ -39,6 +39,7 @@ dofile(MP .. "/protection.lua")
 dofile(MP .. "/signs.lua")
 dofile(MP .. "/terminal.lua")
 dofile(MP .. "/pusher.lua")
+dofile(MP .. "/beduino.lua")
 
 if minecart.hopper_enabled then
 	dofile(MP .. "/hopper.lua")

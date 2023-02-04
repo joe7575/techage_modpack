@@ -268,9 +268,11 @@ signs_bot.register_botcommand("fall_down", {
 			local sts, pos3 = minetest.line_of_sight(pos1, pos2)
 			if sts == false then
 				sts, _ = minetest.spawn_falling_node(mem.robot_pos)
+				mem.stored_node = get_node_lvm(pos3)
+				minetest.swap_node(pos3, {name="air"})
 				if sts then
 					mem.bot_falling = 2
-					mem.robot_pos = {x=pos3.x, y=pos3.y+1, z=pos3.z}
+					mem.robot_pos = {x=pos3.x, y=pos3.y, z=pos3.z}
 					return signs_bot.BUSY
 				end
 			end

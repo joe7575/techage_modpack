@@ -57,30 +57,47 @@ end)
 local function apply_new_filter(player, search_text, new_dir)
 	local player_name = player:get_player_name()
 
-	minetest.sound_play("click", {to_player=player_name, gain = 0.1})
+	minetest.sound_play("ui_click", {to_player=player_name, gain = 0.1})
 	ui.apply_filter(player, search_text, new_dir)
 	ui.current_searchbox[player_name] = search_text
 	ui.set_inventory_formspec(player, ui.current_page[player_name])
 end
 
-minetest.register_on_player_receive_fields(function(player, formname, fields)
+-- Search box handling
+local function receive_fields_searchbox(player, formname, fields)
 	local player_name = player:get_player_name()
 
-	local ui_peruser,draw_lite_mode = unified_inventory.get_per_player_formspec(player_name)
+	-- always take new search text, even if not searching on it yet
+	if fields.searchbox and fields.searchbox ~= ui.current_searchbox[player_name] then
+		ui.current_searchbox[player_name] = fields.searchbox
+	end
 
+	if fields.searchbutton
+			or fields.key_enter_field == "searchbox" then
+
+		if ui.current_searchbox[player_name] ~= ui.activefilter[player_name] then
+			ui.apply_filter(player, ui.current_searchbox[player_name], "nochange")
+			ui.set_inventory_formspec(player, ui.current_page[player_name])
+			minetest.sound_play("paperflip2",
+					{to_player=player_name, gain = 1.0})
+		end
+	elseif fields.searchresetbutton then
+		if ui.activefilter[player_name] ~= "" then
+			apply_new_filter(player, "", "nochange")
+		end
+	end
+end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname ~= "" then
 		return
 	end
 
-	-- always take new search text, even if not searching on it yet
-	local dirty_search_filter = false
+	receive_fields_searchbox(player, formname, fields)
 
-	if fields.searchbox
-	and fields.searchbox ~= unified_inventory.current_searchbox[player_name] then
-		unified_inventory.current_searchbox[player_name] = fields.searchbox
-		dirty_search_filter = true
-	end
+	local player_name = player:get_player_name()
 
+	local ui_peruser,draw_lite_mode = unified_inventory.get_per_player_formspec(player_name)
 
 	local clicked_category
 	for name, value in pairs(fields) do
@@ -114,7 +131,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	for i, def in pairs(unified_inventory.buttons) do
 		if fields[def.name] then
 			def.action(player)
-			minetest.sound_play("click",
+			minetest.sound_play("ui_click",
 					{to_player=player_name, gain = 0.1})
 			return
 		end
@@ -179,7 +196,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		end
 	end
 	if clicked_item then
-		minetest.sound_play("click",
+		minetest.sound_play("ui_click",
 				{to_player=player_name, gain = 0.1})
 		local page = unified_inventory.current_page[player_name]
 		local player_creative = unified_inventory.is_creative(player_name)
@@ -201,25 +218,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		end
 	end
 
-	if fields.searchbutton
-			or fields.key_enter_field == "searchbox" then
-		if dirty_search_filter then
-			ui.apply_filter(player, ui.current_searchbox[player_name], "nochange")
-			ui.set_inventory_formspec(player, ui.current_page[player_name])
-			minetest.sound_play("paperflip2",
-					{to_player=player_name, gain = 1.0})
-		end
-	elseif fields.searchresetbutton then
-		if ui.activefilter[player_name] ~= "" then
-			apply_new_filter(player, "", "nochange")
-		end
-	end
-
 	-- alternate buttons
 	if not (fields.alternate or fields.alternate_prev) then
 		return
 	end
-	minetest.sound_play("click",
+	minetest.sound_play("ui_click",
 			{to_player=player_name, gain = 0.1})
 	local item_name = unified_inventory.current_item[player_name]
 	if not item_name then

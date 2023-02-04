@@ -3,12 +3,12 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020-2022 Joachim Stolberg
+	Copyright (C) 2020-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
 
-	TA4 Move Controller
+	TA5 Fly Controller
 
 ]]--
 
@@ -41,6 +41,13 @@ local WRENCH_MENU = {
 		label = S("Move block height"),
 		tooltip = S("Value in the range of 0.0 to 1.0"),
 		default = "1.0",
+	},
+	{
+		type = "float",
+		name = "offset",
+		label = S("Object offset"),
+		tooltip = S("Y-offset for non-player objects like vehicles (-0.5 to 0.5)"),
+		default = "0.0",
 	},
 }
 
@@ -165,8 +172,6 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
-				nvm.moveBA = true
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -175,8 +180,6 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
-				nvm.moveBA = false
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -185,8 +188,6 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.move then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, nvm.moveBA) then
-				nvm.moveBA = nvm.moveBA == false
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -219,17 +220,11 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 		elseif topic == "state" then
 			return nvm.running and "running" or "stopped"
 		elseif topic == "a2b" then
-			nvm.moveBA = true
-			nvm.running = true
 			return fly.move_to_other_pos(pos, false)
 		elseif topic == "b2a" then
-			nvm.moveBA = false
-			nvm.running = true
 			return fly.move_to_other_pos(pos, true)
 		elseif topic == "move" then
-			nvm.moveBA = nvm.moveBA == false
-			nvm.running = true
-			return fly.move_to_other_pos(pos, nvm.moveBA == false)
+			return fly.move_to_other_pos(pos, nvm.moveBA)
 		end
 		return false
 	end,
@@ -237,17 +232,11 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == 11 then
 			if payload[1] == 1 then
-				nvm.moveBA = true
-				nvm.running = true
 				return fly.move_to_other_pos(pos, false) and 0 or 3
 			elseif payload[1] == 2 then
-				nvm.moveBA = false
-				nvm.running = true
 				return fly.move_to_other_pos(pos, true) and 0 or 3
 			elseif payload[1] == 3 then
-				nvm.moveBA = nvm.moveBA == false
-				nvm.running = true
-				return fly.move_to_other_pos(pos, nvm.moveBA == false) and 0 or 3
+				return fly.move_to_other_pos(pos, nvm.moveBA) and 0 or 3
 			end
 		else
 			return 2
@@ -259,6 +248,10 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 			return 0, {nvm.running and 1 or 6}
 		end
 		return 2, ""
+	end,
+	on_node_load = function(pos, node)
+		local nvm = techage.get_nvm(pos)
+		nvm.running = false
 	end,
 })
 

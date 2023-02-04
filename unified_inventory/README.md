@@ -102,3 +102,16 @@ Other files from Wikimedia Commons:
 RealBadAngel: (CC-BY-4.0)
 
   * Everything else.
+
+
+## Sounds
+
+ * [`bell.ogg`](https://freesound.org/people/bennstir/sounds/81072/) by bennstir, CC 4.0
+ * [`electricity.ogg`](https://freesound.org/people/Halleck/sounds/19486/) by Halleck, CC 4.0 (cut)
+ * [`pageflip1.ogg`](https://freesound.org/people/themfish/sounds/45823/) by themfish, CC 4.0 (cut, slowed down)
+ * `pageflip2.ogg` (derived from `pageflip1.ogg`)
+ * [`trash.ogg`](https://freesound.org/people/OwlStorm/sounds/151231/) by OwlStorm, CC 0 (speed up)
+ * [`trash_all.ogg`](https://freesound.org/people/abel_K/sounds/68280/) by abel_K, Sampling Plus 1.0 (speed up)
+ * [`ui_click.ogg`](https://freesound.org/people/lartti/sounds/527569/) by lartti, CC 0 (cut)
+ * [`ui_morning.ogg`](https://freesound.org/people/InspectorJ/sounds/439472/) by InspectorJ, CC 4.0
+ * [`ui_owl.ogg`](https://freesound.org/people/manda_g/sounds/54987/) by manda_g, Sampling Plus 1.0 (cut)
