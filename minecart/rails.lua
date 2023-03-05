@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -22,9 +22,9 @@ local SLOWDOWN = 0.3
 local MAX_NODES = 100
 
 --waypoint = {
---	dot = travel direction, 
---	pos = destination pos, 
---	speed = 10 times the section speed (as int), 
+--	dot = travel direction,
+--	pos = destination pos,
+--	speed = 10 times the section speed (as int),
 --	limit = 10 times the speed limit (as int),
 --}
 --
@@ -57,8 +57,8 @@ local tRailsExt = {
 }
 
 local tSigns = {
-	["minecart:speed1"] = 1, 
-	["minecart:speed2"] = 2, 
+	["minecart:speed1"] = 1,
+	["minecart:speed2"] = 2,
 	["minecart:speed4"] = 4,
 	["minecart:speed8"] = 8,
 }
@@ -123,7 +123,7 @@ end
 
 local function get_metadata(pos)
 	local hash = P2H(pos)
-	if tWaypoints[hash] then 
+	if tWaypoints[hash] then
 		return tWaypoints[hash]
 	end
     local s = M(pos):get_string("waypoints")
@@ -175,8 +175,8 @@ end
 -------------------------------------------------------------------------------
 local function check_right(pos, facedir)
     local fdr = (facedir + 1) % 4  -- right
-	local new_pos = vector.add(pos, facedir2dir(fdr)) 
-	
+	local new_pos = vector.add(pos, facedir2dir(fdr))
+
 	local name = get_node_lvm(new_pos).name
     if tRailsExt[name] or tSigns[name] then
 		return true
@@ -189,8 +189,8 @@ end
 
 local function check_left(pos, facedir)
     local fdl = (facedir + 3) % 4  -- left
-	local new_pos = vector.add(pos, facedir2dir(fdl)) 
-	
+	local new_pos = vector.add(pos, facedir2dir(fdl))
+
 	local name = get_node_lvm(new_pos).name
     if tRailsExt[name] or tSigns[name] then
 		return true
@@ -202,7 +202,7 @@ local function check_left(pos, facedir)
 end
 
 local function get_next_pos(pos, facedir, y)
-	local new_pos = vector.add(pos, facedir2dir(facedir)) 
+	local new_pos = vector.add(pos, facedir2dir(facedir))
     new_pos.y = new_pos.y + y
 	local name = get_node_lvm(new_pos).name
     return tRailsExt[name] ~= nil, new_pos, tRailsPower[name] or 0
@@ -225,7 +225,7 @@ local function find_next_waypoint(pos, facedir, y)
 	local name = get_node_lvm(pos).name
 	local speed = tRailsPower[name] or 0
 	local is_rail, new_pos, _speed
-	
+
 	while cnt < MAX_NODES do
 		is_rail, new_pos, _speed = get_next_pos(pos, facedir, y)
 		speed = speed + _speed
@@ -249,8 +249,8 @@ end
 -- find_all_next_waypoints
 -------------------------------------------------------------------------------
 local function check_front_up_down(pos, facedir)
-	local new_pos = vector.add(pos, facedir2dir(facedir)) 
-	
+	local new_pos = vector.add(pos, facedir2dir(facedir))
+
     if tRailsExt[get_node_lvm(new_pos).name] then
 		return 0
     end
@@ -278,11 +278,11 @@ end
 local function recalc_speed(num_pow_rails, pos1, pos2, y)
 	local num_norm_rails = vector.distance(pos1, pos2) - num_pow_rails
 	local ratio, speed
-	
+
 	if y ~= 0 then
 		num_norm_rails = math.floor(num_norm_rails / 1.41 + 0.5)
 	end
-	
+
 	if y ~= -1 then
 		if num_pow_rails == 0 then
 			return num_norm_rails * -SLOWDOWN
@@ -293,7 +293,7 @@ local function recalc_speed(num_pow_rails, pos1, pos2, y)
 	else
 		ratio = 3 + num_norm_rails * SLOWDOWN + num_pow_rails
 	end
-	
+
 	if y == 1 then
 		speed = 7 - ratio
 	elseif y == -1 then
@@ -301,14 +301,14 @@ local function recalc_speed(num_pow_rails, pos1, pos2, y)
 	else
 		speed = 11 - ratio
 	end
-	
+
 	return minecart.range(speed, 0, 8)
-end	
+end
 
 local function find_all_next_waypoints(pos)
     local wp = {}
 	local dots = {}
-	
+
 	for facedir = 0,3 do
 		local y = check_front_up_down(pos, facedir)
 		if y then
@@ -319,7 +319,7 @@ local function find_all_next_waypoints(pos)
 			wp[facedir] = {dot = dot, pos = new_pos, speed = speed, is_ramp = is_ramp}
 		end
 	end
-	
+
 	return wp
 end
 
@@ -331,7 +331,7 @@ local function ramp_correction(pos, wp, facedir)
 	if wp.is_ramp or pos.y < wp.pos.y then  -- ramp detection
 		local dir = facedir2dir(facedir)
 		local pos = wp.pos
-		
+
 		wp.cart_pos = {
 			x = pos.x - dir.x / 2,
 			y = pos.y,
@@ -339,7 +339,7 @@ local function ramp_correction(pos, wp, facedir)
 	elseif pos.y > wp.pos.y then
 		local dir = facedir2dir(facedir)
 		local pos = wp.pos
-		
+
 		wp.cart_pos = {
 			x = pos.x + dir.x / 2,
 			y = pos.y,
@@ -350,23 +350,23 @@ end
 
 -- Returns waypoint and is_junction
 function minecart.get_waypoint(pos, facedir, ctrl, uturn)
-	local t = get_metadata(pos) 
+	local t = get_metadata(pos)
 	if not t then
 		t = find_all_next_waypoints(pos)
 		set_metadata(pos, t)
 	end
-	
+
 	local left  = (facedir + 3) % 4
 	local right = (facedir + 1) % 4
 	local back  = (facedir + 2) % 4
-	
+
 	if ctrl.right and t[right] then return t[right], t[facedir] ~= nil or t[left] ~= nil end
 	if ctrl.left  and t[left]  then return t[left] , t[facedir] ~= nil or t[right] ~= nil end
-	
+
 	if t[facedir] then return ramp_correction(pos, t[facedir], facedir), false end
 	if t[right]   then return ramp_correction(pos, t[right], right),     false end
 	if t[left]    then return ramp_correction(pos, t[left], left),       false end
-	
+
 	if uturn and t[back] then return t[back], false end
 end
 
@@ -389,11 +389,11 @@ local function delete_next_metadata(pos, facedir, y)
 		if not is_rail then
 			return
 		end
-		
+
 		if has_metadata(new_pos) then
 			del_metadata(new_pos)
 		end
-		
+
 		pos = new_pos
 		cnt = cnt + 1
 	end
@@ -408,27 +408,27 @@ function minecart.delete_waypoint(pos)
 		delete_counterpart_metadata(pos, wp)
 		return
 	end
-	
+
 	for facedir = 0,3 do
 		local y = check_front_up_down(pos, facedir)
 		if y then
-			local new_pos = vector.add(pos, facedir2dir(facedir)) 
+			local new_pos = vector.add(pos, facedir2dir(facedir))
 			new_pos.y = new_pos.y + y
 			if has_metadata(new_pos) then
 				local wp = get_metadata(new_pos)
 				delete_counterpart_metadata(new_pos, wp)
 			else
-				delete_next_metadata(pos, facedir, y)	
+				delete_next_metadata(pos, facedir, y)
 			end
 		end
 	end
-end	
+end
 
 -------------------------------------------------------------------------------
 -- find next buffer (needed as starting position)
 -------------------------------------------------------------------------------
 local function get_next_waypoints(pos)
-	local t = get_metadata(pos) 
+	local t = get_metadata(pos)
 	if not t then
 		t = find_all_next_waypoints(pos)
 	end
@@ -439,7 +439,7 @@ local function get_next_pos_and_facedir(waypoints, facedir)
 	local cnt = 0
 	local newpos, newfacedir
 	facedir = (facedir + 2) % 4  -- opposite dir
-	
+
 	for i = 0, 3 do
 		if waypoints[i] then
 			cnt = cnt + 1
@@ -449,7 +449,7 @@ local function get_next_pos_and_facedir(waypoints, facedir)
 			end
 		end
 	end
-	
+
 	-- no junction and valid facedir
 	if cnt < 3 and newfacedir then
 		return newpos, newfacedir
@@ -493,13 +493,13 @@ carts:register_rail("minecart:powerrail", {
 	groups = carts:get_rail_groups({not_in_creative_inventory = 1}),
 	drop = "carts:powerrail",
 }, {})
-	
+
 for name,_ in pairs(tRails) do
 	minetest.override_item(name, {
 		after_destruct = minecart.delete_waypoint,
 		after_place_node = minecart.delete_waypoint,
 	})
-end	
+end
 
 -------------------------------------------------------------------------------
 -- API functions
@@ -509,7 +509,7 @@ function minecart.get_current_cart_pos_correction(curr_pos, curr_fd, curr_y, new
 	if new_dot then
 		local new_y = (new_dot % 4) - 1
 		local new_fd = math.floor(new_dot / 4)
-		
+
 		if curr_y == -1 or new_y == -1 then
 			local new_fd = math.floor(new_dot / 4)
 			local dir = facedir2dir(new_fd)
@@ -537,14 +537,14 @@ end
 -- Called by carts, returns the speed value or nil
 function minecart.get_speedlimit(pos, facedir)
     local fd = (facedir + 1) % 4  -- right
-	local new_pos = vector.add(pos, facedir2dir(fd)) 
+	local new_pos = vector.add(pos, facedir2dir(fd))
 	local node = get_node_lvm(new_pos)
 	if tSigns[node.name] and node.param2 == facedir then
 		return tSigns[node.name]
     end
-	
+
     fd = (facedir + 3) % 4  -- left
-	new_pos = vector.add(pos, facedir2dir(fd)) 
+	new_pos = vector.add(pos, facedir2dir(fd))
 	node = get_node_lvm(new_pos)
 	if tSigns[node.name] and node.param2 == facedir then
 		return tSigns[node.name]
@@ -555,25 +555,25 @@ end
 function minecart.delete_cart_waypoint(pos)
 	del_metadata(pos)
 end
-	
+
 -- Called by signs, to delete the rail waypoints nearby
-function minecart.delete_signs_waypoint(pos) 
+function minecart.delete_signs_waypoint(pos)
 	local node = minetest.get_node(pos)
     local facedir = (node.param2 + 1) % 4  -- right
-	local new_pos = vector.add(pos, facedir2dir(facedir)) 
+	local new_pos = vector.add(pos, facedir2dir(facedir))
 	if tRailsExt[get_node_lvm(new_pos).name] then
 		minecart.delete_waypoint(new_pos)
 	end
-	
+
     facedir = (node.param2 + 3) % 4  -- left
-	new_pos = vector.add(pos, facedir2dir(facedir)) 
+	new_pos = vector.add(pos, facedir2dir(facedir))
 	if tRailsExt[get_node_lvm(new_pos).name] then
 		minecart.delete_waypoint(new_pos)
 	end
 end
 
-function minecart.is_rail(pos)
-	return tRails[get_node_lvm(pos).name] ~= nil
+function minecart.is_rail(pos, name)
+	return tRails[name or get_node_lvm(pos).name] ~= nil
 end
 
 -- To register node cart names

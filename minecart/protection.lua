@@ -3,11 +3,11 @@
 	Minecart
 	========
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 local S = minecart.S
@@ -77,7 +77,7 @@ minetest.register_node("minecart:landmark", {
 			return true
 		end
 	end,
-	
+
 	can_dig = function(pos, digger)
 		local meta = minetest.get_meta(pos)
 		if meta:get_string("owner") == digger:get_player_name() then
@@ -86,17 +86,19 @@ minetest.register_node("minecart:landmark", {
 		if minetest.check_player_privs(digger:get_player_name(), "minecart") then
 			return true
 		end
-		minetest.chat_send_player(digger:get_player_name(), 
+		minetest.chat_send_player(digger:get_player_name(),
 				S("[minecart] Area is protected!").." (owner: "..meta:get_string("owner")..")")
 		return false
 	end,
-	
+
 	on_punch = function(pos, node, puncher, pointed_thing)
 		minecart.set_land_marker(pos, RANGE, 20)
 	end,
-	
-	paramtype2 = "facedir",
+
+	paramtype = "light",
 	sunlight_propagates = true,
+	paramtype2 = "facedir",
+	use_texture_alpha = minecart.CLIP,
 	groups = {cracky = 3, stone = 1},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
@@ -135,7 +137,10 @@ minetest.register_node("minecart:ballast_slope", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -8/16,  8/16, 8/16, 8/16},
 	},
+	paramtype = "light",
+	sunlight_propagates = true,
 	paramtype2 = "facedir",
+	use_texture_alpha = minecart.CLIP,
 	groups = {crumbly = 1, cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -157,7 +162,10 @@ minetest.register_node("minecart:ballast_ramp", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -8/16,  8/16, 8/16, 8/16},
 	},
+	paramtype = "light",
+	sunlight_propagates = true,
 	paramtype2 = "facedir",
+	use_texture_alpha = minecart.CLIP,
 	groups = {crumbly = 1, cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
 })

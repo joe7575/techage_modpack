@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -25,7 +25,7 @@ end
 local function formspec(pos, text)
 	text = minetest.formspec_escape(text)
 	text = text:gsub("\n", ",")
-	
+
 	return "size[11,9]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -54,7 +54,7 @@ minetest.register_node("minecart:terminal", {
 			{ -8/16, -8/16, 0/16,  8/16, 8/16, 8/16},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		meta:set_string("owner", placer:get_player_name())
@@ -66,7 +66,7 @@ minetest.register_node("minecart:terminal", {
 		end
 		minetest.get_node_timer(pos):start(2)
 	end,
-	
+
 	on_timer = function(pos, elapsed)
 		if is_player_nearby(pos) then
 			local text = minecart.get_cart_list(pos, M(pos):get_string("owner"))
@@ -74,7 +74,7 @@ minetest.register_node("minecart:terminal", {
 		end
 		return true
 	end,
-	
+
 	paramtype2 = "facedir",
 	paramtype = "light",
 	use_texture_alpha = minecart.CLIP,

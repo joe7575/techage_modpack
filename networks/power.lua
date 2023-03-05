@@ -3,7 +3,7 @@
 	Networks
 	========
 
-	Copyright (C) 2021 Joachim Stolberg
+	Copyright (C) 2021-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -438,4 +438,14 @@ function networks.power.get_network_data(pos, tlib2, outdir)
 		end
 	end
 	return DEFAULT_DATA
+end
+
+function networks.power.get_storage_percent(pos, tlib2, outdir)
+	assert(outdir)
+	local netID = networks.determine_netID(pos, tlib2, outdir)
+	if netID then
+		local pwr = Power[netID] or get_power_data(pos, tlib2, outdir, netID)
+		return (pwr.curr_load or 0) * 100 / (pwr.max_capa or 1)
+    end
+	return 0
 end

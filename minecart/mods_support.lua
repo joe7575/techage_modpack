@@ -7,9 +7,9 @@
 
 	MIT
 	See license.txt for more information
-	
+
 	Wrapper functions to get hopper support for other mods
-	
+
 ]]--
 
 -- for lazy programmers
@@ -19,7 +19,7 @@ local CacheForFuelNodeNames = {}
 
 local function is_fuel(stack)
 	local name = stack:get_name()
-	if CacheForFuelNodeNames[name] then 
+	if CacheForFuelNodeNames[name] then
 		return true
 	end
 	if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
@@ -27,6 +27,19 @@ local function is_fuel(stack)
 	end
 	return CacheForFuelNodeNames[name]
 end
+
+------------------------------------------------------------------------------
+-- Signs Bot
+------------------------------------------------------------------------------
+
+minecart.register_inventory({"signs_bot:box"}, {
+	put = {
+		listname = "main",
+	},
+	take = {
+		listname = "main",
+	},
+})
 
 ------------------------------------------------------------------------------
 -- default
@@ -46,14 +59,14 @@ minecart.register_inventory({"default:chest_locked", "default:chest_locked_open"
 		allow_inventory_put = function(pos, stack, player_name)
 			local owner = M(pos):get_string("owner")
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 	take = {
 		allow_inventory_take = function(pos, stack, player_name)
 			local owner = M(pos):get_string("owner")
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 })
@@ -68,8 +81,8 @@ minecart.register_inventory({"default:furnace", "default:furnace_active"}, {
 			minetest.get_node_timer(pos):start(1.0)
 			if leftover:get_count() > 0 then
 				return leftover
-			end			
-		end, 
+			end
+		end,
 	},
 	take = {
 		-- fuel can't be taken
@@ -108,8 +121,8 @@ minecart.register_inventory({"digtron:combined_storage"}, {
 			local leftover = inv:add_item(listname, stack)
 			if leftover:get_count() > 0 then
 				return leftover
-			end			
-		end, 
+			end
+		end,
 	},
 	take = {
 		-- fuel can't be taken

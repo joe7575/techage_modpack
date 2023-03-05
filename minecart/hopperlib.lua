@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -43,7 +43,7 @@ function minecart.take_items(pos, param2, num)
 	local def = RegisteredInventories[node.name]
 	local owner = M(pos):get_string("owner")
 	local inv = minetest.get_inventory({type="node", pos=npos})
-	
+
 	if def and inv and def.take_listname and (not def.allow_take or def.allow_take(npos, nil, owner)) then
 		return minecart.inv_take_items(inv, def.take_listname, num)
 	elseif def and def.take_item then
@@ -61,7 +61,7 @@ function minecart.put_items(pos, param2, stack)
 	local def = RegisteredInventories[node.name]
 	local owner = M(pos):get_string("owner")
 	local inv = minetest.get_inventory({type="node", pos=npos})
-	
+
 	if def and inv and def.put_listname and (not def.allow_put or def.allow_put(npos, stack, owner)) then
 		local leftover = inv:add_item(def.put_listname, stack)
 		if leftover:get_count() > 0 then
@@ -93,7 +93,7 @@ function minecart.untake_items(pos, param2, stack)
 	end
 	local def = RegisteredInventories[node.name]
 	local inv = minetest.get_inventory({type="node", pos=npos})
-	
+
 	if def and inv and def.take_listname then
 		return inv:add_item(def.take_listname, stack)
 	elseif def and def.untake_item then
@@ -128,14 +128,14 @@ minecart.register_inventory({"minecart:hopper"}, {
 		allow_inventory_put = function(pos, stack, player_name)
 			local owner = M(pos):get_string("owner")
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 	take = {
 		allow_inventory_take = function(pos, stack, player_name)
 			local owner = M(pos):get_string("owner")
 			return owner == player_name
-		end, 
+		end,
 		listname = "main",
 	},
 })

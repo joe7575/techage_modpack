@@ -3,7 +3,7 @@
 	Networks
 	========
 
-	Copyright (C) 2021 Joachim Stolberg
+	Copyright (C) 2021-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 networks = {}
 
 -- Version for compatibility checks, see readme.md/history
-networks.version = 0.12
+networks.version = 0.13
 
 if not minetest.global_exists("tubelib2") or tubelib2.version < 2.2 then
 	minetest.log("error", "[networks] Networks requires tubelib2 version 2.2 or newer!")

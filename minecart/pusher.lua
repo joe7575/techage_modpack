@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers

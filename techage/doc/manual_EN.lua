@@ -983,7 +983,7 @@ techage.manual_EN.aText = {
   "\n",
   "The tank truck is used to transport liquids. Like tanks\\, it can be filled with pumps or emptied. In both cases\\, the yellow tube must be connected to the tank truck from above.\n"..
   "\n"..
-  "100 units fit in the tank truck.\n"..
+  "200 units fit in the tank truck.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1731,7 +1731,6 @@ techage.manual_EN.aText = {
   "  - The movement can be tested with the menu buttons \"Move A-B\" and \"Move B-A\"\n"..
   "  - you can also fly through walls or other blocks\n"..
   "  - The target position for the blocks can also be occupied. In this case\\, the blocks are saved \"invisibly\". This is intended for sliding doors and the like\n"..
-  "  - A \"handover\" can also be programmed in the controller via the open-ended wrench menu. By entering a block number\\, the blocks are then transferred to the next move controller. In this way\\, connected movements can also be implemented using several Move Controllers.\n"..
   "\n"..
   "The Move Controller supports the following techage commands:\n"..
   "\n"..
@@ -2118,7 +2117,7 @@ techage.manual_EN.aText = {
   "\n"..
   "For pairing you first have to enter a name for the chest on one side\\, then you can select this name for the other chest and thus connect the two blocks.\n"..
   "\n"..
-  "The use of the TA5 Hyperloop Chest requires 20 experience points.\n"..
+  "The use of the TA5 Hyperloop Chest requires 15 experience points.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2128,7 +2127,7 @@ techage.manual_EN.aText = {
   "\n"..
   "For pairing you first have to enter a name for the tank on one side\\, then you can select this name for the other tank and thus connect the two blocks.\n"..
   "\n"..
-  "The use of the TA5 Hyperloop Tank requires 20 experience points.\n"..
+  "The use of the TA5 Hyperloop Tank requires 15 experience points.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2138,25 +2137,25 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "These teleport blocks allow the transfer of items and thus replace a tube. Distances of up to 200 blocks can be bridged.\n"..
+  "These teleport blocks allow the transfer of items and thus replace a tube. Distances of up to 500 blocks can be bridged.\n"..
   "\n"..
   "Each Teleport blocks requires 12 ku of electricity.\n"..
   "\n"..
-  "60 experience points are required to use the teleport blocks. \n"..
+  "30 experience points are required to use the teleport blocks. \n"..
   "\n"..
   "\n"..
   "\n",
-  "These teleport blocks allow the transfer of liquids and thus replace a pipe. Distances of up to 200 blocks can be bridged.\n"..
+  "These teleport blocks allow the transfer of liquids and thus replace a pipe. Distances of up to 500 blocks can be bridged.\n"..
   "\n"..
   "Each Teleport blocks requires 12 ku of electricity.\n"..
   "\n"..
-  "60 experience points are required to use the teleport blocks. \n"..
+  "30 experience points are required to use the teleport blocks. \n"..
   "\n"..
   "\n"..
   "\n",
   "The Hyperloop Teleport Blocks allow the construction of a Hyperloop network without Hyperloop tubes.\n"..
   "\n"..
-  "The use of the Hyperloop Teleport Blocks requires 120 experience points.\n"..
+  "The use of the Hyperloop Teleport Blocks requires 60 experience points.\n"..
   "\n",
   "",
   "The TA5 container allows Techage systems to be packed and unpacked at another location.\n"..
@@ -2167,7 +2166,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The TA5 AI Chip II is required to build the TA5 Fusion Reactor. The TA5 AI Chip II can only be manufactured at the TA4 Electronics Fab. This requires 50 experience points.\n"..
+  "The TA5 AI Chip II is required to build the TA5 Fusion Reactor. The TA5 AI Chip II can only be manufactured at the TA4 Electronics Fab. This requires 25 experience points.\n"..
   "\n"..
   "\n"..
   "\n",

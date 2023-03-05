@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 local NUM_ITEMS = 4
@@ -112,7 +112,7 @@ minetest.register_node("minecart:hopper", {
 		local inv = M(pos):get_inventory()
 		inv:set_size('main', 4)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		meta:set_string("owner", placer:get_player_name())
@@ -130,7 +130,7 @@ minetest.register_node("minecart:hopper", {
 		end
 		return true
 	end,
-		
+
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
@@ -145,13 +145,13 @@ minetest.register_node("minecart:hopper", {
 		end
 		return stack:get_count()
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		for _,stack in ipairs(oldmetadata.inventory.main) do
 			minetest.add_item(pos, stack)
 		end
 	end,
-	
+
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",

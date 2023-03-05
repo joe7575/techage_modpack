@@ -395,6 +395,42 @@ signs_bot.register_botcommand("rotate_item", {
 	end,
 })
 
+local function set_param2(base_pos, robot_pos, bot_param2, route, level, block_param2)
+	local pos1 = lib.dest_pos(robot_pos, bot_param2, route)
+	pos1.y = pos1.y + level
+	local node = tubelib2.get_node_lvm(pos1)
+	if not lib.not_protected(base_pos, pos1) then
+		return signs_bot.ERROR, S("Error: Position protected")
+	end
+	if lib.is_simple_node(node) then
+		if block_param2 then
+			minetest.swap_node(pos1, {name=node.name, param2=block_param2})
+		end
+	end
+	return signs_bot.DONE
+end
+
+signs_bot.register_botcommand("set_param2", {
+	mod = "place",
+	params = "<lvl> <param2>",
+	num_param = 2,
+	description = S("Set param2 of the block in front of the robot\n"..
+		"<lvl> is one of:  -1   0   +1\n"..
+		"<param2> is: 0 - 23"),
+	check = function(lvl, param2)
+		param2 = tonumber(param2) or 0
+		if not param2 or param2 < 0 or param2 > 23 then
+			return false
+		end
+		return tValidLevels[lvl] ~= nil
+	end,
+	cmnd = function(base_pos, mem, lvl, param2)
+		local level = tValidLevels[lvl]
+		param2 = tonumber(param2) or 0
+		return set_param2(base_pos, mem.robot_pos, mem.robot_param2, {0}, level, param2)
+	end,
+})
+
 -- Simplified torch which can be placed w/o a fake player
 minetest.register_node("signs_bot:torch", {
 	description = S("Bot torch"),

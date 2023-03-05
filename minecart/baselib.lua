@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -142,7 +142,7 @@ end
 
 minetest.register_entity("minecart:marker", {
 	initial_properties = {
-		visual = "upright_sprite",   
+		visual = "upright_sprite",
 		textures = {"minecart_marker_cube.png"},
 		use_texture_alpha = minecart.CLIP,
 		physical = false,
@@ -229,7 +229,7 @@ function minecart.manage_attachment(player, entity, get_on)
 		return
 	end
 	player_api.player_attached[player_name] = get_on
-	
+
 	local obj = entity.object
 	if get_on then
 		player:set_attach(obj, "", {x=0, y=-4.5, z=-4}, {x=0, y=0, z=0})
@@ -254,10 +254,12 @@ function minecart.register_cart_names(node_name, entity_name, cart_type)
 	minecart.tCartTypes[node_name] = cart_type
 end
 
-function minecart.add_nodecart(pos, node_name, param2, cargo, owner, userID)
+function minecart.add_nodecart(pos, node_name, param2, cargo, owner, userID, force)
 	if pos and node_name and param2 and cargo and owner and userID then
 		local pos2
-		if not minecart.is_rail(pos) then
+		if force then
+			pos2 = pos
+		elseif not minecart.is_rail(pos) then
 			pos2 = minetest.find_node_near(pos, 1, minecart.lRails)
 			if not pos2 or not minecart.is_rail(pos2) then
 				-- If no rail is around, use an available cart as new search center
@@ -273,14 +275,14 @@ function minecart.add_nodecart(pos, node_name, param2, cargo, owner, userID)
 		if pos2 then
 			local node = minetest.get_node(pos2)
 			local ndef = minetest.registered_nodes[node_name]
-			local rail = node.name
 			minetest.swap_node(pos2, {name = node_name, param2 = param2})
 			local meta = M(pos2)
-			meta:set_string("removed_rail", rail)
+			meta:set_string("removed_rail", node.name)
+			meta:set_string("removed_rail_param2", node.param2)
 			meta:set_string("owner", owner)
 			meta:set_int("userID", userID)
 			meta:set_string("infotext", owner .. ": " .. userID)
-			
+
 			if cargo and ndef.set_cargo then
 				ndef.set_cargo(pos2, cargo)
 			end
@@ -295,7 +297,7 @@ end
 function minecart.add_entitycart(pos, node_name, entity_name, vel, cargo, owner, userID)
 	local obj = minetest.add_entity(pos, entity_name)
 	local objID = minecart.get_object_id(obj)
-	
+
 	if objID then
 		local entity = obj:get_luaentity()
 		entity.start_pos = pos
@@ -312,7 +314,7 @@ end
 
 function minecart.start_entitycart(self, pos, facedir)
 	local route = {}
-	
+
 	self.is_running = true
 	self.arrival_time = 0
 	self.start_pos = minecart.get_buffer_pos(pos, self.owner) or minecart.get_next_buffer(pos, facedir)
@@ -324,26 +326,33 @@ function minecart.start_entitycart(self, pos, facedir)
 	-- If set the start waypoint will be deleted
 	self.no_normal_start = self.start_pos == nil
 	if self.driver == nil then
-		minecart.start_monitoring(self.owner, self.userID, pos, self.objID, 
+		minecart.start_monitoring(self.owner, self.userID, pos, self.objID,
 				route.checkpoints, route.junctions, self.cargo or {})
 	end
 end
 
-function minecart.remove_nodecart(pos)
-	local node = minetest.get_node(pos)
+function minecart.remove_nodecart(pos, node)
+	node = node or minetest.get_node(pos)
 	local ndef = minetest.registered_nodes[node.name]
 	local meta = M(pos)
 	local rail = meta:get_string("removed_rail")
+	local param2 = meta:get_int("removed_rail_param2")
 	if rail == "" then rail = "air" end
 	local userID = meta:get_int("userID")
 	local owner = meta:get_string("owner")
 	meta:set_string("infotext", "")
 	meta:set_string("formspec", "")
 	local cargo = ndef.get_cargo and ndef.get_cargo(pos) or {}
-	minetest.swap_node(pos, {name = rail})
+	minetest.swap_node(pos, {name = rail, param2 = param2})
 	return cargo, owner, userID
-end	
-	
+end
+
+function minecart.is_usable_cart(pos, node)
+	-- cart needs a rail bwelow
+	local rail = M(pos):get_string("removed_rail")
+	return minecart.is_rail(pos, rail)
+end
+
 function minecart.node_to_entity(pos, node_name, entity_name)
 	-- Remove node
 	local cargo, owner, userID = minecart.remove_nodecart(pos)
@@ -362,7 +371,7 @@ function minecart.entity_to_node(pos, entity)
 		minetest.sound_stop(entity.sound_handle)
 		entity.sound_handle = nil
 	end
-	
+
 	local rot = entity.object:get_rotation()
 	local dir = minetest.yaw_to_dir(rot.y)
 	local facedir = minetest.dir_to_facedir(dir)
@@ -400,6 +409,6 @@ function minecart.remove_entity(self, pos, player)
 		minecart.add_node_to_player_inventory(pos, player, self.node_name or "minecart:cart")
 	end
 	minecart.stop_monitoring(self.owner, self.userID, pos)
-	minecart.stop_recording(self, pos)	
+	minecart.stop_recording(self, pos)
 	self.object:remove()
 end

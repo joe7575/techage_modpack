@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.10
+techage.version = 1.11
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -27,8 +27,8 @@ elseif minetest.global_exists("techpack") then
 elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
 	minetest.log("error", "[techage] Techage requires tubelib2 version 2.2 or newer!")
 	return
-elseif minetest.global_exists("minecart") and minecart.version < 2.03 then
-	minetest.log("error", "[techage] Techage requires minecart version 2.03 or newer!")
+elseif minetest.global_exists("minecart") and minecart.version < 2.04 then
+	minetest.log("error", "[techage] Techage requires minecart version 2.04 or newer!")
 	return
 elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires lcdlib version 1.01 or newer!")
@@ -36,8 +36,8 @@ elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")
 	return
-elseif minetest.global_exists("networks") and networks.version < 0.12 then
-	minetest.log("error", "[techage] Techage requires networks version 0.12 or newer!")
+elseif minetest.global_exists("networks") and networks.version < 0.13 then
+	minetest.log("error", "[techage] Techage requires networks version 0.13 or newer!")
 	return
 elseif minetest.global_exists("hyperloop") and hyperloop.version < 2.07 then
 	minetest.log("error", "[techage] Techage requires hyperloop version 2.07 or newer!")

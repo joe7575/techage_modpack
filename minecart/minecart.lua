@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 local S = minecart.S
@@ -16,7 +16,7 @@ local M = minetest.get_meta
 minetest.register_node("minecart:cart", {
 	description = S("Minecart (Sneak+Click to pick up)"),
 	tiles = {
-		-- up, down, right, left, back, front		
+		-- up, down, right, left, back, front
 			"carts_cart_top.png^minecart_appl_cart_top.png",
 			"carts_cart_top.png",
 			"carts_cart_side.png^minecart_logo.png",
@@ -49,7 +49,7 @@ minetest.register_node("minecart:cart", {
 	groups = {cracky = 2, crumbly = 2, choppy = 2},
 	node_placement_prediction = "",
 	diggable = false,
-	
+
 	on_place = minecart.on_nodecart_place,
 	on_punch = minecart.on_nodecart_punch,
 
@@ -57,20 +57,22 @@ minetest.register_node("minecart:cart", {
 		if clicker and clicker:is_player() then
 			if M(pos):get_int("userID") ~= 0 then
 				-- enter the cart
-				local object = minecart.node_to_entity(pos, "minecart:cart", "minecart:cart_entity")
-				minecart.manage_attachment(clicker, object:get_luaentity(), true)
-			else 
+				if minecart.is_usable_cart(pos, node) then
+					local object = minecart.node_to_entity(pos, "minecart:cart", "minecart:cart_entity")
+					minecart.manage_attachment(clicker, object:get_luaentity(), true)
+				end
+			else
 				minecart.show_formspec(pos, clicker)
 			end
 		end
 	end,
-	
+
 	set_cargo = function(pos, data)
 		for _,item in ipairs(data or {}) do
 			minetest.add_item(pos, ItemStack(item))
 		end
 	end,
-	
+
 	get_cargo = function(pos)
 		local data = {}
 		for _, obj in pairs(minetest.get_objects_inside_radius(pos, 1)) do

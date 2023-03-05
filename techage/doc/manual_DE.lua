@@ -21,7 +21,6 @@ techage.manual_DE.aTitel = {
   "3,TA1 Schleusengriff / TA1 Sluice Handle",
   "3,TA1 Apfelholzbrett / TA1 Apple Wood Board",
   "3,TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board",
-  "2, ",
   "2,Erze und Werkzeuge",
   "3,Hammer",
   "3,Kiessieb / Gravel Sieve",
@@ -432,7 +431,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "",
   "TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb\\, aber auch der Minecart Hopper kann genutzt werden.\n"..
   "\n"..
   "\n"..
@@ -981,7 +979,7 @@ techage.manual_DE.aText = {
   "\n",
   "Der Tankwagen dient zum Transport von Flüssigkeiten. Es kann wie Tanks mit Pumpen gefüllt bzw. geleert werden.  In beiden Fällen muss die gelbe Röhre von oben mit dem Tankwagen verbunden werden.\n"..
   "\n"..
-  "In den Tankwagen passen 100 Einheiten.\n"..
+  "In den Tankwagen passen 200 Einheiten.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1726,7 +1724,6 @@ techage.manual_DE.aText = {
   "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
   "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
   "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
-  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.\n"..
   "\n"..
   "Der Move Controller unterstützt folgende techage Kommandos:\n"..
   "\n"..
@@ -2112,7 +2109,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Für das Pairing musst du zuerst auf der einen Seite einen Namen für die Kiste eingeben\\, dann kannst du bei der anderen Kiste diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
   "\n"..
-  "Die Nutzung der TA5 Hyperloop Kiste benötigt 20 Erfahrungspunkte.\n"..
+  "Die Nutzung der TA5 Hyperloop Kiste benötigt 15 Erfahrungspunkte.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2122,7 +2119,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank eingeben\\, dann kannst du bei dem anderen Tank diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
   "\n"..
-  "Die Nutzung des TA5 Hyperloop Tanks benötigt 20 Erfahrungspunkte.\n"..
+  "Die Nutzung des TA5 Hyperloop Tanks benötigt 15 Erfahrungspunkte.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2134,25 +2131,25 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Diese Teleport-Blöcke erlauben die Übertragung von Gegenständen und ersetzen somit eine Röhre. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.\n"..
+  "Diese Teleport-Blöcke erlauben die Übertragung von Gegenständen und ersetzen somit eine Röhre. Dabei können Entfernungen von bis zu 500 Blöcken überbrückt werden.\n"..
   "\n"..
   "Ein Teleport-Block benötigt 12 ku Strom.\n"..
   "\n"..
-  "Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.\n"..
+  "Für die Nutzung der Teleport-Blöcke werden 30 Erfahrungspunkte benötigt.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Diese Teleport-Blöcke erlauben die Übertragung von Flüssigkeiten und ersetzen somit eine gelbe Leitung. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.\n"..
+  "Diese Teleport-Blöcke erlauben die Übertragung von Flüssigkeiten und ersetzen somit eine gelbe Leitung. Dabei können Entfernungen von bis zu 500 Blöcken überbrückt werden.\n"..
   "\n"..
   "Ein Teleport-Block benötigt 12 ku Strom.\n"..
   "\n"..
-  "Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.\n"..
+  "Für die Nutzung der Teleport-Blöcke werden 30 Erfahrungspunkte benötigt.\n"..
   "\n"..
   "\n"..
   "\n",
   "Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne Hyperloop-Röhren.\n"..
   "\n"..
-  "Die Nutzung der Hyperloop Teleport Blöcke benötigt 120 Erfahrungspunkte.\n"..
+  "Die Nutzung der Hyperloop Teleport Blöcke benötigt 60 Erfahrungspunkte.\n"..
   "\n",
   "",
   "Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wieder auszupacken.\n"..
@@ -2163,7 +2160,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der TA5 KI Chip II wird zur Herstellung des TA5 Fusionsreaktors benötigt. Der TA5 KI Chip II kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 50 Erfahrungspunkte benötigt.\n"..
+  "Der TA5 KI Chip II wird zur Herstellung des TA5 Fusionsreaktors benötigt. Der TA5 KI Chip II kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 25 Erfahrungspunkte benötigt.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2190,7 +2187,6 @@ techage.manual_DE.aItemName = {
   "ta1_sluice_handle",
   "ta1_board1",
   "ta1_board2",
-  "",
   "ta1_gravelsieve",
   "hammer",
   "ta1_gravelsieve",
@@ -2443,7 +2439,6 @@ techage.manual_DE.aPlanTable = {
   "coalburner",
   "watermill1",
   "watermill2",
-  "",
   "",
   "",
   "",

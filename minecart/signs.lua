@@ -34,10 +34,10 @@ local function register_sign(def)
 			"default_steel_block.png",
 			"default_steel_block.png^"..def.image,
 		},
-		
+
 		after_place_node = minecart.delete_signs_waypoint,
 		preserve_metadata = minecart.delete_signs_waypoint,
-		
+
 		on_rotate = screwdriver.disallow,
 		paramtype = "light",
 		use_texture_alpha = minecart.CLIP,

@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -29,7 +29,7 @@ local function dashboard_destroy(self)
 end
 
 local function dashboard_create(self)
-	if self.driver then	
+	if self.driver then
 		local player = minetest.get_player_by_name(self.driver)
 		if player then
 			dashboard_destroy(self)
@@ -51,13 +51,13 @@ local function dashboard_update(self)
 		local player = minetest.get_player_by_name(self.driver)
 		if player then
 			local time = self.runtime or 0
-			local dir = (self.ctrl and self.ctrl.left and S("left")) or 
+			local dir = (self.ctrl and self.ctrl.left and S("left")) or
 					(self.ctrl and self.ctrl.right and S("right")) or S("straight")
 			local speed = math.floor((self.curr_speed or 0) + 0.5)
-			local s = string.format(S("Recording") .. 
-					" | " .. S("speed") .. 
-					": %.1f | " .. S("next junction") .. 
-					": %-8s | " .. S("Travel time") .. ": %.1f s", 
+			local s = string.format(S("Recording") ..
+					" | " .. S("speed") ..
+					": %.1f | " .. S("next junction") ..
+					": %-8s | " .. S("Travel time") .. ": %.1f s",
 					speed, dir, time)
 			player:hud_change(self.hud_id, "text", s)
 		end
@@ -83,7 +83,7 @@ end
 --
 -- Route recording
 --
-function minecart.start_recording(self, pos)	
+function minecart.start_recording(self, pos)
 	--print("start_recording")
 	if self.driver then
 		self.start_pos = minecart.get_buffer_pos(pos, self.driver)
@@ -103,7 +103,7 @@ function minecart.start_recording(self, pos)
 	end
 end
 
-function minecart.stop_recording(self, pos, force_exit)	
+function minecart.stop_recording(self, pos, force_exit)
 	--print("stop_recording")
 	if self.driver and self.is_recording then
 		local dest_pos = minecart.get_buffer_pos(pos, self.driver)
@@ -112,7 +112,7 @@ function minecart.stop_recording(self, pos, force_exit)
 			minetest.chat_send_player(self.driver, S("[minecart] Recording canceled!"))
 		elseif dest_pos and player and #self.checkpoints > 3 then
 			-- Remove last checkpoint, because it is potentially too close to the dest_pos
-			table.remove(self.checkpoints) 
+			table.remove(self.checkpoints)
 			if self.start_pos then
 				local route = {
 					dest_pos = dest_pos,
@@ -138,19 +138,19 @@ function minecart.stop_recording(self, pos, force_exit)
 	self.junctions = nil
 end
 
-function minecart.recording_waypoints(self)	
+function minecart.recording_waypoints(self)
 	local pos = vector.round(self.object:get_pos())
 	-- pos correction on slopes
 	if not minecart.is_rail(pos) then
 		pos.y = pos.y - 1
 	end
 	-- hier müsste überprüfung dest_pos rein
-	self.sum_speed = self.sum_speed + self.curr_speed 
+	self.sum_speed = self.sum_speed + self.curr_speed
 	local wp_pos = check_waypoint(self, pos)
 	self.checkpoints[#self.checkpoints+1] = {
 		-- cart_pos, next_waypoint_pos, speed, dot
-		P2H(pos), 
-		P2H(wp_pos), 
+		P2H(pos),
+		P2H(wp_pos),
 		math.floor(self.curr_speed + 0.5),
 		self.waypoint.dot
 	}

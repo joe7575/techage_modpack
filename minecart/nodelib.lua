@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -16,7 +16,7 @@ local S = minecart.S
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
 
-function minecart.get_nodecart_nearby(pos, param2, radius)	
+function minecart.get_nodecart_nearby(pos, param2, radius)
 	local pos2 = param2 and vector.add(pos, minecart.param2_to_dir(param2)) or pos
 	local pos3 = minetest.find_node_near(pos2, radius or 0.5, minecart.lCartNodeNames, true)
 	if pos3 then
@@ -35,7 +35,7 @@ function minecart.start_nodecart(pos, node_name, puncher, punch_dir)
 		if owner ~= "" and userID ~= "" and entity_name then
 			minecart.monitoring_add_cart(owner, userID, pos, node_name, entity_name)
 		else
-			M(pos):set_string("infotext", 
+			M(pos):set_string("infotext",
 					minetest.get_color_escape_sequence("#FFFF00") .. owner .. ": 0")
 			return
 		end
@@ -48,7 +48,7 @@ function minecart.start_nodecart(pos, node_name, puncher, punch_dir)
 		if obj then
 			local entity = obj:get_luaentity()
 			local facedir
-			
+
 			if puncher then
 				local yaw = puncher:get_look_horizontal()
 				entity.object:set_rotation({x = 0, y = yaw, z = 0})
@@ -72,7 +72,7 @@ function minecart.show_formspec(pos, clicker)
 			"size[4,3]" ..
 			"label[0,0;" .. S("Enter cart number") .. ":]" ..
 			"field[1,1;3,1;userID;;]" ..
-			"button_exit[1,2;2,1;exit;" .. S("Save") .. "]")	
+			"button_exit[1,2;2,1;exit;" .. S("Save") .. "]")
 	end
 end
 
@@ -81,7 +81,7 @@ function minecart.on_nodecart_place(itemstack, placer, pointed_thing)
 	local node_name = itemstack:get_name()
 	local param2 = minetest.dir_to_facedir(placer:get_look_dir())
 	local owner = placer:get_player_name()
-	
+
 	-- Add node
 	if minecart.is_rail(pointed_thing.under) then
 		minecart.add_nodecart(pointed_thing.under, node_name, param2, {}, owner, 0)
@@ -102,20 +102,19 @@ function minecart.on_nodecart_place(itemstack, placer, pointed_thing)
 			and creative.is_enabled_for(placer:get_player_name())) then
 		itemstack:take_item()
 	end
-	
+
 	return itemstack
 end
 
 -- Start the node cart (or dig by shift+leftclick)
 function minecart.on_nodecart_punch(pos, node, puncher, pointed_thing)
-	--print("on_nodecart_punch")
 	local owner = M(pos):get_string("owner")
-	local userID = M(pos):get_int("userID")
+	local rail = M(pos):get_string("removed_rail")
 	if minecart.is_owner(puncher, owner) then
-		if puncher:get_player_control().sneak then
+		if puncher:get_player_control().sneak or not minecart.is_rail(pos, rail) then
 			local ndef = minetest.registered_nodes[node.name]
 			if not ndef.has_cargo or not ndef.has_cargo(pos) then
-				minecart.remove_nodecart(pos)
+				local _, owner, userID = minecart.remove_nodecart(pos, node)
 				minecart.add_node_to_player_inventory(pos, puncher, node.name)
 				minecart.monitoring_remove_cart(owner, userID)
 			end
@@ -134,7 +133,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				local userID = tonumber(fields.userID) or 0
 				if minecart.userID_available(owner, userID) then
 					M(cart_pos):set_int("userID", userID)
-					M(cart_pos):set_string("infotext", 
+					M(cart_pos):set_string("infotext",
 							minetest.get_color_escape_sequence("#FFFF00") ..
 							player:get_player_name() .. ": " .. userID)
 					local node = minetest.get_node(cart_pos)

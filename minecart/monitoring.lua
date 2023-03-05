@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -49,7 +49,7 @@ end
 
 local function zombie_to_entity(pos, cart, checkpoint)
 	local vel = {x = 0, y = 0, z = 0}
-	local obj = minecart.add_entitycart(pos, cart.node_name, cart.entity_name, 
+	local obj = minecart.add_entitycart(pos, cart.node_name, cart.entity_name,
 				vel, cart.cargo, cart.owner, cart.userID)
 	if obj then
 		local entity = obj:get_luaentity()
@@ -72,7 +72,7 @@ local function get_checkpoint(cart)
 end
 
 -- Function returns the cart state ("running" / "stopped") and
--- the station name or position string, or if cart is running, 
+-- the station name or position string, or if cart is running,
 -- the distance to the query_pos.
 local function get_cart_state_and_loc(name, userID, query_pos)
 	if tCartsOnRail[name] and tCartsOnRail[name][userID] then
@@ -120,7 +120,7 @@ end
 local function logging(cart, err)
 	local s = string.format("[Minecart] Cart %s/%u %s!", cart.owner, cart.userID, err)
 	minetest.log("warning", s)
-end	
+end
 
 -- check cart data
 local function valid_cart(cart)
@@ -140,7 +140,7 @@ end
 
 local function monitoring(cycle)
     local cart = pop(cycle)
-	
+
 	-- All running cars
     while cart do
 		if valid_cart(cart) then
@@ -198,7 +198,7 @@ function minecart.monitoring_add_cart(owner, userID, pos, node_name, entity_name
 	}
 	minecart.store_carts()
 end
-	
+
 function minecart.start_monitoring(owner, userID, pos, objID, checkpoints, junctions, cargo)
 	--print("start_monitoring", owner, userID)
 	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] then
@@ -242,7 +242,7 @@ end
 
 function minecart.monitoring_valid_cart(owner, userID, pos, node_name)
 	if tCartsOnRail[owner] and tCartsOnRail[owner][userID] and tCartsOnRail[owner][userID].pos then
-		return vector.equals(tCartsOnRail[owner][userID].pos, pos) and 
+		return vector.equals(tCartsOnRail[owner][userID].pos, pos) and
 				tCartsOnRail[owner][userID].node_name == node_name
 	end
 end
@@ -271,7 +271,7 @@ minetest.register_chatcommand("mycart", {
     func = function(owner, param)
 		local userID = tonumber(param)
 		local query_pos = minetest.get_player_by_name(owner):get_pos()
-		
+
 		if userID then
 			return true, get_cart_info(owner, userID, query_pos)
 		elseif tCartsOnRail[owner] then
@@ -295,12 +295,12 @@ minetest.register_chatcommand("stopcart", {
 			local data = minecart.get_cart_monitoring_data(owner, userID)
 			if data and data.objID then
 				local entity = minetest.luaentities[data.objID]
-				--print("stopcart", userID, data.pos, data.objID, entity)				
+				--print("stopcart", userID, data.pos, data.objID, entity)
 				if data.objID == 0 then
 					-- Cart as node
-					if data.pos then	
+					if data.pos then
 						local meta = M(data.pos)
-						if owner == meta:get_string("owner") and userID == meta:get_int("userID") then 
+						if owner == meta:get_string("owner") and userID == meta:get_int("userID") then
 							minecart.remove_nodecart(data.pos)
 						end
 					end
@@ -340,17 +340,17 @@ end
 function minecart.get_cart_list(pos, name)
 	local userIDs = {}
 	local carts = {}
-	
+
 	for userID, cart in pairs(tCartsOnRail[name] or {}) do
 		userIDs[#userIDs + 1] = userID
 	end
-	
+
 	table.sort(userIDs, function(a,b) return a < b end)
-	
+
 	for _, userID in ipairs(userIDs) do
 		carts[#carts + 1] = get_cart_info(name, userID, pos)
 	end
-	
+
 	return table.concat(carts, "\n")
 end
 
@@ -366,9 +366,9 @@ minetest.register_on_mods_loaded(function()
 					default = "",
 				},
 				{
-					type = "label", 
-					name = "lbl", 
-					label = "Read state from one of your carts", 
+					type = "label",
+					name = "lbl",
+					label = "Read state from one of your carts",
 				},
 			},
 			button = function(data, environ)  -- default button label
@@ -396,9 +396,9 @@ minetest.register_on_mods_loaded(function()
 					default = "",
 				},
 				{
-					type = "label", 
-					name = "lbl", 
-					label = "Read location from one of your carts", 
+					type = "label",
+					name = "lbl",
+					label = "Read location from one of your carts",
 				},
 			},
 			button = function(data, environ)  -- default button label
@@ -417,7 +417,7 @@ minetest.register_on_mods_loaded(function()
 			end,
 		})
 		techage.lua_ctlr.register_function("cart_state", {
-			cmnd = function(self, num) 
+			cmnd = function(self, num)
 				num = tonumber(num) or 0
 				return minecart.cmnd_cart_state(self.meta.owner, num)
 			end,
@@ -427,7 +427,7 @@ minetest.register_on_mods_loaded(function()
 				' example: sts = $cart_state(2)'
 		})
 		techage.lua_ctlr.register_function("cart_location", {
-			cmnd = function(self, num) 
+			cmnd = function(self, num)
 				num = tonumber(num) or 0
 				return minecart.cmnd_cart_location(self.meta.owner, num, self.meta.pos)
 			end,

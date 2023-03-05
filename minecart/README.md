@@ -43,7 +43,7 @@ The mod features are:
 - Extra Minecart privs for rail workers
 - Ingame documentation (German and English), based on the mod "doc"
 - API to register carts from other mods
-- chat command '/mycart <num>' to output cart state and location
+- chat command `/mycart <num>` to output cart state and location
 - Command interface for Techage (Lua and ICTA) and for Beduino Controllers
 
 
@@ -74,50 +74,20 @@ Introduction
    at least every 16 nodes/meters)
 9. Place a Minecart in front of the buffer and check whether it starts after the 
    configured time
-10. Check the cart state via the chat command: /mycart <num>
-    '<num>' is the cart number, or get a list of carts with /mycart
+10. Check the cart state via the chat command: `/mycart <num>`
+    `<num>` is the cart number, or get a list of carts with `/mycart`
 11. Drop items into the Minecart and punch the cart to start it, or "sneak+click" the 
     Minecart to get cart and items back
 12. Dig the cart with 'sneak+click' (as usual). The items will be drop down.
 13. To retrieve lost carts, use the chat command: /stopcart <num>
 
-Hopper
-------
-
-![hopper](https://github.com/joe7575/minecart/blob/master/hopper.png)
-
-The Hopper is used to load/unload Minecarts.
-The Hopper can pull and push items into/out off chests and can drop/pick up items 
-to/from Minecarts. To unload a Minecart place the hopper below the rail. 
-To load the Minecart, place the hopper right next to the Minecart.
 
 
-Cart Pusher
------------
+## Manual
 
-Used to push a cart if the cart does not stop directly at a buffer.
-The block has to be placed below the rail.
+see [Wiki](https://github.com/joe7575/minecart/wiki)
 
 
-Cart Speed / Speed Limit Signs
-------------------------------
-
-As before, the speed of the carts is also influenced by power rails.
-Brake rails are irrelevant, the cart does not brake here.
-The maximum speed is 8 m/s. This assumes a ratio of power rails
-to normal rails of 1 to 4 on a flat section of rail. A rail section is a
-series of rail nodes without a change of direction. After every curve / kink,
-the speed for the next section of the route is newly determined,
-taking into account the swing of the cart. This means that a cart can
-roll over short rail sections without power rails.
-
-In order to additionally brake the cart at certain points
-(at switches or in front of a buffer), speed limit signs can be placed
-on the track. With these signs the speed can be reduced to 4, 2, or 1 m / s.
-The "No speed limit" sign can be used to remove the speed limit.
-
-The speed limit signs must be placed next to the track so that they can
-be read from the cart. This allows different speeds in each direction of travel.
 
 ## Command Interface
 
@@ -159,14 +129,6 @@ The Cart Terminal has a Beduino command interface with the commands:
 
 
 
-Migration to v2
----------------
-
-The way how carts are monitored and the cart speed is calculated has changed.
-Therefore, it is necessary that all carts are repositioned and the
-recording is repeated.
-Rails and buffers are not affected and can be kept unchanged.
-
 
 History
 -------
@@ -193,4 +155,5 @@ History
                    Speed limit signs and cart terminal added  
 2021-09-02  V2.01  Chat command /stopcart added  
 2021-10-18  V2.02  Cart reproduction bug fixed  
-2023-01-04  V2.03  Techage and Beduino command interface added    
+2023-01-04  V2.03  Techage and Beduino command interface added
+2023-02-05  V2.04  New API functions added, EOL blanks removed

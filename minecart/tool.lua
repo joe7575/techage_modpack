@@ -7,7 +7,7 @@
 
 	MIT
 	See license.txt for more information
-	
+
 ]]--
 
 -- for lazy programmers
@@ -19,7 +19,7 @@ local P2H = minetest.hash_node_position
 
 local sDir = {[0] =	"north", "east", "south", "west"}
 
-local function DOTS(dots) 
+local function DOTS(dots)
 	if dots then
 		return table.concat(dots, ", ")
 	else
@@ -50,15 +50,15 @@ local function test_get_route(pos, node, player)
 		if route.cart_pos then
 			minecart.set_marker(route.cart_pos, "cart", 0.3, 10)
 		end
-		
+
 		-- determine some kind of current y
 		old_pos = old_pos or pos
 		local curr_y = pos.y > old_pos.y and 1 or pos.y < old_pos.y and -1 or 0
-		
+
 		local cart_pos, extra_cycle = minecart.get_current_cart_pos_correction(pos, facedir, curr_y, route.dot)
 		minecart.set_marker(cart_pos, "curr", 0.3, 10)
 		old_pos = pos
-		print(string.format("Route: dist = %u, dot = %u, speed = %d, extra cycle = %s", 
+		print(string.format("Route: dist = %u, dot = %u, speed = %d, extra cycle = %s",
 				vector.distance(pos, route.pos), route.dot, route.speed or 0, extra_cycle))
 	end
 end

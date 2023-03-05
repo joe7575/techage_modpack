@@ -347,10 +347,10 @@ techage.register_node({"techage:heatexchanger2"}, {
 		elseif topic == "load" then
 			return techage.power.percent(nvm.capa_max, nvm.capa)
 		elseif topic == "on" then
-			start_node(pos, techage.get_nvm(pos))
+			State:start(pos, nvm)
 			return true
 		elseif topic == "off" then
-			stop_node(pos, techage.get_nvm(pos))
+			State:stop(pos, nvm)
 			return true
 		else
 			return "unsupported"
@@ -359,10 +359,10 @@ techage.register_node({"techage:heatexchanger2"}, {
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == 1 and payload[1] == 1 then
-			start_node(pos, techage.get_nvm(pos))
+			State:start(pos, nvm)
 			return 0
 		elseif topic == 1 and payload[1] == 0 then
-			stop_node(pos, techage.get_nvm(pos))
+			State:stop(pos, nvm)
 			return 0
 		else
 			return 2, ""
@@ -382,7 +382,8 @@ techage.register_node({"techage:heatexchanger2"}, {
 			local data = power.get_network_data(pos, Cable, DOWN)
 			return 0, {data.consumed - data.provided}
 		elseif topic == 134 then  -- Tank Load Percent
-			return 0, {techage.power.percent(nvm.capa_max, nvm.capa)}
+			local value = techage.power.percent(nvm.capa_max, nvm.capa)
+			return 0, {math.floor(value + 0.5)}
 		else
 			return 2, ""
 		end

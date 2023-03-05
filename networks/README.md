@@ -80,7 +80,7 @@ All this testing nodes can be enabled via mod settings `networks_test_enabled = 
 
 ### License
 
-Copyright (C) 2021-2022 Joachim Stolberg  
+Copyright (C) 2021-2023 Joachim Stolberg
 Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0  
 
@@ -131,3 +131,6 @@ Required: tubelib2
 
 **2022-09-10  V0.12**
 - New API function `networks.liquid.get_liquids` added
+
+**2023-02-19  V0.13**
+- New API function `networks.power.get_storage_percent` added

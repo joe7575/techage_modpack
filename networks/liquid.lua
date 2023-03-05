@@ -190,8 +190,9 @@ function networks.liquid.srv_put(nvm, name, amount, capa)
 	assert(capa and capa > 0)
 	amount = math.floor((amount or 0) + 0.5)
 	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
 	
-	if not nvm.liquid.name then
+	if nvm.liquid.amount == 0 or not nvm.liquid.name then
 		nvm.liquid.name = name
 		nvm.liquid.amount = amount
 		return 0

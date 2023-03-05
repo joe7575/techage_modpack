@@ -85,6 +85,7 @@ For all Inventory commands applies: If the bot inventory stack specified by `<sl
     dig_below <slot>          - dig block under the robot
     dig_above <slot>          - dig block above the robot
     rotate_item <lvl> <steps> - rotate a block in front of the robot
+    set_param2 <lvl> <param2> - set param2 of the block in front of the robot
     place_sign <slot>         - set sign
     place_sign_behind <slot>  - put a sign behind the bot
     dig_sign <slot>           - remove the sign

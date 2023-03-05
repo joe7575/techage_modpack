@@ -46,7 +46,7 @@ local function set_player_privs(player)
 		meta:set_int("player_physics_locked", 1)
 		if meta and physics then
 			-- store the player privs default values
-			meta:set_int("autobahn_speed", physics.speed)
+			meta:set_float("autobahn_speed", physics.speed)
 			-- set operator privs
 			meta:set_int("autobahn_isactive", 1)
 			physics.speed = 3.5
@@ -67,7 +67,7 @@ local function reset_player_privs(player)
 	if meta and physics then
 		-- restore the player privs default values
 		meta:set_int("autobahn_isactive", 0)
-		physics.speed = meta:get_int("autobahn_speed")
+		physics.speed = meta:get_float("autobahn_speed")
 		if physics.speed == 0 then physics.speed = 1 end
 		-- delete stored default values
 		meta:set_string("autobahn_speed", "")
