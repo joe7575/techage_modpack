@@ -35,6 +35,7 @@ or use the manual on [GitHub](https://github.com/joe7575/techage/wiki).
 ### Licenses
 
 All mods have their own licenses. See the license files in the subfoldes.
+The modpack itself has the same license as the Mod Techage.
 
 
 ### Further Dependencies  
