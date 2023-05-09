@@ -60,13 +60,14 @@ end
 
 local function get_new_nodename(item)
 	local name = item:get_name()
-	if name == "" then 
-		return "air" 
+	if name == "" then
+		return "air"
 	end
 	return name
 end
 
 local function get_node_name(nvm, slot)
+	nvm.pos_list = nvm.pos_list or {}
 	local pos = nvm.pos_list[slot]
 	if pos then
 		return techage.get_node_lvm(pos).name
@@ -228,7 +229,8 @@ end
 -- Generate a table of currently available inventory and placed nodes
 local function available_nodes(pos, nvm, item_list)
 	local nodes = {}
-	
+	nvm.pos_list = nvm.pos_list or {}
+
 	for idx = 1, NUMSLOTS do
 		local item = item_list[idx]
 		if item and item:get_count() > 0 then
@@ -252,6 +254,7 @@ local function restore_config(pos, nvm)
 	local item_list = inv:get_list("main")
 	local stock = available_nodes(pos, nvm, item_list)
 	local nodes = minetest.deserialize(meta:get_string("stored_config")) or {}
+	nvm.pos_list = nvm.pos_list or {}
 
 	inv:set_list("main", {})
 	item_list = inv:get_list("main")
@@ -421,7 +424,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			return
 		elseif fields.record then
 			local inv = meta:get_inventory()
-			nvm.pos_list = nil
+			nvm.pos_list = {}
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all the blocks that are part of the door/gate"))

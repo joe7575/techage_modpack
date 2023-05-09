@@ -341,6 +341,7 @@ minetest.register_node("towercrane:balance", {
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly=0, not_in_creative_inventory=1},
+	drop = "",
 })
 
 minetest.register_node("towercrane:mast", {
@@ -358,6 +359,7 @@ minetest.register_node("towercrane:mast", {
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly=0, not_in_creative_inventory=1},
+	drop = "",
 })
 
 minetest.register_node("towercrane:arm", {
@@ -375,6 +377,7 @@ minetest.register_node("towercrane:arm", {
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly=0, not_in_creative_inventory=1},
+	drop = "",
 })
 
 minetest.register_node("towercrane:arm2", {
@@ -392,6 +395,7 @@ minetest.register_node("towercrane:arm2", {
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly=0, not_in_creative_inventory=1},
+	drop = "",
 })
 
 if towercrane.recipe then

@@ -140,18 +140,31 @@ local inventory_doc = table.concat({
 }, "\n")
 
 
+local sorting_data = {"start", "control", "sensor_doc", "tool", "invent",
+	"box", "bot_flap", "duplicator",
+	"bot_sensor", "node_sensor", "crop_sensor", "chest", "timer",
+	"changer", "sensor_extender", "and", "delayer",
+	"farming", "pattern", "copy3x3x3", "flowers", "aspen", 
+	"sign_cmnd", "sign_right", "sign_left", "sign_take", "sign_add", "sign_stop", "sign_blank"}
+
+if minetest.global_exists("minecart") then
+	table.insert(sorting_data, "cart_sensor")
+	table.insert(sorting_data, "sign_add_cart")
+	table.insert(sorting_data, "sign_take_cart")
+end
+
+if minetest.global_exists("xdecor") then
+	table.insert(sorting_data, "water")
+	table.insert(sorting_data, "soup")
+end
+
 doc.add_category("signs_bot",
 {
 	name = S("Signs Bot"),
 	description = S("A robot controlled by signs, used for automated work"),
 	sorting = "custom",
-	sorting_data = {"start", "control", "sensor_doc", "tool",
-		"box", "bot_flap", "duplicator",
-		"bot_sensor", "cart_sensor", "node_sensor", "crop_sensor", "chest", "timer",
-		"changer", "sensor_extender",
-		"farming", "pattern", "copy3x3x3",
-		"sign_cmnd", "sign_right", "sign_left", "sign_take", "sign_add", "sign_stop", "sign_blank"},
 	build_formspec = formspec,
+	sorting_data = sorting_data,
 })
 
 doc.add_entry("signs_bot", "start", {
@@ -174,7 +187,7 @@ doc.add_entry("signs_bot", "tool", {
 	data = {text = tool_doc, image = "signs_bot_doc_image.png"},
 })
 
-doc.add_entry("signs_bot", "tool", {
+doc.add_entry("signs_bot", "invent", {
 	name = S("Bot inventory behavior"),
 	data = {text = inventory_doc, image = "signs_bot_doc_image.png"},
 })

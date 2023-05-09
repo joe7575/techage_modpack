@@ -53,7 +53,7 @@ local function takeitem(mem)
 end
 
 
-if  minetest.global_exists("signs_bot") then
+if  minetest.global_exists("compost") then
 
 	signs_bot.register_botcommand("add_compost", {
 		mod = "compost",

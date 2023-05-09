@@ -34,7 +34,7 @@ Textures: CC BY-SA 3.0
 The TA1 mill sound is from https://freesound.org/people/JustinBW/sounds/70200/
 The TA1 watermill sound is from https://freesound.org/people/bmoreno/sounds/164182/
 
-Many thanks to Thomas-S and others for their contributions
+Many thanks to Thomas-S, niklp09, and others for their contributions
 
 
 ### Dependencies  
@@ -61,7 +61,7 @@ It is highly recommended that you install the following mods, too:
 * [compost](https://github.com/joe7575/compost): The garden soil is needed for the TA4 LED Grow Light based flower bed
 * [techpack_stairway](https://github.com/joe7575/techpack_stairway): Ladders, stairways, and bridges for your machines
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
-* [[ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
+* [ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
 
 For large servers with many players, the following packages are recommended:
 
@@ -86,10 +86,47 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 **Never disable 'lsqlite3' for a world that has already been used!**
 
-
 ### History
 
+**2023-05-05 V1.15**
+
+- Allow energy storage with up to 13x13x13 concrete blocks
+- Allow registration of other buckets
+- Add hyperloop chest only if the hyperloop mod is available
+- Add missing 'minetest.formspec_escape' #131 
+- Fix bug "Trouble with flycontroller #130"    
+- Add optional dependency on farming mod (orwell96)
+- Fix forceload formspec receiver (Niklp09)
+
+**2023-04-16 V1.14**
+
+- Add file "api.md"
+- Add API function `register_ore_for_gravelsieve`
+- Add support for the game Asuna
+- Merge pull request #124 from Niklp09/drops
+- Fix keep node number issue
+- Fix manual issue #123
+
+**2023-04-10 V1.13**
+
+- Add "Teleport mode" to the ta5 fly controller
+
+**2023-04-01 V1.12**
+
+- Improve Transformer:
+  - add wrench menu for 'max. power passed through'
+  - Increase max. power passed through from 100 to 300 ku
+- Improve Electricmeter: 
+  - add wrench menu for 'max. power passed through' and 'power countdown'
+  - add commands to read the countdown value (Lua and Beduino controller)
+- Improve TA3 Mesecons Converter:
+  - fix overload bug
+  - fix missing dominant 'on' issue
+- Add version command to TA3/TA4 Terminal
+- TA5 Hyperloop Chest: Disable inventory access on client side due to minetest core issues
+
 **2023-03-05  V1.11**
+
 - Reduce the number of necessary exp points for TA5 Hyperloop Chest,
   TA5 Hyperloop Tank, and TA5 AI Chip II
 - Fix possible kernel crashes with TA5 Hyperloop Chest and autocrafter

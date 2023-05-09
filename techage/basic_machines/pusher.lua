@@ -124,9 +124,10 @@ local function push(pos, crd, meta, nvm, pull_dir, push_dir, num)
 			return 0
 		elseif leftover ~= true then
 			-- place item back
+			taken = taken - leftover:get_count()
 			techage.unpull_items(pos, pull_dir, leftover)
 			crd.State:blocked(pos, nvm)
-			return taken - leftover:get_count()
+			return taken
 		end
 		return taken
 	end
@@ -282,7 +283,7 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	{
-		image = "techage_appl_pusher14.png^[transformR180]^techage_frame14_ta#.png",
+		name = "techage_appl_pusher14.png^[transformR180]^techage_frame14_ta#.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
@@ -292,7 +293,7 @@ tiles.act = {
 		},
 	},
 	{
-		image = "techage_appl_pusher14.png^techage_frame14_ta#.png",
+		name = "techage_appl_pusher14.png^techage_frame14_ta#.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",

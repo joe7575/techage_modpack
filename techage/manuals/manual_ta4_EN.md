@@ -131,11 +131,13 @@ This solar cell cannot be combined with the other solar modules.
 
 The thermal energy storage replaces the battery block from TA3.
 
-The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Three sizes of the storage are possible:
+The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Five sizes of the storage are possible:
 
 - Cover with 5x5x5 concrete blocks, filled with 27 gravel, storage capacity: 22.5 kud
 - Cover with 7x7x7 concrete blocks, filled with 125 gravel, storage capacity: 104 kud
 - Cover with 9x9x9 concrete blocks, filled with 343 gravel, storage capacity: 286 kud
+- Cover with 11x11x11 concrete blocks, filled with 729 gravel, storage capacity: 610 kud
+- Cover with 13x13x13 concrete blocks, filled with 1331 gravel, storage capacity: 1112 kud
 
 A window made of an obsidian glass block may be in the concrete shell. This must be placed fairly in the middle of the wall. Through this window you can see whether the storage is loaded more than 80%. In the plan on the right you can see the structure of TA4 heat exchanger consisting of 3 blocks, the TA4 turbine and the TA4 generator. Pay attention to the alignment of the heat exchanger (the arrow at block 1 must point to the turbine).
 
@@ -204,7 +206,7 @@ With the help of an isolating transformer and electricity meter, networks can be
 
 With the help of an isolating transformer, two power grids can be connected to form a larger network. The isolation transformer can transmit electricity in both directions.
 
-The isolation transformer can transmit up to 100 ku. 
+The isolation transformer can transmit up to 300 ku. The maximum value is adjustable via the wrench menu.
 
 [ta4_transformer|image]
 
@@ -212,7 +214,9 @@ The isolation transformer can transmit up to 100 ku.
 
 With the help of an electricity meter, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the `consumption` command.
 
-The electricity meter can pass up to 200 ku. 
+The electricity meter can pass up to 200 ku. The maximum value is adjustable via the wrench menu.
+
+A power output countdown can also be entered via the wrench menu. When this countdown reaches zero, the electricity meter switches off. The countdown can be queried using the `countdown` command.
 
 [ta4_electricmeter|image]
 
@@ -422,7 +426,7 @@ The signal tower can display red, green and orange. A combination of the 3 color
 
 ## TA4 Lua Controller
 
-As the name suggests, the Lua controller must be programmed in the Lua programming language. You should also be able to speak some English. The manual in English is here available:
+As the name suggests, the Lua controller must be programmed in the Lua programming language. The manual in English is here available:
 
 https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md
 

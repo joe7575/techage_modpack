@@ -326,7 +326,8 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Baborium is only extracted in underground mining. Baborium can only be found in stone at an altitude between -250 and -340 meters.\n"..
+  "Barborium can only be obtained from underground mining. This substance can only be found at a depth of -250 to -340 meters.\n"..
+  "\n"..
   "Baborium can only be melted in the TA3 Industrial Furnace.\n"..
   "\n"..
   "\n"..
@@ -397,7 +398,7 @@ techage.manual_EN.aText = {
   "  - Build a stone tower (cobble) with a 3x3 base (7-11 blocks high)\n"..
   "  - Leave a hole open on one side at the bottom\n"..
   "  - Put a lighter in it\n"..
-  "  - Fill the tower with charcoal from the top to the top\n"..
+  "  - Fill the tower to the brim with charcoal by dropping the charcoal into the hole from above\n"..
   "  - Light the lighter through the hole\n"..
   "  - Place the melting pot in the flame over the tower\n(one block above the flame)\n"..
   "  - To stop the burner\\, temporarily close the hole with an dirt block\\, for example.\n"..
@@ -839,7 +840,7 @@ techage.manual_EN.aText = {
   "The TA3 industrial furnace serves as a supplement to normal furnaces. This means that all goods can be produced with \"cooking\" recipes\\, even in an industrial furnace. But there are also special recipes that can only be made in an industrial furnace.\n"..
   "The industrial furnace has its own menu for recipe selection. Depending on the goods in the industrial furnace inventory on the left\\, the output product can be selected on the right.\n"..
   "\n"..
-  "The industrial furnace requires electricity (for the fan) and fuel oil / gasoline for the burner. The industrial furnace and must be assembled as shown in the plan on the right.\n"..
+  "The industrial furnace requires electricity (for the booster) and fuel oil / gasoline for the burner. The industrial furnace must be assembled as shown in the plan on the right.\n"..
   "\n"..
   "See also TA4 heater.\n"..
   "\n"..
@@ -1405,11 +1406,13 @@ techage.manual_EN.aText = {
   "\n",
   "The thermal energy storage replaces the battery block from TA3.\n"..
   "\n"..
-  "The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Three sizes of the storage are possible:\n"..
+  "The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Five sizes of the storage are possible:\n"..
   "\n"..
   "  - Cover with 5x5x5 concrete blocks\\, filled with 27 gravel\\, storage capacity: 22.5 kud\n"..
   "  - Cover with 7x7x7 concrete blocks\\, filled with 125 gravel\\, storage capacity: 104 kud\n"..
   "  - Cover with 9x9x9 concrete blocks\\, filled with 343 gravel\\, storage capacity: 286 kud\n"..
+  "  - Cover with 11x11x11 concrete blocks\\, filled with 729 gravel\\, storage capacity: 610 kud\n"..
+  "  - Cover with 13x13x13 concrete blocks\\, filled with 1331 gravel\\, storage capacity: 1112 kud\n"..
   "\n"..
   "A window made of an obsidian glass block may be in the concrete shell. This must be placed fairly in the middle of the wall. Through this window you can see whether the storage is loaded more than 80%. In the plan on the right you can see the structure of TA4 heat exchanger consisting of 3 blocks\\, the TA4 turbine and the TA4 generator. Pay attention to the alignment of the heat exchanger (the arrow at block 1 must point to the turbine).\n"..
   "\n"..
@@ -1457,13 +1460,15 @@ techage.manual_EN.aText = {
   "\n",
   "With the help of an isolating transformer\\, two power grids can be connected to form a larger network. The isolation transformer can transmit electricity in both directions.\n"..
   "\n"..
-  "The isolation transformer can transmit up to 100 ku. \n"..
+  "The isolation transformer can transmit up to 300 ku. The maximum value is adjustable via the wrench menu.\n"..
   "\n"..
   "\n"..
   "\n",
   "With the help of an electricity meter\\, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the 'consumption' command.\n"..
   "\n"..
-  "The electricity meter can pass up to 200 ku. \n"..
+  "The electricity meter can pass up to 200 ku. The maximum value is adjustable via the wrench menu.\n"..
+  "\n"..
+  "A power output countdown can also be entered via the wrench menu. When this countdown reaches zero\\, the electricity meter switches off. The countdown can be queried using the 'countdown' command.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1620,7 +1625,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "As the name suggests\\, the Lua controller must be programmed in the Lua programming language. You should also be able to speak some English. The manual in English is here available:\n"..
+  "As the name suggests\\, the Lua controller must be programmed in the Lua programming language. The manual in English is here available:\n"..
   "\n"..
   "https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md\n"..
   "\n"..
@@ -2108,6 +2113,10 @@ techage.manual_EN.aText = {
   "The maximum distance for the entire flight distance is 500 m.\n"..
   "\n"..
   "The use of the TA5 Flight Controller requires 40 experience points.\n"..
+  "\n"..
+  "*Teleport mode*\n"..
+  "\n"..
+  "If the 'Teleport Mode' is enabled\\, a player can also be moved without blocks. To do this\\, the start position must be configured using the \"Record\" button. Only one position can be configured here. The player to be moved must be in that position.\n"..
   "\n"..
   "\n"..
   "\n",

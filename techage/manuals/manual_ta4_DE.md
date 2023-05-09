@@ -131,11 +131,13 @@ Diese Solarzelle kann nicht mit den anderen Solarmodulen kombiniert werden.
 
 Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.
 
-Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:
+Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 5 Größen vom Speicher:
 
 - Hülle mit 5x5x5 Concrete Blocks, gefüllt mit 27 Gravel, Speicherkapazität: 22.5 kud
-- dHülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 104 kud
+- Hülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 104 kud
 - Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 286 kud 
+- Hülle mit 11x11x11 Concrete Blocks, gefüllt mit 729 Gravel, Speicherkapazität: 610 kud 
+- Hülle mit 13x13x13 Concrete Blocks, gefüllt mit 1331 Gravel, Speicherkapazität: 1112 kud 
 
 In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
 
@@ -205,7 +207,7 @@ Mit Hilfe von Trenntransformator und Stromzähler können Netzwerke zu noch grö
 
 Mit Hilfe eines Trenntransformators können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Trenntransformator kann Strom in beide Richtungen übertragen.
 
-Der Trenntransformator kann bis zu 100 ku übertragen.
+Der Trenntransformator kann bis zu 300 ku übertragen. Der Maximalwert ist über das Schraubenschlüsselmenü einstellbar.
 
 [ta4_transformer|image]
 
@@ -215,7 +217,11 @@ Der Trenntransformator kann bis zu 100 ku übertragen.
 
 Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando `consumption` durch einen Lua Controller abgefragt werden.
 
-Der Stromzähler kann bis zu 200 ku durchleiten.
+Der Stromzähler kann bis zu 200 ku durchleiten. Der Maximalwert ist über das Schraubenschlüsselmenü einstellbar.
+
+Über das Schraubenschlüsselmenü  kann auch ein Countdown für die Leistungsabgabe eingegeben werden. Läuft dieser Countdown auf Null, schaltet sich der Stromzähler ab. Der Countdown kann über das Kommando `countdown` abgefragt werden.
+
+
 
 [ta4_electricmeter|image]
 
@@ -574,7 +580,7 @@ Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block st
 
 Anleitung:
 
-- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
+- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü (Taste "Aufzeichnen") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
 - die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)
 - mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
 - man kann auch durch Wände oder andere Blöcke fliegen

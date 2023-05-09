@@ -155,5 +155,5 @@ History
                    Speed limit signs and cart terminal added  
 2021-09-02  V2.01  Chat command /stopcart added  
 2021-10-18  V2.02  Cart reproduction bug fixed  
-2023-01-04  V2.03  Techage and Beduino command interface added
+2023-01-04  V2.03  Techage and Beduino command interface added  
 2023-02-05  V2.04  New API functions added, EOL blanks removed

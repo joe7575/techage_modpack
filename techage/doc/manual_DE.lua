@@ -325,7 +325,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Baborium wird nur im Untertagebau gewonnen. Baborium findet man nur in Stein in einer Höhe zwischen -250 und -340 Meter.\n"..
+  "Barborium kann nur im Untertagebau gewonnen werden. Diesen Stoff findet man nur in einer Tiefe von -250 bis -340 Metern.\n"..
   "Baborium kann nur im TA3 Industrieofen geschmolzen werden.\n"..
   "\n"..
   "\n"..
@@ -389,7 +389,7 @@ techage.manual_DE.aText = {
   "  - Baue einen Turm aus Stein (cobble) mit einer 3x3 Grundfläche (7-11 Blöcke hoch)\n"..
   "  - Lasse unten ein Loch an einer Seite offen\n"..
   "  - Lege einen Anzünder (lighter) hinein\n"..
-  "  - Fülle den Turm von oben bis zum Rand mit Holzkohle\n"..
+  "  - Fülle den Turm bis zum Rand mit Holzkohle\\, in dem du die Holzkohle von oben in das Loch fallen lässt\n"..
   "  - Zünde den Anzünder durch das Loch an\n"..
   "  - Platziere den Schmelztiegel in die Flamme über dem Turm\neinen Block über der Flamme)\n"..
   "  - Um den Brenner anzuhalten\\, schließe das Loch vorübergehend bspw. mit einem Erdblock.\n"..
@@ -833,7 +833,7 @@ techage.manual_DE.aText = {
   "Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit \"Koch\" Rezepten\\, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte\\, die nur im Industrieofen hergestellt werden können.\n"..
   "Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.\n"..
   "\n"..
-  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
+  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofen muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
   "\n"..
   "Siehe auch TA4 Ofenheizung.\n"..
   "\n"..
@@ -1396,11 +1396,13 @@ techage.manual_DE.aText = {
   "\n",
   "Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.\n"..
   "\n"..
-  "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:\n"..
+  "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 5 Größen vom Speicher:\n"..
   "\n"..
   "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 22.5 kud\n"..
-  "  - dHülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 104 kud\n"..
+  "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 104 kud\n"..
   "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 286 kud\n"..
+  "  - Hülle mit 11x11x11 Concrete Blocks\\, gefüllt mit 729 Gravel\\, Speicherkapazität: 610 kud\n"..
+  "  - Hülle mit 13x13x13 Concrete Blocks\\, gefüllt mit 1331 Gravel\\, Speicherkapazität: 1112 kud\n"..
   "\n"..
   "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
@@ -1447,13 +1449,15 @@ techage.manual_DE.aText = {
   "\n",
   "Mit Hilfe eines Trenntransformators können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Trenntransformator kann Strom in beide Richtungen übertragen.\n"..
   "\n"..
-  "Der Trenntransformator kann bis zu 100 ku übertragen.\n"..
+  "Der Trenntransformator kann bis zu 300 ku übertragen. Der Maximalwert ist über das Schraubenschlüsselmenü einstellbar.\n"..
   "\n"..
   "\n"..
   "\n",
   "Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando 'consumption' durch einen Lua Controller abgefragt werden.\n"..
   "\n"..
-  "Der Stromzähler kann bis zu 200 ku durchleiten.\n"..
+  "Der Stromzähler kann bis zu 200 ku durchleiten. Der Maximalwert ist über das Schraubenschlüsselmenü einstellbar.\n"..
+  "\n"..
+  "Über das Schraubenschlüsselmenü  kann auch ein Countdown für die Leistungsabgabe eingegeben werden. Läuft dieser Countdown auf Null\\, schaltet sich der Stromzähler ab. Der Countdown kann über das Kommando 'countdown' abgefragt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1719,7 +1723,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Anleitung:\n"..
   "\n"..
-  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü (Taste \"Aufzeichnen\") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
   "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)\n"..
   "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
   "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
@@ -2100,6 +2104,10 @@ techage.manual_DE.aText = {
   "Die maximale Distanz für die gesammte Flugstrecke beträgt 500 m.\n"..
   "\n"..
   "Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.\n"..
+  "\n"..
+  "*Teleport Mode*\n"..
+  "\n"..
+  "Wird der 'Teleport Mode' aktiviert (auf 'enable' gesetzt)\\, kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste \"Aufzeichnen\" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler\\, der bewegt werden soll\\, muss dazu auf dieser Position stehen. \n"..
   "\n"..
   "\n"..
   "\n",

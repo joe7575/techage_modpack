@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.11
+techage.version = 1.15
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -57,6 +57,7 @@ techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
 techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -28
 techage.recipe_checker_enabled = minetest.settings:get_bool("techage_recipe_checker_enabled") ~= false
+techage.stair_aliases_enabled = minetest.settings:get_bool("techage_stair_aliases_enabled") ~= false
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()

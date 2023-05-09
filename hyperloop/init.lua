@@ -49,16 +49,7 @@ if minetest.global_exists("techage") and techage.version < 0.06 then
 	return
 end
 
-
-if minetest.get_translator ~= nil then
-    hyperloop.S = minetest.get_translator(minetest.get_current_modname())
-    
-else
-    -- Load support for intllib.
-    local MP = minetest.get_modpath("hyperloop")
-    hyperloop.S, hyperloop.NS = dofile(MP.."/intllib.lua")    
-        
-end
+hyperloop.S = minetest.get_translator(minetest.get_current_modname())
 
 -- MT 5.4 new string mode
 hyperloop.CLIP  = minetest.features.use_texture_alpha_string_modes and "clip" or false

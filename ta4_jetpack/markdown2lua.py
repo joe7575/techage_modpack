@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-import mistune # install v0.8.4 with: pip install mistune
+import mistune # install v0.8.4 with: pip install mistune==0.8.4
 
 __version__ = "1.0"
 

@@ -169,7 +169,7 @@ local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 	if name == owner or	minetest.check_player_privs(name, "server") then
 		local s = formspec(owner)
 		if s then
-			minetest.show_formspec(owner, "techage:forceload", s)
+			minetest.show_formspec(name, "techage:forceload", s)
 		end
 	end
 end
@@ -186,7 +186,7 @@ minetest.register_node("techage:forceload", {
 		'techage_filling_ta2.png^techage_frame_ta2_top.png',
 		'techage_filling_ta2.png^techage_frame_ta2_top.png',
 		{
-			image = "techage_filling_ta2.png^techage_frame_ta2_top.png^techage_appl_forceload.png",
+			name = "techage_filling_ta2.png^techage_frame_ta2_top.png^techage_appl_forceload.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -217,7 +217,7 @@ minetest.register_node("techage:forceloadtile", {
 	tiles = {
 		-- up, down, right, left, back, front
 		{
-			image = "techage_filling_ta2.png^techage_frame_ta2_top.png^techage_appl_forceload.png",
+			name = "techage_filling_ta2.png^techage_frame_ta2_top.png^techage_appl_forceload.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

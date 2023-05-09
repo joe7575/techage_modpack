@@ -60,7 +60,7 @@ local WRENCH_MENU = {
 
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
-	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
+	local path = minetest.formspec_escape(meta:contains("path") and meta:get_string("path") or "0,3,0")
 	local buttons
 	if meta:get_string("opmode") == "move xyz" then
 		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
@@ -261,6 +261,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	end,
 	on_node_load = function(pos, node)
 		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("teleport_mode", "") -- delete not working op mode
 		nvm.running = false
 	end,
 })
@@ -292,6 +293,28 @@ minetest.register_node("techage:rack_and_pinion", {
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
+
+minetest.register_node("techage:moveblock", {
+	description = "Techage Invisible Move Block",
+	drawtype = "glasslike_framed_optional",
+	inventory_image = 'techage_inv_invisible.png',
+	tiles = {"techage_invisible.png"},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-16/32, -16/32, -16/32,  16/32, -14/32, 16/32},
+		},
+	},
+	paramtype = "light",
+	light_source = 0,
+	sunlight_propagates = true,
+	walkable = false,
+	pointable = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory = 1},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 
 minetest.register_craft({
 	output = "techage:ta4_movecontroller",
