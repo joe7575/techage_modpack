@@ -17,13 +17,12 @@ This modpack contains:
 - towercrane: Simplifies the building of large techage plants
 - basic_materials: Needed items for many recipes
 - stamina: The "hunger" mod from "minetest-mods"
-- doc: Ingame documentation mod, used for minecart and signs_bot
 - unified_inventory: Player's inventory with crafting guide, bags, and more.
 - tubelib2: Necessary library
 - networks: Necessary library
 - safer_lua: Necessary library
 - lcdlib: Necessary library
-- datastorage: Necessary library
+- doclib: Necessary library
 
 
 ### Techage Manual
@@ -46,6 +45,25 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 
 ### History
+
+#### 2023-08-25
+
+Updated Mods:
+
+- techage v1.17:
+  - see readme.md
+- autobahn:
+  - Make motor sound mono (Niklp09)
+- lcdlib v1.02:
+  - see readme.md
+- signs_bot v1.13:
+  - see readme.md
+- minecart v2.05:
+  - see readme.md
+- mod 'doc' removed
+- mod 'doclib' v1.00 added
+  **The mod doclib is a new hard depenency !**
+- mod 'datastorage' removed
 
 #### 2023-05-09
 
