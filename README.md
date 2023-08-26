@@ -48,6 +48,8 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 #### 2023-08-25
 
+**The mod doclib is a new hard dependency !**
+
 Updated Mods:
 
 - techage v1.17:
@@ -62,7 +64,6 @@ Updated Mods:
   - see readme.md
 - mod 'doc' removed
 - mod 'doclib' v1.00 added
-  **The mod doclib is a new hard depenency !**
 - mod 'datastorage' removed
 
 #### 2023-05-09
