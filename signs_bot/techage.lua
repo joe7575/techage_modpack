@@ -221,15 +221,22 @@ send_cmnd 3465 pull*default:dirt*2]]),
 			local meta = minetest.get_meta(pos)
 			return meta:get_inventory(), "main"
 		end,
-		on_pull_item = function(pos, in_dir, num)
+		on_pull_item = function(pos, in_dir, num, item_name)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			return techage.get_items(pos, inv, "main", num)
+			if item_name then
+				local taken = inv:remove_item("main", {name = item_name, count = num})
+				if taken:get_count() > 0 then
+					return taken
+				end
+			else -- no item given
+				return techage.get_items(pos, inv, "main", num)
+			end
 		end,
-		on_push_item = function(pos, in_dir, stack)
+		on_push_item = function(pos, in_dir, stack, idx)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			return techage.put_items(inv, "main", stack)
+			return techage.put_items(inv, "main", stack, idx)
 		end,
 		on_unpull_item = function(pos, in_dir, stack)
 			local meta = minetest.get_meta(pos)
@@ -275,21 +282,74 @@ send_cmnd 3465 pull*default:dirt*2]]),
 				return "unsupported"
 			end
 		end,
+		on_beduino_receive_cmnd = function(pos, src, topic, payload)
+			local mem = tubelib2.get_mem(pos)
+			if topic == 1 then
+				if payload[1] == 1 then -- on
+					if not mem.running then
+						signs_bot.start_robot(pos)
+						return 0, {1}
+					end
+				else
+					if mem.running then
+						signs_bot.stop_robot(pos, mem)
+						return 0, {1}
+					end
+				end
+			else
+				return 2, ""  -- topic is unknown or invalid
+			end
+		end,
+		on_beduino_request_data = function(pos, src, topic, payload)
+			local mem = tubelib2.get_mem(pos)
+			if topic == 128 then -- state
+				if mem.error then
+					return 0, {5}
+				elseif mem.running then
+					if mem.curr_cmnd == "stop" then
+						return 0, {3}
+					elseif mem.blocked then
+						return 0, {2} 
+					else
+						return 0, {1}  -- running
+					end
+				elseif mem.capa then
+					if mem.capa <= 0 then
+						return 0, {4}  -- nopower
+					elseif mem.capa >= signs_bot.MAX_CAPA then
+						return 0, {6}  -- stopped
+					else
+						return 0, {7}  -- charging
+					end
+				else
+					return 0, {6}  -- stopped
+				end
+			else
+				return 2, ""  -- topic is unknown or invalid
+			end
+		end,
 	})
 	techage.register_node({"signs_bot:chest"}, {
 		on_inv_request = function(pos, in_dir, access_type)
 			local meta = minetest.get_meta(pos)
 			return meta:get_inventory(), "main"
 		end,
-		on_pull_item = function(pos, in_dir, num)
+		on_pull_item = function(pos, in_dir, num, item_name)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			return techage.get_items(pos, inv, "main", num)
+			if item_name then
+				local taken = inv:remove_item("main", {name = item_name, count = num})
+				if taken:get_count() > 0 then
+					return taken
+				end
+			else -- no item given
+				return techage.get_items(pos, inv, "main", num)
+			end
 		end,
-		on_push_item = function(pos, in_dir, stack)
+		on_push_item = function(pos, in_dir, stack, idx)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			return techage.put_items(inv, "main", stack)
+			return techage.put_items(inv, "main", stack, idx)
 		end,
 		on_unpull_item = function(pos, in_dir, stack)
 			local meta = minetest.get_meta(pos)

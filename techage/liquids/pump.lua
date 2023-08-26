@@ -57,6 +57,17 @@ local State4 = techage.NodeStates:new({
 	standby_ticks = STANDBY_TICKS,
 })
 
+local function handle_pump_limit(pos, nvm)
+	local val = M(pos):get_int("limit")
+	if val and val > 0 then
+		nvm.limit = val
+		nvm.num_items = 0
+	else
+		nvm.limit = nil
+		nvm.num_items = nil
+	end
+end
+
 -- Function returns the number of pumped units
 local function pump(pos, mem, nvm, state, outdir, units)
 	local taken, name = liquid.take(pos, Pipe, Flip[outdir], nil, units, mem.dbg_cycles > 0)
@@ -152,18 +163,18 @@ local function on_rightclick(pos, node, clicker)
 	elseif node.name == "techage:t4_pump" then
 		local mem = techage.get_mem(pos)
 		mem.dbg_cycles = 5
-		local val = M(pos):get_int("limit")
-		if val and val > 0 then
-			nvm.limit = val
-			nvm.num_items = 0
-		else
-			nvm.limit = nil
-			nvm.num_items = nil
-		end
+		handle_pump_limit(pos, nvm)
 		State4:start(pos, nvm)
 	elseif node.name == "techage:t4_pump_on" then
 		State4:stop(pos, nvm)
 	end
+end
+
+local function ta_rotate_node(pos, node, new_param2)
+	Pipe:after_dig_node(pos)
+	minetest.swap_node(pos, {name = node.name, param2 = new_param2})
+	Pipe:after_place_node(pos)
+	M(pos):set_int("outdir", techage.side_to_outdir("R", new_param2))
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
@@ -175,7 +186,7 @@ end
 local ta3_tiles_pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
-	"techage_filling_ta3.png^techage_frame_ta3_bottom.png",
+	"techage_filling_ta3.png^techage_frame_ta3_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_pump.png^techage_frame_ta3.png^[transformFX",
@@ -185,7 +196,7 @@ local ta3_tiles_pas = {
 local ta4_tiles_pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
-	"techage_filling_ta4.png^techage_frame_ta4_bottom.png",
+	"techage_filling_ta4.png^techage_frame_ta4_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_pump.png^techage_frame_ta4.png^[transformFX",
@@ -195,7 +206,7 @@ local ta4_tiles_pas = {
 local ta3_tiles_act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
-	"techage_filling_ta3.png^techage_frame_ta3_bottom.png",
+	"techage_filling_ta3.png^techage_frame_ta3_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	{
@@ -223,7 +234,7 @@ local ta3_tiles_act = {
 local ta4_tiles_act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
-	"techage_filling_ta4.png^techage_frame_ta4_bottom.png",
+	"techage_filling_ta4.png^techage_frame_ta4_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	{
@@ -255,6 +266,7 @@ minetest.register_node("techage:t3_pump", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer3,
 	after_dig_node = after_dig_node,
+	ta_rotate_node = ta_rotate_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -286,6 +298,7 @@ minetest.register_node("techage:t4_pump", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer4,
 	after_dig_node = after_dig_node,
+	ta_rotate_node = ta_rotate_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -340,6 +353,10 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 			local nvm = techage.get_nvm(pos)
 			return nvm.flowrate or 0
 		else
+			if topic == "on" then
+				local nvm = techage.get_nvm(pos)
+				handle_pump_limit(pos, nvm)
+			end
 			return State4:on_receive_message(pos, topic, payload)
 		end
 	end,
@@ -358,9 +375,9 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 			end
 			return 0
 		else
-			local nvm = techage.get_nvm(pos)
-			if nvm.limit then
-				nvm.num_items = 0
+			if topic == 1 then
+				local nvm = techage.get_nvm(pos)
+				handle_pump_limit(pos, nvm)
 			end
 			return State4:on_beduino_receive_cmnd(pos, topic, payload)
 		end

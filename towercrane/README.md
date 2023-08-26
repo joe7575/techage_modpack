@@ -13,14 +13,14 @@ The size of the crane (which is the construction area) and the rope length can b
 
 ## Introduction
 * Place the crane base block.
-  The crane arm will later be build in the same direction you are currently looking 
+  The crane arm will later be built in the same direction the player is looking.
 
 * Right-click the crane base block and set the crane dimensions in height and width (between 8 and 32 by default).
-  The crane will be build according to this settings.
+  The crane will be built according to these settings.
   If there is not enough free space for the crane mast/arm or the potential construction area of the 
-  crane intersects a protected area from another player, the crane will not be build.
+  crane intersects a protected area from another player, the crane will not be built.
 
-* Right-click the crane switch block to start the crane (get fly privs). The player will be placed in front of the crane.
+* Right-click the crane switch block to start the crane (get fly privs). The player is placed in front of the crane.
 
 * To remove the crane, destroy the base block.  
 

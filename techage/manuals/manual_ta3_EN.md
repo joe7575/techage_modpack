@@ -51,6 +51,9 @@ The oil burner can only hold 50 units of fuel. An additional oil tank and an oil
 
 Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low, the power plant switches off.
 
+The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.
+With the steam engine, some water is lost as steam with each piston stroke.
+
 [ta3_boiler|image]
 
 
@@ -534,6 +537,22 @@ Note: With the programmer, block numbers can be easily collected and configured.
 
 [ta3_button|image]
 
+### TA3 Command Converter
+
+With the TA3 command converter, `on` / `off` commands can be converted into other commands, and forwarding can be prevented or delayed.
+The number of the target block or the numbers of the target blocks, the commands to be sent and the delay times in seconds must be entered. If no command is entered, nothing is sent.
+
+The numbers can also be programmed using the Techage programmer.
+
+[ta3_command_converter|image]
+
+### TA3 Flip-Flop
+
+The TA3 flip-flop changes its state with each received `on` command. Received `off` commands are ignored. Depending on the status change, `on` / `off` commands are sent alternately. The number of the target block or the numbers of the target blocks must be entered. The numbers can also be programmed using the Techage programmer.
+
+For example, lamps can be switched on and off with the help of buttons.
+
+[ta3_flipflop|image]
 
 ### TA3 Logic Block
 
@@ -721,9 +740,9 @@ The detector can also be programmed with its own number. In this case, he pushes
 [ta3_cartdetector|image]
 
 
-### TA3 Block Detector
+### TA3 Node Detector
 
-The block detector sends an `on` command if it detects that blocks appear or disappear in front of it, but must be configured accordingly. After switching the detector back to the standard state (gray block), an `off` command is sent. Valid blocks are all types of blocks and plants, but not animals or players. The sensor range is 3 blocks / meter in the direction of the arrow.
+The node detector sends an `on` command if it detects that nodes (blocks) appear or disappear in front of it, but must be configured accordingly. After switching the detector back to the standard state (gray block), an `off` command is sent. Valid blocks are all types of blocks and plants, but not animals or players. The sensor range is 3 blocks / meter in the direction of the arrow.
 
 [ta3_nodedetector|image]
 
@@ -825,19 +844,6 @@ The injector can also be switched to "pull mode". Then he only pulls items out o
 The processing power is up to 8 times one item every 4 seconds.
 
 [ta3_injector|image]
-
-
-### TA3 Item Flow Limiter
-
-The Flow Limiter limits the number of items that can be pushed through by using a slider. This allows the number of items that are put into an oven, for example, to be precisely adapted to the recipe.
-
-The Flow Limiter must be configured via the menu and then started. If the configured number of items has been passed, the block switches off. The next time the Flow Limiter is switched on, it again transmits the configured number of items.
-
-**Note: The Flow Limiter must be placed behind the pusher.**
-
-The Flow Limiter can also be configured and started using a Lua or Beduino controller.
-
-[ta3_item_flow_limiter_pas|image]
 
 
 

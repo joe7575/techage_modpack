@@ -186,9 +186,11 @@ local function set_capa(pos, oldnode, digger, capa)
 	local text = S("Robot Box").." ("..capa.." %)"
 	meta:set_string("description", text)
 	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
-	local left_over = inv:add_item("main", node)
-	if left_over:get_count() > 0 then
-		minetest.add_item(pos, node)
+	if inv then
+		local left_over = inv:add_item("main", node)
+		if left_over:get_count() > 0 then
+			minetest.add_item(pos, node)
+		end
 	end
 end
 

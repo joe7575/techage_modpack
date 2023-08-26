@@ -1,0 +1,4 @@
+# Enable robot part removal.
+# Activation makes sense if server crashes occur frequently,
+# whereby the function requires a lot of computing time.
+signs_bot_enable_LBM (Enable robot part removal) bool false

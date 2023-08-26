@@ -12,7 +12,7 @@
 
 ]]--
 
-techage.Items = {
+local items = {
 	techage_ta1 = "techage_ta1.png",
 	iron = "techage:iron_ingot",
 	charcoal = "techage:charcoal",
@@ -54,8 +54,8 @@ techage.Items = {
 	ta2_forceload = "techage:forceload",
 	ta2_driveaxle = "techage:axle",
 	ta2_generator = "techage:ta2_generator_off",
-    ta2_winch = "techage:ta2_winch",
-    ta2_weight_chest = "techage:ta2_weight_chest",
+	ta2_winch = "techage:ta2_winch",
+	ta2_weight_chest = "techage:ta2_weight_chest",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",
@@ -126,6 +126,8 @@ techage.Items = {
 	ta3_valve = "techage:ta3_valve_closed",
 	ta3_motor = "techage:ta3_motor_off",
 	ta3_injector = "techage:ta3_injector_pas",
+	ta3_command_converter = "techage:ta3_command_converter_off",
+	ta3_flipflop = "techage:ta3_flipflop_off",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	techage_ta4c = "techage_ta4c.png",
@@ -204,6 +206,9 @@ techage.Items = {
 	ta4_terminal = "techage:terminal3",
 	ta4_autocrafter = "techage:ta4_autocrafter_pas",
 	ta4_recipeblock = "techage:ta4_recipeblock",
+	ta4_chargedetector = "techage:ta4_chargedetector_off",
+	ta4_gaze_sensor = "techage:ta4_gaze_sensor_off",
+	ta4_nodedetector = "techage:ta4_nodedetector_off",
 	----------------------------
 	techage_ta5 = "techage:ta5_fr_nucleus",
 	ta5_flycontroller = "techage:ta5_flycontroller",
@@ -220,8 +225,7 @@ techage.Items = {
 	ta5_fr_controller = "techage:ta5_fr_controller_pas",
 }
 
-function techage.add_manual_items(table_with_items)
-	for name, tbl in pairs(table_with_items) do
-		techage.Items[name] = tbl
-	end
+for name, image in pairs(items) do
+	doclib.add_manual_image("techage", "DE", name, image)
+	doclib.add_manual_image("techage", "EN", name, image)
 end

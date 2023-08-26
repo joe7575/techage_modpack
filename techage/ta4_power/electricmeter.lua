@@ -107,6 +107,7 @@ local function node_timer(pos, elapsed)
 			nvm.load = (data.curr_load1 / data.max_capa1 + data.curr_load2 / data.max_capa2) / 2 * current
 			nvm.moved = data.moved
 			nvm.units = (nvm.units or 0) + data.moved
+			State:keep_running(pos, nvm)
 			if nvm.countdown > 0 then
 				nvm.countdown = nvm.countdown - (data.moved / techage.CYCLES_PER_DAY)
 				if nvm.countdown <= 0 then
@@ -197,6 +198,8 @@ techage.register_node({"techage:ta4_electricmeter"}, {
 			return math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)
 		elseif topic == "countdown" then
 			return math.floor((nvm.countdown or 0) + 0.5)
+		elseif topic == "current" then
+			return math.floor((nvm.moved or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end
@@ -209,8 +212,10 @@ techage.register_node({"techage:ta4_electricmeter"}, {
 		if topic == 146 then
 			if payload[1] == 0 then -- Consumption
 				return 0, {math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)}
-			else -- countdown
+			elseif payload[1] == 0 then -- countdown
 				return 0, {math.floor((nvm.countdown or 0) + 0.5)}
+			else -- current
+				return 0, {math.floor((nvm.moved or 0) + 0.5)}
 			end
 		else
 			return State:on_beduino_request_data(pos, topic, payload)

@@ -38,7 +38,7 @@ Many thanks to Thomas-S, niklp09, and others for their contributions
 
 
 ### Dependencies  
-Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua  
+Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua, doclib  
 Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn  
 Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores, ethereal, mesecon
 
@@ -53,6 +53,7 @@ The following mods in the newest version have to be downloaded directly from Git
 * [minecart](https://github.com/joe7575/minecart)
 * [lcdlib](https://github.com/joe7575/lcdlib)
 * [safer_lua](https://github.com/joe7575/safer_lua)
+* [doclib](https://github.com/joe7575/doclib)
 
 It is highly recommended that you install the following mods, too:
 
@@ -62,6 +63,12 @@ It is highly recommended that you install the following mods, too:
 * [techpack_stairway](https://github.com/joe7575/techpack_stairway): Ladders, stairways, and bridges for your machines
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
 * [ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
+
+More recommended Techage related mods by other authors:
+
+* [ta4_addons](https://github.com/Thomas--S/ta4_addons) from Thomas--S: A Touchscreen for the Lua controller
+* [ts_vehicles](https://github.com/Thomas--S/ts_vehicles) from Thomas--S: A mod to provide cars and other vehicles for Minetest.
+* [ta_apiary](https://gitlab.com/lesya_minetest_mods/ta_apiary) from Olesya Sibidanova: TechAge Machines for beekeeping
 
 For large servers with many players, the following packages are recommended:
 
@@ -87,6 +94,26 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **Never disable 'lsqlite3' for a world that has already been used!**
 
 ### History
+
+**2023-08-25 V1.17**
+
+- Add support for doclib / remove techage internal doc support  
+  **The mod doclib is a new hard depenency !**
+- Fix LICENCSE file bug
+- Add beduino support for TA3 repeater (realmicu)
+- Add inv_name_prefix to `techage.register_consumer` (debiankaios)
+- Add generator menu to TA5 generator (fusion reactor)
+- Adapt mod to the new lcdlib mod
+- Fix some bugs
+
+**2023-06-30 V1.16**
+
+- Add TA4 node detector
+- Add wrench menu to TA3 button
+- Add arrows to the pump bottom and allow to turn the pump with the Techage Screwdriver
+- Fix bug with configurred TA4 chest and TA5 teleport tubes
+- Add gaze sensor
+- Many bugfixes and improvements
 
 **2023-05-05 V1.15**
 
@@ -117,7 +144,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
   - add wrench menu for 'max. power passed through'
   - Increase max. power passed through from 100 to 300 ku
 - Improve Electricmeter: 
-  - add wrench menu for 'max. power passed through' and 'power countdown'
+  - add wrench menu for 'max. power passed through' and 'power countdown' 2458
   - add commands to read the countdown value (Lua and Beduino controller)
 - Improve TA3 Mesecons Converter:
   - fix overload bug

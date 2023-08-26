@@ -212,7 +212,7 @@ The isolation transformer can transmit up to 300 ku. The maximum value is adjust
 
 ### TA4 Electric Meter
 
-With the help of an electricity meter, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the `consumption` command.
+With the help of an electricity meter, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electrical energy passed through (in kud) is measured and displayed. This value can also be queried by a Lua controller using the `consumption` command. The current current can be queried via the command `current`.
 
 The electricity meter can pass up to 200 ku. The maximum value is adjustable via the wrench menu.
 
@@ -403,6 +403,8 @@ The battery must be placed in close proximity to the controller, i.e. in one of 
 
 The display shows its number after placement. The display can be addressed via this number. Texts can be output on the display, whereby the display can display 5 lines and thus 5 different texts.
 
+Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
+
 The display is updated at most once per second.
 
 [ta4_display|image]
@@ -410,6 +412,8 @@ The display is updated at most once per second.
 ### TA4 Display XL
 
 The TA4 Display XL is twice the size of the TA4 display.
+
+Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
 
 The display is updated every two seconds at most.
 
@@ -524,6 +528,34 @@ The functionality is the same as for the TA3 detector. In addition, the detector
 This counter can be queried with the 'count' command and reset with 'reset'.
 
 [ta4_detector|image]
+
+### TA4 Node Detector
+
+The functionality is the same as with the TA3 Node Detector.
+
+In contrast to the TA3 node detector, the positions to be monitored can be configured individually here. To do this, the "Record" button must be pressed. Then all blocks must be clicked, the position of which is to be checked. Then the "Done" button must be pressed.
+
+Up to 4 blocks can be selected.
+
+[ta4_nodedetector|image]
+
+### TA4 Energy Storage Charge Detector
+
+The charge detector measures the state of charge of the power grid's energy storage every 8 s.
+
+If the value falls below a configurable threshold (switching point), a command (default: "off") is sent. If the value rises above this switching point again, a second command (default: "on") is sent. This allows consumers to be disconnected from the grid when the charge level of the energy storage device falls below the specified switching point.
+
+To do this, the charge detector must be connected to the grid via a junction box. The charge detector is configured via the open-end wrench menu.
+
+[ta4_chargedetector|image]
+
+### TA4 Gaze Sensor
+
+The TA4 gaze sensor generates a command when the block is viewed/focused by the owner or other configured players and sends a second command when the block is no longer focused. It thus serves as a replacement for buttons/switches, for example to open/close doors.
+
+The TA4 Gaze Sensor can only be programmed using the open-end wrench menu. If you have an open-end wrench in your hand, the sensor does not trigger, even if it is focused.
+
+[ta4_gaze_sensor|image]
 
 ### TA4 Sequencer
 
@@ -973,10 +1005,3 @@ The machine can disassemble pretty much any Techage and Hyperloop blocks. But no
 The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
 
 [ta4_recycler|image] 
-
-### TA4 Item Flow Limiter
-
-The function corresponds to that of TA3.
-
-[ta4_item_flow_limiter_pas|image]
-

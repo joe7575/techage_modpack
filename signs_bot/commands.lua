@@ -243,6 +243,7 @@ local function move(mem, any_sensor)
 	elseif mem.capa then
 		mem.capa = mem.capa + 1
 	end
+	return new_pos ~= nil
 end
 
 signs_bot.register_botcommand("move", {
@@ -278,8 +279,10 @@ new program from the sign]]),
 	cmnd = function(base_pos, mem)
 		local any_sensor, sign_pos = scan_surrounding(mem)
 		if not sign_pos then
-			move(mem, any_sensor)
-			return ci.BUSY
+			if move(mem, any_sensor) then
+				return ci.BUSY
+			end
+			return signs_bot.DONE
 		else
 			mem.script = M(sign_pos):get_string("signs_bot_cmnd").."\ncond_move"
 			return ci.NEW

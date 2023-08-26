@@ -117,7 +117,6 @@ Access:=
 Button or switch=
 Change the block name (infotext)=
 Command to be sent=
-Destination block number(s)=
 Infotext=
 TA3 Button/Switch=
 TA4 Button/Switch=
@@ -133,6 +132,8 @@ Type=
 ### button.lua ###
 ### button_2x.lua ###
 ### button_4x.lua ###
+### charge_detector.lua ###
+### gaze_sensor.lua ###
 ### player_detector.lua ###
 
 Command=
@@ -140,7 +141,9 @@ Number=
 
 ### button.lua ###
 ### cart_detector.lua ###
+### command_converter.lua ###
 ### detector.lua ###
+### flipflop.lua ###
 ### light_detector.lua ###
 ### lua_logic.lua ###
 ### mesecons_converter.lua ###
@@ -152,14 +155,21 @@ Insert destination node number(s)=
 
 ### button.lua ###
 ### chest.lua ###
+### command_converter.lua ###
 ### detector.lua ###
 ### doorcontroller.lua ###
+### flipflop.lua ###
 ### mesecons_converter.lua ###
 ### repeater.lua ###
 ### sequencer2.lua ###
 ### submenu.lua ###
 
 Save=
+
+### button.lua ###
+### gaze_sensor.lua ###
+
+Destination block number(s)=
 
 ### button_2x.lua ###
 
@@ -174,6 +184,7 @@ Momentary button or on/off switch=
 
 ### button_2x.lua ###
 ### button_4x.lua ###
+### charge_detector.lua ###
 ### player_detector.lua ###
 
 Destination block number=
@@ -225,6 +236,14 @@ TA5 Ceramic Turbine=
 Dirt with Ash=
 TA1 Charcoal=
 
+### charge_detector.lua ###
+
+Command to send when the energy storage charge@nlevel falls below the specified switch point=
+Command to send when the energy storage charge@nlevel rises above the specified switch point=
+Storage charge level switch point=
+Switch point=
+TA4 Energy Storage Charge Detector=
+
 ### chest.lua ###
 
 Allow public access to the chest=
@@ -248,6 +267,13 @@ Node number to send the events to=
 Node numbers to read the states from=
 Send an event if state is equal or larger than=
 TA4 State Collector=
+
+### command_converter.lua ###
+
+Receive=
+Send delay (s)=
+Sent command=
+TA3 Command Converter=
 
 ### concentrator.lua ###
 
@@ -363,12 +389,19 @@ with door sound=
 ### doorcontroller2.lua ###
 ### flycontroller.lua ###
 ### movecontroller.lua ###
+### node_detector.lua ###
 ### turncontroller.lua ###
 
 Done=
 Record=
-Recording...=
 block positions are stored.=
+
+### doorcontroller2.lua ###
+### flycontroller.lua ###
+### movecontroller.lua ###
+### turncontroller.lua ###
+
+Recording...=
 
 ### doorcontroller2.lua ###
 ### movecontroller.lua ###
@@ -478,6 +511,10 @@ TA3 Power Station Firebox=
 
 Firebox=
 
+### flipflop.lua ###
+
+TA3 Flip-Flop=
+
 ### fly_lib.lua ###
 
 Destination position is protected=
@@ -498,8 +535,10 @@ Error: Invalid path !!=
 
 Error: Recording is missing !!=
 Flight route (A to B)=
+Move a player without moving blocks=
 See chat output=
 TA5 Fly Controller=
+Teleport mode=
 Test=
 [TA4 Fly Controller] Invalid path!=
 [TA4 Fly Controller] Recording is missing!=
@@ -520,11 +559,9 @@ Maximum speed for moving blocks=
 Move=
 Move A-B=
 Move B-A=
-Move a player without moving blocks=
 Move block height=
 Object offset=
 Stored=
-Teleport mode=
 Value in the range of 0.0 to 1.0=
 Y-offset for non-player objects like vehicles (-0.5 to 0.5)=
 
@@ -595,6 +632,14 @@ TA5 Pipe=
 
 TechAge Gate Block=
 
+### gaze_sensor.lua ###
+
+Command to send when sensor is no longer viewed=
+Command to send when sensor is viewed=
+Input the player name(s) separated by blanks.@nIf empty, only the owner is accepted.=
+Player Names=
+TA4 Gaze Sensor=
+
 ### gearbox.lua ###
 
 TA2 Gearbox=
@@ -604,6 +649,7 @@ TA2 Gearbox=
 TA3 Generator=
 TA4 Generator=
 TA5 Generator=
+no steam=
 
 ### generator.lua ###
 ### power_terminal2.lua ###
@@ -636,14 +682,6 @@ TA1 Mill Base=
 
 TA4 LED Grow Light=
 
-### guide.lua ###
-
-No plan available=
-Plan=
-Sectional view=
-Side view=
-Top view=
-
 ### hammer.lua ###
 
 TA1 Bronze Hammer (smash stone to gravel)=
@@ -664,9 +702,12 @@ TA5 Heat Exchanger 1=
 
 ### heatexchanger2.lua ###
 
+ Error!=
 Blue pipe connection error@n(@1 found / @2 expected)=
+Blue pipe coolant missing@n(@1 found / @2 expected)=
 Cooler error=
 Green pipe connection error@n(@1 found / @2 expected)=
+Green pipe coolant missing@n(@1 found / @2 expected)=
 Power network connection error=
 TA4 Heat Exchanger=
 TA4 Heat Exchanger 2=
@@ -929,8 +970,10 @@ TA4 Move Controller=
 
 ### node_detector.lua ###
 
+Click on all blocks whose positions should be checked=
 Send signal if nodes have been:=
 TA3 Node Detector=
+TA4 Node Detector=
 added=
 added or removed=
 removed=
@@ -1301,6 +1344,10 @@ Refresh=
 
 TA1 Axle=
 TA1 Axle Bearing=
+
+### ta2_clutch.lua ###
+
+TA2 Clutch=
 
 ### ta2_weight_chest.lua ###
 

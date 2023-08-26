@@ -221,6 +221,11 @@ minetest.register_on_joinplayer(function(player)
 		on_take = function(inv, listname, index, stack, player)
 			player:get_inventory():set_size(listname .. "contents", 0)
 			save_bags_metadata(player, inv)
+			if listname == ui.current_page[player:get_player_name()] then
+				-- Bag is currently open: avoid follow-up issues by navigating back
+				-- Trick: the list name is the same as the registered page name
+				ui.set_inventory_formspec(player, "bags")
+			end
 		end,
 		allow_move = function()
 			return 0

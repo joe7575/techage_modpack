@@ -49,7 +49,8 @@ Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öl
 
 ### TA3 Boiler unten/oben
 
-Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab.
+Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
+Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.
 
 [ta3_boiler|image]
 
@@ -535,6 +536,21 @@ Hinweis: Mit dem Programmer können Blocknummern sehr einfach eingesammelt und k
 
 [ta3_button|image]
 
+### TA3 Kommando Konverter / Command Converter
+
+Mit dem TA3 Kommando Konverter können `on` / `off` Kommandos in andere Kommandos umgewandelt werden, sowie die Weiterleitung verhindert oder verzögert werden. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke, die Kommandos die gesendet werden sollen, sowie die Verzögerungszeiten in Sekunden müssen eingegeben werden. Wird kein Kommando eingegeben, wird nichts gesendet.
+
+Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.
+
+[ta3_command_converter|image]
+
+### TA3 Flipflop / Flip-Flop
+
+Das TA3 Flipflop wechselt seinen Zustand mit jedem empfangenen `on` Kommando.  Empfangene `off` Kommandos werden ignoriert. Damit werden abhängig vom Zustandswechsel abwechselnd `on` / `off` Kommandos gesendet. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke müssen eingegeben werden. Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.
+
+Damit lassen sich bspw. Lampen mit Hilfe von Tastern ein- und wieder ausschalten.
+
+[ta3_flipflop|image]
 
 ### TA3 Logikblock / Logic Block
 

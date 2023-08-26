@@ -13,7 +13,7 @@
 minecart = {}
 
 -- Version for compatibility checks, see readme.md/history
-minecart.version = 2.04
+minecart.version = 2.05
 
 minecart.hopper_enabled = minetest.settings:get_bool("minecart_hopper_enabled") ~= false
 minecart.teleport_enabled = minetest.settings:get_bool("minecart_teleport_enabled") == true
@@ -47,4 +47,5 @@ if minecart.hopper_enabled then
 end
 
 dofile(MP .. "/doc.lua")
+dofile(MP .. "/manual.lua")
 minetest.log("info", "[MOD] Minecart loaded")

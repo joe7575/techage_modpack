@@ -432,8 +432,8 @@ The sensor has an active side (red) that must point to the observed area.=Der Se
 
 Instructions:=Anweisungen:
 Code=Code
-Sign "turn right"=Zeichen "rechts drehen"
-Sign "turn left"=Zeichen "links drehen"
+Sign "turn right"=Zeichen "Rechts drehen"
+Sign "turn left"=Zeichen "Links drehen"
 Sign "take item"=Zeichen "Nehme Gegenstand"
 Sign "add item"=Zeichen "Lege Gegenstand"
 Sign "stop"=Zeichen "Stopp"

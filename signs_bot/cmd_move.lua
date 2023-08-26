@@ -319,8 +319,14 @@ signs_bot.register_botcommand("stop", {
 	num_param = 0,
 	description = S("Stop the robot."),
 	cmnd = function(base_pos, mem, slot)
+		local param2 = mem.robot_param2
+		local pos = mem.robot_pos
+		local node1, pos1 = node_and_pos(lib.next_pos(pos, param2))
 		if mem.capa then
 			mem.capa = mem.capa + 2
+		end
+		if node1 and node1.name ~= "signs_bot:sign_stop" then
+			return signs_bot.DONE
 		end
 		return signs_bot.BUSY
 	end,

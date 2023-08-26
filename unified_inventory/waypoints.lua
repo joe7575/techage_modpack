@@ -140,36 +140,49 @@ ui.register_page("waypoints", {
 
 		-- Main buttons:
 		local btnlist = {
-			set_waypoint = {
-				"ui_waypoint_set_icon.png",
-				S("Set waypoint to current location")
-			},
-			toggle_waypoint = {
+			-- 1. formspec name
+			-- 2. button image
+			-- 3. translation text
+			{
+				"toggle_waypoint",
 				waypoint.active and "ui_on_icon.png" or "ui_off_icon.png",
 				waypoint.active and S("Hide waypoint") or S("Show waypoint")
 			},
-			toggle_display_pos = {
+			{
+				"rename_waypoint",
+				"ui_pencil_icon.png",
+				S("Edit waypoint name")
+			},
+			{
+				"set_waypoint",
+				"ui_waypoint_set_icon.png",
+				S("Set waypoint to current location")
+			},
+			{
+				"toggle_display_pos",
 				waypoint.display_pos and "ui_green_icon_background.png^ui_xyz_icon.png" or "ui_red_icon_background.png^ui_xyz_icon.png^(ui_no.png^[transformR90)",
 				waypoint.display_pos and S("Hide coordinates") or S("Show coordinates")
 			},
-			toggle_color = {
+			{
+				"toggle_color",
 				"ui_circular_arrows_icon.png",
 				S("Change color of waypoint display")
 			},
-			rename_waypoint = {
-				"ui_pencil_icon.png",
-				S("Edit waypoint name")
-			}
 		}
+		if minetest.get_player_privs(player_name).teleport then
+			table.insert(btnlist, {
+				"teleport_waypoint",
+				"ui_teleport.png",
+				S("Teleport to waypoint")
+			})
+		end
 
-		local x = 4
-		for name, def in pairs(btnlist) do
+		for i, def in pairs(btnlist) do
 			formspec[n] = string.format("image_button[%f,%f;%f,%f;%s;%s%i;]",
-				wp_buttons_rj - ui.style_full.btn_spc * x, wp_bottom_row,
+				wp_buttons_rj + ui.style_full.btn_spc * (i - #btnlist), wp_bottom_row,
 				ui.style_full.btn_size, ui.style_full.btn_size,
-				def[1], name, sel)
-			formspec[n+1] = "tooltip["..name..sel..";"..F(def[2]).."]"
-			x = x - 1
+				def[2], def[1], sel)
+			formspec[n+1] = "tooltip["..def[1]..sel..";"..F(def[3]).."]"
 			n = n + 2
 		end
 
@@ -313,6 +326,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			update_formspec = true
 		end
 
+		if fields["teleport_waypoint" .. i] and waypoint.world_pos then
+			if minetest.get_player_privs(player_name).teleport then
+				minetest.sound_play("teleport", {to_player = player_name})
+				player:set_pos(waypoint.world_pos)
+			end
+		end
+
 		if hit then
 			-- Save first
 			waypoints.data[i] = waypoint
@@ -323,6 +343,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			update_hud(player, waypoints, temp, i)
 		end
 		if update_formspec then
+			minetest.sound_play("ui_click", {to_player=player_name, gain = 0.1})
 			ui.set_inventory_formspec(player, "waypoints")
 		end
 

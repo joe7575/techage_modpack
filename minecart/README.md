@@ -26,8 +26,7 @@ license).
 3. https://github.com/stujones11/railcart/
 
 
-Minecart Features
------------------
+## Minecart Features
 
 The mod Minecart has its own cart (called Minecart) in addition to the standard cart.
 Minecarts are used for automated item transport on private and public rail networks.
@@ -41,14 +40,14 @@ The mod features are:
 - protection of minecarts and cargo
 - Minecarts run through unloaded areas (only the stations/hopper have to be loaded)
 - Extra Minecart privs for rail workers
-- Ingame documentation (German and English), based on the mod "doc"
+- Ingame documentation (German and English), based on the mod "doc" and/or
+  doclib/techage
 - API to register carts from other mods
 - chat command `/mycart <num>` to output cart state and location
 - Command interface for Techage (Lua and ICTA) and for Beduino Controllers
 
 
-Technical Background
---------------------
+## Technical Background
 
 The Minecart can "run" through unloaded areas. This is done by means of recorded 
 and stored routes. If the area is unloaded the cart will simply follow the 
@@ -56,37 +55,9 @@ predefined route until an area is loaded again. In this case the cart will be
 spawned and run as usual.
 
 
-Introduction
-------------
-
-1. Place your rails and build a route with two endpoints. Junctions are allowed 
-   as long as each route has its own start and endpoint.
-2. Place a Railway Buffer at both endpoints. (buffers are always needed, 
-   they store the route and timing information)
-3. Give both Railway Buffers unique station names, like Oxford and Cambridge
-4. Place a Minecart at a buffer and give it a cart number (1..999)
-5. Drive from buffer to buffer in both directions using the Minecart(!) to record the 
-   routes (use 'right-left' keys to control the Minecart)
-6. Punch the buffers to check the connection data (e.g. "Oxford: connected to Cambridge")
-7. Optional: Configure the Minecart waiting time in both buffers. The Minecart
-   will then start automatically after the configured time
-8. Optional: Protect your rail network with the Protection Landmarks (one Landmark 
-   at least every 16 nodes/meters)
-9. Place a Minecart in front of the buffer and check whether it starts after the 
-   configured time
-10. Check the cart state via the chat command: `/mycart <num>`
-    `<num>` is the cart number, or get a list of carts with `/mycart`
-11. Drop items into the Minecart and punch the cart to start it, or "sneak+click" the 
-    Minecart to get cart and items back
-12. Dig the cart with 'sneak+click' (as usual). The items will be drop down.
-13. To retrieve lost carts, use the chat command: /stopcart <num>
-
-
-
 ## Manual
 
 see [Wiki](https://github.com/joe7575/minecart/wiki)
-
 
 
 ## Command Interface
@@ -128,10 +99,7 @@ The Cart Terminal has a Beduino command interface with the commands:
 | Distance | 130   | [cart-id] | [distance] | Returns the distance from the cart to the Cart Terminal |
 
 
-
-
-History
--------
+# History
 
 2019-04-19  v0.01  first commit  
 2019-04-21  v0.02  functional, with junctions support  
@@ -156,4 +124,5 @@ History
 2021-09-02  V2.01  Chat command /stopcart added  
 2021-10-18  V2.02  Cart reproduction bug fixed  
 2023-01-04  V2.03  Techage and Beduino command interface added  
-2023-02-05  V2.04  New API functions added, EOL blanks removed
+2023-02-05  V2.04  New API functions added, EOL blanks removed  
+2023-08-25  V2.05  Support for doclib added  

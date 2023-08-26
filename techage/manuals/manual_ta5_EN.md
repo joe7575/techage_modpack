@@ -38,11 +38,17 @@ With the corner magnets on the inside of the ring, one connection side is covere
 
 The pump is required to fill the cooling circuit with isobutane. About 350 units of isobutane are required.
 
+Note: The TA5 pump can only be used to fill the cooling circuit, pumping out the coolant is not possible. Therefore, the pump should not be switched on until the magnets are correctly placed and all power and cooling lines are connected.
+
 [ta5_pump|image]
 
 #### TA5 Heat Exchanger
 
 The TA5 Heat Exchanger is required to convert the heat generated in the fusion reactor first to steam and then to electricity. The Heat Exchanger itself requires 5 ku electricity. The structure is similar to the Heat Exchanger of the energy store from TA4.
+
+Note: The TA5 Heat Exchanger has two connections (blue and green) for the cooling circuit. The heat exchanger and all magnets must be connected to form a cooling circuit via the green and blue pipes.
+
+The cooling circuit can be checked for completeness using the start button on the heat exchanger, even if no coolant has yet been filled in.
 
 [ta5_heatexchanger|plan]
 
@@ -78,7 +84,7 @@ The TA5 Flight Controller is similar to the TA4 Move Controller. In contrast to 
 
 With the "Test" button, the flight route with the absolute coordinates is output for checking in the chat.
 
-The maximum distance for the entire flight distance is 500 m.
+The maximum distance for the entire flight distance is 1500 m. Up to 32 blocks can be trained.
 
 The use of the TA5 Flight Controller requires 40 experience points.
 

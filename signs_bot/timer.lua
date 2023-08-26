@@ -123,6 +123,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		elseif cycle_time == 0 then
 			minetest.get_node_timer(pos):stop()
 			mem.time = 0
+			mem.running = false
 			meta:set_int("cycle_time", 0)
 		end
 	end

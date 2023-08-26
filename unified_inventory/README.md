@@ -71,6 +71,9 @@ From http://www.clker.com (Public Domain, CC-BY-4.0):
   * [`ui_pencil_icon.pnc`](http://www.clker.com/clipart-2256.html)
   * [`ui_waypoint_set_icon.png`](http://www.clker.com/clipart-larger-flag.html)
 
+From https://www.svgrepo.com (CC-BY)
+  * [`ui_teleport.png`](https://www.svgrepo.com/svg/321565/teleport)
+
 Everaldo Coelho (YellowIcon) (LGPL v2.1+):
 
   * [`ui_craftguide_icon.png` / `ui_craft_icon.png`](http://commons.wikimedia.org/wiki/File:Advancedsettings.png)

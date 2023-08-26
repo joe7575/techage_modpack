@@ -15,6 +15,7 @@
 local S = signs_bot.S
 
 local lib = signs_bot.lib
+local not_farming_redo = farming.mod ~= "redo"
 
 local bot_inv_put_item = signs_bot.bot_inv_put_item
 local bot_inv_take_item = signs_bot.bot_inv_take_item
@@ -47,6 +48,9 @@ local function planting(base_pos, mem, slot)
 						minetest.set_node(pos, {name = item})
 					end
 					minetest.sound_play("default_place_node", {pos = pos, gain = 1.0})
+					if not_farming_redo then
+						minetest.get_node_timer(pos):start(math.random(166, 286))
+					end
 				else
 					bot_inv_put_item(base_pos, 0,  ItemStack(plant))
 				end

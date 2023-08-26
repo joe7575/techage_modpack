@@ -8,7 +8,7 @@
 	GPLv3
 	See LICENSE.txt for more information
 
-	Signs Bot: Bot Flap
+	Signs Bot: Ingame Documentation
 
 ]]--
 

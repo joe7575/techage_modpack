@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.15
+techage.version = 1.17
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -30,8 +30,8 @@ elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
 elseif minetest.global_exists("minecart") and minecart.version < 2.04 then
 	minetest.log("error", "[techage] Techage requires minecart version 2.04 or newer!")
 	return
-elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
-	minetest.log("error", "[techage] Techage requires lcdlib version 1.01 or newer!")
+elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.03 then
+	minetest.log("error", "[techage] Techage requires lcdlib version 1.03 or newer!")
 	return
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")
@@ -52,7 +52,6 @@ techage.NodeDef = {}		-- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
 
-techage.basalt_stone_enabled = minetest.settings:get_bool("techage_basalt_stone_enabled") ~= false
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
 techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -28
@@ -109,12 +108,9 @@ dofile(MP.."/basis/teleport.lua")
 dofile(MP.."/basis/fly_lib.lua")
 
 -- Main doc
-dofile(MP.."/doc/manual_DE.lua")
-dofile(MP.."/doc/manual_EN.lua")
+dofile(MP.."/doc/guide.lua")
 dofile(MP.."/doc/plans.lua")
 dofile(MP.."/doc/items.lua")
-dofile(MP.."/doc/guide.lua")  -- construction guides
-dofile(MP.."/doc/manual_api.lua")  -- external API
 
 dofile(MP.."/items/filling.lua")
 
@@ -290,8 +286,12 @@ dofile(MP.."/logic/logic_block.lua")  -- new
 dofile(MP.."/logic/node_detector.lua")
 dofile(MP.."/logic/light_detector.lua")
 dofile(MP.."/logic/player_detector.lua")
+dofile(MP.."/logic/gaze_sensor.lua")
+dofile(MP.."/logic/command_converter.lua")
+dofile(MP.."/logic/flipflop.lua")
 dofile(MP.."/logic/mba_detector.lua")
 dofile(MP.."/logic/cart_detector.lua")
+dofile(MP.."/logic/charge_detector.lua")
 dofile(MP.."/logic/collector.lua")
 dofile(MP.."/logic/button_2x.lua")
 dofile(MP.."/logic/button_4x.lua")

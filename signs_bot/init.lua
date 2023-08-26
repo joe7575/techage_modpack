@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -15,7 +15,7 @@
 signs_bot = {}
 
 -- Version for compatibility checks, see readme.md/history
-signs_bot.version = 1.12
+signs_bot.version = 1.13
 
 -- Test for MT 5.4 new string mode
 signs_bot.CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true
@@ -75,5 +75,6 @@ dofile(MP.."/timer.lua")
 dofile(MP.."/delayer.lua")
 dofile(MP.."/logic_and.lua")
 dofile(MP.."/compost.lua")
-
+dofile(MP.."/manual.lua")
 dofile(MP.."/tool.lua")
+

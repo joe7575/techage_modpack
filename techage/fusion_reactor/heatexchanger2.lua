@@ -93,7 +93,10 @@ sched.register(tSched, CALL_RATE1, 1, function(pos)
 		return true
 	end)
 sched.register(tSched, CALL_RATE1, 2, function(pos)
-		local resp = heatexchanger1_cmnd(pos, "test_gas_blue")
+		local resp = heatexchanger1_cmnd(pos, "test_pipe_blue")
+		if type(resp) ~= "table" then
+			return DESCRIPTION .. S(" Error!")
+		end
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECT_BLUE then
 			return S("Blue pipe connection error\n(@1 found / @2 expected)", cnt, EXPECT_BLUE)
@@ -101,14 +104,30 @@ sched.register(tSched, CALL_RATE1, 2, function(pos)
 		return true
 	end)
 sched.register(tSched, CALL_RATE1, 3, function(pos)
-		local resp = heatexchanger3_cmnd(pos, "test_gas_green")
+		local resp = heatexchanger3_cmnd(pos, "test_pipe_green")
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECT_GREEN then
 			return S("Green pipe connection error\n(@1 found / @2 expected)", cnt, EXPECT_GREEN)
 		end
 		return true
 	end)
-sched.register(tSched, CALL_RATE2, 4, function(pos)
+sched.register(tSched, CALL_RATE1, 4, function(pos)
+		local resp = heatexchanger1_cmnd(pos, "test_gas_blue")
+		local cnt = count_trues(resp)
+		if cnt ~= EXPECT_BLUE then
+			return S("Blue pipe coolant missing\n(@1 found / @2 expected)", cnt, EXPECT_BLUE)
+		end
+		return true
+	end)
+sched.register(tSched, CALL_RATE1, 5, function(pos)
+		local resp = heatexchanger3_cmnd(pos, "test_gas_green")
+		local cnt = count_trues(resp)
+		if cnt ~= EXPECT_GREEN then
+			return S("Green pipe coolant missing\n(@1 found / @2 expected)", cnt, EXPECT_GREEN)
+		end
+		return true
+	end)
+sched.register(tSched, CALL_RATE2, 6, function(pos)
 		local resp = heatexchanger3_cmnd(pos, "dec_power")
 		local cnt = count_trues(resp)
 		--print("dec_power", cnt)
@@ -123,7 +142,7 @@ local function can_start(pos, nvm)
 		return S("No power")
 	end
 	heatexchanger3_cmnd(pos, "rst_power")
-	for i = 0,4 do
+	for i = 0,6 do
 		local res = tSched[i](pos)
 		if res ~= true and res ~= 1 then return res end
 	end
@@ -167,7 +186,7 @@ local State = techage.NodeStates:new({
 	node_name_passive = "techage:ta5_heatexchanger2",
 	cycle_time = CYCLE_TIME,
 	infotext_name = DESCRIPTION,
-	standby_ticks = 0,
+	standby_ticks = 1,
 	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,

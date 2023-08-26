@@ -166,7 +166,7 @@ end
 
 local function valid_payload(payload)
     if not payload then return false end
-    if not type(payload) == "table" then return false end
+    if type(payload) ~= "table" then return false end
     if not payload.get then return false end
     if not payload.next then return false end
     return true

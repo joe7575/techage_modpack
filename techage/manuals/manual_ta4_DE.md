@@ -215,7 +215,7 @@ Der Trenntransformator kann bis zu 300 ku übertragen. Der Maximalwert ist über
 
 ### TA4 Stromzähler / TA4 Electric Meter
 
-Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando `consumption` durch einen Lua Controller abgefragt werden.
+Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die durchgeleitete Menge an elektrischer Energie (in kud) wird gemessen und angezeigt. Dieser Wert kann auch über das Kommando `consumption` durch einen Lua Controller abgefragt werden. Die aktuelle Stromstärke kann über `current` abgefragt werden.
 
 Der Stromzähler kann bis zu 200 ku durchleiten. Der Maximalwert ist über das Schraubenschlüsselmenü einstellbar.
 
@@ -412,6 +412,8 @@ Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden, also a
 
 Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.
 
+Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
+
 Das Display wird maximal ein mal pro Sekunde aktualisiert.
 
 [ta4_display|image]
@@ -419,6 +421,8 @@ Das Display wird maximal ein mal pro Sekunde aktualisiert.
 ### TA4 Display XL
 
 Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.
+
+Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
 
 Das Display wird maximal alle zwei Sekunden aktualisiert.
 
@@ -534,6 +538,33 @@ Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zu
 
 [ta4_detector|image]
 
+### TA4 Block Detektor / Node Detector
+
+Die Funktionalität ist gleich wie beim TA3 Block Detektor. 
+
+Im Unterschied zum TA3 Block Detektor können hier die Positionen, die überwacht werden sollen, individuell konfiguriert werden. Dazu muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, von denen die Position überprüft werden soll. Danach muss der "Fertig" Button gedrückt werden.  
+
+Es können bis zu 4 Blöcke ausgewählt werden. 
+
+[ta4_nodedetector|image]
+
+### TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector
+
+Der Ladungsdetektor misst alle 8 s den Ladezustand des Energiespeichers des Stromnetzwerkes.
+
+Fällt der Wert unter eine konfigurierbare Schwelle  (Schaltpunkt), wird ein Kommando (default: "off") versendet. Steigt der Wert wieder über diesen Schaltpunkt, so wird ein zweites Kommando (default: "on") gesendet. Damit lassen sich Verbraucher vom Netz trennen, wenn der Ladezustand des Energiespeichers unter den angegebenen Schaltpunkt sinkt.
+
+Der Ladungsdetektor muss dazu über eine Verteilerdose an das Stromnetz angeschlossen werden. Die Konfiguration des Ladungsdetektors erfolgt über das Gabelschlüsselmenü.
+
+[ta4_chargedetector|image]
+
+### TA4 Blicksensor / Gaze Sensor 
+
+Der TA4 Blicksensor generiert ein Kommando, wenn der Block vom Besitzer oder anderen konfigurierten Spielern angesehen/fokussiert wird und sendet ein zweites Kommando, wenn der Block nicht mehr fokussiert wird. Er dient damit als Ersatz für Taster/Schalter, um bspw. Türen zu öffnen/schließen.
+
+Der TA4 Blicksensor kann nur mit dem Gabelschlüsselmenü programmiert werden. Hat man einen Gabelschlüssel in der Hand, löst der Sensor nicht aus, auch wenn dieser fokussiert wird.
+
+[ta4_gaze_sensor|image]
 
 ### TA4 Sequenzer
 
@@ -983,9 +1014,3 @@ Aber nicht alle Zutaten/Materialien der Rezepte lassen sich recyclen:
 Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.
 
 [ta4_recycler|image]
-
-### TA4 Item Durchlaufbegrenzer / Item Flow Limiter
-
-Die Funktion entspricht der von TA3.  
-
-[ta4_item_flow_limiter_pas|image]

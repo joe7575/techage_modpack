@@ -40,6 +40,7 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
     - [Simple Calculator](#Simple-Calculator)
     - [Welcome Display](#Welcome-Display)
     - [Sensor Chest](#Sensor-Chest)
+    - [Read the "TA4 4x Button"](#Read-the-TA4-4x-Button)
     - [Emails](#Emails)
 
 
@@ -277,7 +278,7 @@ table = Store()
 player_name = "unknown"
 
 # reset blocks
-$clear_screen("123")      -- "123" is the number of the display
+$clear_screen("123")      -- "123" is the number-string of the display
 $send_cmnd("2345", "off")  -- turn off the blocks with the number "2345"
 ```
 
@@ -335,7 +336,7 @@ In addition to Lua standard function the Lua Controller provides the following f
 - `get_gametime()` - Returns the time, in seconds, since the world was created
 - `$time_as_str()` - Read the time of day (ingame) as text string in 24h format, like "18:45"
 - `$time_as_num()` - Read the time of day (ingame) as integer number in 24h format, like 1845
-- `$get_input(num)` - Read an input value provided by an external block with the given number _num_. The block has to be configured with the number of the controller to be able to send status messages (on/off commands) to the controller.  _num_ is the number of the remote block, like "1234".
+- `$get_input(num)` - Read an input value provided by an external block with the given number _num_. The block has to be configured with the number of the controller to be able to send status messages (on/off commands) to the controller.  _num_ is the number (data type string) of the remote block, like "1234".
 
 #### Input Example
 - A Player Detector with number "456" is configured to send on/off commands to the TA4 Lua Controller  with number "345".
@@ -358,30 +359,33 @@ Please note, that this is not a technical distinction, only a logical.
 -  The result is block dependent (see table below)
 
 
-| ident        | returned data                                                | comment                                                      |
-| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| "state"      | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines                 |
-| "state"      | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
-| "state"      | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
-| "state"      | one of: "on", "off"                                          | State of a TA4 Button                                        |
-| "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
-| "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a accu, or battery block. |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank or silo. <br />Silo and tank return two values: <br />The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
-| "load"       | number                                                       | Read the grid storage amount in percent  (0..100) from a TA3 Power Terminal. |
-| "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
-| "flowrate"   | Total flow rate in liquid units                              | Only for TA4 Pumps                                           |
-| "action"     | player-name, action-string                                   | Only for Sensor Chests                                       |
-| "stacks"     | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
-| "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
-| "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
-| "count"      | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
-| "count"      | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
-| "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
-| "output"     | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
-| "input"      | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
-| "name"       | \<player name>                                               | Player name of the TA3/TA4 Player Detector or TA4 Button     |
-| "time"       | number                                                       | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
+| ident         | returned data                                                | comment                                                      |
+| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| "state"       | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines                 |
+| "state"       | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
+| "state"       | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
+| "state"       | one of: "on", "off"                                          | State of a TA4 Button                                        |
+| "fuel"        | number                                                       | fuel value of a fuel consuming block                         |
+| "depth"       | number                                                       | Read the current depth value of a quarry block (1..80)       |
+| "load"        | number                                                       | Read the load value in percent  (0..100) of a accu, or battery block. |
+| "load"        | number                                                       | Read the load value in percent  (0..100) of a tank or silo. <br />Silo and tank return two values: <br />The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
+| "load"        | number                                                       | Read the grid storage amount (state of charge) in percent  (0..100) from a TA3 Power Terminal. |
+| "delivered"   | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
+| "flowrate"    | Total flow rate in liquid units                              | Only for TA4 Pumps                                           |
+| "action"      | player-name, action-string                                   | Only for Sensor Chests                                       |
+| "stacks"      | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
+| "count"       | number                                                       | Read the item counter of the TA4 Item Detector block         |
+| "count"       | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
+| "count"       | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
+| "count"       | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
+| "itemstring"  | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
+| "output"      | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
+| "input"       | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
+| "name"        | \<player name>                                               | Player name of the TA3/TA4 Player Detector or TA4 Button     |
+| "time"        | number                                                       | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
+| "consumption" | number                                                       | TA4 Electric Meter: Amount of electrical energy passed through |
+| "countdown"   | number                                                       | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
+| "current"     | number                                                       | TA4 Electric Meter: Current flow of electricity (current)    |
 
 
 
@@ -442,8 +446,8 @@ In contrast the Controller can send text strings to the terminal.
 
 Messages are used to transport data between Controllers. Messages can contain arbitrary data. Incoming messages are stored in order (up to 10) and can be read one after the other.
 
-* `$get_msg([raw])` - Read a received message. The function returns the sender number and the message. (see example "Emails"). If the _raw_ parameter is not set or false, the message is guaranteed to be a string.
-* `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number. (see example "Emails")
+* `$get_msg([raw])` - Read a received message. The function returns the sender number as string and the message. (see example "Emails"). If the _raw_ parameter is not set or false, the message is guaranteed to be a string.
+* `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number as string. (see example "Emails")
 
 ### Further Functions
 
@@ -650,6 +654,45 @@ if event and $get_input(SENSOR) == "on" then
     end
     $print("")
 end
+```
+
+
+
+### Read the "TA4 4x Button"
+
+For the `$get_input(...)` function, the Lua controller expects received `on`/`off` commands. However, the "TA4 4x Button" is not able to send an `on` command followed by an `off` command.  To be able to receive commands from "TA4 4x Button", the `$get_msg()` function has to be used.
+
+Therefore, the "TA4 4x Button" (Type set to "button") has to be programmed with commands like: `msg 1`, `msg 2`, `msg 3`, `msg 4`.
+
+The following example demonstrates receiving "TA4 4x Button" commands:
+
+init() code:
+
+```lua
+$events(true)
+$loopcycle(0)
+
+BUTTON = "372"   -- "TA4 4x Button" number, to be adapted!
+```
+
+loop() code:
+
+```lua
+if event then
+    num,text = $get_msg()
+    if num == BUTTON then
+        $print("button: " .. text)
+    end
+end
+```
+
+If the buttons are pressed, the "outp" window of the Lua controller will look like:
+
+```
+button: 1
+button: 4
+button: 3
+button: 2
 ```
 
 
