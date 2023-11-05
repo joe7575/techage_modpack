@@ -103,6 +103,8 @@ function networks.hide_node(pos, node, placer)
 		local ndef = minetest.registered_nodes[taken:get_name()]
 		if ndef.paramtype2 and ndef.paramtype2 == "facedir" then
 			param2 = minetest.dir_to_facedir(placer:get_look_dir(), true)
+		elseif ndef.paramtype2 and ndef.paramtype2 == "color" then
+			param2 = taken:get_meta():get_int("palette_index")
 		end
 		minetest.swap_node(pos, {name = taken:get_name(), param2 = param2})
 		inv:set_stack("main", 1, stack)
@@ -121,8 +123,13 @@ function networks.open_node(pos, node, placer)
 	minetest.swap_node(pos, {name = name, param2 = param2 % 32 + M(pos):get_int("netw_color_param2")})
 	local meta = M(pos)
 	meta:set_string("netw_name", "")
+	local stack = ItemStack(node.name)
 	local inv = placer:get_inventory()
-	inv:add_item("main", ItemStack(node.name))
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef and ndef.paramtype2 == "color" then
+		stack:get_meta():set_int("palette_index", node.param2)
+	end
+	inv:add_item("main", stack)
 	return true
 end
 

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -66,6 +66,21 @@ local function count_index(invlist)
 		end
 	end
 	return index
+end
+
+local function flush_input_inventory(pos)
+	local inv = M(pos):get_inventory()
+	if not inv:is_empty("src") then
+		for idx = 1, 16 do
+			local stack = inv:get_stack("src", idx)
+			if not inv:room_for_item("dst", stack) then
+				return false
+			end
+			inv:add_item("dst", stack)
+			inv:set_stack("src", idx, nil)
+		end
+	end
+	return true
 end
 
 -- caches some recipe data
@@ -224,13 +239,18 @@ local function on_output_change(pos, inventory, stack)
 end
 
 local function determine_recipe_items(pos, input)
-	if input and type(input) == "string" then
-		-- Test if "<node-number>.<recipe-number>" input
-		local num, idx = unpack(string.split(input, ".", false, 1))
-		if num and idx then
-			input = get_input_from_recipeblock(pos, num, idx)
-		end
+	local num, idx
 
+	if input and type(input) == "string" then  -- Lua controller
+		-- Test if "<node-number>.<recipe-number>" input
+		num, idx = unpack(string.split(input, ".", false, 1))
+	elseif input and type(input) == "table" then  -- Beduino
+		num = tostring(input[1] * 65536 + input[2])
+		idx = tostring(input[3])
+	end
+
+	if num and idx then
+		input = get_input_from_recipeblock(pos, num, idx)
 		if input then
 			-- "<item>,<item>,..." input
 			local items = string.split(input, ",", true, 8)
@@ -243,27 +263,23 @@ end
 
 local function on_new_recipe(pos, input)
 	local items = determine_recipe_items(pos, input)
+	local inv = M(pos):get_inventory()
 	if items then
-		input = {
-			method = "normal",
-			width = 3,
-			items = items,
-		}
-		local output, _ = minetest.get_craft_result(input)
-		if output.item:get_name() ~= "" then
-			local inv = M(pos):get_inventory()
-			for i = 1, 9 do
-				inv:set_stack("recipe", i, input.items[i])
-			end
-			after_recipe_change(pos, inv)
+		for i = 1, 9 do
+			inv:set_stack("recipe", i, items[i])
 		end
 	else
-		local inv = M(pos):get_inventory()
 		inv:set_list("recipe", {})
-		after_recipe_change(pos, inv)
+	end
+	local hash = minetest.hash_node_position(pos)
+	autocrafterCache[hash] = nil
+	local craft = get_craft(pos, inv, hash)
+	if craft.output and craft.output.item then
+		inv:set_stack("output", 1, craft.output.item)
+	else
+		inv:set_stack("output", 1, nil)
 	end
 end
-
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "output" then
@@ -443,18 +459,35 @@ local tubing = {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "recipe" and CRD(pos).stage == 4 then
 			if payload and payload ~= "" then
-				local inv = M(pos):get_inventory()
 				on_new_recipe(pos, payload)
 				return true
 			else
 				local inv = M(pos):get_inventory()
 				return inv:get_stack("output", 1):get_name()
 			end
+		elseif topic == "flush" and CRD(pos).stage == 4 then
+			return flush_input_inventory(pos)
 		elseif topic == "info" and CRD(pos).stage == 4 then
 			return INFO
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 10 and CRD(pos).stage == 4 then
+			on_new_recipe(pos, payload)
+			return 1, ""
+		elseif topic == 11 and CRD(pos).stage == 4 then
+			if flush_input_inventory(pos) then
+				return 1, ""
+			else
+				return 0, ""
+			end
+		end
+		return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)

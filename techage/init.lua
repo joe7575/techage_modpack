@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.17
+techage.version = 1.18
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -166,6 +166,7 @@ dofile(MP.."/steam_engine/flywheel.lua")
 dofile(MP.."/ta2_energy_storage/ta2_rope.lua")
 dofile(MP.."/ta2_energy_storage/ta2_winch.lua")
 dofile(MP.."/ta2_energy_storage/ta2_weight_chest.lua")
+dofile(MP.."/ta2_energy_storage/ta2_clutch.lua")
 
 -- Liquids I
 dofile(MP.."/liquids/liquid_pipe.lua")
@@ -225,7 +226,8 @@ dofile(MP.."/furnace/recipes.lua")
 
 -- Tools
 dofile(MP.."/tools/trowel.lua")
-dofile(MP.."/tools/repairkit.lua")
+dofile(MP.."/tools/end_wrench.lua")
+dofile(MP.."/tools/assembly_tool.lua")
 dofile(MP.."/tools/pipe_wrench.lua")
 dofile(MP.."/basic_machines/blackhole.lua")
 dofile(MP.."/basic_machines/forceload.lua")

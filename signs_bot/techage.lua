@@ -18,7 +18,7 @@ local S = signs_bot.S
 local MAX_CAPA = signs_bot.MAX_CAPA
 local PWR_NEEDED = 8
 
-if minetest.get_modpath("techage") then
+if minetest.global_exists("techage") then
 
 	local function on_power(pos)
 		local mem = tubelib2.get_mem(pos)
@@ -361,6 +361,8 @@ send_cmnd 3465 pull*default:dirt*2]]),
 	techage.register_node_for_v1_transition({"signs_bot:box"}, function(pos, node)
 		power.update_network(pos, nil, Cable)
 	end)
+
+	techage.disable_block_for_assembly_tool("signs_bot:box")
 else
 	function signs_bot.formspec_battery_capa(max_capa, current_capa)
 		return ""

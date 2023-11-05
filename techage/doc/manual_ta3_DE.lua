@@ -20,7 +20,7 @@ return {
     "3,TA Stromschalter klein / Power Switch Small",
     "3,TA Stromschalterbox / Power Switch Box",
     "3,TA3 Kleiner Stromgenerator / Tiny Power Generator",
-    "3,TA3 Akku Block /  Akku Box",
+    "3,TA3 Akku Block /  TA3 Accu Box",
     "3,TA3 Strom Terminal / Power Terminal",
     "3,TA3 Elektromotor / TA3 Electric Motor",
     "2,TA3 Industrieofen",
@@ -84,7 +84,8 @@ return {
     "3,TechAge Programmer",
     "3,TechAge Kelle / Trowel",
     "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
-    "3,Techage Schraubendreher",
+    "3,Techage Schraubendreher / Screwdriver",
+    "3,TechAge Montagewerkzeug / Assembly Tool",
   },
   texts = {
     "Bei TA3 gilt es\\, die Dampf-betriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
@@ -436,7 +437,10 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Neben den Röhren für Warentransport\\, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene\\, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden\\, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. Alle Blöcke\\, die an dieser Kommunikation teilnehmen können\\, zeigen die Blocknummer als Info-Text an\\, wenn man mit dem Mauscursor den Block fixiert.\n"..
+    "Neben den Röhren für Warentransport\\, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene\\, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden\\, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. \n"..
+    "\n"..
+    "*Info:* Eine *Blocknummer* ist eine eindeutige Zahl\\, die von Techage beim Setzen von vielen Techage Blöcken generiert wird. Die Blocknummer dient zur Adressierung bei der Kommunikation zwischen Techage Controllern und Maschinen. Alle Blöcke\\, die an dieser Kommunikation teilnehmen können\\, zeigen die Blocknummer als Info-Text an\\, wenn man mit dem Mauscursor den Block fixiert.\n"..
+    "\n"..
     "Welche Kommandos ein Block unterstützt\\, kann mit dem TechAge Info Werkzeug (Schraubenschlüssel) ausgelesen und angezeigt werden.\n"..
     "Die einfachsten Kommandos\\, die von fast allen Blöcken unterstützt werden\\, sind:\n"..
     "\n"..
@@ -741,6 +745,15 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Das TechAge Montagewerkzeug dient zum Entfernen und wieder Setzen von Techage Blöcken\\, ohne dass diese Blöcke ihre Blocknummer verlieren\\, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich\\, da diese oft umgesetzt werden müssen.\n"..
+    "\n"..
+    "  - Linke Taste: Entfernen eines Blocks\n"..
+    "  - Rechte Taste: Setzen eines Blocks\n"..
+    "\n"..
+    "Der Block\\, der zuvor mit dem Montagewerkzeug entfernt wurde und wieder gesetzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
+    "\n"..
+    "\n"..
+    "\n",
   },
   images = {
     "techage_ta3",
@@ -828,6 +841,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
+    "techage:assembly_tool",
   },
   plans = {
     "",
@@ -877,6 +891,7 @@ return {
     "",
     "",
     "ta3_distiller",
+    "",
     "",
     "",
     "",

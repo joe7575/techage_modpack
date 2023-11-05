@@ -1,5 +1,5 @@
 # textdomain: ta4_jetpack
-You are too heavy: Check your bags!=
+You are too heavy: Please remove your bags!=
 You are too heavy: Check your crafting menu!=
 You are too heavy: Check your inventory!=
 You may not transport @1 with a jetpack!=
@@ -11,3 +11,9 @@ TA4 Jetpack Controller On=
 TA4 Jetpack Controller Off=
 TA4 Jetpack=
 Jetpack Training Mat=
+
+
+##### not used anymore #####
+
+# textdomain: ta4_jetpack
+You are too heavy: Check your bags!=

@@ -12,6 +12,7 @@ return {
     "2,TA2 energy storage",
     "3,TA2 Winch",
     "3,TA2 Weight Chest",
+    "3,TA2 Clutch",
     "2,Push and sort items",
     "3,TechAge Tube",
     "3,Tube Concentrator",
@@ -97,11 +98,17 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. The maximum rope length is 10 blocks. \n"..
+    "The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. \n"..
+    "When assembling the cable winch\\, make sure that the arrow on the top of the block points to the gearbox.\n"..
+    "The maximum rope length is 10 blocks. \n"..
     "\n"..
     "\n"..
     "\n",
     "This chest must be placed under the winch with a distance of up to 10 blocks and filled with cobblestone\\, gravel or sand. If the minimum weight of a stack (99+ items) is reached and there is excess energy\\, the box is automatically connected to the winch via a rope and pulled up. \n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "With the clutch\\, axles and machines can be separated from the energy storage. This means that the axles after the clutch come to a standstill and machine systems can be rebuilt. When assembling the clutch\\, make sure that the arrow on the top of the block points to the energy storage system.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -245,6 +252,7 @@ return {
     "",
     "ta2_winch",
     "ta2_weight_chest",
+    "techage:ta2_clutch_off",
     "",
     "tube",
     "concentrator",
@@ -275,6 +283,7 @@ return {
     "",
     "",
     "ta2_storage",
+    "",
     "",
     "",
     "itemtransport",

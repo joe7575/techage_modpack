@@ -70,6 +70,7 @@ return {
     "2,TA4 Collider (Particle Accelerator)",
     "3,Detector",
     "3,Control / TA4 Terminal",
+    "3,Cooling and power",
     "3,Construction",
     "2,More TA4 Blocks",
     "3,TA4 Recipe Block",
@@ -636,8 +637,6 @@ return {
     "\n"..
     "  - The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.\n"..
     "  - 22 TA4 Collider Magnets (not the TA4 Collider Detector Magnets!) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.\n"..
-    "  - In addition\\, cooling is required\\, which must also be installed at the detector. Isobutane is required for cooling.\n"..
-    "  - The system requires quite a bit of electricity. Therefore\\, it makes sense to have your own power supply.\n"..
     "\n"..
     "The plan shows the facility from above:\n"..
     "\n"..
@@ -657,6 +656,9 @@ return {
     "Note: The arrow on the heat exchanger must point away from the detector. The heat exchanger must also be supplied with electricity.\n"..
     "\n"..
     "\n"..
+    "\n"..
+    "  - In addition\\, cooling is required\\, which must also be installed at the detector. Isobutane is required for cooling.\n"..
+    "  - The system requires quite a bit of electricity. Therefore\\, it makes sense to have your own power supply.\n"..
     "\n",
     "The collider is controlled via a TA4 terminal (not via the TA4 Lua controller terminal).\n"..
     "\n"..
@@ -674,11 +676,15 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "In addition to the building blocks\\, the following is required for the collider:\n"..
+    "Each TA4 Collider magnet must also be supplied with electricity (as shown on the right in the plan) and with Isobutane for cooling:\n"..
     "\n"..
-    "  - electricity (145 ku)\n"..
-    "  - TA4 tank with at least 250 units of isobutane\n"..
+    "  - The connection for the power is on the top of the magnet.\n"..
+    "  - The connection for the cooling is on the front of the magnet.\n"..
+    "  - A TA4 pump and a TA4 tank with at least 250 units of isobutane are also required to cool the entire system.\n"..
+    "  - The system also requires a lot of electricity. It therefore makes sense to have your own power supply with at least 145 ku.\n"..
     "\n"..
+    "\n"..
+    "\n",
     "The following sequence is recommended when setting up the collider:\n"..
     "\n"..
     "  - Put a forceload block. Only the detector with the cooling system has to be in the area of ​​the forceload block.\n"..
@@ -711,11 +717,13 @@ return {
     "\n"..
     "In addition\\, the TA4 Autocrafter supports the selection of different recipes using the following commands:\n"..
     "\n"..
-    "'recipe <number>.<index>' switches the autocrafter to a recipe from the TA4 Recipe Block. '<number>' is the number of the recipe block\\, '<index>' the recipe number. Example: '$send_cmnd(1234\\, \"recipe\"\\, 5467.1)'\n"..
+    "'recipe \"<number>.<index>\"' switches the autocrafter to a recipe from the TA4 Recipe Block. '<number>' is the number of the recipe block\\, '<index>' the recipe number. Example: '$send_cmnd(1234\\, \"recipe\"\\, \"5467.1\")'\n"..
     "\n"..
     "Alternatively\\, a recipe can also be selected via the list of ingredients\\, such as:\n"..
     "'$send_cmnd(1234\\, \"recipe\"\\, \"default:coal_lump\\,\\,\\,default:stick\")'\n"..
     "All technical names of a recipe must be specified here\\, separated by commas. See also the command 'input' in the TA4 recipe block.\n"..
+    "\n"..
+    "The 'flush' command moves all items from the input inventory to the output inventory. The command returns 'true' if the input inventory was completely emptied. If 'false' was returned (output inventory full)\\, the command must be repeated at a later time.\n"..
     "\n"..
     " \n"..
     "\n",
@@ -798,6 +806,7 @@ return {
     "The chest has an additional command for the Lua controller:\n"..
     "\n"..
     "  - 'count' is used to request how many items are in the chest.\nExample 1: '$send_cmnd(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$send_cmnd(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
+    "  - 'storesize' is used to read the size of one of the eight stores:\nExample: '$send_cmnd(CHEST\\, \"storesize\")' -> function returns e.g. 6000\n"..
     "\n"..
     "\n"..
     "\n",
@@ -925,6 +934,7 @@ return {
     "",
     "",
     "ta4_terminal",
+    "",
     "techage_ta4c",
     "",
     "ta4_recipeblock",
@@ -1018,6 +1028,7 @@ return {
     "techage_collider_plan",
     "ta4_cooler",
     "",
+    "techage_collider_plan2",
     "",
     "",
     "",

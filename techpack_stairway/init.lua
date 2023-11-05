@@ -29,7 +29,7 @@ minetest.register_node("techpack_stairway:grating", {
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{-17/32, -15/32, -17/32,  17/32, -14/32, 17/32}
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 17/32}
 		},
 	},
 
@@ -198,7 +198,7 @@ minetest.register_node("techpack_stairway:bridge1", {
 		type = "fixed",
 		fixed = {
 			{-17/32, -17/32, -17/32, -15/32,  17/32, 17/32},
-			{-17/32, -15/32, -17/32,  17/32, -14/32, 17/32}
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 17/32}
 		},
 	},
 
@@ -232,7 +232,7 @@ minetest.register_node("techpack_stairway:bridge2", {
 		fixed = {
 			{ 15/32, -17/32, -17/32,  17/32,  17/32, 17/32},
 			{-17/32, -17/32, -17/32, -15/32,  17/32, 17/32},
-			{-17/32, -15/32, -17/32,  17/32, -14/32, 17/32}
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 17/32}
 		},
 	},
 
@@ -266,7 +266,7 @@ minetest.register_node("techpack_stairway:bridge3", {
 		fixed = {
 			{-17/32, -17/32,  15/32,  17/32,  17/32, 17/32},
 			{-17/32, -17/32, -17/32, -15/32,  17/32, 17/32},
-			{-17/32, -15/32, -17/32,  17/32, -14/32, 17/32}
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 17/32}
 		},
 	},
 
@@ -301,7 +301,7 @@ minetest.register_node("techpack_stairway:bridge4", {
 			{-17/32, -17/32,  15/32,  17/32,  17/32, 17/32},
 			{ 15/32, -17/32, -17/32,  17/32,  17/32, 17/32},
 			{-17/32, -17/32, -17/32, -15/32,  17/32, 17/32},
-			{-17/32, -15/32, -17/32,  17/32, -14/32, 17/32}
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 17/32}
 		},
 	},
 
@@ -322,8 +322,125 @@ minetest.register_node("techpack_stairway:bridge4", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
+minetest.register_node("techpack_stairway:stairway1", {
+	description = S("TechPack Stairway 1"),
+	tiles = {
+		'techpack_stairway_steps.png',
+		'techpack_stairway_steps.png',
+		'techpack_stairway_side.png',
+	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			--{ 15/32, -1/32,  -1/32,  17/32,  49/32, 17/32},
+			--{-17/32, -1/32,  -1/32, -15/32,  49/32, 17/32},
+			{-17/32, -1/32,  -1/32,  17/32,   1/32, 17/32},
+			
+			--{ 15/32, -17/32, -17/32,  17/32,  33/32, 1/32},
+			--{-17/32, -17/32, -17/32, -15/32,  33/32, 1/32},
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 1/32},
+		},
+	},
+
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-16/32, -16/32, -16/32,  16/32, -10/32,  0/32},
+			{-16/32, -16/32,   0/32,  16/32,   2/32, 16/32},
+		},
+	},
+		
+	--climbable = true,
+	paramtype2 = "facedir",
+	paramtype = "light",
+	use_texture_alpha = CLIP,
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("techpack_stairway:stairway2", {
+	description = S("TechPack Stairway 2"),
+	tiles = {
+		'techpack_stairway_steps.png',
+		'techpack_stairway_steps.png',
+		'techpack_stairway_side.png',
+	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			--{ 15/32, -1/32,  -1/32,  17/32,  49/32, 17/32},
+			{-17/32, -1/32,  -1/32, -15/32,  49/32, 17/32},
+			{-17/32, -1/32,  -1/32,  17/32,   1/32, 17/32},
+			
+			--{ 15/32, -17/32, -17/32,  17/32,  33/32, 1/32},
+			{-17/32, -17/32, -17/32, -15/32,  33/32, 1/32},
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 1/32},
+		},
+	},
+
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-16/32, -16/32, -16/32,  16/32, -10/32,  0/32},
+			{-16/32, -16/32,   0/32,  16/32,   2/32, 16/32},
+		},
+	},
+		
+	--climbable = true,
+	paramtype2 = "facedir",
+	paramtype = "light",
+	use_texture_alpha = CLIP,
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("techpack_stairway:stairway3", {
+	description = S("TechPack Stairway 3"),
+	tiles = {
+		'techpack_stairway_steps.png',
+		'techpack_stairway_steps.png',
+		'techpack_stairway_side.png',
+	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ 15/32, -1/32,  -1/32,  17/32,  49/32, 17/32},
+			--{-17/32, -1/32,  -1/32, -15/32,  49/32, 17/32},
+			{-17/32, -1/32,  -1/32,  17/32,   1/32, 17/32},
+			
+			{ 15/32, -17/32, -17/32,  17/32,  33/32, 1/32},
+			--{-17/32, -17/32, -17/32, -15/32,  33/32, 1/32},
+			{-17/32, -17/32, -17/32,  17/32, -15/32, 1/32},
+		},
+	},
+
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-16/32, -16/32, -16/32,  16/32, -10/32,  0/32},
+			{-16/32, -16/32,   0/32,  16/32,   2/32, 16/32},
+		},
+	},
+		
+	--climbable = true,
+	paramtype2 = "facedir",
+	paramtype = "light",
+	use_texture_alpha = CLIP,
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
 minetest.register_node("techpack_stairway:stairway", {
-	description = S("TechPack Stairway"),
+	description = S("TechPack Stairway 4"),
 	tiles = {
 		'techpack_stairway_steps.png',
 		'techpack_stairway_steps.png',
@@ -591,11 +708,38 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techpack_stairway:stairway 3",
+	output = "techpack_stairway:stairway1 6",
 	recipe = {
 		{"", "", "default:steel_ingot"},
 		{"dye:dark_grey", "default:tin_ingot", "default:coal_lump"},
 		{"default:steel_ingot", "", ""},
+	},
+})
+
+minetest.register_craft({
+	output = "techpack_stairway:stairway2",
+	recipe = {
+		{"", "", ""},
+		{"techpack_stairway:handrail1", "techpack_stairway:stairway1", ""},
+		{"", "", ""},
+	},
+})
+
+minetest.register_craft({
+	output = "techpack_stairway:stairway3",
+	recipe = {
+		{"", "", ""},
+		{"", "techpack_stairway:stairway1", "techpack_stairway:handrail1"},
+		{"", "", ""},
+	},
+})
+
+minetest.register_craft({
+	output = "techpack_stairway:stairway",
+	recipe = {
+		{"", "", ""},
+		{"techpack_stairway:handrail1", "techpack_stairway:stairway1", "techpack_stairway:handrail1"},
+		{"", "", ""},
 	},
 })
 

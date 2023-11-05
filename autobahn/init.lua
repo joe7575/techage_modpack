@@ -14,6 +14,7 @@
 
 ]]--
 local S = minetest.get_translator("autobahn")
+local mod_player_monoids = minetest.get_modpath("player_monoids")
 
 autobahn = {}
 
@@ -39,42 +40,46 @@ local function is_active(player)
 end
 
 local function set_player_privs(player)
-	local physics = player:get_physics_override()
 	local meta = player:get_meta()
 	-- Check access conflicts with other mods
 	if meta:get_int("player_physics_locked") == 0 then
 		meta:set_int("player_physics_locked", 1)
-		if meta and physics then
+		if mod_player_monoids then
+			player_monoids.speed:add_change(player, 3.5, "autobahn:speed")
+		else
+			local physics = player:get_physics_override()
 			-- store the player privs default values
 			meta:set_float("autobahn_speed", physics.speed)
-			-- set operator privs
-			meta:set_int("autobahn_isactive", 1)
 			physics.speed = 3.5
-			minetest.sound_play("autobahn_motor", {
-					pos = player:get_pos(),
-					gain = 0.5,
-					max_hear_distance = 5,
-				})
 			-- write back
 			player:set_physics_override(physics)
 		end
+		-- set operator privs
+		meta:set_int("autobahn_isactive", 1)
+		minetest.sound_play("autobahn_motor", {
+				pos = player:get_pos(),
+				gain = 0.5,
+				max_hear_distance = 5,
+			})
 	end
 end
 
 local function reset_player_privs(player)
-	local physics = player:get_physics_override()
 	local meta = player:get_meta()
-	if meta and physics then
-		-- restore the player privs default values
-		meta:set_int("autobahn_isactive", 0)
+	-- restore the player privs default values
+	meta:set_int("autobahn_isactive", 0)
+	if mod_player_monoids then
+		player_monoids.speed:del_change(player, "autobahn:speed")
+	else
+		local physics = player:get_physics_override()
 		physics.speed = meta:get_float("autobahn_speed")
 		if physics.speed == 0 then physics.speed = 1 end
 		-- delete stored default values
 		meta:set_string("autobahn_speed", "")
 		-- write back
 		player:set_physics_override(physics)
-		meta:set_int("player_physics_locked", 0)
 	end
+	meta:set_int("player_physics_locked", 0)
 end
 
 minetest.register_on_joinplayer(function(player)

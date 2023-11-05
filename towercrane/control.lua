@@ -10,6 +10,7 @@
 ]]--
 
 local DAYS_WITHOUT_USE = 72 * 5
+local mod_player_monoids = minetest.get_modpath("player_monoids")
 
 -- for lazy programmers
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
@@ -69,25 +70,30 @@ end
 
 local function set_operator_privs(player, pos)
 	local privs = minetest.get_player_privs(player:get_player_name())
-	local physics = player:get_physics_override()
 	local meta = player:get_meta()
 	-- Check access conflicts with other mods
 	if meta:get_int("player_physics_locked") == 0 then 
-		if pos and meta and privs and physics then
+		if pos and meta and privs then
 			meta:set_string("towercrane_pos", P2S(pos))
 			-- store the player privs default values
 			meta:set_string("towercrane_fast", privs["fast"] and "true" or "false")
 			meta:set_string("towercrane_fly", privs["fly"] and "true" or "false")
-			meta:set_int("towercrane_speed", physics.speed)
 			-- set operator privs
 			meta:set_int("towercrane_isoperator", 1)
 			meta:set_int("player_physics_locked", 1)
 			privs["fly"] = true
 			privs["fast"] = nil
-			physics.speed = 0.7
-			-- write back
-			player:set_physics_override(physics)
 			minetest.set_player_privs(player:get_player_name(), privs)
+
+			if mod_player_monoids then
+				player_monoids.speed:add_change(player, 0.7, "towercrane:crane")
+			else
+				local physics = player:get_physics_override()
+				meta:set_int("towercrane_speed", physics.speed)
+				physics.speed = 0.7
+				-- write back
+				player:set_physics_override(physics)
+			end
 			return true
 		end
 	end
@@ -96,24 +102,29 @@ end
 
 local function reset_operator_privs(player)
 	local privs = minetest.get_player_privs(player:get_player_name())
-	local physics = player:get_physics_override()
 	local meta = player:get_meta()
-	if meta and privs and physics then
+	if meta and privs then
 		meta:set_string("towercrane_pos", "")
 		-- restore the player privs default values
 		meta:set_int("towercrane_isoperator", 0)
 		meta:set_int("player_physics_locked", 0)
 		privs["fast"] = meta:get_string("towercrane_fast") == "true" or nil
 		privs["fly"] = meta:get_string("towercrane_fly") == "true" or nil
-		physics.speed = meta:get_int("towercrane_speed")
-		if physics.speed == 0 then physics.speed = 1 end
+		minetest.set_player_privs(player:get_player_name(), privs)
 		-- delete stored default values
 		meta:set_string("towercrane_fast", "")
 		meta:set_string("towercrane_fly", "")
-		meta:set_string("towercrane_speed", "")
-		-- write back
-		player:set_physics_override(physics)
-		minetest.set_player_privs(player:get_player_name(), privs)
+
+		if mod_player_monoids then
+			player_monoids.speed:del_change(player, "towercrane:crane")
+		else
+			local physics = player:get_physics_override()
+			physics.speed = meta:get_int("towercrane_speed")
+			meta:set_string("towercrane_speed", "")
+			if physics.speed == 0 then physics.speed = 1 end
+			-- write back
+			player:set_physics_override(physics)
+		end
 	end
 end
 

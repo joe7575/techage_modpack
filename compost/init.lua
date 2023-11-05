@@ -77,7 +77,7 @@ end)
 
 local function next_state(pos, elapsed)
 	local node = minetest.get_node(pos)
-	
+
 	if node.name == "compost:wood_barrel_1" then
 		minetest.swap_node(pos, {name = "compost:wood_barrel_2"})
 	elseif node.name == "compost:wood_barrel_2" then
@@ -102,13 +102,13 @@ end
 local function add_item(pos, stack)
 	local meta = minetest.get_meta(pos)
 	local num = meta:get_int("num") or 0
-	
+
 	if num < NUM_LEAVES then
 		-- add futher leaves
 		meta:set_int("num", num + stack:get_count())
 		stack:set_count(0)
 	end
-	
+
 	start_composter(pos)
 	return stack
 end
@@ -121,7 +121,6 @@ local function minecart_hopper_additem(pos, stack)
 end
 
 local function minecart_hopper_takeitem(pos, num)
-	local node = minetest.get_node(pos)
 	minetest.swap_node(pos, {name = "compost:wood_barrel"})
 	start_composter(pos)
 	return ItemStack("compost:compost")
@@ -152,7 +151,7 @@ minetest.register_node("compost:wood_barrel", {
 		if compost.can_compost(wielded_item) then
 			minetest.swap_node(pos, {name = "compost:wood_barrel_1"})
 			local w = puncher:get_wielded_item()
-			if not(minetest.setting_getbool("creative_mode")) then
+			if not minetest.is_creative_enabled(puncher:get_player_name()) then
 				w:take_item(1)
 				puncher:set_wielded_item(w)
 			end
@@ -180,6 +179,7 @@ minetest.register_node("compost:wood_barrel_1", {
 	paramtype = "light",
 	is_ground_content = false,
 	groups = {choppy = 3, not_in_creative_inventory=1},
+	drop = "compost:wood_barrel",
 	sounds =  default.node_sound_wood_defaults(),
 	on_timer = next_state,
 	minecart_hopper_untakeitem = minecart_hopper_untakeitem,
@@ -201,6 +201,7 @@ minetest.register_node("compost:wood_barrel_2", {
 	paramtype = "light",
 	is_ground_content = false,
 	groups = {choppy = 3, not_in_creative_inventory=1},
+	drop = "compost:wood_barrel",
 	sounds =  default.node_sound_wood_defaults(),
 	on_timer = next_state,
 	minecart_hopper_untakeitem = minecart_hopper_untakeitem,
@@ -222,6 +223,7 @@ minetest.register_node("compost:wood_barrel_3", {
 	paramtype = "light",
 	is_ground_content = false,
 	groups = {choppy = 3, not_in_creative_inventory=1},
+	drop = "compost:wood_barrel",
 	sounds =  default.node_sound_wood_defaults(),
 	on_punch = function(pos, node, player, pointed_thing)
 		local p = {x = pos.x + math.random(0, 5)/5 - 0.5, y = pos.y+1, z = pos.z + math.random(0, 5)/5 - 0.5}
@@ -273,7 +275,7 @@ minetest.register_craft({
 if  minetest.global_exists("techage") then
 	techage.register_node(
 		{
-			"compost:wood_barrel", 
+			"compost:wood_barrel",
 			"compost:wood_barrel_1",
 			"compost:wood_barrel_2",
 			"compost:wood_barrel_3",
@@ -300,6 +302,6 @@ if  minetest.global_exists("techage") then
 			minetest.swap_node(pos, {name = "compost:wood_barrel_2"})
 			return true
 		end,
-	})	
+	})
 end
 

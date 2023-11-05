@@ -740,9 +740,7 @@ Pro Spieler kann nur ein Teilchenbeschleuniger betrieben werden. Es macht also k
 Ein Teilchenbeschleuniger besteht aus einem "Ring" aus Röhren und Magneten sowie dem Detektor mit Kühlanlage. 
 
 - Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.
-- 22 TA4 Collider Magnete (nicht die TA4 Collider Detector Magnete!) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.
-- Zusätzlich wird eine Kühlung benötigt, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Isobutan benötigt.
-- Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.
+- 22 TA4 Collider Magnete (nicht die TA4 Collider Detector Magnete!) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.
 
 Der Plan zeigt die Anlage von oben:
 
@@ -783,14 +781,18 @@ Tritt beim `start` an einem Magneten ein Fehler auf, so wird die Nummer des Magn
 
 [ta4_terminal|image]
 
+### Kühlung und Strom
 
+Jeder TA4 Collider Magnet muss zusätzlich (wie rechts im Plan abgebildet) mit Strom sowie mit Isobutan zur Kühlung versorgt werden:
+
+- Der Anschluss für den Strom ist auf der Oberseite des Magneten.
+- Der Anschluss für die Kühlung ist auf der Vorderseite des Magneten.
+- Für die Kühlung der gesamten Anlage wird zusätzlich eine TA4 Pumpe und ein TA4 Tank mit mindestens 250 Einheiten Isobutan benötigt.
+- Die Anlage benötigt auch einiges an Strom. Daher ist eine eigene Stromversorgung mit mindestens 145 ku sinnvoll.
+
+[techage_collider_plan2|plan]
 
 ### Aufbau
-
-Für den Teilchenbeschleunigers wird außer den Blöcken für den Bau folgendes benötigt:
-
-- Strom (145 ku)
-- TA4 Tank mit mindestens 250 Einheiten Isobutan
 
 Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:
 
@@ -832,11 +834,15 @@ Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Autocrafter benötigt h
 
 Zusätzlich unterstützt der TA4 Autocrafter die Auswahl unterschiedlicher Rezepte über folgende Kommandos:
 
-`recipe <number>.<index>`  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. `<number>` ist die Nummer des Rezept Blocks, `<index>` die Rezept-Nummer. Beispiel: `$send_cmnd(1234, "recipe", 5467.1)`
+`recipe "<number>.<index>"`  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. `<number>` ist die Nummer des Rezept Blocks, `<index>` die Rezept-Nummer. Beispiel: `$send_cmnd(1234, "recipe", "5467.1")`
 
 Alternativ  kann ein Rezept auch über die Zutatenliste ausgewählt werden, wie bspw.:
 `$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
 Hier müssen alle technische Namen eines Rezeptes durch Kommas getrennt angegeben werden. Siehe auch das Kommando `input` beim TA4 Rezept Block.
+
+Das Kommando `flush` verschiebt alle Artikel vom Eingabeinventar in das Ausgabeinventar. Das Kommando liefert `true` zurück, wenn das Eingabeinventar dabei vollständig geleert wurde. Falls `false` zurückgeliefert wurde (Ausgabeinventar voll), muss das Kommando zu einem späteren Zeitpunkt wiederholt werden.
+
+
 
 [ta4_autocrafter|image]
 
@@ -943,6 +949,8 @@ Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
 - `count` dient zur Anfrage, wie viele Items in der Kiste sind.
   Beispiel 1:  `$send_cmnd(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
   Beispiel 2:  `$send_cmnd(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
+- `storesize` wird verwendet, um die Größe eines der acht Speicher auszulesen
+  Beispiel: `$send_cmnd(CHEST, "storesize")` -> Funktion liefert bspw. 6000 zurück
 
 [ta4_8x2000_chest|image]
 

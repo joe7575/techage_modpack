@@ -732,8 +732,6 @@ A collider consists of a "ring" made of tubes and magnets as well as a detector 
 
 - The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.
 - 22 TA4 Collider Magnets (not the TA4 Collider Detector Magnets!) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.
-- In addition, cooling is required, which must also be installed at the detector. Isobutane is required for cooling.
-- The system requires quite a bit of electricity. Therefore, it makes sense to have your own power supply.
 
 The plan shows the facility from above:
 
@@ -756,6 +754,10 @@ Note: The arrow on the heat exchanger must point away from the detector. The hea
 
 [ta4_cooler|plan]
 
+
+- In addition, cooling is required, which must also be installed at the detector. Isobutane is required for cooling.
+- The system requires quite a bit of electricity. Therefore, it makes sense to have your own power supply.
+
 ### Control / TA4 Terminal
 
 The collider is controlled via a TA4 terminal (not via the TA4 Lua controller terminal).
@@ -774,14 +776,18 @@ If an error occurs on a magnet during the `start`, the number of the magnet is o
 
 [ta4_terminal|image]
 
+### Cooling and power
 
+Each TA4 Collider magnet must also be supplied with electricity (as shown on the right in the plan) and with Isobutane for cooling:
+
+- The connection for the power is on the top of the magnet.
+- The connection for the cooling is on the front of the magnet.
+- A TA4 pump and a TA4 tank with at least 250 units of isobutane are also required to cool the entire system.
+- The system also requires a lot of electricity. It therefore makes sense to have your own power supply with at least 145 ku.
+
+[techage_collider_plan2|plan]
 
 ### Construction
-
-In addition to the building blocks, the following is required for the collider:
-
-- electricity (145 ku)
-- TA4 tank with at least 250 units of isobutane
 
 The following sequence is recommended when setting up the collider:
 
@@ -823,11 +829,13 @@ The processing power is 4 items every 4 s. The autocrafter requires 9 ku of elec
 
 In addition, the TA4 Autocrafter supports the selection of different recipes using the following commands:
 
-`recipe <number>.<index>` switches the autocrafter to a recipe from the TA4 Recipe Block. `<number>` is the number of the recipe block, `<index>` the recipe number. Example: `$send_cmnd(1234, "recipe", 5467.1)`
+`recipe "<number>.<index>"` switches the autocrafter to a recipe from the TA4 Recipe Block. `<number>` is the number of the recipe block, `<index>` the recipe number. Example: `$send_cmnd(1234, "recipe", "5467.1")`
 
 Alternatively, a recipe can also be selected via the list of ingredients, such as:
 `$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
 All technical names of a recipe must be specified here, separated by commas. See also the command `input` in the TA4 recipe block.
+
+The `flush` command moves all items from the input inventory to the output inventory. The command returns `true` if the input inventory was completely emptied. If `false` was returned (output inventory full), the command must be repeated at a later time.
 
 [ta4_autocrafter|image] 
 
@@ -933,6 +941,8 @@ The chest has an additional command for the Lua controller:
 - `count` is used to request how many items are in the chest.
   Example 1: `$send_cmnd(CHEST, "count")` -> Sum of items across all 8 stores
   Example 2: `$send_cmnd(CHEST, "count", 2)` -> number of items in store 2 (second from left)
+- `storesize` is used to read the size of one of the eight stores:
+  Example: `$send_cmnd(CHEST, "storesize")` -> function returns e.g. 6000
 
 [ta4_8x2000_chest|image]
 

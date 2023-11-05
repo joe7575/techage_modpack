@@ -105,7 +105,7 @@ Used to cut flowers on a 3x3 field.=Benötigt um ein 3x3 Blumenfeld zu ernten.
 
 ### cmd_item.lua ###
 
-Take <num> items from a chest like node@nand put it into the item inventory.@n<slot> is the bot inventory slot@n(1..8) or 0 for any one=Nehme <num> Gegenstände aus der@nKiste oder dem Kisten-ähnlichen Block@nund tue diese in das eigene Inventar@nan der Position <slot>. Slot = (1..8)@noder 0 für irgend eine Position
+Take <num> items from a chest like node@nand put it into the item inventory.@n<slot> is the bot inventory slot@n(1..8) or 0 for any one=Nehme <num> Gegenstände aus der@nKiste oder dem Kisten-ähnlichen Block@nund tue diese in das eigene Inventar@nan der Position <slot>. Slot @= (1..8)@noder 0 für irgend eine Position
 Check if there are <num>@nitems in the chest like node.@nIf not, jump to <label>@n<slot> is the bot inventory slot@n(1..8) to specify the item, or 0 for any item=Prüfe, ob sich <num> Gegenstände@nin dem Kisten-ähnlichen Block befinden.@nWenn nicht, springe zu <label>@n<slot> ist der Bot-Inventar-Slot@n(1..8) um einen Gegenstand auszuwählen, oder 0 für irgendeinen Gegenstand
 Add <num> items to a chest like node@ntaken from the item inventory.@n<slot> is the bot inventory slot (1..8) or 0 for any one=Lege <num> Gegenstände aus dem@neigenen Inventar in die andere Kiste.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position
 Add <num> fuel to a furnace like node@ntaken from the item inventory.@n<slot> is the bot inventory slot (1..8) or 0 for any one=Lege <num> Brennstoffe aus dem@neigenen Inventar in den anderen Block.@n<slot> ist die Position im@neigenen Inventar (1--8).@noder 0 für irgend eine Position

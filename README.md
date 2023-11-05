@@ -46,6 +46,31 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 ### History
 
+#### 2023-11-05
+
+Updated Mods:
+
+- techage v1.18:
+  - see readme.md
+- ta4_jetpack:
+  -  Fix translation issue
+- minecart:
+  - Fix bug with missing techage mod 
+- signs_bot:
+  - Fix bug #36 (pattern/copy 5x3 is off center)
+  - Adapt bot box for techage assembly tool
+  - Escape equal sign in german translation (Niklp09)
+- autobahn:
+  - Add support for player_monoids (Niklp09)
+- compost:
+  - User proper player creative check (Niklp09)
+  - Fix drop bug
+- techpack_stairway:
+  - Add stairways without handrails
+- networks:
+  - Add support for colored nodes by unifieddyes
+  - Improve debugging tool
+
 #### 2023-08-25
 
 **The mod doclib is a new hard dependency !**

@@ -260,7 +260,7 @@ end
 local function start_pos(robot_pos, robot_param2, x_size, lvl_offs)
 	local pos = next_pos(robot_pos, robot_param2)
 	pos = {x=pos.x, y=pos.y+lvl_offs, z=pos.z}
-	if x_size == 5 then
+	if tonumber(x_size) == 5 then
 		return dest_pos(pos, robot_param2, {3,3})
 	else
 		return dest_pos(pos, robot_param2, {3})

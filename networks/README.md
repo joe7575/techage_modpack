@@ -36,7 +36,7 @@ The mod uses a whitelist for filling material. The function
 Liquid networks consists of following node types:
 
 - Pumps, nodes pumping liquids from/to tanks
-- Tanks, storuing liquids
+- Tanks, storing liquids
 - Junctions, to connect pipes to networks
 - Valves, to turn on/off pipe segments
 

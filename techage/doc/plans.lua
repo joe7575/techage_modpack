@@ -26,6 +26,7 @@ local IMG43 = {"", "techage_reactor_inv.png"}
 local IMG44 = {"", "techage_ta4_filter.png"}
 local IMG45 = {"10x10", "techage_collider_plan.png"}
 local IMG46 = {"5x4", "techage_fusion_reactor.png"}
+local IMG47 = {"5x4", "techage_collider_plan2.png"}
 
 local TOP_V = {"top_view", ""}
 local SIDEV = {"side_view", ""}
@@ -175,6 +176,7 @@ local AXL90 = {"techage_axle.png^[transformR90", "techage:axle"}
 local WINCH = {"techage_filling_ta2.png^techage_appl_winch.png^techage_frame_ta2.png", "techage:ta2_winch"}
 local ROPE_ = {"techage_rope_inv.png", "techage:ta2_rope"}
 local WCHST = {"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_chest_back_ta3.png^techage_weight_side.png", "techage:ta2_weight_chest"}
+local CLTCH = {"techage_filling_ta2.png^techage_appl_clutch.png^techage_frame_ta2.png", "techage:ta2_clutch_off"}
 
 plans["ta2_storage"] = {
 	{false, false, false, GRBOX, WINCH, false, SIDEV},
@@ -186,7 +188,7 @@ plans["ta2_storage"] = {
 	{false, false, false, AXL90, ROPE_, false, false},
 	{false, false, false, AXL90, WCHST, false, false},
 	{false, false, false, AXL90, false, false, false},
-	{AXL00, AXL00, AXL00, GRBOX, false, false, false},
+	{AXL00, CLTCH, AXL00, GRBOX, false, false, false},
 }
 
 --
@@ -476,6 +478,15 @@ plans["techage_collider_plan"] = {
 	{IMG45, false, false, false},
 	{false, false, false, false},
 	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+}
+
+plans["techage_collider_plan2"] = {
+	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, IMG47, false},
 	{false, false, false, false},
 	{false, false, false, false},
 	{false, false, false, false},

@@ -197,7 +197,7 @@ Der Stromgenerator kann nur 50 Einheiten Benzin aufnehmen. Ein zusätzlicher Tan
 [ta3_tinygenerator|image]
 
 
-### TA3 Akku Block /  Akku Box
+### TA3 Akku Block /  TA3 Accu Box
 
 Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).
 Mehrere Akku Blocks zusammen bilden ein TA3 Energiespeichersystem. Jeder Akku Block hat eine Anzeige für den Ladezustand und für die gespeicherte Ladung, wobei hier immer die Werte für das gesamte Netzwerk angezeigt werden. Die gespeicherte Ladung wird in "kud" also "ku-days" angezeigt (analog zu kWh)  5 kud entspricht damit bspw. 5 ku für einen Spieltag (20 min) oder 1 ku für 5 Spieltage.
@@ -489,7 +489,10 @@ Dazu muss der Aufkocher über einen Pumpe mit Erdöl versorgt werden.
 
 ## Logik-/Schalt-Blöcke
 
-Neben den Röhren für Warentransport, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. Alle Blöcke, die an dieser Kommunikation teilnehmen können, zeigen die Blocknummer als Info-Text an, wenn man mit dem Mauscursor den Block fixiert.
+Neben den Röhren für Warentransport, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. 
+
+**Info:** Eine **Blocknummer** ist eine eindeutige Zahl, die von Techage beim Setzen von vielen Techage Blöcken generiert wird. Die Blocknummer dient zur Adressierung bei der Kommunikation zwischen Techage Controllern und Maschinen. Alle Blöcke, die an dieser Kommunikation teilnehmen können, zeigen die Blocknummer als Info-Text an, wenn man mit dem Mauscursor den Block fixiert.
+
 Welche Kommandos ein Block unterstützt, kann mit dem TechAge Info Werkzeug (Schraubenschlüssel) ausgelesen und angezeigt werden.
 Die einfachsten Kommandos, die von fast allen Blöcken unterstützt werden, sind:
 
@@ -886,7 +889,7 @@ Mit diesem Werkzeug lassen sich die Bohrgestängezange Blöcke wieder entfernen,
 
 [ta3_drill_pipe_wrench|image]
 
-### Techage Schraubendreher
+### Techage Schraubendreher / Screwdriver
 
 Der Techage Schraubendreher dient als Ersatz für den normalen Schraubendreher. Es besitzt folgende Funktionen:
 
@@ -896,3 +899,14 @@ Der Techage Schraubendreher dient als Ersatz für den normalen Schraubendreher. 
 - Shift+Rechtsklick: Die gespeicherte Ausrichtung auf den angeklickten Block anwenden
 
 [ta3_screwdriver|image]
+
+### TechAge Montagewerkzeug / Assembly Tool
+
+Das TechAge Montagewerkzeug dient zum Entfernen und wieder Setzen von Techage Blöcken, ohne dass diese Blöcke ihre Blocknummer verlieren, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich, da diese oft umgesetzt werden müssen.
+
+- Linke Taste: Entfernen eines Blocks
+- Rechte Taste: Setzen eines Blocks
+
+Der Block, der zuvor mit dem Montagewerkzeug entfernt wurde und wieder gesetzt werden soll, muss sich im Spieler-Inventar ganz links befinden.
+
+[techage:assembly_tool|image]

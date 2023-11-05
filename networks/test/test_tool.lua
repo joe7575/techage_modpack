@@ -81,6 +81,11 @@ local function print_liquid_network_data(pos, api, netw_type, outdir)
 	end
 end
 
+local function is_junction(pos, tlib2)
+	local ndef = networks.net_def(pos, tlib2.tube_type)
+	return ndef.ntype == "junc"
+end
+
 local function print_netID(pos, api, netw_type)
 	local tlib2 = networks.registered_networks[api][netw_type]
 	for _,outdir in ipairs(networks.get_outdirs(pos, tlib2)) do
@@ -92,6 +97,12 @@ local function print_netID(pos, api, netw_type)
 				print_liquid_network_data(pos, api, netw_type, outdir)
 			elseif api == "power" then
 				print_power_network_data(pos, api, netw_type, outdir)
+			end
+		elseif is_junction(pos, tlib2) then
+			netID = networks.get_netID(pos, 0)
+			if netID then
+				print("- " .. s .. ": Junction netwNum: " .. networks.netw_num(netID))
+				break
 			end
 		else
 			print("- " .. s .. ": Node has no '" .. netw_type .. "' netID!!!")
@@ -160,10 +171,24 @@ local function debug_print(pos)
 	print("#####################")
 end
 
-local function action(itemstack, placer, pointed_thing)
+local function on_use(itemstack, placer, pointed_thing)
 	if pointed_thing.type == "node" then
 		local pos = pointed_thing.under
 		networks.register_observe_pos(pos)
+		if placer:get_player_control().sneak then
+			debug_print(pos)
+		else
+			debug_print(pos)
+		end
+	else
+		networks.register_observe_pos(nil)
+	end
+end
+
+local function on_place(itemstack, placer, pointed_thing)
+	if pointed_thing.type == "node" then
+		local pos = pointed_thing.under
+		networks.register_observe_pos(nil)
 		if placer:get_player_control().sneak then
 			debug_print(pos)
 		else
@@ -180,8 +205,8 @@ minetest.register_tool("networks:tool2", {
 	wield_image = "networks_tool.png",
 	use_texture_alpha = "clip",
 	groups = {cracky=1},
-	on_use = action,
-	on_place = action,
+	on_use = on_use,
+	on_place = on_place,
 	node_placement_prediction = "",
 	stack_max = 1,
 })

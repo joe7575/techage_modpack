@@ -24,6 +24,7 @@ local CYCLE_TIME = 2
 
 local Axle = techage.Axle
 local power = networks.power
+local control = networks.control
 
 
 local function chest_pos(pos)
@@ -42,7 +43,7 @@ local function chest_load(nvm, pos)
 		nvm.stored_items[i] = {name = stack:get_name(), count = stack:get_count()}
 		amount = amount + stack:get_count()
 	end
-	return amount
+	return amount * 3
 end
 
 local function chest_full(pos)
@@ -136,24 +137,28 @@ minetest.register_node("techage:ta2_winch", {
 		nvm.capa = nvm.capa or 1
 		nvm.load = nvm.load or 0
 
+		if nvm.blocked then
+			-- Keep the network active
+			power.get_storage_load(pos, Axle, outdir, nvm.capa)
+			return true
+		end
 		if not nvm.running and power.power_available(pos, Axle, outdir) and chest_full(pos) then
 			remove_chest(pos)
 			nvm.running = true
 			power.start_storage_calc(pos, Axle, outdir)
-		elseif not nvm.running then
-			techage.renew_rope(pos, 50)
-		elseif nvm.running and nvm.load == 0 and not power.power_available(pos, Axle, outdir) then
+		elseif nvm.running and nvm.load < 2 and not power.power_available(pos, Axle, outdir) then
 			add_chest(pos)
 			nvm.running = false
 			power.start_storage_calc(pos, Axle, outdir)
 		end
 
 		if nvm.running then
-			local val = power.get_storage_load(pos, Axle, outdir, nvm.capa) or 0
-			if val > 0 then
-				nvm.load = val
+			nvm.load = power.get_storage_load(pos, Axle, outdir, nvm.capa) or 0
+			if nvm.load > 2 then
 				add_chest_entity(pos, nvm)
 			end
+		else
+			techage.renew_rope(pos, 50)
 		end
 		return true
 	end,
@@ -170,7 +175,7 @@ minetest.register_node("techage:ta2_winch", {
 	get_storage_data = function(pos, outdir, tlib2)
 		local nvm = techage.get_nvm(pos)
 		nvm.capa = nvm.capa or 1
-		if nvm.running then
+		if nvm.running and not nvm.blocked then
 			return {level = (nvm.load or 0) / nvm.capa, capa = nvm.capa}
 		end
 	end,
@@ -192,6 +197,23 @@ techage.register_node({"techage:ta2_winch"}, {
 		end
 	end,
 })
+
+control.register_nodes({"techage:ta2_winch"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+			--print("on_receive", topic)
+			local nvm = techage.get_nvm(pos)
+			if topic == "on" then
+				nvm.blocked = false
+				local outdir = M(pos):get_int("outdir")
+				power.start_storage_calc(pos, Axle, outdir)
+			elseif topic == "off" then
+				nvm.blocked = true
+				local outdir = M(pos):get_int("outdir")
+				power.start_storage_calc(pos, Axle, outdir)
+			end
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta2_winch",

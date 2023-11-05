@@ -180,6 +180,14 @@ end)
 -- API helper functions
 -------------------------------------------------------------------
 
+-- Check if both strings are the same or one string starts with the other string.
+function techage.string_compare(s1, s2)
+	if s1 and s2 then
+		local minLength = math.min(#s1, #s2)
+		return string.sub(s1, 1, minLength) == string.sub(s2, 1, minLength)
+	end
+end    
+
 -- Function returns { pos, name } for the node referenced by number
 function techage.get_node_info(dest_num)
 	return NodeInfoCache[dest_num] or update_nodeinfo(dest_num)
@@ -283,6 +291,18 @@ function techage.pack_node(pos, oldnode, number)
 	end
 end
 
+-------------------------------------------------------------------
+-- Used by the assembly tool
+-------------------------------------------------------------------
+function techage.pre_add_node(pos, number)
+	local key = minetest.hash_node_position(pos)
+	NumbersToBeRecycled[key] = number
+end
+
+function techage.post_remove_node(pos)
+	local key = minetest.hash_node_position(pos)
+	NumbersToBeRecycled[key] = nil
+end
 
 -------------------------------------------------------------------
 -- Node register function

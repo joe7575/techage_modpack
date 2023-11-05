@@ -154,7 +154,7 @@ local function check_player_load(player)
 	local bags_meta = meta:get_string("unified_inventory:bags")
 	if bags_meta then
 		if next(minetest.deserialize(bags_meta) or {}) then
-			return S("You are too heavy: Check your bags!")
+			return S("You are too heavy: Please remove your bags!")
 		end
 	end
 	for _, stack in ipairs(inv:get_list("craft") or {}) do
