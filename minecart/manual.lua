@@ -14,8 +14,8 @@
 
 local MP = minetest.get_modpath("minecart")
 
-if not minetest.global_exists("techage") and
-       minetest.global_exists("doclib") then
+if not minetest.get_modpath("techage") and
+	minetest.get_modpath("doclib") then
 
 	minetest.register_node("minecart:manual", {
 		description = "Minecart Manual (EN)",
@@ -122,7 +122,7 @@ if not minetest.global_exists("techage") and
 end
 
 minetest.register_on_mods_loaded(function()
-	if minetest.global_exists("techage") then
+	if minetest.get_modpath("techage") then
 
 		-- Use the Techage Construction Board
 		local content = dofile(MP.."/manual_EN.lua")
@@ -130,7 +130,7 @@ minetest.register_on_mods_loaded(function()
 		local content = dofile(MP.."/manual_DE.lua")
 		doclib.add_to_manual("techage", "DE", content)
 
-	elseif minetest.global_exists("doclib") then
+	elseif minetest.get_modpath("doclib") then
 
 		-- Create own manual book
 		local settings = {

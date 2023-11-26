@@ -134,22 +134,24 @@ local function formspec_plan(meta, manual)
 end
 
 function doclib.formspec(pos, mod, language, fields)
-	local manual = doclib.manual[mod][language]
-	local meta = M(pos)
+	if doclib.manual and doclib.manual[mod] and doclib.manual[mod][language] then
+		local manual = doclib.manual[mod][language]
+		local meta = M(pos)
 
-	if not fields then
-		meta:set_int("doclib_index", 1)
-		return formspec_help(meta, manual)
-	elseif fields.plan then
-		return formspec_plan(meta, manual)
-	elseif fields.back then
-		return formspec_help(meta, manual)
-	elseif fields.page then
-		local evt = minetest.explode_table_event(fields.page)
-		if evt.type == "CHG" then
-			local idx = tonumber(evt.row)
-			meta:set_int("doclib_index", idx)
+		if not fields then
+			meta:set_int("doclib_index", 1)
+			return formspec_help(meta, manual)
+		elseif fields.plan then
+			return formspec_plan(meta, manual)
+		elseif fields.back then
+			return formspec_help(meta, manual)
+		elseif fields.page then
+			local evt = minetest.explode_table_event(fields.page)
+			if evt.type == "CHG" then
+				local idx = tonumber(evt.row)
+				meta:set_int("doclib_index", idx)
+			end
 		end
+		return formspec_help(meta, manual)
 	end
-	return formspec_help(meta, manual)
 end

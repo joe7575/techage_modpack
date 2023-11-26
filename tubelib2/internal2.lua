@@ -326,6 +326,16 @@ function Tube:determine_tube_dirs(pos, preferred_pos, fdir)
 				(self:connected(pos, tbl[2]) and 1 or 0)
 		return tbl[1], tbl[2], math.min(2, num_tubes)
 	end
+
+	-- dir1, dir2 still unknown?
+	if fdir and #tbl < 2 then
+		-- Try to turn the node by 90 degrees
+		local dir1 = fdir < 5 and (fdir + 1) % 4 or fdir
+		local dir2 = dir1 < 5 and Turn180Deg[dir1] or dir1
+		if dir1 ~= dir2 and allowed[dir1] and allowed[dir2] then
+			return dir1, dir2, 0
+		end
+	end
 end
 
 -- Determine a tube side without connection, increment the number of connections
