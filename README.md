@@ -46,6 +46,22 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 ### History
 
+#### 2023-11-26
+
+Updated Mods:
+
+- tubelib2:
+  - Improve pipe/tube placement
+- doclib:
+  - Add a NIL check to prevent crashes
+- minecart:
+  - Replace some global_exists by get_modpath
+  - Fix crash when using techage (Niklp09)
+- techage:
+  - Fix crash with collider magnets
+- basic_materials:
+  - Update to current version
+
 #### 2023-11-05
 
 Updated Mods:
