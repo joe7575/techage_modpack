@@ -129,7 +129,10 @@ function networks.open_node(pos, node, placer)
 	if ndef and ndef.paramtype2 == "color" then
 		stack:get_meta():set_int("palette_index", node.param2)
 	end
-	inv:add_item("main", stack)
+	local leftover = inv:add_item("main", stack) 
+	if leftover:get_count() > 0 then
+		minetest.add_item(pos, leftover)
+	end
 	return true
 end
 

@@ -261,9 +261,8 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 		return 2, ""
 	end,
 	on_node_load = function(pos, node)
-		local nvm = techage.get_nvm(pos)
-		M(pos):set_string("teleport_mode", "") -- delete not working op mode
-		nvm.running = false
+		M(pos):set_string("teleport_mode", "") -- delete not working (legacy) op mode
+		M(pos):set_string("status", "")
 	end,
 })
 
@@ -299,7 +298,7 @@ minetest.register_node("techage:moveblock", {
 	description = "Techage Invisible Move Block",
 	drawtype = "glasslike_framed_optional",
 	inventory_image = 'techage_inv_invisible.png',
-	tiles = {"techage_invisible.png"},
+	tiles = {"blank.png"},
 	selection_box = {
 		type = "fixed",
 		fixed = {

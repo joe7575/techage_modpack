@@ -3,5 +3,5 @@ globals = {
 }
 
 read_globals = {
-    "default",
+    "default", "xcompat",
 }

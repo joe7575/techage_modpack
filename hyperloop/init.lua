@@ -34,8 +34,8 @@
 	2020-01-03  v2.04  Elevator door bugfix (MT 5+)
 	2020-03-12  v2.05  minetest translator added (thanks to acmgit/Clyde)
 	2020-06-14  v2.06  The default value for `hyperloop_free_tube_placement_enabled` is now true
-        2021-02-07  v2.07  tube_crowbar: Add tube length check
-        2021-11-01  v2.08  Enable the use of hyperloop networks for other mods
+	2021-02-07  v2.07  tube_crowbar: Add tube length check
+	2021-11-01  v2.08  Enable the use of hyperloop networks for other mods
 
 ]]--
 

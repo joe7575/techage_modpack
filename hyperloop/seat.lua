@@ -11,16 +11,14 @@
 ]]--
 
 -- for lazy programmers
-local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+--local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
+--local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 local I, _ = dofile( minetest.get_modpath("hyperloop").."/intllib.lua")
 
-local Stations = hyperloop.Stations
 local PlayerNameTags = {}
 
 local function enter_display(tStation, text)
@@ -28,7 +26,7 @@ local function enter_display(tStation, text)
 	if tStation ~= nil then
 		local lcd_pos = hyperloop.new_pos(tStation.pos, tStation.facedir, "1F", 2)
 		-- update display
-		minetest.registered_nodes["hyperloop:lcd"].update(lcd_pos, text) 
+		minetest.registered_nodes["hyperloop:lcd"].update(lcd_pos, text)
 	end
 end
 
@@ -74,7 +72,7 @@ local function on_arrival(tDeparture, tArrival, player_name, sound)
 		if val1 ~= nil and val2 ~= nil then
 			local offs = val1 - val2
 			local yaw = hyperloop.facedir_to_rad(tArrival.facedir) - offs
-			player:set_look_yaw(yaw)
+			player:set_look_horizontal(yaw)
 		end
 		-- set player name again
 		if PlayerNameTags[player_name] then
@@ -149,13 +147,13 @@ local function on_start_travel(pos, node, clicker)
 	if tDeparture == nil or tArrival == nil then
 		return
 	end
-	
+
 	minetest.sound_play("up2", {
 			pos = pos,
 			gain = 0.5,
 			max_hear_distance = 2
 		})
-	
+
 	-- close the door at arrival station
 	hyperloop.close_pod_door(tArrival)
 	-- place player on the seat
@@ -166,9 +164,9 @@ local function on_start_travel(pos, node, clicker)
 	-- hide player name
 	PlayerNameTags[player_name] = clicker:get_nametag_attributes()
 	clicker:set_nametag_attributes({text = "     "})
-	
+
 	-- activate display
-	local dist = hyperloop.distance(pos, tArrival.pos) 
+	local dist = hyperloop.distance(pos, tArrival.pos)
 	local text = I("Destination:").." | "..string.sub(tArrival.name, 1, 13).." | "..I("Distance:").." | "..
 				 meter_to_km(dist).." | "..I("Arrival in:").." | "
 	local atime
@@ -182,7 +180,7 @@ local function on_start_travel(pos, node, clicker)
 	enter_display(tDeparture, text..atime.." sec")
 
 	-- block departure and arrival stations
-	hyperloop.block(departure_pos, arrival_pos, atime+10)	
+	hyperloop.block(departure_pos, arrival_pos, atime+10)
 
 	-- store some data for on_timer()
 	meta:set_int("arrival_time", atime)
@@ -207,7 +205,7 @@ minetest.register_node("hyperloop:seat", {
 	},
 	drawtype = "nodebox",
 	paramtype = 'light',
-	light_source = 1,	
+	light_source = 1,
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	walkable = false,
@@ -229,8 +227,8 @@ minetest.register_node("hyperloop:seat", {
 
 	on_timer = display_timer,
 	on_rightclick = on_start_travel,
-	on_rotate = screwdriver.disallow,	
-	
+	on_rotate = screwdriver.disallow,
+
 	auto_place_node = function(pos, facedir, sStationPos)
 		M(pos):set_string("sStationPos", sStationPos)
 	end,

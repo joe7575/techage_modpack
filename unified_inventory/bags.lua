@@ -144,7 +144,7 @@ local function save_bags_metadata(player, bags_inv)
 	end
 	local meta = player:get_meta()
 	if is_empty then
-		meta:set_string("unified_inventory:bags", nil)
+		meta:set_string("unified_inventory:bags", "")
 	else
 		meta:set_string("unified_inventory:bags",
 			minetest.serialize(bags))

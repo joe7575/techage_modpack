@@ -13,11 +13,11 @@
 
 -- for lazy programmers
 local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
+--local P = minetest.string_to_pos
+--local M = minetest.get_meta
 
 local S = hyperloop.S
-local NS = hyperloop.NS
+--local NS = hyperloop.NS
 
 local tBlockingTime = {}
 local tBookings = {}  -- open bookings: tBookings[SP(departure_pos)] = arrival_pos
@@ -33,7 +33,7 @@ function hyperloop.reserve(departure_pos, arrival_pos, player)
 		hyperloop.chat(player, S("Station data is corrupted. Please rebuild the station!"))
 		return false
 	end
-	
+
 	if (tBlockingTime[SP(departure_pos)] or 0) > minetest.get_gametime() then
 		hyperloop.chat(player, S("Station is still blocked. Please try again in a few seconds!"))
 		return false
@@ -41,7 +41,7 @@ function hyperloop.reserve(departure_pos, arrival_pos, player)
 		hyperloop.chat(player, S("Station is still blocked. Please try again in a few seconds!"))
 		return false
 	end
-	
+
 	-- place a reservation for 20 seconds to start the trip
 	tBlockingTime[SP(departure_pos)] = minetest.get_gametime() + 20
 	tBlockingTime[SP(arrival_pos)] = minetest.get_gametime() + 20
@@ -55,7 +55,7 @@ function hyperloop.block(departure_pos, arrival_pos, seconds)
 	elseif Stations:get(arrival_pos) == nil then
 		return false
 	end
-	
+
 	tBlockingTime[SP(departure_pos)] = minetest.get_gametime() + seconds
 	tBlockingTime[SP(arrival_pos)] = minetest.get_gametime() + seconds
 	return true
@@ -67,14 +67,14 @@ function hyperloop.is_blocked(pos)
 	if Stations:get(pos) == nil then
 		return false
 	end
-	
+
 	return (tBlockingTime[SP(pos)] or 0) > minetest.get_gametime()
 end
 
 
 function hyperloop.set_arrival(departure_pos, arrival_pos)
 	tBookings[SP(departure_pos)] = arrival_pos
-end	
+end
 
 function hyperloop.get_arrival(departure_pos)
 	-- Return and delete the arrival pos

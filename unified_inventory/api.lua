@@ -51,6 +51,7 @@ minetest.after(0.01, function()
 			end
 		end
 	end
+
 	table.sort(ui.items_list)
 	ui.items_list_size = #ui.items_list
 	print("Unified Inventory. Inventory size: "..ui.items_list_size)
@@ -181,6 +182,37 @@ minetest.after(0.01, function()
 			end
 		end
 		ui.crafts_for.recipe[outputitemname] = new_recipe_list
+	end
+
+	-- Remove unknown items from all categories
+	local total_removed = 0
+	for cat_name, cat_def in pairs(ui.registered_category_items) do
+		for itemname, _ in pairs(cat_def) do
+			local idef = minetest.registered_items[itemname]
+			if not idef then
+				total_removed = total_removed + 1
+				--[[
+				-- For analysis
+				minetest.log("warning", "[unified_inventory] Removed item '"
+					.. itemname .. "' from category '" .. cat_name
+					.. "'. Reason: item not registered")
+				]]
+				cat_def[itemname] = nil
+			elseif not ui.is_itemdef_listable(idef) then
+				total_removed = total_removed + 1
+				--[[
+				-- For analysis
+				minetest.log("warning", "[unified_inventory] Removed item '"
+					.. itemname .. "' from category '" .. cat_name
+					.. "'. Reason: item is in 'not_in_creative_inventory' group")
+				]]
+				cat_def[itemname] = nil
+			end
+		end
+	end
+	if total_removed > 0 then
+		minetest.log("info", "[unified_inventory] Removed " .. total_removed ..
+			" items from the categories.")
 	end
 
 	for _, callback in ipairs(ui.initialized_callbacks) do

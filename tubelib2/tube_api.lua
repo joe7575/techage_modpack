@@ -455,7 +455,7 @@ function Tube:prepare_pairing(pos, tube_dir, sFormspec)
 		meta:set_int("tube_dir", tube_dir)
 	elseif tube_dir then
 		meta:set_int("tube_dir", tube_dir)
-		meta:set_string("channel", nil)
+		meta:set_string("channel", "")
 		meta:set_string("infotext", S("Pairing is missing"))
 		meta:set_string("formspec", sFormspec)
 	else
@@ -489,8 +489,8 @@ function Tube:stop_pairing(pos, oldmetadata, sFormspec)
 			local peer_meta = M(tele_pos)
 			if peer_meta then
 				self:after_dig_node(tele_pos, {peer_meta:get_int("tube_dir")})
-				peer_meta:set_string("channel", nil)
-				peer_meta:set_string("tele_pos", nil)
+				peer_meta:set_string("channel", "")
+				peer_meta:set_string("tele_pos", "")
 				peer_meta:set_string("formspec", sFormspec)
 				peer_meta:set_string("infotext", S("Pairing is missing"))
 			end

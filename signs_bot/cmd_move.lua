@@ -3,7 +3,7 @@
 	Signs Bot
 	=========
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2024 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -263,20 +263,32 @@ signs_bot.register_botcommand("fall_down", {
 	description = S("Fall into a hole/chasm (up to 10 blocks)"),
 	cmnd = function(base_pos, mem)
 		if not mem.bot_falling then
-			local pos1 = {x=mem.robot_pos.x, y=mem.robot_pos.y-1, z=mem.robot_pos.z}
-			local pos2 = {x=mem.robot_pos.x, y=mem.robot_pos.y-10, z=mem.robot_pos.z}
-			local sts, pos3 = minetest.line_of_sight(pos1, pos2)
-			if sts == false then
-				sts, _ = minetest.spawn_falling_node(mem.robot_pos)
-				mem.stored_node = get_node_lvm(pos3)
-				minetest.swap_node(pos3, {name="air"})
-				if sts then
-					mem.bot_falling = 2
-					mem.robot_pos = {x=pos3.x, y=pos3.y, z=pos3.z}
-					return signs_bot.BUSY
-				end
+			--Run a while loop that checks the 10 nodes below bot for a node with the walkable property, breaking the loop once it finds a walkable node.
+			local fallcounter = 0
+			local fallnode  = {walkable = false}
+			while fallcounter <= 9 and fallnode.walkable == false do
+				fallcounter = fallcounter + 1
+				--Pulls the node name from the next position, then assigns the node definintion to the fallnode variable.
+				fallnode = minetest.get_node_or_nil({x=mem.robot_pos.x, y=mem.robot_pos.y-fallcounter, z=mem.robot_pos.z})
+				fallnode = minetest.registered_nodes[fallnode.name]				
 			end
-			return signs_bot.ERROR, "Too deep"
+			--If the first nine nodes below the bot are not walkable, then it should assign the definintion to the 10th node. If it too is not walkable, then a "Too Deep" error is returned.
+			if fallnode.walkable == false then
+				return signs_bot.ERROR, "Too deep"
+			end
+			--Designates the node above the walkable node as the new location for the bot.
+			local pos3 = {x=mem.robot_pos.x, y=mem.robot_pos.y-fallcounter+1, z=mem.robot_pos.z}
+			--Turns the bot into a falling node.
+			local sts, _ = minetest.spawn_falling_node(mem.robot_pos)
+			--Stores the data for the node the bot will land in and replaces it with air. This way if the node the bot lands in is occupied by an unwalkable node, such as a rail or sign,
+			--it will be repalced when the bot moves.
+			mem.stored_node = get_node_lvm(pos3)
+			minetest.swap_node(pos3, {name="air"})
+			if sts then
+				mem.bot_falling = 2
+				mem.robot_pos = {x=pos3.x, y=pos3.y, z=pos3.z}
+				return signs_bot.BUSY
+			end
 		else
 			mem.bot_falling = mem.bot_falling - 1
 			if mem.bot_falling <= 0 then

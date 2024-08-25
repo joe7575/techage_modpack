@@ -1,4 +1,5 @@
 local S = minetest.get_translator("unified_inventory")
+local ui = unified_inventory
 
 unified_inventory.register_category('plants', {
 	symbol = "flowers:tulip",
@@ -25,70 +26,86 @@ unified_inventory.register_category('lighting', {
 	label = S("Lighting")
 })
 
-
-if unified_inventory.automatic_categorization then
-	minetest.register_on_mods_loaded(function()
-
-		-- Add biome nodes to environment category
-		for _,def in pairs(minetest.registered_biomes) do
-			local env_nodes = {
-				def.node_riverbed, def.node_top, def.node_filler, def.node_dust,
-			}
-			for i,node in pairs(env_nodes) do
-				if node then
-					unified_inventory.add_category_item('environment', node)
-				end
+local function register_automatic_categorization()
+	-- Add biome nodes to environment category
+	for _,def in pairs(minetest.registered_biomes) do
+		local env_nodes = {
+			def.node_riverbed, def.node_top, def.node_filler, def.node_dust,
+		}
+		for i,node in pairs(env_nodes) do
+			if node then
+				unified_inventory.add_category_item('environment', node)
 			end
 		end
+	end
 
-		-- Add minable ores to minerals and everything else (pockets of stone & sand variations) to environment
-		for _,item in  pairs(minetest.registered_ores) do
-			if item.ore_type == "scatter" then
-				local drop = minetest.registered_nodes[item.ore].drop
-				if drop and drop ~= "" then
-					unified_inventory.add_category_item('minerals', item.ore)
-					unified_inventory.add_category_item('minerals', drop)
-				else
-					unified_inventory.add_category_item('environment', item.ore)
+	-- Preparation for ore registration: find all possible drops (digging)
+	local possible_node_dig_drops = {
+		-- ["default:stone_with_coal"] = { "default:coal_lump", "mymod:raregem" }
+		-- Ores may be contained multiple times, depending on drop chances.
+	}
+	for itemname, recipes in pairs(ui.crafts_for.usage) do
+		for _, recipe in ipairs(recipes) do
+			if recipe.type == "digging" or recipe.type == "digging_chance" then
+				if not possible_node_dig_drops[itemname] then
+					possible_node_dig_drops[itemname] = {}
 				end
-			else
-				unified_inventory.add_category_item('environment', item.ore)
+				local stack = ItemStack(recipe.output)
+				table.insert(possible_node_dig_drops[itemname], stack:get_name())
 			end
 		end
+	end
 
-		-- Add items by item definition
-		for name, def in pairs(minetest.registered_items) do
-			local group = def.groups or {}
-			if not group.not_in_creative_inventory then
-				if group.stair or
-				   group.slab or
-				   group.wall or
-				   group.fence then
-					unified_inventory.add_category_item('building', name)
-				elseif group.flora or
-					   group.flower or
-					   group.seed or
-					   group.leaves or
-					   group.sapling or
-					   group.tree then
-					unified_inventory.add_category_item('plants', name)
-				elseif def.type == 'tool' then
-					unified_inventory.add_category_item('tools', name)
-				elseif def.liquidtype == 'source' then
-					unified_inventory.add_category_item('environment', name)
-				elseif def.light_source and def.light_source > 0 then
-					unified_inventory.add_category_item('lighting', name)
-				elseif group.door or
-					   minetest.global_exists("doors") and (
-					     doors.registered_doors and doors.registered_doors[name..'_a'] or
-					     doors.registered_trapdoors and doors.registered_trapdoors[name]
-					   ) then
-					unified_inventory.add_category_item('building', name)
-				end
+	-- Add minable ores to minerals and everything else (pockets of stone & sand variations) to environment
+	for _, odef in pairs(minetest.registered_ores) do
+		local drops = possible_node_dig_drops[odef.ore]
+		if drops and odef.ore_type == "scatter" then
+			ui.add_category_item('minerals', odef.ore)
+			-- Register all possible drops as "minerals"
+			ui.add_category_items('minerals', drops)
+			possible_node_dig_drops[odef.ore] = {} -- mask as handled
+		else
+			ui.add_category_item('environment', odef.ore)
+		end
+	end
+
+	-- Add items by item definition
+	for name, def in pairs(minetest.registered_items) do
+		local group = def.groups or {}
+		if not group.not_in_creative_inventory then
+			if group.stair or
+			   group.slab or
+			   group.wall or
+			   group.fence then
+				unified_inventory.add_category_item('building', name)
+			elseif group.flora or
+				   group.flower or
+				   group.seed or
+				   group.leaves or
+				   group.sapling or
+				   group.tree then
+				unified_inventory.add_category_item('plants', name)
+			elseif def.type == 'tool' then
+				unified_inventory.add_category_item('tools', name)
+			elseif def.liquidtype == 'source' then
+				unified_inventory.add_category_item('environment', name)
+			elseif def.light_source and def.light_source > 0 then
+				unified_inventory.add_category_item('lighting', name)
+			elseif group.door or
+				   minetest.global_exists("doors") and (
+					 doors.registered_doors and doors.registered_doors[name..'_a'] or
+					 doors.registered_trapdoors and doors.registered_trapdoors[name]
+				   ) then
+				unified_inventory.add_category_item('building', name)
 			end
 		end
-	end)
+	end
 end
+
+if ui.automatic_categorization then
+	ui.register_on_initialized(register_automatic_categorization)
+end
+
 
 -- [[
 unified_inventory.add_category_items('plants', {
@@ -256,23 +273,6 @@ unified_inventory.add_category_items('minerals', {
 	"default:coal_lump",
 	"default:bronzeblock",
 	"default:goldblock",
-
-	"stairs:slab_bronzeblock",
-	"stairs:slab_copperblock",
-	"stairs:slab_steelblock",
-	"stairs:slab_tinblock",
-	"stairs:stair_bronzeblock",
-	"stairs:stair_copperblock",
-	"stairs:stair_inner_bronzeblock",
-	"stairs:stair_inner_copperblock",
-	"stairs:stair_inner_steelblock",
-	"stairs:stair_inner_tinblock",
-	"stairs:stair_outer_bronzeblock",
-	"stairs:stair_outer_copperblock",
-	"stairs:stair_outer_steelblock",
-	"stairs:stair_outer_tinblock",
-	"stairs:stair_steelblock",
-	"stairs:stair_tinblock",
 })
 
 unified_inventory.add_category_items('building', {

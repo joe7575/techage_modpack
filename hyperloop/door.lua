@@ -11,13 +11,12 @@
 ]]--
 
 -- for lazy programmers
-local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+--local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
+--local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 --- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 -- Open the door for an emergency
 local function door_on_punch(pos, node, puncher, pointed_thing)
@@ -40,7 +39,6 @@ local function door_command(door_pos1, facedir, cmnd)
 
 	local node1 = minetest.get_node(door_pos1)
 	local node2 = minetest.get_node(door_pos2)
-	local meta = minetest.get_meta(door_pos1)
 	if cmnd == "open" then
 		minetest.sound_play("door", {
 				pos = door_pos1,
@@ -116,15 +114,15 @@ minetest.register_node("hyperloop:doorTopPassive", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -5/16, 8/16, 8/16, 5/16},
 	},
-	
+
 	on_punch = door_on_punch,
-	
+
 	auto_place_node = function(pos, facedir, sStationPos)
 		M(pos):set_int("facedir", facedir)
 		M(pos):set_string("sStationPos", sStationPos)
 	end,
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	paramtype = 'light',
 	light_source = 1,
 	paramtype2 = "facedir",
@@ -158,8 +156,8 @@ minetest.register_node("hyperloop:doorTopActive", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -5/16, 8/16, 8/16, 5/16},
 	},
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	drop = "",
 	light_source = 2,
@@ -184,15 +182,15 @@ minetest.register_node("hyperloop:doorBottom", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -5/16, 8/16, 8/16, 5/16},
 	},
-	
+
 	on_punch = door_on_punch,
-	
+
 	auto_place_node = function(pos, facedir, sStationPos)
 		M(pos):set_int("facedir", facedir)
 		M(pos):set_string("sStationPos", sStationPos)
 	end,
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	paramtype = 'light',
 	light_source = 1,
 	paramtype2 = "facedir",

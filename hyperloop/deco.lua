@@ -15,20 +15,19 @@
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 local tilesL = {"hyperloop_alpsL.png", "hyperloop_seaL.png", "hyperloop_agyptL.png"}
 local tilesR = {"hyperloop_alpsR.png", "hyperloop_seaR.png", "hyperloop_agyptR.png"}
 
 -- determine facedir and pos on the right hand side from the given pos
-function right_hand_side(pos, placer)
+local function right_hand_side(pos, placer)
 	local facedir = hyperloop.get_facedir(placer)
 	pos = hyperloop.new_pos(pos, facedir, "1R", 0)
 	return facedir,pos
 end
 
 for idx = 1,3 do
-	
+
 	minetest.register_node("hyperloop:poster"..idx.."L", {
 		description = S("Hyperloop Promo Poster ")..idx,
 		tiles = {
@@ -51,7 +50,7 @@ for idx = 1,3 do
 			type = "fixed",
 			fixed = { -8/16, -8/16, -6/16,  24/16,  8/16, 8/16},
 		},
-		
+
 		after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
 			local facedir
@@ -69,8 +68,8 @@ for idx = 1,3 do
 				minetest.remove_node(pos)
 			end
 		end,
-		
-		
+
+
 		paramtype2 = "facedir",
 		light_source = 4,
 		is_ground_content = false,
@@ -133,7 +132,7 @@ minetest.register_node("hyperloop:signR", {
 			{ -8/16, -5/16, 6/16,  8/16,  5/16, 8/16},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y - 1
 		if minetest.get_node_or_nil(pos).name ~= "air" then
@@ -144,7 +143,7 @@ minetest.register_node("hyperloop:signR", {
 			minetest.swap_node(pos, node)
 		end
 	end,
-	
+
 	paramtype2 = "facedir",
 	paramtype = 'light',
 	light_source = 4,
@@ -170,7 +169,7 @@ minetest.register_node("hyperloop:signL", {
 			{ -8/16, -5/16, 6/16,  8/16,  5/16, 8/16},
 		},
 	},
-		
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		pos.y = pos.y - 1
 		if minetest.get_node_or_nil(pos).name ~= "air" then
@@ -181,7 +180,7 @@ minetest.register_node("hyperloop:signL", {
 			minetest.swap_node(pos, node)
 		end
 	end,
-	
+
 	paramtype2 = "facedir",
 	paramtype = 'light',
 	light_source = 4,

@@ -103,7 +103,7 @@ end
 local function reset_operator_privs(player)
 	local privs = minetest.get_player_privs(player:get_player_name())
 	local meta = player:get_meta()
-	if meta and privs then
+	if meta and privs and meta:get_int("towercrane_isoperator") ~= 0 then
 		meta:set_string("towercrane_pos", "")
 		-- restore the player privs default values
 		meta:set_int("towercrane_isoperator", 0)
@@ -270,6 +270,7 @@ minetest.register_node("towercrane:mast_ctrl_on", {
 		meta:set_string("infotext", S("Switch crane on/off"))
 	end,
 
+	drop = "",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	light_source = 3,
@@ -295,8 +296,14 @@ minetest.register_node("towercrane:mast_ctrl_off", {
 			if set_operator_privs(clicker, pos) then
 				start_crane(pos, clicker)
 				local pos1, pos2 = calc_construction_area(pos)
-				-- control player every second
-				minetest.after(1, control_player, pos, pos1, pos2, clicker:get_player_name())
+				if pos1 and pos2 then
+					-- control player every second
+					minetest.after(1, control_player, pos, pos1, pos2, clicker:get_player_name())
+				else
+					-- Something weird happened, restore privileges
+					stop_crane(pos, clicker)
+					reset_operator_privs(clicker)
+				end
 			end
 		end
 	end,
@@ -307,6 +314,7 @@ minetest.register_node("towercrane:mast_ctrl_off", {
 		meta:set_string("infotext", S("Switch crane on/off"))
 	end,
 
+	drop = "",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -317,9 +325,10 @@ minetest.register_node("towercrane:mast_ctrl_off", {
 minetest.register_on_joinplayer(function(player)
 	local pos = get_my_crane_pos(player)
 	if pos then
-		reset_operator_privs(player)
 		stop_crane(pos, player)
 	end
+	-- To recover from a crash, this must be done unconditionally
+	reset_operator_privs(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)

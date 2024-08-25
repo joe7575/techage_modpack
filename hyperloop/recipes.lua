@@ -15,7 +15,6 @@
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 minetest.register_craftitem("hyperloop:hypersteel_ingot", {
 	description = S("Hypersteel Ingot"),

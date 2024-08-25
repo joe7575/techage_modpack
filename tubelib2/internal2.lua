@@ -385,8 +385,8 @@ end
 function Tube:store_teleport_data(pos, peer_pos)
 	local meta = M(pos)
 	meta:set_string("tele_pos", P2S(peer_pos))
-	meta:set_string("channel", nil)
-	meta:set_string("formspec", nil)
+	meta:set_string("channel", "")
+	meta:set_string("formspec", "")
 	meta:set_string("infotext", S("Connected to @1", P2S(peer_pos)))
 	return meta:get_int("tube_dir")
 end

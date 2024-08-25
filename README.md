@@ -46,6 +46,50 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 ### History
 
+#### 2024-08-25
+
+Updated Mods:
+
+- techage:
+  - Fix bug 'TA2 boiler work without requiring boiler'
+  - Improve move/fly controller
+  - Add replacement to electricmeter recipe (Eternal-Study)
+  - Fix injector bug
+  - Fix flowers detection when using ethereal (Niklp09)
+  - Fix issue #175 (TA3 Furnace Does not implement replacements in recipes)
+  - Water to Salt + River Water Recipe, add Salt.lua (Eternal-Study)
+  - Add new button commands
+  - Fix bug with injector with a full 8x2000 chest
+  - Fix forceload block formspec list (Niklp09)
+  - Improve techage:ta4_power_box node_box (Niklp09)
+  - Allow to move the TA4 terminal with the assembly tool (#165)
+  - add aluminum recipes for techpack_stairway items (jfanjoy)
+  - Replace techage_invisible.png w/ engine provided blank.png (Niklp09)
+  - adds a new chat command and column to forceload formspec (jfanjoy)
+  - Fix bug #24 (Energy Storage respawn red gravel infinit)
+  - Allow TA3 screwdriver to get repaired by anvil (Niklp09)
+  - Add translations and fix bug with growlight
+  - Add manual for pt-BR language (hephaestus-br)
+  - Add reverse mode for ta5 pump
+  - Fix assembly tool bug with non-empty chests
+- hyperloop:
+  - add luacheck workflow
+  - Change code so that no luacheck warnings are issued
+  - Fix set_look_horizontal bug
+  - Prevent 'deprecated warnings'
+- signs_bot:
+  - Fix to Fall_Down when non-walkable nodes are in path (Eternal-Study)
+  - Fix to fall_down (Eternal-Study)
+  - hold aux1 to invert signal (blaboing)
+  - Fix flowers detection when using ethereal (Niklp09)
+  - Fix bug #38 (Colon in print command breaks jumps)
+- tubelib2:
+  - Replace deprecated meta:set_string(*, nil) calls (Niklp09)
+- lcdlib:
+  - Use initial_properties for text entity (Niklp09)
+- safer_lua:
+  - Add safe variants for strin.rep() and string.find()
+
 #### 2023-11-26
 
 Updated Mods:

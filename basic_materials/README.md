@@ -21,10 +21,3 @@ mod that adds basic material nodes and items
 
 * `git clone https://github.com/mt-mods/basic_materials.git`
 * `cd basic_materials`
-* `git submodule init`
-* `git submodule update`
-
-to update please use the following commands starting inside the mod directory
-
-* `git submodule sync`
-* `git submodule update`

@@ -12,7 +12,7 @@
 	see init.lua
 
 	Migrate from v1 to v2
-	
+
 ]]--
 
 -- for lazy programmers
@@ -22,7 +22,6 @@ local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 local Tube = hyperloop.Tube
 local Shaft = hyperloop.Shaft
@@ -37,12 +36,12 @@ local JunctionsToBePlacedAfter = {}
 local function get_tube_data(pos, dir1, dir2, num_tubes)
 	local param2, tube_type = tubelib2.encode_param2(dir1, dir2, num_tubes)
 	return pos, param2, tube_type, num_tubes
-end	
+end
 
 -- Check if node has a connection on the given dir
 local function connected(self, pos, dir)
 	local _,node = self:get_node(pos, dir)
-	return self.primary_node_names[node.name] 
+	return self.primary_node_names[node.name]
 		or self.secondary_node_names[node.name]
 end
 
@@ -100,7 +99,7 @@ local function convert_legary_nodes(self, pos, dir)
 		if tLegacyNodeNames[node.name]  then
 			local dir1, dir2, num = determine_dir1_dir2_and_num_conn(self, npos)
 			if dir1 then
-				self.clbk_after_place_tube(get_tube_data(npos, dir1, 
+				self.clbk_after_place_tube(get_tube_data(npos, dir1,
 					dir2 or tubelib2.Turn180Deg[dir1], num))
 				if tubelib2.Turn180Deg[dir] == dir1 then
 					return npos, dir2
@@ -110,9 +109,9 @@ local function convert_legary_nodes(self, pos, dir)
 			end
 		end
 	end
-	
+
 	local cnt = 0
-	if not dir then	return pos, dir, cnt end	
+	if not dir then	return pos, dir, cnt end
 	while cnt <= 64000 do
 		local new_pos, new_dir = convert_next_tube(self, pos, dir)
 		if cnt > 0 and (cnt % self.max_tube_length) == 0 then -- border reached?
@@ -123,11 +122,11 @@ local function convert_legary_nodes(self, pos, dir)
 		cnt = cnt + 1
 	end
 	return pos, dir, cnt
-end	
+end
 
 local function convert_line(self, pos, dir)
-	local fpos,fdir = convert_legary_nodes(self, pos, dir)
-	self:tool_repair_tube(pos)	
+	convert_legary_nodes(self, pos, dir)
+	self:tool_repair_tube(pos)
 end
 
 
@@ -135,12 +134,12 @@ local tWifiNodes = {}  -- user for pairing
 local lWifiNodes = {}  -- used for post processing
 
 local function set_pairing(pos, peer_pos)
-	
+
 	M(pos):set_int("tube_dir", Tube:get_primary_dir(pos))
 	M(peer_pos):set_int("tube_dir", Tube:get_primary_dir(peer_pos))
-	
-	local tube_dir1 = Tube:store_teleport_data(pos, peer_pos)
-	local tube_dir2 = Tube:store_teleport_data(peer_pos, pos)
+
+	Tube:store_teleport_data(pos, peer_pos)
+	Tube:store_teleport_data(peer_pos, pos)
 end
 
 
@@ -195,8 +194,8 @@ end
 
 local function search_wifi_node(pos, dir)
 	local convert_next_tube = function(pos, dir)
-		local npos, node = Tube:get_node(pos, dir)
-		local dir1, dir2, num = next_node_on_the_way_to_a_wifi_node(npos)
+		local npos, _ = Tube:get_node(pos, dir)
+		local dir1, dir2, _ = next_node_on_the_way_to_a_wifi_node(npos)
 		if dir1 then
 			if tubelib2.Turn180Deg[dir] == dir1 then
 				return npos, dir2
@@ -205,9 +204,9 @@ local function search_wifi_node(pos, dir)
 			end
 		end
 	end
-	
+
 	local cnt = 0
-	if not dir then	return pos, cnt end	
+	if not dir then	return pos, cnt end
 	while true do
 		local new_pos, new_dir = convert_next_tube(pos, dir)
 		if not new_dir then	break end
@@ -215,12 +214,12 @@ local function search_wifi_node(pos, dir)
 		cnt = cnt + 1
 	end
 	return pos, dir, cnt
-end	
+end
 
 local function search_wifi_node_in_all_dirs(pos)
 	-- check all positions
 	for dir = 1, 6 do
-		local npos, node = Tube:get_node(pos, dir)
+		local _, node = Tube:get_node(pos, dir)
 		if node and node.name == "hyperloop:tube1" then
 			search_wifi_node(pos, dir)
 		end
@@ -230,7 +229,7 @@ end
 local function convert_tube_line(pos)
 	-- check all positions
 	for dir = 1, 6 do
-		local npos, node = Tube:get_node(pos, dir)
+		local _, node = Tube:get_node(pos, dir)
 		if node and node.name == "hyperloop:tube1" then
 			convert_line(Tube, pos, dir)
 		end
@@ -266,13 +265,13 @@ end
 
 local function convert_station_data(tAllStations)
 	tLegacyNodeNames = {
-		["hyperloop:tube0"] = true, 
-		["hyperloop:tube1"] = true, 
-		["hyperloop:tube2"] = true, 
+		["hyperloop:tube0"] = true,
+		["hyperloop:tube1"] = true,
+		["hyperloop:tube2"] = true,
 	}
-	
+
 	local originNodeNames = add_to_table(Tube.primary_node_names, tLegacyNodeNames)
-	
+
 	for key,item in pairs(tAllStations) do
 		if item.pos and Tube:is_secondary_node(item.pos) then
 			Stations:set(item.pos, station_name(item), {
@@ -301,19 +300,19 @@ local function convert_station_data(tAllStations)
 	end
 	-- Repair the tube lines of wifi nodes
 	wifi_post_processing()
-	
+
 	Tube.primary_node_names = originNodeNames
 end
 
 local function convert_elevator_data(tAllElevators)
 	tLegacyNodeNames = {
-		["hyperloop:shaft"] = true, 
+		["hyperloop:shaft"] = true,
 		["hyperloop:shaft2"] = true,
 	}
 	local originNodeNames = add_to_table(Shaft.primary_node_names, tLegacyNodeNames)
 	local originDirsToCheck = table.copy(Shaft.dirs_to_check)
 	Shaft.dirs_to_check = {5,6}  -- legacy elevators use up/down only
-	
+
 	for pos,tElevator in pairs(tAllElevators) do
 		for _,floor in pairs(tElevator.floors) do
 			if floor.pos and Shaft:is_secondary_node(floor.pos) then
@@ -326,7 +325,7 @@ local function convert_elevator_data(tAllElevators)
 			end
 		end
 	end
-	
+
 	Shaft.primary_node_names = originNodeNames
 	Shaft.dirs_to_check = originDirsToCheck
 end

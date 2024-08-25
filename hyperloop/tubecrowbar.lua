@@ -12,12 +12,11 @@
 
 -- for lazy programmers
 local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
+--local P = minetest.string_to_pos
+--local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 local Shaft = hyperloop.Shaft
 local Tube = hyperloop.Tube
@@ -36,11 +35,11 @@ end
 local function repair_tubes(itemstack, placer, pointed_thing)
 	if pointed_thing.type == "node" then
 		local pos = pointed_thing.under
-		local dir1, dir2, fpos1, fpos2, fdir1, fdir2, cnt1, cnt2 = 
+		local dir1, dir2, fpos1, fpos2, fdir1, fdir2, cnt1, cnt2 =
 				Shaft:tool_repair_tube(pos, placer, pointed_thing)
 		if fpos1 and fpos2 then
 			if cnt1 + cnt2 >= Shaft.max_tube_length then
-				minetest.chat_send_player(placer:get_player_name(), string.char(0x1b) .. 
+				minetest.chat_send_player(placer:get_player_name(), string.char(0x1b) ..
 						"(c@#ff0000)" .. S("[Hyperloop] Error: Tube is too long!"))
 			end
 			minetest.chat_send_player(placer:get_player_name(), chat_message(dir1, cnt1, fpos1, fdir1))
@@ -52,11 +51,11 @@ local function repair_tubes(itemstack, placer, pointed_thing)
 				max_hear_distance=5,
 				loop=false})
 		else
-			local dir1, dir2, fpos1, fpos2, fdir1, fdir2, cnt1, cnt2 = 
+			dir1, dir2, fpos1, fpos2, fdir1, fdir2, cnt1, cnt2 =
 					Tube:tool_repair_tube(pos, placer, pointed_thing)
 			if fpos1 and fpos2 then
 				if cnt1 + cnt2 >= Shaft.max_tube_length then
-					minetest.chat_send_player(placer:get_player_name(), string.char(0x1b) .. 
+					minetest.chat_send_player(placer:get_player_name(), string.char(0x1b) ..
 						"(c@#ff0000)" .. S("[Hyperloop] Error: Tube is too long!"))
 				end
 				minetest.chat_send_player(placer:get_player_name(), chat_message(dir1, cnt1, fpos1, fdir1))
@@ -70,7 +69,7 @@ local function repair_tubes(itemstack, placer, pointed_thing)
 			end
 		end
 	else
-		minetest.chat_send_player(placer:get_player_name(), 
+		minetest.chat_send_player(placer:get_player_name(),
 			S("[Crowbar Help]\n")..
 			S("    left: remove node\n")..
 			S("    right: repair tube/shaft line\n"))
@@ -83,7 +82,7 @@ local function add_to_inventory(placer, item_name)
 	if inv and item and inv:room_for_item("main", item) then
 		inv:add_item("main", item)
 	end
-end	
+end
 
 local function remove_tube(itemstack, placer, pointed_thing)
 	if minetest.check_player_privs(placer:get_player_name(), "hyperloop") then
@@ -100,10 +99,6 @@ local function remove_tube(itemstack, placer, pointed_thing)
 	end
 end
 
-local function dump_data_base(pos)
-	print(dump(hyperloop.tDatabase))
-end
-
 -- Tool for tube workers to crack a protected tube line
 minetest.register_node("hyperloop:tube_crowbar", {
 	description = S("Hyperloop Tube Crowbar"),
@@ -118,8 +113,8 @@ minetest.register_node("hyperloop:tube_crowbar", {
 	stack_max = 1,
 })
 
-minetest.register_privilege("hyperloop", 
-	{description = S("Rights to remove tube nodes by means of the crowbar"), 
+minetest.register_privilege("hyperloop",
+	{description = S("Rights to remove tube nodes by means of the crowbar"),
 	give_to_singleplayer = false})
 
 

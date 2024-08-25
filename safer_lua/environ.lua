@@ -31,6 +31,30 @@ local function range(from, to)
 	end, minetest.get_us_time() + safer_lua.MaxExeTime, from-1
 end
 
+-- Borrowed from mesecons_luacontroller
+-- string.rep(str, n) with a high value for n can be used to DoS
+-- the server. Therefore, limit max. length of generated string.
+local function safe_string_rep(str, n)
+	if #str * n > 1000 then
+		debug.sethook() -- Clear hook
+		error("string.rep: string length overflow", 2)
+	end
+
+	return string.rep(str, n)
+end
+
+-- Borrowed from mesecons_luacontroller
+-- string.find with a pattern can be used to DoS the server.
+-- Therefore, limit string.find to patternless matching.
+local function safe_string_find(...)
+	if (select(4, ...)) ~= true then
+		debug.sethook() -- Clear hook
+		error("string.find: 'plain' (fourth parameter) must always be true")
+	end
+
+	return string.find(...)
+end
+
 local BASE_ENV = {
 	Array = safer_lua.Array,
 	Store = safer_lua.Store,
@@ -47,14 +71,14 @@ local BASE_ENV = {
 	string = {
 		byte = string.byte,
 		char = string.char,
-		find = string.find,
+		find = safe_string_find,
 		format = string.format,
 		gmatch = string.gmatch,
 		gsub = string.gsub,
 		len = string.len,
 		lower = string.lower,
 		match = string.match,
-		rep = string.rep,
+		rep = safe_string_rep,
 		sub = string.sub,
 		upper = string.upper,
 		split = function(str, separator, include_empty, max_splits, sep_is_pattern) 

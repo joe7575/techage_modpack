@@ -18,9 +18,8 @@ local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
--- Used to store the Station list for each booking machine: 
+-- Used to store the Station list for each booking machine:
 --    tStationList[SP(pos)] = {pos1, pos2, ...}
 local tStationList = {}
 
@@ -33,7 +32,7 @@ local function generate_string(sortedList)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-  	"item_image[0,0;1,1;hyperloop:booking]"..
+	"item_image[0,0;1,1;hyperloop:booking]"..
 	"label[4,0; "..S("Select your destination").."]"}
 	tRes[2] = "tablecolumns[text,width=20;text,width=6,align=right;text]"
 
@@ -80,7 +79,7 @@ local function filter_subnet(sortedList, subnet)
 		if subnet == "" then
 			subnet = nil
 		end
-		
+
 		local tbl = {}
 		for idx,item in ipairs(sortedList) do
 			if item.subnet == subnet then
@@ -95,7 +94,6 @@ end
 -- Used to update the station list for booking machine
 -- and teleport list.
 local function station_list_as_string(pos, subnet)
-	local meta = M(pos)
 	-- Generate a name sorted list of all connected stations
 	local sortedList = Stations:station_list(pos, pos, "name")
 	-- remove all junctions from the list
@@ -108,7 +106,7 @@ local function station_list_as_string(pos, subnet)
 	return generate_string(sortedList)
 end
 
-local naming_formspec = nil
+local naming_formspec
 
 if hyperloop.subnet_enabled then
 	naming_formspec = function(pos)
@@ -185,7 +183,7 @@ local function on_receive_fields(pos, formname, fields, player)
 					booking_info = string.trim(fields.info),
 					subnet = subnet,
 			})
-			
+
 			local meta = M(pos)
 			meta:set_string("sStationPos", SP(stationPos))
 			meta:set_string("infotext", "Station: "..station_name)
@@ -217,7 +215,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		end
 	end
 end
-	
+
 local function on_destruct(pos)
 	local sStationPos = M(pos):get_string("sStationPos")
 	if sStationPos ~= "" then
@@ -229,7 +227,7 @@ local function on_destruct(pos)
 	end
 end
 
--- wap from wall to ground 
+-- wap from wall to ground
 local function swap_node(pos, placer)
 	pos.y = pos.y - 1
 	if minetest.get_node_or_nil(pos).name ~= "air" then
@@ -255,7 +253,7 @@ minetest.register_node("hyperloop:booking", {
 		"hyperloop_booking.png",
 		"hyperloop_booking_front.png",
 	},
-	
+
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -263,13 +261,13 @@ minetest.register_node("hyperloop:booking", {
 			{ -8/16, -8/16, 2/16,  8/16,  8/16, 8/16},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		naming_formspec(pos)
 		swap_node(pos, placer)
 	end,
 
-	on_rotate = screwdriver.disallow,	
+	on_rotate = screwdriver.disallow,
 	on_receive_fields = on_receive_fields,
 	on_destruct = on_destruct,
 	on_rightclick = on_rightclick,
@@ -293,7 +291,7 @@ minetest.register_node("hyperloop:booking_ground", {
 		"hyperloop_booking.png",
 		"hyperloop_booking_front.png",
 	},
-	
+
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -301,7 +299,7 @@ minetest.register_node("hyperloop:booking_ground", {
 			{ -8/16, -8/16, -3/16,  8/16,  8/16, 3/16},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		naming_formspec(pos)
 	end,
@@ -309,8 +307,8 @@ minetest.register_node("hyperloop:booking_ground", {
 	on_receive_fields = on_receive_fields,
 	on_destruct = on_destruct,
 	on_rightclick = on_rightclick,
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	drop = "hyperloop:booking",
 	light_source = 2,
 	paramtype = 'light',

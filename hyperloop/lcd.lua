@@ -1,8 +1,8 @@
 --[[
 
-	LCD 
+	LCD
 	===
-	
+
 	Derived from the work of kaeza, sofar and others (digilines)
 
 	LGPLv2.1+
@@ -12,8 +12,6 @@
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
-
 
 -- load characters map
 local chars_file = io.open(minetest.get_modpath("hyperloop").."/characters.data", "r")
@@ -138,7 +136,7 @@ local prepare_writing = function(pos)
 		{x = pos.x + lcd_info.delta.x,
 		 y = pos.y + lcd_info.delta.y,
 		 z = pos.z + lcd_info.delta.z}, "hyperloop_lcd:text")
-	text:setyaw(lcd_info.yaw or 0)
+	text:set_yaw(lcd_info.yaw or 0)
 	--* text:setpitch(lcd_info.yaw or 0)
 	return text
 end
@@ -161,7 +159,7 @@ minetest.register_node("hyperloop:lcd", {
 	description = S("Hyperloop Display"),
 	tiles = {"hyperloop_lcd.png"},
 
-	on_rotate = screwdriver.disallow,	
+	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "wallmounted",
@@ -185,7 +183,7 @@ minetest.register_node("hyperloop:lcd", {
 	update = function(pos, text)
 		lcd_update(pos, text)
 	end,
-	
+
 	light_source = 6,
 })
 

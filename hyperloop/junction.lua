@@ -11,13 +11,12 @@
 ]]--
 
 -- for lazy programmers
-local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+--local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
+--local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 local Tube = hyperloop.Tube
 local Stations = hyperloop.Stations
@@ -63,7 +62,7 @@ minetest.register_node("hyperloop:junction", {
 		Tube:after_dig_node(pos)
 		Stations:delete(pos)
 	end,
-	
+
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",

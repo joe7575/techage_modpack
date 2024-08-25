@@ -4,7 +4,7 @@
 - All kinds of machines only run when the world is loaded at this point, i.e. a player is nearby. With forceload blocks you can force the area around the forceload block to stay loaded as long as you are 'on'.
 - With the TA1 Gravel Sieve ores can be sieved from gravel. You can collect gravel in caves or make it out of stone with the TA1 hammer.
 - The hopper is suitable for simple automation tasks. Please note that the hopper only sucks in the items from the left or above and passes them to the right (marking visible above) in chests or similar blocks.
-- You can find the instructions for Minecart in the player inventory via the Help (question mark) button.
+- You can find the instructions for Minecart in the Techage construction board.
 - Lava and water become basalt (not stone), a Cobble generator for endless ore mining does not exist at Techage.
 - In order to make steel, you need not only iron but also coal.
 - Build the burner tower high enough (at least for 10 coal blocks) so that you can also bake obsidian, you will need it later.

@@ -14,26 +14,26 @@
 -- for lazy programmers
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
-local M = minetest.get_meta
+--local M = minetest.get_meta
 
 -- Convert to list and add pos based on key string
 local function table_to_list(table)
 	local lRes = {}
-	for key,item in pairs(table) do 
+	for key,item in pairs(table) do
 		item.pos = P(key)
-		lRes[#lRes+1] = item 
+		lRes[#lRes+1] = item
 	end
 	return lRes
 end
 
 local function distance(pos1, pos2)
-	return math.floor(math.abs(pos1.x - pos2.x) + 
+	return math.floor(math.abs(pos1.x - pos2.x) +
 			math.abs(pos1.y - pos2.y) + math.abs(pos1.z - pos2.z))
 end
 
 -- Add the distance to pos to each list item
 local function add_distance_to_list(lStations, pos)
-	for _,item in ipairs(lStations) do 
+	for _,item in ipairs(lStations) do
 		item.distance = distance(item.pos, pos)
 	end
 	return lStations
@@ -50,7 +50,7 @@ local function add_index_to_list(lStations)
 			end
 		end
 	end
-	
+
 	local key = nil
 	for idx = 1,#lStations do
 		key = get_next(key, idx)
@@ -61,8 +61,8 @@ end
 -- Return a table with all stations, the given station (as 'sKey') is connected with
 -- tRes is used for the resulting table (recursive call)
 local function get_stations(tStations, sKey, tRes)
-	if not tStations[sKey] or not tStations[sKey].conn then 
-		return {} 
+	if not tStations[sKey] or not tStations[sKey].conn then
+		return {}
 	end
 	for dir,dest in pairs(tStations[sKey].conn) do
 		-- Not already visited?
@@ -87,7 +87,7 @@ local function sort_based_on_level(tStations)
 	table.sort(lStations, function(a,b) return (a.idx or 9999) < (b.idx or 9999) end)
 	return lStations
 end
-	
+
 -- Return a list with sorted stations
 local function sort_based_on_distance(tStations, pos)
 	local lStations = table_to_list(table.copy(tStations))
@@ -100,7 +100,7 @@ end
 -- Return a list with sorted stations
 local function sort_based_on_name(tStations, pos)
 	local lStations = table_to_list(table.copy(tStations))
-	-- Add distance 
+	-- Add distance
 	lStations = add_distance_to_list(lStations, pos)
 	table.sort(lStations, function(a,b) return a.name < b.name end)
 	return lStations
@@ -185,7 +185,7 @@ end
 function Network:changed(counter)
 	return self.change_counter > counter, self.change_counter
 end
-	
+
 -- Update the connection data base. The output dir information is needed
 -- to be able to delete a connection, if necessary.
 -- Returns true, if data base is changed.
@@ -273,16 +273,16 @@ function Network:deserialize(data)
 		self.change_counter = data.change_counter
 	end
 end
-	
+
 function Network:serialize()
 	return minetest.serialize(self)
 end
-	
+
 -- Return a pos/item table with all network nodes, the node at pos is connected with
 function Network:get_node_table(pos)
 	local tRes = {}
 	local key = S(pos)
-	get_stations(self.tStations, key, tRes)	
+	get_stations(self.tStations, key, tRes)
 	tRes[key] = nil
 	return tRes
 end

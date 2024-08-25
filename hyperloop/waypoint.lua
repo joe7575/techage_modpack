@@ -17,7 +17,6 @@ local Waypoints = {}
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 minetest.register_node("hyperloop:waypoint", {
 	description = S("Hyperloop Waypoint"),
@@ -33,7 +32,7 @@ minetest.register_node("hyperloop:waypoint", {
 			{ -4/16, -8/16, -4/16,  4/16,  -7/16, 4/16},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local name = placer:get_player_name()
 		if Waypoints[name] then
@@ -46,7 +45,7 @@ minetest.register_node("hyperloop:waypoint", {
 			name = "Hyperloop",
 			text = "m",
 			world_pos = pos
-		})	
+		})
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -57,9 +56,9 @@ minetest.register_node("hyperloop:waypoint", {
 		end
 	end,
 
-	on_rotate = screwdriver.disallow,	
+	on_rotate = screwdriver.disallow,
 	paramtype = "light",
-	light_source = minetest.LIGHT_MAX,	
+	light_source = minetest.LIGHT_MAX,
 	sunlight_propagates = true,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,

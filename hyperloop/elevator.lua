@@ -17,7 +17,6 @@ local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 -- To store elevator floors and formspecs
 local Cache = {}
@@ -36,9 +35,9 @@ end
 
 local Shaft = tubelib2.Tube:new({
 	dirs_to_check = dirs_to_check,
-	max_tube_length = 1000, 
+	max_tube_length = 1000,
 	show_infotext = true,
-	primary_node_names = {"hyperloop:shaft", "hyperloop:shaft2", "hyperloop:shaftA", "hyperloop:shaftA2"}, 
+	primary_node_names = {"hyperloop:shaft", "hyperloop:shaft2", "hyperloop:shaftA", "hyperloop:shaftA2"},
 	secondary_node_names = {"hyperloop:elevator_bottom", "hyperloop:elevator_top"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		if tube_type == "S" then
@@ -65,8 +64,8 @@ Shaft:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir
 		-- switch to elevator_bottom node
 		pos = Shaft:get_pos(pos, 5)
 	elseif peer_pos then
-		local _,node = Shaft:get_node(peer_pos)
-		if node.name == "hyperloop:elevator_top" then
+		local _,node1 = Shaft:get_node(peer_pos)
+		if node1.name == "hyperloop:elevator_top" then
 			peer_pos = Shaft:get_pos(peer_pos, 5)
 		end
 	end
@@ -108,11 +107,11 @@ minetest.register_node("hyperloop:shaft", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Shaft:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	climbable = true,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -158,11 +157,11 @@ minetest.register_node("hyperloop:shaftA", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Shaft:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	climbable = true,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -204,7 +203,7 @@ minetest.register_node("hyperloop:shaft2", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Shaft:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	climbable = true,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -251,7 +250,7 @@ minetest.register_node("hyperloop:shaftA2", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Shaft:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	climbable = true,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -332,13 +331,13 @@ local function door_command(floor_pos, facedir, cmnd, sound)
 	local door_pos1 = hyperloop.new_pos(floor_pos, facedir, "1B", 0)
 	local door_pos2 = hyperloop.new_pos(floor_pos, facedir, "1B", 1)
 	local meta = M(floor_pos)
-	local owner = meta:contains("owner") and meta:get_string("owner") 
+	local owner = meta:contains("owner") and meta:get_string("owner")
 	if owner and (minetest.is_protected(door_pos1, owner) or minetest.is_protected(door_pos2, owner)) then
 		return
 	end
 	local node1 = minetest.get_node(door_pos1)
 	local node2 = minetest.get_node(door_pos2)
-	
+
 	if sound then
 		minetest.sound_play("ele_door", {
 				pos = floor_pos,
@@ -445,7 +444,7 @@ minetest.register_node("hyperloop:elevator_bottom", {
 		fixed = { -8/16, -8/16, -8/16,   8/16, 23/16, 8/16 },
 	},
 	inventory_image = "hyperloop_elevator_inventory.png",
-	on_rotate = screwdriver.disallow,	
+	on_rotate = screwdriver.disallow,
 	drawtype = "nodebox",
 	paramtype = 'light',
 	light_source = 6,
@@ -458,25 +457,25 @@ minetest.register_node("hyperloop:elevator_bottom", {
 		if node.name == "air" then
 			local facedir = hyperloop.get_facedir(placer)
 			Elevators:set(pos, "<unknown>", {facedir=facedir, busy=false})
-			
+
 			Shaft:after_place_node(pos, {5})
-			
+
 			-- formspec
 			local meta = minetest.get_meta(pos)
-			local formspec = "size[6,4]"..
+			local fs = "size[6,4]"..
 			"label[0,0;"..S("Please insert floor name").."]" ..
 			"field[0.5,1.5;5,1;floor;"..S("Floor name")..";"..S("Base").."]" ..
 			"button_exit[2,3;2,1;exit;"..S("Save").."]"
-			meta:set_string("formspec", formspec)
+			meta:set_string("formspec", fs)
 			meta:set_string("owner", placer:get_player_name())
-			
+
 			-- add upper part of the car
 			pos = Shaft:get_pos(pos, 6)
 			minetest.add_node(pos, {name="hyperloop:elevator_top", param2=facedir})
 			Shaft:after_place_node(pos, {6})
 		else
 			minetest.remove_node(pos)
-			return true	
+			return true
 		end
 	end,
 
@@ -559,8 +558,8 @@ minetest.register_node("hyperloop:elevator_top", {
 			{ -7/16, -8/16,  7/16,   7/16,  8/16, 8/16},
 		},
 	},
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	drawtype = "nodebox",
 	paramtype = 'light',
 	light_source = 6,
@@ -584,8 +583,8 @@ minetest.register_node("hyperloop:elevator_door_top", {
 			{ -8/16, -8/16,  7/16,   8/16,  8/16, 8/16},
 		},
 	},
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	drop = "",
 	paramtype = 'light',
 	paramtype2 = "facedir",
@@ -607,12 +606,12 @@ minetest.register_node("hyperloop:elevator_door", {
 			{ -8/16, -8/16,  7/16,   8/16,  8/16, 8/16},
 		},
 	},
-	
+
 	selection_box = {
 		type = "fixed",
 		fixed = { -8/16, -8/16, 6.5/16,   8/16, 24/16, 8/16 },
 	},
-	
+
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		local floor_pos = P(M(pos):get_string("floor_pos"))
 		if floor_pos ~= nil then
@@ -623,8 +622,8 @@ minetest.register_node("hyperloop:elevator_door", {
 			end
 		end
 	end,
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	drop = "",
 	paramtype = 'light',
 	paramtype2 = "facedir",
@@ -646,8 +645,8 @@ minetest.register_node("hyperloop:elevator_door_dark_top", {
 			{ -8/16, -8/16,  7/16,   8/16,  8/16, 8/16},
 		},
 	},
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	drop = "",
 	paramtype = 'light',
 	paramtype2 = "facedir",
@@ -668,13 +667,13 @@ minetest.register_node("hyperloop:elevator_door_dark", {
 			{ -8/16, -8/16,  7/16,   8/16,  8/16, 8/16},
 		},
 	},
-	
+
 	selection_box = {
 		type = "fixed",
 		fixed = { -8/16, -8/16, 7/16,   8/16, 24/16, 8/16 },
 	},
-	
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	drop = "",
 	paramtype = 'light',
 	paramtype2 = "facedir",

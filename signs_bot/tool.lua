@@ -39,14 +39,18 @@ local function store_data(placer, pos, name)
 		meta:set_string("signs_bot_spos", spos)
 		meta:set_string("signs_bot_name", name)
 	else
-		meta:set_string("signs_bot_spos", nil)
-		meta:set_string("signs_bot_name", nil)
+		meta:set_string("signs_bot_spos", "")
+		meta:set_string("signs_bot_name", "")
 	end
 end
 
 -- Write actuator_pos data to sensor_pos
-local function pairing(actuator_pos, sensor_pos)
+local function pairing(actuator_pos, sensor_pos, invert)
 	local signal = signs_bot.get_signal(actuator_pos)
+	if invert then
+		signal = ({on = "off", off = "on"})[signal]
+	end
+	
 	if signal then
 		signs_bot.store_signal(sensor_pos, actuator_pos, signal)
 		local node = tubelib2.get_node_lvm(sensor_pos)
@@ -58,24 +62,29 @@ local function pairing(actuator_pos, sensor_pos)
 end
 
 local function use_tool(itemstack, placer, pointed_thing)
+	local invert = false
+	if placer:get_player_control().aux1 then
+		invert = true
+	end
+
 	if pointed_thing.type == "node" then
 		local pos1,ntype1 = get_stored_data(placer)
 		local pos2,ntype2 = get_current_data(pointed_thing)
 
 		if ntype1 == "actuator" and (ntype2 == "sensor" or ntype2 == "repeater") then
-			pairing(pos1, pos2)
+			pairing(pos1, pos2, invert)
 			store_data(placer, nil, nil)
 			minetest.sound_play('signs_bot_pong', {to_player = placer:get_player_name()})
 		elseif (ntype1 == "actuator" or ntype1 == "repeater") and ntype2 == "sensor" then
-			pairing(pos1, pos2)
+			pairing(pos1, pos2, invert)
 			store_data(placer, nil, nil)
 			minetest.sound_play('signs_bot_pong', {to_player = placer:get_player_name()})
 		elseif ntype2 == "actuator" and (ntype1 == "sensor" or ntype1 == "repeater") then
-			pairing(pos2, pos1)
+			pairing(pos2, pos1, invert)
 			store_data(placer, nil, nil)
 			minetest.sound_play('signs_bot_pong', {to_player = placer:get_player_name()})
 		elseif (ntype2 == "actuator" or ntype2 == "repeater") and ntype1 == "sensor" then
-			pairing(pos2, pos1)
+			pairing(pos2, pos1, invert)
 			store_data(placer, nil, nil)
 			minetest.sound_play('signs_bot_pong', {to_player = placer:get_player_name()})
 		elseif ntype2 == "actuator" or ntype2 == "sensor" or ntype2 == "repeater" then

@@ -86,7 +86,7 @@ local function tokenizer(script)
 			if num_param >= 3 then
 				tokens[#tokens + 1] = param3 or "nil"
 			end
-		elseif cmnd:find("%w+:") then
+		elseif cmnd:find("%w+:$") then
 			tokens[#tokens + 1] = cmnd
 		end
 	end
@@ -98,7 +98,7 @@ local function pass1(tokens)
 	local pc = 1
 	tSymbolTbl = {}
 	for _, token in ipairs(tokens) do
-		if token:find("%w+:") then
+		if token:find("%w+:$") then
 			tSymbolTbl[token] = pc
 		else
 			pc = pc + 1
@@ -265,7 +265,7 @@ function api.check_script(script)
 			if tCmdDef[cmnd].num_param > 0 and not tCmdDef[cmnd].check(param1, param2, param3) then
 				return false, S("Parameter error"), idx
 			end
-		elseif not cmnd:find("%w+:") then
+		elseif not cmnd:find("%w+:$") then
 			return false, S("Command error"), idx
 		end
 		tbl[cmnd] = (tbl[cmnd] or 0) + 1
@@ -298,8 +298,10 @@ function api.run_script(base_pos, mem)
 			CodeCache[hash] = compile(mem.script)
 			mem.pc = 1
 			mem.Stack = {}
+		elseif res == api.ERROR then
+			return res, err, gen_string_cmnd(code, mem.pc, num_param, mem.script)
 		end
-		return res, err, gen_string_cmnd(code, mem.pc, num_param, mem.script)
+		return res, err, ""
 	end
 	return api.EXIT
 end

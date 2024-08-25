@@ -12,7 +12,6 @@
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 local Tube = hyperloop.Tube
 
@@ -39,13 +38,13 @@ minetest.register_node("hyperloop:tube_wifi1", {
 	tubelib2_on_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
 		Tube:prepare_pairing(pos, out_dir, sFormspec)
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		if fields.channel ~= nil then
 			Tube:pairing(pos, fields.channel)
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:stop_pairing(pos, oldmetadata, sFormspec)
 		local tube_dir = tonumber(oldmetadata.fields.tube_dir or 0)

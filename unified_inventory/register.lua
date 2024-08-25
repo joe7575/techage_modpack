@@ -215,7 +215,7 @@ local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 		local group_name = name:sub(7)
 		local group_item = ui.get_group_item(group_name)
 		show_is_group = not group_item.sole
-		displayitem = group_item.item or "unknown"
+		displayitem = group_item.item or name
 		selectitem = group_item.sole and displayitem or name
 	end
 	local label = show_is_group and "G" or ""
@@ -298,11 +298,10 @@ ui.register_page("craftguide", {
 
 		local n = 4
 
+		local item_def = minetest.registered_items[item_name]
 		local item_name_shown
-		if minetest.registered_items[item_name]
-				and minetest.registered_items[item_name].description then
-			item_name_shown = S("@1 (@2)",
-				minetest.registered_items[item_name].description, item_name)
+		if item_def and item_def.description then
+			item_name_shown = S("@1 (@2)", item_def.description, item_name)
 		else
 			item_name_shown = item_name
 		end
@@ -327,12 +326,14 @@ ui.register_page("craftguide", {
 				F(role_text[dir]), item_name_shown)
 		n = n + 2
 
-		local giveme_form = table.concat({
-			"label[".. (give_x+0.1)..",".. (craftguidey + 2.7) .. ";" .. F(S("Give me:")) .. "]",
-			"button["..(give_x)..","..     (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_1;1]",
-			"button["..(give_x+0.8)..",".. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_10;10]",
-			"button["..(give_x+1.6)..",".. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_99;99]"
-		})
+		local giveme_form =
+			"label[" .. (give_x + 0.1) .. "," .. (craftguidey + 2.7) .. ";" .. F(S("Give me:")) .. "]" ..
+			"button[" .. (give_x) .. "," .. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_1;1]"
+		if item_def.type ~= "tool" then
+			giveme_form = giveme_form ..
+				"button[" .. (give_x + 0.8) .. "," .. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_10;10]" ..
+				"button[" .. (give_x + 1.6) .. "," .. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_99;99]"
+		end
 
 		if not craft then
 			-- No craft recipes available for this item.

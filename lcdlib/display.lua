@@ -217,9 +217,11 @@ end
 function lcdlib.register_display_entity(entity_name)
 	if not minetest.registered_entity then
 		minetest.register_entity(':'..entity_name, {
-			collisionbox = { 0, 0, 0, 0, 0, 0 },
-			visual = "upright_sprite",
-			textures = {},
+			initial_properties = {
+				collisionbox = { 0, 0, 0, 0, 0, 0 },
+				visual = "upright_sprite",
+				textures = {},
+			},
 			on_activate = lcdlib.on_activate,
 		})
 	end

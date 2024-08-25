@@ -12,12 +12,11 @@
 
 -- for lazy programmers
 local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+--local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 local Tube = hyperloop.Tube
 local Stations = hyperloop.Stations
@@ -38,7 +37,7 @@ local AssemblyPlan = {
 	{ 0, "1F", 2, "hyperloop:seat"},
 	{ 0, "1F", 0, "hyperloop:pod_floor"},
 	{ 1, "",   0, "hyperloop:lcd"},
-	-- right slice	
+	-- right slice
 	{-1, "1F1R", 0, "hyperloop:pod_wall_ni"},
 	{ 1, "",   0, "hyperloop:pod_wall_ni"},
 	{ 1, "",   0, "hyperloop:pod_wall_ni"},
@@ -51,7 +50,7 @@ local AssemblyPlan = {
 	{ 0, "1F", 0, "hyperloop:pod_wall_ni"},
 	{ 1, "",   0, "hyperloop:pod_wall_ni"},
 	{ 0, "1B", 0, "hyperloop:pod_wall_ni"},
-	-- left slice	
+	-- left slice
 	{-1, "2L2R", 0, "hyperloop:pod_wall_ni"},
 	{ 1, "",   0, "hyperloop:pod_wall_ni"},
 	{ 1, "",   0, "hyperloop:pod_wall_ni"},
@@ -69,10 +68,10 @@ local AssemblyPlan = {
 
 local function store_station(pos, placer)
 	local facedir = hyperloop.get_facedir(placer)
-	-- do a facedir correction 
+	-- do a facedir correction
 	facedir = (facedir + 3) % 4  -- face to LCD
 	Stations:set(pos, "Station", {
-			owner = placer:get_player_name(), 
+			owner = placer:get_player_name(),
 			facedir = facedir,
 			time_blocked = 0})
 end
@@ -88,7 +87,7 @@ end
 local function place_node(pos, facedir, node_name, sKey)
 	if node_name == "hyperloop:lcd" then
 		-- wallmounted devices need a facedir correction
-		local tbl = {[0]=4, [1]=2, [2]=5, [3]=3} 
+		local tbl = {[0]=4, [1]=2, [2]=5, [3]=3}
 		minetest.add_node(pos, {name=node_name, paramtype2="wallmounted", param2=tbl[facedir]})
 	else
 		minetest.add_node(pos, {name=node_name, param2=facedir})
@@ -107,11 +106,11 @@ local function construct(idx, pos, facedir, player_name, sKey)
 	else
 		hyperloop.chat(player_name, S("Station completed. Now place the Booking Machine!"))
 	end
-end	
-	
+end
+
 local function check_space(pos, facedir, placer)
 	for _,item in ipairs(AssemblyPlan) do
-		local y, path, node_name = item[1], item[2], item[4]
+		local y, path, _ = item[1], item[2], item[4]
 		pos = hyperloop.new_pos(pos, facedir, path, y)
 		if minetest.is_protected(pos, placer:get_player_name()) then
 			hyperloop.chat(placer, S("Area is protected!"))
@@ -169,7 +168,7 @@ local function check_inventory(inv, player)
 	hyperloop.chat(player, S("Not enough inventory items to build the station!"))
 	return false
 end
-	
+
 local function remove_inventory_items(inv, meta)
 	inv:remove_item("src", ItemStack("hyperloop:pod_wall 30"))
 	inv:remove_item("src", ItemStack("hyperloop:hypersteel_ingot 4"))
@@ -189,18 +188,18 @@ local function build_station(pos, placer)
 	-- check protection
 	if minetest.is_protected(pos, placer:get_player_name()) then
 		return
-	end			
+	end
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 	local facedir = hyperloop.get_facedir(placer)
-	-- do a facedir correction 
+	-- do a facedir correction
 	facedir = (facedir + 3) % 4				-- face to LCD
 	if check_inventory(inv, placer) then
 		Stations:update(pos, {facedir = facedir})
 
 		if check_space(table.copy(pos), facedir, placer) then
 			construct(1, table.copy(pos), facedir, placer:get_player_name(), SP(pos))
-			meta:set_string("formspec", station_formspec .. 
+			meta:set_string("formspec", station_formspec ..
 				"button_exit[0,3.9;3,1;destroy;"..S("Destroy Station").."]")
 			meta:set_int("built", 1)
 			meta:set_int("busy", 1)
@@ -222,21 +221,21 @@ local function destroy_station(pos, player_name)
 	-- check protection
 	if minetest.is_protected(pos, player_name) then
 		return
-	end		
-	
+	end
+
 	local station = Stations:get(pos)
 	if station then
 		-- remove nodes
 		local _pos = table.copy(pos)
 		for _,item in ipairs(AssemblyPlan) do
-			local y, path, node_name = item[1], item[2], item[4]
+			local y, path, _ = item[1], item[2], item[4]
 			_pos = hyperloop.new_pos(_pos, station.facedir, path, y)
 			minetest.remove_node(_pos)
 		end
 		on_destruct(pos)
 		-- maintain meta
 		local meta = M(pos)
-		meta:set_string("formspec", station_formspec .. 
+		meta:set_string("formspec", station_formspec ..
 			"button_exit[0,3.9;3,1;build;"..S("Build Station").."]")
 		local inv = meta:get_inventory()
 		add_inventory_items(inv)
@@ -257,12 +256,12 @@ minetest.register_node("hyperloop:station", {
 
 	on_construct = function(pos)
 		local meta = M(pos)
-		meta:set_string("formspec", station_formspec .. 
+		meta:set_string("formspec", station_formspec ..
 			"button_exit[0,3.9;3,1;build;"..S("Build Station").."]")
 		local inv = meta:get_inventory()
 		inv:set_size('src', 4)
 	end,
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		hyperloop.check_network_level(pos, placer)
 		M(pos):set_string("infotext", S("Station"))
@@ -280,7 +279,7 @@ minetest.register_node("hyperloop:station", {
 			build_station(pos, player)
 		end
 	end,
-	
+
 	on_dig = function(pos, node, puncher, pointed_thing)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -288,13 +287,13 @@ minetest.register_node("hyperloop:station", {
 			minetest.node_dig(pos, node, puncher, pointed_thing)
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_node(pos)
 		Stations:delete(pos)
 	end,
-		
-	on_rotate = screwdriver.disallow,	
+
+	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	groups = {cracky = 1},
 	is_ground_content = false,
@@ -309,7 +308,7 @@ minetest.register_node("hyperloop:pod_wall", {
 		"hyperloop_skin2.png",
 		"hyperloop_skin.png",
 	},
-	on_rotate = screwdriver.disallow,	
+	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	groups = {cracky=2},
 	is_ground_content = false,
@@ -324,7 +323,7 @@ minetest.register_node("hyperloop:pod_wall_ni", {
 		"hyperloop_skin2.png",
 		"hyperloop_skin.png",
 	},
-	on_rotate = screwdriver.disallow,	
+	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	groups = {cracky=2, not_in_creative_inventory=1},
 	is_ground_content = false,
@@ -345,7 +344,7 @@ minetest.register_node("hyperloop:pod_floor", {
 			{-8/16, -8/16, -8/16, 8/16,  -7.5/16,  8/16},
 		},
 	},
-	on_rotate = screwdriver.disallow,	
+	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	groups = {cracky=2, not_in_creative_inventory=1},
 	is_ground_content = false,

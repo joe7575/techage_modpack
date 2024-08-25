@@ -35,12 +35,20 @@ signs_bot.register_flower("default:acacia_bush_stem")
 signs_bot.register_flower("default:pine_bush_stem")
 
 minetest.after(1, function()
+	local function add_flower(name)
+		local def = minetest.registered_nodes[name]
+		if def and (def.groups.mushroom == 1 or def.groups.flower == 1) then
+			signs_bot.register_flower(name)
+		end
+	end
+
 	for _,def in pairs(minetest.registered_decorations) do
 		local name = def.decoration
-		if name and type(name) == "string" then
-			local mod = string.split(name, ":")[1]
-			if mod == "flowers" or mod == "bakedclay" then -- Bakedclay also registers flowers as decoration.
-				signs_bot.register_flower(name)
+		if type(name) == "string" then
+			add_flower(name)
+		elseif type(name) == "table" then
+			for _,sub_name in ipairs(name) do
+				add_flower(sub_name)
 			end
 		end
 	end

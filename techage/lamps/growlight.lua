@@ -74,7 +74,7 @@ local function grow_flowers(pos)
 		local soil_node = minetest.get_node(soil_pos)
 		if soil_node and soil_node.name == "compost:garden_soil" then
 			if plant_node and plant_node.name == "air" then
-				if mem.grow_pos[plant_idx] then
+				if mem.grow_pos[plant_idx] and #Flowers > 1 then
 					local idx = math.floor(math.random(1, #Flowers))
 					if Flowers[idx] then
 						minetest.set_node(plant_pos, {name = Flowers[idx]})
@@ -192,14 +192,22 @@ function techage.register_plant(name)
 end
 
 minetest.after(1, function()
+	local function add_flower(name)
+		local def = minetest.registered_nodes[name]
+		if def and (def.groups.mushroom == 1 or def.groups.flower == 1) then
+			if not Ignore[name] then
+				techage.register_flower(name)
+			end
+		end
+	end
+
 	for _,def in pairs(minetest.registered_decorations) do
 		local name = def.decoration
-		if name and type(name) == "string" then
-			local mod = string.split(name, ":")[1]
-			if mod == "flowers" or mod == "bakedclay" then -- Bakedclay also registers flowers as decoration.
-				if not Ignore[name] then
-					techage.register_flower(name)
-				end
+		if type(name) == "string" then
+			add_flower(name)
+		elseif type(name) == "table" then
+			for _,sub_name in ipairs(name) do
+				add_flower(sub_name)
 			end
 		end
 	end
@@ -213,5 +221,4 @@ minetest.after(1, function()
 			end
 		end
 	end
-	-- print(dump(Flowers))
 end)

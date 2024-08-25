@@ -12,12 +12,11 @@
 
 -- for lazy programmers
 local SP = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
+--local P = minetest.string_to_pos
+--local M = minetest.get_meta
 
 -- Load support for intllib.
 local S = hyperloop.S
-local NS = hyperloop.NS
 
 local Stations = hyperloop.Stations
 
@@ -30,7 +29,7 @@ local function generate_string(sortedList)
 		local sKey = SP(item.pos)
 		lStationPositions[sKey] = idx
 	end
-	
+
 	local tRes = {
 		"label[0,0;ID]"..
 		"label[0.7,0;"..S("Dist.").."]"..
@@ -46,7 +45,7 @@ local function generate_string(sortedList)
 		local owner = dataSet.owner or "<unknown>"
 		local name = dataSet.name or "<unknown>"
 		local distance = dataSet.distance or 0
-		
+
 		tRes[#tRes+1] = "label[0,"..ypos..";"..idx.."]"
 		tRes[#tRes+1] = "label[0.7,"..ypos..";"..distance.." m]"
 		tRes[#tRes+1] = "label[1.8,"..ypos..";"..string.sub(name,1,24).."]"
@@ -87,7 +86,7 @@ local function map_on_use(itemstack, user)
 	local player_name = user:get_player_name()
 	local pos = user:get_pos()
 	local sStationList = station_list_as_string(pos)
-	local formspec = "size[12,10]" .. 
+	local formspec = "size[12,10]" ..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
@@ -102,7 +101,7 @@ local function map_on_secondary_use(itemstack, user)
 	local player_name = user:get_player_name()
 	local pos = user:get_pos()
 	local sStationList = network_list_as_string(pos)
-	local formspec = "size[12,10]" .. 
+	local formspec = "size[12,10]" ..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..

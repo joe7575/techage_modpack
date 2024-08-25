@@ -115,6 +115,11 @@ function unified_inventory.set_category_index(category_name, index)
 	update_category_list()
 end
 function unified_inventory.add_category_item(category_name, item)
+	if type(item) ~= "string" then
+		minetest.log("warning", "[unified_inventory] Cannot register category item: " .. dump(item))
+		return
+	end
+
 	ensure_category_exists(category_name)
 	unified_inventory.registered_category_items[category_name][item] = true
 end
