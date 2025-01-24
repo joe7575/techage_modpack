@@ -23,6 +23,7 @@ This modpack contains:
 - safer_lua: Necessary library
 - lcdlib: Necessary library
 - doclib: Necessary library
+- nanobasic: Optional library with support for the BASIC programming language (TA3 terminal)
 
 
 ### Techage Manual
@@ -45,6 +46,33 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 
 ### History
+
+#### 2025-01-24
+
+Updated Mods:
+
+- techage:
+  - Add Traffic Lights and accessories
+  - Add TA4 water remover device
+  - Improve door and fly controller
+  - Fix several issues
+  - Add Everness support #187 (ore sieving)
+  - Add BASIC mode to TA3 terminal (requires to install nanobasic. See: mods/techage_modpack/nanobasic/README.md)
+  - Improve russian translation (z-op)
+  - Many bug fixes by Niklp09, joe7575, and others
+  - Add pre-assignment menu to the furnace
+  - Improve recording for move/fly/turn controllers
+  - Allow to move the TA4 terminal with the assembly tool
+  - Add aluminum recipes for techpack_stairway items (jfanjoy)
+  - Change forceload block menu
+- signs_bot:
+  - Support `ethereal` and `moretrees` saplings (Niklp09)
+- minecart:
+  - Try to fix rare carts sound playing to all users (Niklp09)
+- unified_inventory:
+  - See: https://github.com/minetest-mods/unified_inventory/commits/master/
+- nanobasic:
+  - Newly added
 
 #### 2024-08-25
 
@@ -88,7 +116,7 @@ Updated Mods:
 - lcdlib:
   - Use initial_properties for text entity (Niklp09)
 - safer_lua:
-  - Add safe variants for strin.rep() and string.find()
+  - Add safe variants for string.rep() and string.find()
 
 #### 2023-11-26
 
