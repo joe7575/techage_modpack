@@ -1,9 +1,9 @@
-NanoBasic
-=========
+NanoBasic / [nanobasic]
+=======================
 
-A small BASIC compiler with virtual machine.
-This software is written from scratch in C.
+## Nanobasic Mod for Luanti (Minetest)
 
+NanoBasic is a BASIC interpreter to monitor and control Minetest/Luanti machines.
 Most of the common BASIC keywords are supported:
 
 ```bnf
@@ -20,15 +20,16 @@ Most of the common BASIC keywords are supported:
     DIM array-variable "(" numeric_expression ")"
     ERASE ( array-variable | string-variable$ )
     READ variable-list
-    DATA ( constant-list | string-list )       ; Only at the end of the program
-    RESTORE [ number ]                         ; Number is offset (0..n), not line number
+    DATA constant-list                                      ; numbers only, only at the end of the program
+    RESTORE [ number ]                                      ; number is offset (0..n), not line number
     RETURN
     END
     BREAK
     TRON, TROFF
     FREE
-    AND, NOT, OR, RND, MOD, LEN, VAL, SPC, NIL
-    LEN, CHR$, MID$, LEFT$, RIGHT$, STR$, HEX$, STRING$
+    AND, NOT, OR, RND, MOD, LEN, VAL, SPC, TIME, SLEEP
+    LEN, MID$, LEFT$, RIGHT$, STR$, HEX$, STRING$, NIL
+    CMD, CMD$
 
     ; Basic V2 features:
 
@@ -45,48 +46,52 @@ Most of the common BASIC keywords are supported:
     string-variable$ = string-expression$                  ; without LET
 ```
 
-Data processing features (optional):
-
-```
-    GET1, GET2, GET4, SET1, SET2, SET4, COPY, REF, RETI
-```
-
 Supported data types are:
 
 - Signed Integer, 32 bit (-2,147,483,648 to 2,147,483,647)
-- String (up to 120 characters)
-- Array (one dimension, up to 128 elements)
+- String
+- Array (one dimension)
 - Constant (numeric only)
 
-The compiler is able to generate a binary file that can be executed by the virtual machine.
-The goal of NanoBasic was to be a small and fast, due to compiler and VM combination.
-The main purpose of NanoBasic is to be embedded in other applications, to provide a
-simple scripting language for configuration and as glue code.
+The Basic language is inspired by the original Microsoft Basic known from Home Computers in the 80s.
 
-The Basic language is inspired by the original Microsoft Basic known from Home Computers
-in the 80s.
+This mod requires the Lua package nanobasic, which has to be installed with:
 
-This software also provides a Lua binding for using NanoBasic from Lua. The goal
-here is a Basic Computer as Luanti (Minetest) mod.
-See [nanobasic-mod](https://github.com/joe7575/nanobasic-mod).
+```bash
+$ luarocks --lua-version 5.1 install nanobasic
+```
 
-### License
+For more info to LuaRocks, see: https://luarocks.org/
+
+To enable this `unsafe` package, add 'nanobasic' to the list of trusted mods in
+minetest.conf:
+
+```text
+secure.trusted_mods = <other mods>,nanobasic
+```
+
+Or, if not available, add the following line:
+
+```text
+secure.trusted_mods = nanobasic
+```
+
+An example of how NanoBasic can be used can be found here:
+https://github.com/joe7575/techage/blob/master/logic/basic_terminal.lua
+
+## Dependencies
+
+There are no dependencies.
+
+## License
 
 Copyright (C) 2024-2025 Joachim Stolberg
 
-The software is licensed under the MIT license.
+Licensed under the MIT license. See LICENSE.txt
 
-### History
 
-**2025-01-24 V1.0.2**
-- Add RETI command
-- Remove cfg_BASIC_V2 compiler switch
+## History
 
-**2025-01-11 V1.0.1**
-- Rework data access API and functions
-
-**2025-01-02 V1.0.0**
-- Fix string length bug
-
-**2025-01-01 V1.0.0**
+**v1.0.0 (2025-01-01)**
 - First release
+
