@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2024 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.18
+techage.version = 1.20
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -57,6 +57,9 @@ techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_
 techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -28
 techage.recipe_checker_enabled = minetest.settings:get_bool("techage_recipe_checker_enabled") ~= false
 techage.stair_aliases_enabled = minetest.settings:get_bool("techage_stair_aliases_enabled") ~= false
+techage.disable_lava_above_sea_level = minetest.settings:get_bool("techage_disable_lava_above_sea_level") ~= false
+techage.maximum_move_controller_distance = tonumber(minetest.settings:get("techage_maximum_move_controller_distance")) or 400
+techage.maximum_move_controller_blocks = tonumber(minetest.settings:get("techage_maximum_move_controller_blocks")) or 16
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
@@ -198,6 +201,7 @@ dofile(MP.."/basic_machines/recycler.lua")
 dofile(MP.."/basic_machines/concentrator.lua")
 dofile(MP.."/basic_machines/recipeblock.lua")
 dofile(MP.."/basic_machines/ta5_chest.lua")
+dofile(MP.."/basic_machines/waterremover.lua")
 
 -- Liquids II
 dofile(MP.."/liquids/tank.lua")
@@ -276,6 +280,9 @@ end
 -- Logic
 dofile(MP.."/logic/lib.lua")
 dofile(MP.."/logic/terminal.lua")
+if minetest.global_exists("nanobasic") then
+	dofile(MP.."/logic/basic_terminal.lua")
+end
 dofile(MP.."/logic/button.lua")
 dofile(MP.."/logic/detector.lua")
 dofile(MP.."/logic/repeater.lua")
@@ -300,6 +307,7 @@ dofile(MP.."/logic/button_2x.lua")
 dofile(MP.."/logic/button_4x.lua")
 dofile(MP.."/logic/signallamp_2x.lua")
 dofile(MP.."/logic/signallamp_4x.lua")
+dofile(MP.."/logic/trafficlight.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")
 end

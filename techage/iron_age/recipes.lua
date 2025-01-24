@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -118,13 +118,16 @@ local function register_liquid(source, flowing, itemname, inventory_image, name,
 				end
 
 				-------------------------------- Start Modification
---				minetest.set_node(lpos, {name = source})
-				if source == "default:lava_source" and lpos.y > 0 and not minetest.is_singleplayer() then
-				   minetest.chat_send_player(user:get_player_name(), S("[Bucket] Lava can only be placed below sea level!"))
-				   return
+				if techage.disable_lava_above_sea_level then
+					if source == "default:lava_source" and lpos.y > 0 and not minetest.is_singleplayer() then
+					   minetest.chat_send_player(user:get_player_name(), S("[Bucket] Lava can only be placed below sea level!"))
+					   return
+					else
+						-- see "basis/lib.lua" techage.is_ocean(pos)
+						minetest.set_node(lpos, {name = source, param2 = 1})
+					end
 				else
-					-- see "basis/lib.lua" techage.is_ocean(pos)
-				    minetest.set_node(lpos, {name = source, param2 = 1})
+					minetest.set_node(lpos, {name = source, param2 = 1})
 				end
 				-------------------------------- End Modification
 				return ItemStack("bucket:bucket_empty")
@@ -138,27 +141,26 @@ end
 -- Changed default recipes
 --
 if techage.modified_recipes_enabled then
-	minetest.clear_craft({output = "default:bronze_ingot"})
-	minetest.clear_craft({output = "default:steel_ingot"})
+	minetest.clear_craft({
+		recipe = {
+		{"default:copper_ingot", "default:copper_ingot", "default:copper_ingot"},
+		{"default:copper_ingot", "default:tin_ingot", "default:copper_ingot"},
+		{"default:copper_ingot", "default:copper_ingot", "default:copper_ingot"},
+	}
+	})
+	-- delete cooking iron lumps into steel ingots
+	minetest.clear_craft({
+		type = "cooking",
+		recipe = "default:iron_lump",
+	})
 	minetest.clear_craft({output = "fire:flint_and_steel"})
 	minetest.clear_craft({output = "bucket:bucket_empty"})
 	if minetest.global_exists("moreores") then
-		minetest.clear_craft({output = "moreores:silver_ingot"})
+		minetest.clear_craft({
+			recipe = "moreores:silver_lump",
+			type = "cooking",
+		})
 	end
-
-	-- add again
-	minetest.register_craft({
-		output = 'default:steel_ingot 9',
-		recipe = {
-			{'default:steelblock'},
-		}
-	})
-	minetest.register_craft({
-		output = 'default:bronze_ingot 9',
-		recipe = {
-			{'default:bronzeblock'},
-		}
-	})
 
 	techage.ironage_register_recipe({
 		output = "default:bronze_ingot 4",

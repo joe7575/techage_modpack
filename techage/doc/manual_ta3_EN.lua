@@ -64,7 +64,7 @@ return {
     "3,TA3 Sound Block",
     "3,TA3 Mesecons Converter",
     "2,Detectors",
-    "3,TA3 Detector",
+    "3,TA3 Item Detector",
     "3,TA3 Cart Detector",
     "3,TA3 Node Detector",
     "3,TA3 Player Detector",
@@ -553,7 +553,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The terminal is primarily used to test the command interface of other blocks (see \"Logic / switching blocks\").\n"..
+    "The terminal is primarily used to test the command interface of other blocks (see \"Logic / switching blocks\")\\, as well as for the automation of systems using the BASIC programming language.\n"..
     "You can also assign commands to keys and use the terminal productively.\n"..
     "\n"..
     "    set <button-num> <button-text> <command>\n"..
@@ -570,6 +570,8 @@ return {
     "In private mode\\, the terminal can only be used by players who can build at this location\\, i.e. who have protection rights.\n"..
     "\n"..
     "In public mode\\, all players can use the preconfigured keys.\n"..
+    "\n"..
+    "You can switch to BASIC mode using the open-ended wrench menu. You can find more information about BASIC mode here\n"..
     "\n"..
     "\n"..
     "\n",
@@ -590,7 +592,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Remove\" or \"Set\" buttons. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
+    "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Exchange\" button. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
     "\n"..
     "With '$send_cmnd(node_number\\, \"exchange\"\\, 2)' individual blocks can be set\\, removed or replaced by other blocks from the inventory. \n"..
     "\n"..
@@ -601,6 +603,8 @@ return {
     "The name of the set block is returned with '$send_cmnd(node_number\\, \"get\"\\, 2)'.\n"..
     "\n"..
     "The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.\n"..
+    "\n"..
+    "With '$send_cmnd(node_number\\, \"reset\")' the door controller is reset.\n"..
     "\n"..
     "This can also be used to simulate extendable stairs and the like. \n"..
     "\n"..

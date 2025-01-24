@@ -231,6 +231,7 @@ local function quarry_task(pos, crd, nvm)
 		end
 	end
 	crd.State:stop(pos, nvm, S("finished"))
+	stop_sound(pos)
 end
 
 local function keep_running(pos, elapsed)
@@ -325,7 +326,7 @@ local tiles = {}
 tiles.pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta#.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_quarry_left.png",
 	"techage_filling_ta#.png^techage_appl_quarry.png^techage_frame_ta#.png",
@@ -334,7 +335,7 @@ tiles.pas = {
 tiles.act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta#.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	{
 		name = "techage_frame14_ta#.png^techage_quarry_left14.png",

@@ -22,8 +22,8 @@ local MP = minetest.get_modpath("techage")
 local mark = dofile(MP .. "/basis/mark_lib.lua")
 local fly = techage.flylib
 
-local MAX_DIST = 200
-local MAX_BLOCKS = 16
+local MAX_DIST = techage.maximum_move_controller_distance
+local MAX_BLOCKS = techage.maximum_move_controller_blocks
 
 local WRENCH_MENU = {
 	{
@@ -63,26 +63,29 @@ local function formspec(nvm, meta)
 	local path = minetest.formspec_escape(meta:contains("path") and meta:get_string("path") or "0,3,0")
 	local buttons
 	if meta:get_string("opmode") == "move xyz" then
-		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
-			"button_exit[4.1,2.2;3.8,1;move2;" .. S("Move") .. "]" ..
-			"button_exit[0.1,3.3;3.8,1;reset;" .. S("Reset") .. "]"
+		buttons = "field[0.4,2.3;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
+			"button_exit[4.1,2.0;3.8,1;move2;" .. S("Move") .. "]" ..
+			"button_exit[0.1,3.0;3.8,1;reset;" .. S("Reset") .. "]" ..
+			"button_exit[4.1,3.0;3.8,1;show;" .. S("Show positions") .. "]"
 	else
-		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
-			"button_exit[0.1,3.3;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
-			"button_exit[4.1,3.3;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
-			"button[4.1,2.2;3.8,1;store;" .. S("Store") .. "]"
+		buttons = "field[0.4,2.3;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
+			"button_exit[0.1,3.0;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
+			"button_exit[4.1,3.0;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
+			"button[4.1,2.0;3.8,1;store;" .. S("Store") .. "]" ..
+			"button_exit[0.1,4.0;3.8,1;show;" .. S("Show positions") .. "]" ..
+			"button_exit[4.1,4.0;3.8,1;reset;" .. S("Reset") .. "]"
 	end
-	return "size[8,5]" ..
+	return "size[8,5.5]" ..
 		default.gui_bg ..
 		default.gui_bg_img ..
 		default.gui_slots ..
 		"box[0,-0.1;7.2,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA4 Move Controller")) .. "]" ..
 		techage.wrench_image(7.4, -0.05) ..
-		"button[0.1,0.8;3.8,1;record;" .. S("Record") .. "]" ..
-		"button[4.1,0.8;3.8,1;done;" .. S("Done") .. "]" ..
+		"button_exit[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
+		"button[4.1,0.7;3.8,1;done;" .. S("Done") .. "]" ..
 		buttons ..
-		"label[0.3,4.3;" .. status .. "]"
+		"label[0.3,5.0;" .. status .. "]"
 end
 
 minetest.register_node("techage:ta4_movecontroller", {
@@ -114,6 +117,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			nvm.lpos1 = {}
 			nvm.lpos2 = {}
 			nvm.moveBA = false
+			nvm.recording = true
 			nvm.running = nil
 			nvm.lastpos = nil
 			meta:set_string("status", S("Recording..."))
@@ -122,7 +126,8 @@ minetest.register_node("techage:ta4_movecontroller", {
 			mark.unmark_all(name)
 			mark.start(name, MAX_BLOCKS)
 			meta:set_string("formspec", formspec(nvm, meta))
-		elseif fields.done then
+		elseif fields.done and nvm.recording then
+			nvm.recording = false
 			local name = player:get_player_name()
 			local pos_list = mark.get_poslist(name)
 			if fly.to_vector(fields.path or "", MAX_DIST) then
@@ -175,6 +180,9 @@ minetest.register_node("techage:ta4_movecontroller", {
 			end
 		elseif fields.reset then
 			fly.reset_move(pos)
+		elseif fields.show then
+			local name = player:get_player_name()
+			mark.mark_positions(name, nvm.lpos1, 300)
 		end
 	end,
 
@@ -223,6 +231,12 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 				return fly.move_to(pos, line)
 			end
 			return false
+		elseif move_xyz and topic == "moveto" then
+			local destpos = fly.to_vector(payload)
+			if destpos then
+				return fly.move_to_abs(pos, destpos, MAX_DIST)
+			end
+			return false
 		elseif topic == "reset" then
 			return fly.reset_move(pos)
 		end
@@ -242,11 +256,18 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 			end
 		elseif move_xyz and topic == 18 then  -- move xyz
 			local line = {
-				x = techage.in_range(techage.beduino_signed_var(payload[1]), -100, 100),
-				y = techage.in_range(techage.beduino_signed_var(payload[2]), -100, 100),
-				z = techage.in_range(techage.beduino_signed_var(payload[3]), -100, 100),
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -1000, 1000),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -1000, 1000),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -1000, 1000),
 			}
 			return fly.move_to(pos, line) and 0 or 3
+		elseif move_xyz and topic == 24 then  -- moveto xyz
+			local dest = {
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -32768, 32767),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -32768, 32767),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -32768, 32767),
+			}
+			return fly.move_to_abs(pos, dest, MAX_DIST) and 0 or 3
 		elseif move_xyz and topic == 19 then  -- reset
 			return fly.reset_move(pos) and 0 or 3
 		else
@@ -263,6 +284,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	on_node_load = function(pos, node)
 		M(pos):set_string("teleport_mode", "") -- delete not working (legacy) op mode
 		M(pos):set_string("status", "")
+		techage.get_nvm(pos).running = false
 	end,
 })
 

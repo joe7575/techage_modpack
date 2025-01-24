@@ -210,6 +210,7 @@ local items = {
 	ta4_chargedetector = "techage:ta4_chargedetector_off",
 	ta4_gaze_sensor = "techage:ta4_gaze_sensor_off",
 	ta4_nodedetector = "techage:ta4_nodedetector_off",
+        ta4_waterremover = "techage:ta4_waterremover_pas",
 	----------------------------
 	techage_ta5 = "techage:ta5_fr_nucleus",
 	ta5_flycontroller = "techage:ta5_flycontroller",
@@ -230,4 +231,5 @@ for name, image in pairs(items) do
 	doclib.add_manual_image("techage", "DE", name, image)
 	doclib.add_manual_image("techage", "EN", name, image)
 	doclib.add_manual_image("techage", "pt-BR", name, image)
+	doclib.add_manual_image("techage", "RU", name, image)
 end

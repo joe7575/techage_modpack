@@ -629,7 +629,7 @@ Der Timer kann Kommandos Spielzeit-gesteuert senden. Für jede Kommandozeile kan
 
 ### TA3 Terminal
 
-Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe "Logik-/Schalt-Blöcke").
+Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe "Logik-/Schalt-Blöcke"), sowie zur Automatisierung von Anlagen mit Hilfe der Programmiersprache BASIC.
 Man kann aber auch Kommandos auf Tasten legen und so das Terminal produktiv nutzen.
 
     set <button-num> <button-text> <command>
@@ -643,6 +643,8 @@ Das Terminal besitzt folgende, lokalen Kommandos:
 - `priv` schalte in den privaten Modus um
 
 Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden, die an diesem Ort bauen können, also Protection Rechte besitzen. Im öffentlichen Modus (public) können alle Spieler die vorkonfigurierten Tasten verwenden.
+
+Über das Gabelschlüssel-Menü kann in den BASIC-Mode umgeschaltet werden. Weitere Infos zum BASIC-Mode findest du [hier](https://github.com/joe7575/techage/tree/master/manuals/ta3_terminal.md)
 
 [ta3_terminal|image]
 
@@ -678,7 +680,7 @@ Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Co
 
 Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.
 
- Über die Tasten "Entfernen" bzw. "Setzen" kann die Funktion des Controllers von Hand getestet werden.
+ Über die Taste "Austauschen" kann die Funktion des Controllers von Hand getestet werden.
 
 Wird ein  `on` / `off` Kommando an den Tür Controller II gesendet, entfernt bzw. setzt er die Blöcke ebenfalls.
 
@@ -691,6 +693,8 @@ Mit `$send_cmnd(node_number, "dig", 2)` kann ein Block wieder entfernt werden, s
 Mit `$send_cmnd(node_number, "get", 2)` wird der Name des gesetzten Blocks zurückgeliefert. 
 
 Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.
+
+Mit `$send_cmnd(node_number, "reset")` wird der Tür Controller zurückgesetzt. 
 
 Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.
 
@@ -727,13 +731,12 @@ Detektoren scannen ihre Umgebung ab und senden ein `on`-Kommando, wenn das Gesuc
 [ta3_nodedetector|image]
 
 
-### TA3 Detektor / Detector
+### TA3 Item Detektor / Item Detector
 
-Der Detektor ist eine spezieller Röhrenblock, der erkennt, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben, gibt er diese automatisch weiter.
+Der Item Detektor ist eine spezieller Röhrenblock, der erkennt, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben, gibt er diese automatisch weiter.
 Er sendet ein `on`, wenn ein Item erkannt wird, gefolgt von einem `off` eine Sekunde später.
 Danach werden weitere Kommando für 8 Sekunden blockiert.
 Die Wartezeit, sowie die Items, die ein Kommando auslösen sollen, können über das Gabelschlüssel-Menü konfiguriert werden.
-
 
 [ta3_detector|image]
 

@@ -629,7 +629,7 @@ The timer can send commands time-controlled. The time, the target number(s) and 
 
 ### TA3 Terminal
 
-The terminal is primarily used to test the command interface of other blocks (see "Logic / switching blocks").
+The terminal is primarily used to test the command interface of other blocks (see "Logic / switching blocks"), as well as for the automation of systems using the BASIC programming language.
 You can also assign commands to keys and use the terminal productively.
 
     set <button-num> <button-text> <command>
@@ -645,6 +645,8 @@ The terminal has the following local commands:
 In private mode, the terminal can only be used by players who can build at this location, i.e. who have protection rights.
 
 In public mode, all players can use the preconfigured keys.
+
+You can switch to BASIC mode using the open-ended wrench menu. You can find more information about BASIC mode [here](https://github.com/joe7575/techage/tree/master/manuals/ta3_terminal.md)
 
 [ta3_terminal|image]
 
@@ -675,7 +677,7 @@ The door controller is used to control the TA3 door/gate blocks. With the door c
 
 ### TA3 Door Controller II
 
-The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Remove" or "Set" buttons. If an `on` /`off` command is sent to the Door Controller II, it removes or sets the blocks as well.
+The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Exchange" button. If an `on` /`off` command is sent to the Door Controller II, it removes or sets the blocks as well.
 
 With `$send_cmnd(node_number, "exchange", 2)` individual blocks can be set, removed or replaced by other blocks from the inventory. 
 
@@ -686,6 +688,8 @@ A block can be removed again with `$send_cmnd(node_number, "dig", 2)` if the inv
 The name of the set block is returned with `$send_cmnd(node_number, "get", 2)`.
 
 The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.
+
+With `$send_cmnd(node_number, "reset")` the door controller is reset.
 
 This can also be used to simulate extendable stairs and the like. 
 
@@ -723,7 +727,7 @@ Detectors scan their surroundings and send an `on` command when the search is re
 [ta3_nodedetector|image]
 
 
-### TA3 Detector
+### TA3 Item Detector
 
 The detector is a special tube block that detects when items are passed on through the tube. To do this, it must be connected to tubes on both sides. If items are pushed into the detector with a pusher, they are automatically passed on.
 It sends an `on` when an item is recognized, followed by an `off` a second later.

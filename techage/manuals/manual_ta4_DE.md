@@ -531,7 +531,7 @@ Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalit�
 
 Der Zustandssammler fragt der Reihe nach alle konfigurierten Maschinen nach dem Status ab. Wenn eine der Maschinen einen vorkonfigurierte Status erreicht oder überschritten hat, wird ein "on" Kommando gesendet. Damit können bspw. vom einem Lua Controller aus sehr einfach viele Maschinen auf Störungen überwacht werden.
 
-### TA4 Detektor / Detector
+### TA4 Item Detektor / Item Detector
 
 Die Funktionalität ist gleich wie beim TA3 Detektor / Detector. Zusätzlich zählt der Detector aber die weitergegebenen Items. 
 Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zurücksetzen.
@@ -612,7 +612,7 @@ Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block st
 Anleitung:
 
 - Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü (Taste "Aufzeichnen") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
-- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)
+- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)
 - mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
 - man kann auch durch Wände oder andere Blöcke fliegen
 - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
@@ -627,11 +627,13 @@ Der Move Controller unterstützt folgende techage Kommandos:
 
 - `move2`  Beim Kommando muss zusätzlich die Flugstrecke als x,y,z Vektor angegeben werden.
   Beispiel Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`
+- `moveto` verschiebt Block an die angegebene Zielposition (die Zielposition bezieht sich auf den ersten markierten Block, die weiteren Blöcke werden relativ zu dieser Position verschoben)
 - `reset` Block/Blöcke zurück in Startposition bewegen
 
 **Wichtige Hinweise:**
 
 - Sofern mehrere Blöcke bewegt werden sollen, muss der Block, der die Spieler/Mobs mitnehmen soll, beim Antrainieren als erstes angeklickt werden.
+- Wird das `moveto` Kommando genutzt, so gilt die angegebene Zielposition für den Block, der beim Antrainieren als erstes angeklickt wird.
 - Hat der Block, der die Spieler/Mobs mitnehmen soll, eine reduzierte Höhe, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht "gefunden" und damit nicht mitgenommen.
 
 [ta4_movecontroller|image]
@@ -691,8 +693,18 @@ Die Lampe benötigt 1 ku Strom.
 
 [ta4_industriallamp|image]
 
+### TA4 Ampel / TA4 Traffic Light
 
+Die TA4 Ampel gibt es in zwei Ausführungen: in schwarz (europäische Version) und in gelb (amerikanische Version). Zusätzlich gibt es
+einen Mast, einen Arm und einen Verbinder-Block. Die Ampel kann auf oder an einen Mast montiert werden. Sie kann aber nicht
+an einen Arm montiert werden. Dies hat technische Gründe. Dafür gibt es den Verbinder-Block, der zwischen Arm und Ampel gesetzt wird.
 
+Die Ampel kann über Kommandos wie beim TA4 Signal Tower angesteuert werden.
+Wird zusätzlich der TA4 Spieler Detektor eingesetzt, so kann die Ampel auch auf Fußgänger oder Fahrzeuge reagieren.
+
+Die Ampel benötigt keinen Strom.
+
+[ta4_trafficlight|image]
 
 ## TA4 Flüssigkeitsfilter
 
@@ -993,6 +1005,22 @@ Zusätzlich kann die Lochgröße zwischen 3x3 und 11x11 Blöcken eingestellt wer
 Die maximale Tiefe beträgt 80 Meter. Der Steinbrecher benötigt 14 ku Strom.
 
 [ta4_quarry|image]
+
+### TA4 Wasserentferner / Water Remover
+
+Der Wasserentferner entfernt Wasser aus einer Fläche von bis zu 21 x 21 x 80 m.
+Der Hauptzweck ist die Entwässerung von Höhlen. Er kann aber auch verwendet werden, um ein Loch ins Meer zu „bohren“.
+
+Der Wasserentferner benötigt Strom und eine Rohrverbindung zu einem Flüssigkeitstank.
+
+Der Wasserentferner wird am höchsten Punkt der Höhle platziert und entfernt das Wasser
+aus der Höhle zum tiefsten Punkt. Der Wasserentferner gräbt alle zwei Sekunden einen Wasserblock. 
+Das Gerät benötigt 10 Ku Strom.
+
+Technisch gesehen ersetzt der Wasserentferner die Wasserblöcke durch einen speziellen Luftblock,
+der nicht sichtbar und nicht begehbar ist, aber verhindert, dass das Wasser zurückfließt.
+
+[ta4_waterremover|image]
 
 ### TA4 Elektronikfabrik / Electronic Fab
 

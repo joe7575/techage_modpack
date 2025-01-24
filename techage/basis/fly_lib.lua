@@ -60,6 +60,7 @@ local function set_node(item, playername)
 				minetest.set_node(dest_pos, {name=name, param2=param2})
 				meta:from_table(item.metadata or {})
 				meta:set_string("ta_move_block", "")
+				--  Protect the doors from being opened by hand
 				meta:set_int("ta_door_locked", 1)
 			end
 			return
@@ -150,7 +151,7 @@ local function trim(s)
 end
 
 function flylib.distance(v)
-	return math.abs(v.x) + math.abs(v.y) + math.abs(v.z)
+	return math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
 end
 
 function flylib.to_vector(s, max_dist)
@@ -159,7 +160,7 @@ function flylib.to_vector(s, max_dist)
 	y = tonumber(y) or 0
 	z = tonumber(z) or 0
 	if x and y and z then
-		if not max_dist or (math.abs(x) + math.abs(y) + math.abs(z)) <= max_dist then
+		if not max_dist or flylib.distance({x = x, y = y, z = z}) <= max_dist then
 			return {x = x, y = y, z = z}
 		end
 	end
@@ -570,6 +571,20 @@ local function is_simple_node(pos)
 	end
 end
 
+local function is_air(pos)
+	local node = techage.get_node_lvm(pos)
+	return node.name == "air"
+end
+
+local function hidden_node(pos)
+	local meta = M(pos)
+	if meta:contains("ta_move_block") then
+		local node = minetest.deserialize(meta:get_string("ta_move_block"))
+		meta:set_string("ta_move_block", "")
+		return node
+	end
+end
+
 -- Move node from 'pos1' to the destination, calculated by means of 'lmove'
 -- * pos and meta are controller block related
 -- * lmove is the movement as a list of `moves`
@@ -623,6 +638,7 @@ end
 -- for the attached object (player).
 local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2to1)
 	local owner = meta:get_string("owner")
+	local running = false
 	techage.counting_add(owner, #lmove, #nvm.lpos1 * #lmove)
 
 	for idx = 1, #nvm.lpos1 do
@@ -638,7 +654,15 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
 				if move_node(pos, meta, pos1, lmove, max_speed, height) == false then
 					meta:set_string("status", S("No valid node at the start position"))
-					return false
+				else
+					running = true
+				end
+			elseif is_air(pos1) then
+				-- Try to recover the node
+				local node = hidden_node(pos2)
+				if node then
+					minetest.set_node(pos1, node)
+					running = move_node(pos, meta, pos1, lmove, max_speed, height)
 				end
 			else
 				if not is_simple_node(pos1) then
@@ -648,7 +672,6 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 					meta:set_string("status", S("No valid destination position"))
 					minetest.chat_send_player(owner, " [techage] " .. S("No valid destination position") .. " at " .. P2S(pos2))
 				end
-				return false
 			end
 		else
 			if minetest.is_protected(pos1, owner) then
@@ -658,11 +681,13 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 				meta:set_string("status", S("Destination position is protected"))
 				minetest.chat_send_player(owner, " [techage] " .. S("Destination position is protected") .. " at " .. P2S(pos2))
 			end
-			return false
 		end
+		running = true
 	end
-	meta:set_string("status", S("Running"))
-	return true
+	if running then
+		meta:set_string("status", S("Running"))
+	end
+	return running
 end
 
 -- Move the nodes from lpos1 to lpos2.
@@ -681,11 +706,12 @@ local function move_nodes(pos, meta, lpos1, move, max_speed, height)
 
 		local pos1 = lpos1[idx]
 		local pos2 = vector.add(lpos1[idx], move)
-		lpos2[idx] = pos2
+		lpos2[idx] = pos1
 
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
 				move_node(pos, meta, pos1, {move}, max_speed, height)
+				lpos2[idx] = pos2
 			else
 				if not is_simple_node(pos1) then
 					meta:set_string("status", S("No valid node at the start position"))
@@ -829,7 +855,7 @@ function flylib.move_to_other_pos(pos, move2to1)
 	return nvm.running
 end
 
--- `move` the movement as a vector
+-- `move` is the movement as a vector
 function flylib.move_to(pos, move)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
@@ -848,6 +874,26 @@ function flylib.move_to(pos, move)
 	return nvm.running
 end
 
+-- `pos` is the controller block position
+-- `dest` is the destination position
+-- `max_dist` is the maximum distance to the destination
+function flylib.move_to_abs(pos, dest, max_dist)
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
+	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local teleport_mode = meta:get_string("teleport_mode") == "enable"
+	local pos1 = (nvm.lastpos or nvm.lpos1 or {})[1]
+
+	if nvm.running or not pos1 then return false end
+	local move = vector.subtract(dest, pos1)
+	if not max_dist or flylib.distance(move) <= max_dist then
+		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+		return nvm.running
+	end
+	return false
+end
+
 function flylib.reset_move(pos)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
@@ -857,11 +903,21 @@ function flylib.reset_move(pos)
 	if nvm.running then return false end
 	if meta:get_string("teleport_mode") == "enable" then return false end
 
-	if nvm.lpos1 and nvm.lpos1[1] then
-		local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])
-
-		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
-		return nvm.running
+	if meta:get_string("opmode") == "move xyz" then
+		if nvm.lpos1 and nvm.lpos1[1] then
+			local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos2)[1])
+			local lpos = nvm.lastpos or nvm.lpos1
+			nvm.running, nvm.lastpos = move_nodes(pos, meta, lpos, move, max_speed, height)
+			return nvm.running
+		end
+	else
+		if nvm.moveBA then
+			if nvm.lpos1 and nvm.lpos1[1] and nvm.lpos2 and nvm.lpos2[1] then
+				local move = vector.subtract(nvm.lpos1[1], nvm.lpos2[1])
+				nvm.running, _ = move_nodes(pos, meta, nvm.lpos2, move, max_speed, height)
+				return nvm.running
+			end
+		end
 	end
 	return false
 end

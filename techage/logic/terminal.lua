@@ -48,6 +48,27 @@ are possible.]]
 
 local SYNTAX_ERR = S("Syntax error, try help")
 
+local WRENCH_MENU = {
+	[0] = {"techage:terminal2"}, --valid_nodes
+	{
+		type = "dropdown",
+		choices = "all players,me",
+		name = "public",
+		label = S("Access allowed for"),
+		tooltip = S("Friends are players for whom this area is not protected"),
+		default = "1",
+		values = {1,0}
+	},
+	{
+		type = "dropdown",
+		choices = "terminal,basic",
+		name = "opmode",
+		label = S("Operational mode"),
+		tooltip = S("Switch between TA3 terminal and BASIC computer"),
+		default = "terminal",
+	},
+}
+
 local function get_string(meta, num, default)
 	local s = meta:get_string("bttn_text"..num)
 	if not s or s == "" then
@@ -56,7 +77,7 @@ local function get_string(meta, num, default)
 	return s
 end
 
-local function formspec2(meta)
+local function formspec2(pos, meta)
 	local output = meta:get_string("output")
 	local command = meta:get_string("command")
 	output = minetest.formspec_escape(output)
@@ -70,11 +91,16 @@ local function formspec2(meta)
 	local bttn_text7 = get_string(meta, 7, "User7")
 	local bttn_text8 = get_string(meta, 8, "User8")
 	local bttn_text9 = get_string(meta, 9, "User9")
+	local wrench_image = ""
+	if minetest.get_node(pos).name == "techage:terminal2" then
+		wrench_image = techage.wrench_image(9.6, -0.2)
+	end
 	return "size[10,8.5]"..
 	--"style_type[table,field;font=mono]"..
-	"button[0,-0.2;3.3,1;bttn1;"..bttn_text1.."]button[3.3,-0.2;3.3,1;bttn2;"..bttn_text2.."]button[6.6,-0.2;3.3,1;bttn3;"..bttn_text3.."]"..
-	"button[0,0.6;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.6;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.6;3.3,1;bttn6;"..bttn_text6.."]"..
-	"button[0,1.4;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.4;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.4;3.3,1;bttn9;"..bttn_text9.."]"..
+	wrench_image ..
+	"button[0,-0.2;3.3,1;bttn1;"..bttn_text1.."]button[3.3,-0.2;3.3,1;bttn2;"..bttn_text2.."]button[6.6,-0.2;3.2,1;bttn3;"..bttn_text3.."]"..
+	"button[0,0.6;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.6;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.6;3.4,1;bttn6;"..bttn_text6.."]"..
+	"button[0,1.4;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.4;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.4;3.4,1;bttn9;"..bttn_text9.."]"..
 	"table[0,2.3;9.8,5.6;output;"..output..";200]"..
 	"field[0.4,8.2;7.6,1;cmnd;;"..command.."]" ..
 	"field_close_on_enter[cmnd;false]"..
@@ -86,14 +112,14 @@ local function output(pos, text)
 	text = meta:get_string("output") .. "\n" .. (text or "")
 	text = text:sub(-1000,-1)
 	meta:set_string("output", text)
-	meta:set_string("formspec", formspec2(meta))
+	meta:set_string("formspec", formspec2(pos, meta))
 end
 
 local function append(pos, text)
 	local meta = minetest.get_meta(pos)
 	text = meta:get_string("output") .. (text or "")
 	meta:set_string("output", text)
-	meta:set_string("formspec", formspec2(meta))
+	meta:set_string("formspec", formspec2(pos, meta))
 end
 
 local function get_line_text(pos, num)
@@ -167,7 +193,7 @@ local function command(pos, command, player, is_ta4)
 
 	if cmnd == "clear" then
 		meta:set_string("output", "")
-		meta:set_string("formspec", formspec2(meta))
+		meta:set_string("formspec", formspec2(pos, meta))
 	elseif cmnd == "" then
 		output(pos, "$")
 	elseif cmnd == "help" then
@@ -189,7 +215,7 @@ local function command(pos, command, player, is_ta4)
 		output(pos, "Techage version = " .. techage.version)
 	elseif cmnd == "connect" and data then
 		output(pos, "$ "..command)
-		if techage.not_protected(data, owner, owner) then
+		if techage.not_protected(data, owner) then
 			local own_num = meta:get_string("node_number")
 			local resp = techage.send_single(own_num, data, cmnd)
 			if resp then
@@ -210,7 +236,7 @@ local function command(pos, command, player, is_ta4)
 
 		num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
 		if num and cmnd then
-			if techage.not_protected(num, owner, owner) then
+			if techage.not_protected(num, owner) then
 				local resp = techage.send_single(own_num, num, cmnd, payload)
 				if type(resp) == "string" then
 					output(pos, resp)
@@ -223,7 +249,7 @@ local function command(pos, command, player, is_ta4)
 
 		num, cmnd = command:match('^turn%s+([0-9]+)%s+([onf]+)$')
 		if num and (cmnd == "on" or cmnd == "off") then
-			if techage.not_protected(num, owner, owner) then
+			if techage.not_protected(num, owner) then
 				local resp = techage.send_single(own_num, num, cmnd)
 				output(pos, dump(resp))
 			end
@@ -234,7 +260,7 @@ local function command(pos, command, player, is_ta4)
 		if bttn_num and label and cmnd then
 			meta:set_string("bttn_text"..bttn_num, label)
 			meta:set_string("bttn_cmnd"..bttn_num, cmnd)
-			meta:set_string("formspec", formspec2(meta))
+			meta:set_string("formspec", formspec2(pos, meta))
 			return
 		end
 
@@ -282,14 +308,16 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 			local meta = minetest.get_meta(pos)
 			meta:set_string("node_number", number)
 			meta:set_string("command", S("commands like: help"))
-			meta:set_string("formspec", formspec2(meta))
-			meta:set_string("owner", placer:get_player_name())
+			meta:set_string("formspec", formspec2(pos, meta))
+			if placer then
+				meta:set_string("owner", placer:get_player_name())
+			end
 			meta:set_string("infotext", description .. " " .. number)
 		end,
 
 		on_receive_fields = function(pos, formname, fields, player)
 			local meta = minetest.get_meta(pos)
-			local public = meta:get_int("public") == 1
+			local public = meta:get_int("public") ~= 0
 			local protected = minetest.is_protected(pos, player:get_player_name())
 
 			if not protected then
@@ -297,22 +325,22 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 				if evt.type == "DCL" then
 					local s = get_line_text(pos, evt.row)
 					meta:set_string("command", s)
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				elseif (fields.ok or fields.key_enter_field) and fields.cmnd then
 					local is_ta4 = string.find(description, "TA4")
 					command(pos, fields.cmnd, player:get_player_name(), is_ta4)
 					techage.historybuffer_add(pos, fields.cmnd)
 					meta:set_string("command", "")
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				elseif fields.key_up then
 					meta:set_string("command", techage.historybuffer_priv(pos))
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				elseif fields.key_down then
 					meta:set_string("command", techage.historybuffer_next(pos))
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				end
 			end
@@ -330,6 +358,22 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 			end
 		end,
 
+	ta_after_formspec = function(pos, fields, playername)
+		if fields.save and minetest.get_node(pos).name == "techage:terminal2" then
+			if M(pos):get_string("opmode") == "basic" then
+				if minetest.global_exists("nanobasic") then
+					local node = techage.get_node_lvm(pos)
+					node.name = "techage:basic_terminal"
+					minetest.swap_node(pos, node)
+					local ndef = minetest.registered_nodes["techage:basic_terminal"]
+					ndef.after_place_node(pos)
+				else
+					output(pos, "\nBASIC is not supported. Talk to your server staff!")
+				end
+			end
+		end
+	end,
+
 		after_dig_node = function(pos, oldnode, oldmetadata)
 			techage.remove_node(pos, oldnode, oldmetadata)
 		end,
@@ -337,6 +381,7 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 		preserve_nodedata = techage.preserve_nodedata,
 		restore_nodedata = techage.restore_nodedata,
 		
+		ta3_formspec = WRENCH_MENU,
 		paramtype = "light",
 		use_texture_alpha = techage.CLIP,
 		sunlight_propagates = true,

@@ -71,37 +71,6 @@ if farming.mod == "redo" then
 end
 
 -------------------------------------------------------------------------------
--- Ethereal Farming
--------------------------------------------------------------------------------
-
---fn("ethereal:willow_trunk",   "ethereal:willow_trunk", "ethereal:willow_sapling")
---fn("ethereal:redwood_trunk",  "ethereal:redwood_trunk",  "ethereal:redwood_sapling")
---fn("ethereal:frost_tree",     "ethereal:frost_tree",  "ethereal:frost_tree_sapling")
---fn("ethereal:yellow_trunk",   "ethereal:yellow_trunk",  "ethereal:yellow_tree_sapling")
---fn("ethereal:palm_trunk",     "ethereal:palm_trunk",  "ethereal:palm_sapling")
---fn("ethereal:banana_trunk",   "ethereal:banana_trunk",  "ethereal:banana_tree_sapling")
---fn("ethereal:mushroom_trunk", "ethereal:mushroom_trunk",  "ethereal:mushroom_sapling")
---fn("ethereal:birch_trunk",    "ethereal:birch_trunk",  "ethereal:birch_sapling")
---fn("ethereal:bamboo",         "ethereal:bamboo",       "ethereal:bamboo_sprout")
-
---fn("ethereal:willow_twig")
---fn("ethereal:redwood_leaves")
---fn("ethereal:orange_leaves")
---fn("ethereal:bananaleaves")
---fn("ethereal:yellowleaves")
---fn("ethereal:palmleaves")
---fn("ethereal:birch_leaves")
---fn("ethereal:frost_leaves")
---fn("ethereal:bamboo_leaves")
---fn("ethereal:mushroom")
---fn("ethereal:mushroom_pore")
---fn("ethereal:bamboo_leaves")
---fn("ethereal:bamboo_leaves")
---fn("ethereal:banana")
---fn("ethereal:orange")
---fn("ethereal:coconut")
-
--------------------------------------------------------------------------------
 -- Default Trees
 -------------------------------------------------------------------------------
 ts("default:acacia_bush_sapling", "default:acacia_bush_sapling")
@@ -114,3 +83,46 @@ ts("default:junglesapling", "default:junglesapling")
 ts("default:pine_bush_sapling", "default:pine_bush_sapling")
 ts("default:pine_sapling", "default:pine_sapling")
 ts("default:sapling", "default:sapling")
+
+-------------------------------------------------------------------------------
+-- Ethereal (Saplings use ABM instead of NodeTimer)
+-------------------------------------------------------------------------------
+if minetest.get_modpath("ethereal") then
+	ts("ethereal:bamboo_sprout", "ethereal:bamboo_sprout", nil)
+	ts("ethereal:banana_tree_sapling", "ethereal:banana_tree_sapling", nil)
+	ts("ethereal:basandra_bush_sapling", "ethereal:basandra_bush_sapling", nil)
+	ts("ethereal:big_tree_sapling", "ethereal:big_tree_sapling", nil)
+	ts("ethereal:birch_sapling", "ethereal:birch_sapling", nil)
+	ts("ethereal:frost_tree_sapling", "ethereal:frost_tree_sapling", nil)
+	ts("ethereal:giant_redwood_sapling", "ethereal:giant_redwood_sapling", nil)
+	ts("ethereal:lemon_tree_sapling", "ethereal:lemon_tree_sapling", nil)
+	ts("ethereal:mushroom_brown_sapling", "ethereal:mushroom_brown_sapling", nil)
+	ts("ethereal:mushroom_sapling", "ethereal:mushroom_sapling", nil)
+	ts("ethereal:olive_tree_sapling", "ethereal:olive_tree_sapling", nil)
+	ts("ethereal:orange_tree_sapling", "ethereal:orange_tree_sapling", nil)
+	ts("ethereal:palm_sapling", "ethereal:palm_sapling", nil)
+	ts("ethereal:redwood_sapling", "ethereal:redwood_sapling", nil)
+	ts("ethereal:sakura_sapling", "ethereal:sakura_sapling", nil)
+	ts("ethereal:willow_sapling", "ethereal:willow_sapling", nil)
+	ts("ethereal:yellow_tree_sapling", "ethereal:yellow_tree_sapling", nil)
+end
+
+-------------------------------------------------------------------------------
+-- Moretrees
+-------------------------------------------------------------------------------
+if minetest.get_modpath("moretrees") then
+	ts("moretrees:apple_tree_sapling", "moretrees:apple_tree_sapling")
+	ts("moretrees:beech_sapling", "moretrees:beech_sapling")
+	ts("moretrees:birch_sapling", "moretrees:birch_sapling")
+	ts("moretrees:cedar_sapling", "moretrees:cedar_sapling")
+	ts("moretrees:date_palm_sapling", "moretrees:date_palm_sapling")
+	ts("moretrees:fir_sapling", "moretrees:fir_sapling")
+	ts("moretrees:oak_sapling", "moretrees:oak_sapling")
+	ts("moretrees:palm_sapling", "moretrees:palm_sapling")
+	ts("moretrees:poplar_sapling", "moretrees:poplar_sapling")
+	ts("moretrees:poplar_small_sapling", "moretrees:poplar_small_sapling")
+	ts("moretrees:rubber_tree_sapling", "moretrees:rubber_tree_sapling")
+	ts("moretrees:sequoia_sapling", "moretrees:sequoia_sapling")
+	ts("moretrees:spruce_sapling", "moretrees:spruce_sapling")
+	ts("moretrees:willow_sapling", "moretrees:willow_sapling")
+end

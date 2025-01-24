@@ -190,7 +190,7 @@ local function play_sound(self)
 	if self.object then
 		self.sound_handle = minetest.sound_play(
 			"carts_cart_moving", {
-			pos = self.object:get_pos(),
+			object = self.object,
 			gain = (self.curr_speed or 0) / MAX_SPEED,
 		})
 	end

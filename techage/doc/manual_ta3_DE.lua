@@ -64,7 +64,7 @@ return {
     "3,TA3 Sound Block",
     "3,TA3 Mesecons Umsetzer / TA3 Mesecons Converter",
     "2,Detektoren",
-    "3,TA3 Detektor / Detector",
+    "3,TA3 Item Detektor / Item Detector",
     "3,TA3 Wagen Detektor / Cart Detector",
     "3,TA3 Block Detektor / Node Detector",
     "3,TA3 Spieler Detektor / Player Detector",
@@ -553,7 +553,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe \"Logik-/Schalt-Blöcke\").\n"..
+    "Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe \"Logik-/Schalt-Blöcke\")\\, sowie zur Automatisierung von Anlagen mit Hilfe der Programmiersprache BASIC.\n"..
     "Man kann aber auch Kommandos auf Tasten legen und so das Terminal produktiv nutzen.\n"..
     "\n"..
     "    set <button-num> <button-text> <command>\n"..
@@ -568,6 +568,8 @@ return {
     "  - 'priv' schalte in den privaten Modus um\n"..
     "\n"..
     "Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden\\, die an diesem Ort bauen können\\, also Protection Rechte besitzen. Im öffentlichen Modus (public) können alle Spieler die vorkonfigurierten Tasten verwenden.\n"..
+    "\n"..
+    "Über das Gabelschlüssel-Menü kann in den BASIC-Mode umgeschaltet werden. Weitere Infos zum BASIC-Mode findest du hier\n"..
     "\n"..
     "\n"..
     "\n",
@@ -591,7 +593,7 @@ return {
     "\n",
     "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.\n"..
     "\n"..
-    " Über die Tasten \"Entfernen\" bzw. \"Setzen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
+    " Über die Taste \"Austauschen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
     "\n"..
     "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
     "\n"..
@@ -604,6 +606,8 @@ return {
     "Mit '$send_cmnd(node_number\\, \"get\"\\, 2)' wird der Name des gesetzten Blocks zurückgeliefert. \n"..
     "\n"..
     "Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.\n"..
+    "\n"..
+    "Mit '$send_cmnd(node_number\\, \"reset\")' wird der Tür Controller zurückgesetzt. \n"..
     "\n"..
     "Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.\n"..
     "\n"..
@@ -632,7 +636,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Der Detektor ist eine spezieller Röhrenblock\\, der erkennt\\, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben\\, gibt er diese automatisch weiter.\n"..
+    "Der Item Detektor ist eine spezieller Röhrenblock\\, der erkennt\\, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben\\, gibt er diese automatisch weiter.\n"..
     "Er sendet ein 'on'\\, wenn ein Item erkannt wird\\, gefolgt von einem 'off' eine Sekunde später.\n"..
     "Danach werden weitere Kommando für 8 Sekunden blockiert.\n"..
     "Die Wartezeit\\, sowie die Items\\, die ein Kommando auslösen sollen\\, können über das Gabelschlüssel-Menü konfiguriert werden.\n"..
