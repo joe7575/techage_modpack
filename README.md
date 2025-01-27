@@ -47,6 +47,13 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 ### History
 
+#### 2025-01-27
+
+Updated Mods:
+
+- nanobasic:
+  - Allow to run techage without proper installation of nanobasic
+
 #### 2025-01-24
 
 Updated Mods:

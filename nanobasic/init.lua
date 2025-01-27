@@ -19,23 +19,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 ]]--
 
-nanobasic = {}
-
 local IE = minetest.request_insecure_environment()
 
 if not IE then
-	error("\nAdd 'nanobasic' to the list of 'secure.trusted_mods' in minetest.conf!!!")
+	minetest.log("warning", "[nanobasic] Add 'nanobasic' to the list of 'secure.trusted_mods' in minetest.conf!!!")
+	do return end
 end
 
-local nblib = IE.require("nanobasiclib")
-
-if not nblib then
-	error("\nInstall nanobasic via 'luarocks --lua-version 5.1 install nanobasic'!!")
+local status, nblib = pcall(IE.require, "nanobasiclib")
+if not status then
+	minetest.log("warning", "[nanobasic] Install nanobasic via 'luarocks --lua-version 5.1 install nanobasic'!!")
+	do return end
 end
 
 if nblib.version() < "1.0.2" then
-	error("\nUpdate nanobasic via 'luarocks --lua-version 5.1 install nanobasic'!!")
+	minetest.log("warning", "[nanobasic] Update nanobasic via 'luarocks --lua-version 5.1 install nanobasic'!!")
+	do return end
 end
+
+nanobasic = {}
 
 local M = minetest.get_meta
 local VMList = {}
@@ -267,6 +269,10 @@ end
 -- @return hash value for the node position
 function nanobasic.hash_node_position(pos)
 	return nblib.hash_node_position(pos)
+end
+
+function nanobasic.bitmap(font_color, bg_color, text)
+	return nblib.bitmap(font_color, bg_color, text)
 end
 
 -- @param hash: hash value for the node position
