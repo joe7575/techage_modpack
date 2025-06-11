@@ -1,0 +1,57 @@
+[submodule "autobahn"]
+	path = autobahn
+	url = https://github.com/joe7575/autobahn
+[submodule "basic_materials"]
+	path = basic_materials
+	url = https://github.com/mt-mods/basic_materials
+[submodule "compost"]
+	path = compost
+	url = https://github.com/joe7575/compost
+[submodule "hyperloop"]
+	path = hyperloop
+	url = https://github.com/joe7575/Minetest-Hyperloop
+[submodule "lcdlib"]
+	path = lcdlib
+	url = https://github.com/joe7575/lcdlib
+[submodule "minecart"]
+	path = minecart
+	url = https://github.com/joe7575/minecart
+[submodule "networks"]
+	path = networks
+	url = https://github.com/joe7575/networks
+[submodule "safer_lua"]
+	path = safer_lua
+	url = https://github.com/joe7575/safer_lua
+[submodule "signs_bot"]
+	path = signs_bot
+	url = https://github.com/joe7575/signs_bot
+[submodule "stamina"]
+	path = stamina
+	url = https://github.com/joe7575/stamina
+[submodule "ta4_addons"]
+	path = ta4_addons
+	url = https://github.com/Thomas--S/ta4_addons
+[submodule "ta4_jetpack"]
+	path = ta4_jetpack
+	url = https://github.com/joe7575/ta4_jetpack
+[submodule "ta4_paraglider"]
+	path = ta4_paraglider
+	url = https://github.com/joe7575/ta4_paraglider
+[submodule "techage"]
+	path = techage
+	url = https://github.com/joe7575/techage
+[submodule "techpack_stairway"]
+	path = techpack_stairway
+	url = https://github.com/joe7575/techpack_stairway
+[submodule "towercrane"]
+	path = towercrane
+	url = https://github.com/minetest-mods/towercrane
+[submodule "tubelib2"]
+	path = tubelib2
+	url = https://github.com/joe7575/tubelib2
+[submodule "unified_inventory"]
+	path = unified_inventory
+	url = https://github.com/minetest-mods/unified_inventory
+[submodule "nanobasic"]
+	path = nanobasic
+	url = https://github.com/joe7575/nanobasic-mod

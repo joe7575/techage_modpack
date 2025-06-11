@@ -1,5 +1,0 @@
-# textdomain: autobahn
-
-Autobahn=
-Autobahn Stripe=
-Tar=

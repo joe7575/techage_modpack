@@ -1,3 +1,0 @@
-# Enable/disable test blocks
-tubelib2_testingblocks_enabled (enable test blocks) bool false
-

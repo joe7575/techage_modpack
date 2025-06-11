@@ -1,6 +1,0 @@
-# textdomain: compost
-
-Wood Barrel=
-Wood Barrel with compost=
-Compost=
-Garden Soil=
