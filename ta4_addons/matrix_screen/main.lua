@@ -285,11 +285,7 @@ minetest.register_craft({
 techage.register_node({"ta4_addons:matrix_screen"}, {
     on_recv_message = function(pos, src, topic, payload)
         local mem = techage.get_mem(pos)
-        mem.ticks = mem.ticks or 0
-
-        if mem.ticks == 0 then
-            mem.ticks = 1
-        end
+        mem.update = true
 
         if topic == "pixels" then
             N(pos).color_string = tostring(payload)

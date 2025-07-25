@@ -123,6 +123,7 @@ and empty, or only partially filled with the item type to be added,
 then the item(s) will be added.
 If not all items can be added, in case A the remaining slots are tried. 
 Anything that couldn't be added to your inventory will go back or be dropped.
+Preconfigured slots are filled first before empty slots are used.
 
 The following applies to all commands that are used to take items from the bot inventory, like:
 
@@ -234,7 +235,23 @@ further actuator by means of the Connection Tool.
 
 ### Signal AND
 
-Signal is sent, if all input signals are received.
+To combine multiple signals, use the Signal AND block.
+This only sends a signal when all input signals have been received.
+(logical AND). The block has any number of inputs and 1 output.
+The block has three states, which it displays in color:
+
+- Black '&' symbol: There is no input signal
+- Blue '&' symbol: There is at least one input signal, but not all of them
+- Red '&' symbol: All input signals are present, the block sends a signal
+  and deletes the input signals so that it displays a black symbol again.
+
+The block only works if the output actuator is not in the state
+that it should be set to by the signal.
+For example, if a bot is already on the move and the AND block is programmed so
+that the bot should start, input signals are not accepted.
+
+By hitting the block, any input signals present are deleted so that the block
+returns to its initial state.
 
 [signs_bot:and1|image]
 

@@ -355,7 +355,7 @@ function minecart.get_cart_list(pos, name)
 end
 
 minetest.register_on_mods_loaded(function()
-	if minetest.global_exists("techage") then
+	if minetest.get_modpath("techage") then
 		techage.icta_register_condition("cart_state", {
 			title = "read cart state",
 			formspec = {

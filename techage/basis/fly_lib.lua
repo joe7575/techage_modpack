@@ -65,6 +65,16 @@ local function set_node(item, playername)
 			end
 			return
 		end
+		local inv = M(item.base_pos):get_inventory()
+		if item.idx and inv:get_size("main") == 16 then -- movecontroller2
+			local stack = inv:get_stack("main", item.idx)
+			if stack:is_empty() then
+				stack = ItemStack(name)
+				stack:get_meta():set_int("param2", param2)
+				inv:set_stack("main", item.idx, stack)
+				return
+			end
+		end
 		local meta = M(dest_pos)
 		if not meta:contains("ta_move_block") then
 			meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
@@ -328,14 +338,16 @@ local function attach_single_object(parent, obj, distance)
 			rot.y = rot.y - yaw
 		end
 		distance = vector.multiply(distance, 29)
+		local visual_size = obj:get_properties().visual_size
 		obj:set_attach(parent, "", distance, vector.multiply(rot, 180 / math.pi))
-		obj:set_properties({visual_size = {x=2.9, y=2.9}})
 		if obj:is_player() then
+			obj:set_properties({visual_size = {x=2.9, y=2.9}})
 			if lock_player(obj) then
-				table.insert(self.players, {name = obj:get_player_name(), offs = offs})
+				table.insert(self.players, {name = obj:get_player_name(), offs = offs, visual_size = visual_size})
 			end
 		else
-			table.insert(self.entities, {objID = get_object_id(obj), offs = offs})
+			obj:set_properties({visual_size = {x=2.9, y=2.9}})
+			table.insert(self.entities, {objID = get_object_id(obj), offs = offs, visual_size = visual_size})
 		end
 	end
 end
@@ -368,7 +380,7 @@ local function detach_objects(pos, self)
 		if entity then
 			local obj = entity.object
 			obj:set_detach()
-			obj:set_properties({visual_size = {x=1, y=1}})
+			obj:set_properties({visual_size = item.visual_size})
 			local pos1 = vector.add(pos, item.offs)
 			pos1.y = pos1.y - (self.yoffs or 0)
 			obj:set_pos(pos1)
@@ -378,7 +390,7 @@ local function detach_objects(pos, self)
 		local obj = minetest.get_player_by_name(item.name)
 		if obj then
 			obj:set_detach()
-			obj:set_properties({visual_size = {x=1, y=1}})
+			obj:set_properties({visual_size = item.visual_size})
 			local pos1 = vector.add(pos, item.offs)
 			pos1.y = pos1.y + 0.1
 			obj:set_pos(pos1)
@@ -400,10 +412,11 @@ local function entity_to_node(pos, obj)
 	end
 end
 
--- Create a node entitiy.
+-- Create a node entity.
 -- * base_pos is controller block related
 -- * start_pos and dest_pos are entity positions
-local function node_to_entity(base_pos, start_pos, dest_pos)
+-- * idx is the node related movecontroller2 inventory slot (optional)
+local function node_to_entity(base_pos, start_pos, dest_pos, idx)
 	local meta = M(start_pos)
 	local node, metadata, cartdef
 
@@ -418,9 +431,17 @@ local function node_to_entity(base_pos, start_pos, dest_pos)
 		meta:set_string("ta_block_locked", "true")
 	elseif not meta:contains("ta_block_locked") then
 		-- Block with other metadata
-		node = techage.get_node_lvm(start_pos)
 		metadata = meta:to_table()
-		minetest.after(0.1, minetest.remove_node, start_pos)
+		minetest.remove_node(start_pos)
+	elseif idx then
+		local inv = M(base_pos):get_inventory()
+		local stack = inv:get_stack("main", idx)
+		if stack:get_count() == 1 then
+			local param2 = stack:get_meta():to_table().param2 or 0
+			node = {name = stack:get_name(), param2 = param2}
+			metadata = {}
+			inv:set_stack("main", idx, nil)
+		end
 	else
 		return
 	end
@@ -441,6 +462,7 @@ local function node_to_entity(base_pos, start_pos, dest_pos)
 			dest_pos = dest_pos,
 			base_pos = base_pos,
 			cartdef = cartdef,
+			idx = idx,
 		}
 		monitoring_add_entity(self.item)
 
@@ -682,7 +704,6 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 				minetest.chat_send_player(owner, " [techage] " .. S("Destination position is protected") .. " at " .. P2S(pos2))
 			end
 		end
-		running = true
 	end
 	if running then
 		meta:set_string("status", S("Running"))
@@ -720,6 +741,7 @@ local function move_nodes(pos, meta, lpos1, move, max_speed, height)
 					meta:set_string("status", S("No valid destination position"))
 					minetest.chat_send_player(owner, " [techage] " .. S("No valid destination position") .. " at " .. P2S(pos2))
 				end
+				lpos1[idx] = pos2
 				return false, lpos1
 			end
 		else
@@ -904,10 +926,10 @@ function flylib.reset_move(pos)
 	if meta:get_string("teleport_mode") == "enable" then return false end
 
 	if meta:get_string("opmode") == "move xyz" then
-		if nvm.lpos1 and nvm.lpos1[1] then
-			local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos2)[1])
-			local lpos = nvm.lastpos or nvm.lpos1
-			nvm.running, nvm.lastpos = move_nodes(pos, meta, lpos, move, max_speed, height)
+		local lastpos = nvm.lastpos or nvm.lpos2
+		if nvm.lpos1 and nvm.lpos1[1] and lastpos and lastpos[1] then
+			local move = vector.subtract(nvm.lpos1[1], lastpos[1])
+			nvm.running, nvm.lastpos = move_nodes(pos, meta, lastpos, move, max_speed, height)
 			return nvm.running
 		end
 	else
@@ -958,20 +980,28 @@ function flylib.rotate_nodes(pos, lpos, rot)
 	return lpos2
 end
 
-function flylib.exchange_node(pos, name, param2)
+function flylib.exchange_node(pos, name, param2, expected_node_name)
 	local meta = M(pos)
 	local move_block
+	local res = false
 
 	-- consider stored "objects"
 	if meta:contains("ta_move_block") then
 		move_block = meta:get_string("ta_move_block")
 	end
 
-	minetest.swap_node(pos, {name = name, param2 = param2})
+	if not expected_node_name or techage.get_node_lvm(pos).name == expected_node_name then
+		minetest.swap_node(pos, {name = name, param2 = param2})
+		res = true
+	end
 
 	if move_block then
 		meta:set_string("ta_move_block", move_block)
 	end
+	
+	--  Protect the doors from being opened by hand
+	meta:set_int("ta_door_locked", 1)
+	return res
 end
 
 function flylib.remove_node(pos)
@@ -1008,4 +1038,8 @@ minetest.register_on_dieplayer(function(player)
 	end
 end)
 
+flylib.attach_objects = attach_objects
+flylib.determine_dir = determine_dir
+flylib.node_to_entity = node_to_entity
+flylib.move_entity = move_entity
 techage.flylib = flylib

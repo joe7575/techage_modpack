@@ -143,16 +143,18 @@ end
 
 test_setup = function(pos, nvm)
 	local recipe = recipes.get(nvm, "ta4_doser")
-	local ndef = minetest.registered_craftitems[recipe.output.name]
-	local container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
+	local ndef = minetest.registered_craftitems[recipe.output.name] or minetest.registered_items[recipe.output.name]
 	nvm.fault = nil
-	
-	if reactor_cmnd(pos, "get_output_container") ~= container then
-		if container == "silo" then
-			nvm.fault = S("output: silo expected")
-		else
-			nvm.fault = S("output: tank expected")
-		end
+
+	if not ndef then
+		nvm.fault = S("output: Invalid recipe")
+		return
+	end
+
+	local desc = ndef.description
+	if not reactor_cmnd(pos, "test_output_container", recipe.output.name) then
+		local container = ndef.groups and ndef.groups.powder == 1 and S("silo") or S("tank")
+		nvm.fault = S("output: A @1 is required for @2",  container, desc)
 		return
 	end
 	
@@ -160,14 +162,11 @@ test_setup = function(pos, nvm)
 		return
 	end
 	
-	ndef = minetest.registered_craftitems[recipe.waste.name]
-	container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
-	if reactor_cmnd(pos, "get_waste_container") ~= container then
-		if container == "silo" then
-			nvm.fault = S("waste: silo expected")
-		else
-			nvm.fault = S("waste: tank expected")
-		end
+	ndef = minetest.registered_craftitems[recipe.waste.name] or minetest.registered_items[recipe.output.name]
+	desc = ndef.description
+	if not reactor_cmnd(pos, "test_waste_container", recipe.waste.name) then
+		local container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
+		nvm.fault = S("output: A @1 is required for @2",  container, desc)
 		return
 	end
 end

@@ -651,6 +651,34 @@ You can switch to BASIC mode using the open-ended wrench menu. You can find more
 [ta3_terminal|image]
 
 
+### TA3 CRT Monitor
+
+The CRT monitor is available to match the TA3 terminal in BASIC mode. This can display the output of the BASIC program.
+The monitor can also be used as a display for other blocks that output text (e.g. the Lua controller).
+The monitor has a wrench menu that can be used to set the resolution of the monitor and the text color.
+The resolution can be set in the range of 16x8 to 40x20 characters x lines.
+The update rate of the monitor is directly dependent on the resolution and is one second at 16x8 and around 6 seconds at 40x20.
+
+The commands for controlling in BASIC mode:
+
+```BASIC
+10 DCLR(num)              ' Clear the screen with the number 'num'.
+20 DPUTS(num, row, text)  ' Text output to the screen in line 'row' (1..n).
+                          ' The value 0 for 'row' means that the text is
+                          ' appended after the last line.
+```
+
+The commands for controlling by means of the Lua controller:
+
+```lua
+$clear_screen(num)        -- Clear the screen with the number 'num'.
+$display(num, row, text)  -- Text output to the screen in line 'row' (1..n).
+                          -- The value 0 for 'row' means that the text is
+                          -- appended after the last line.
+```
+
+[ta3_monitor|image]
+
 ### TechAge Color Lamp
 
 The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes" and via Lua/Beduino commands.
@@ -677,21 +705,28 @@ The door controller is used to control the TA3 door/gate blocks. With the door c
 
 ### TA3 Door Controller II
 
-The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Exchange" button. If an `on` /`off` command is sent to the Door Controller II, it removes or sets the blocks as well.
+The Door Controller II can remove and place many types of blocks. To teach the Door Controller II, press the "Record" button. Then, click on all the blocks that should be part of the door/gate. Then, press the "Done" button. Up to 16 blocks can be selected.
 
-With `$send_cmnd(node_number, "exchange", 2)` individual blocks can be set, removed or replaced by other blocks from the inventory. 
+Pressing the "Exchange" button removes the blocks from the trained positions and saves them in the controller's inventory.
 
-With `$send_cmnd(node_number, "set", 2)` a block from the inventory can be set explicitly, as long as the inventory slot is not empty.
+Blocks can be reassigned to the vacated positions. Pressing the "Exchange" button again swaps the blocks with the blocks in the inventory.
 
-A block can be removed again with `$send_cmnd(node_number, "dig", 2)` if the inventory slot is empty. 
+Pressing the "Reset" button resets all blocks to their initial state after teaching. This completes the teaching phase, and the Door Controller II can be controlled via commands.
 
-The name of the set block is returned with `$send_cmnd(node_number, "get", 2)`.
+Each position or slot has two states:
 
-The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.
+1) The block is in the world (any existing exchange block is in the inventory) = Initial state
+2) The block is in the inventory (any existing exchange block is in the world) = Exchange state
 
-With `$send_cmnd(node_number, "reset")` the door controller is reset.
+- Using the `on` / `off` command, all blocks in the learned positions are swapped with those in the inventory.
+- Using the `reset` command, all blocks are reset to their initial state after learning.
 
-This can also be used to simulate extendable stairs and the like. 
+For all subsequent commands, the inventory slot number must also be passed as a parameter (1..16).
+
+- Using the `exc` command, a block in the world is swapped with the block in the inventory.
+- The `to1` command swaps a block in the inventory with the block in the world, provided the position was in state 2 (Exchange state).
+- The `to2` command swaps a block in the world with the block in the inventory, provided the position was in state 1 (Initial state).
+- The `get` command returns the state of the position, i.e. the values 1 or 2.
 
 [ta3_doorcontroller|image]
 
@@ -852,7 +887,11 @@ The processing power is up to 8 times one item every 4 seconds.
 
 [ta3_injector|image]
 
+### TA3 Observation Window
 
+The observation window is a block that functions as a window into a tube. It can be used to make items in tubes visible.
+The window block must be placed between two tubes. Two or more window blocks in a row are not permitted. The item animation
+only occurs when a player is nearby (<=8 blocks). However, items are passed regardless of visibility.
 
 ## Tools
 

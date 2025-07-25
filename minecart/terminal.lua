@@ -59,7 +59,7 @@ minetest.register_node("minecart:terminal", {
 		local meta = M(pos)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec(pos, ""))
-		if minetest.global_exists("techage") then
+		if minetest.get_modpath("techage") then
 			local number = techage.add_node(pos, "minecart:terminal")
 			meta:set_string("node_number", number)
 			meta:set_string("infotext", "Cart Terminal " .. number)
@@ -95,7 +95,7 @@ minetest.register_craft({
 })
 
 minetest.register_on_mods_loaded(function()
-	if minetest.global_exists("techage") then
+	if minetest.get_modpath("techage") then
 		techage.register_node({"minecart:terminal"}, {
 			on_recv_message = function(pos, src, topic, payload)
 				local number = tonumber(payload)

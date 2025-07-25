@@ -129,6 +129,7 @@ local items = {
 	ta3_injector = "techage:ta3_injector_pas",
 	ta3_command_converter = "techage:ta3_command_converter_off",
 	ta3_flipflop = "techage:ta3_flipflop_off",
+	ta3_monitor = "techage:ta3_monitor",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	techage_ta4c = "techage_ta4c.png",
@@ -167,6 +168,8 @@ local items = {
 	ta4_battery = "techage:ta4_battery",
 	ta4_display = "techage:ta4_display",
 	ta4_displayXL = "techage:ta4_displayXL",
+	ta4_display2 = "techage:ta4_display2",
+	ta4_displayXXL = "techage:ta4_displayXXL",
 	ta4_signaltower = "techage:ta4_signaltower",
 	ta4_lua_controller = "techage:ta4_lua_controller",
 	ta4_lua_server = "techage:ta4_server",
@@ -201,6 +204,7 @@ local items = {
 	ta4_button_4x = "techage:ta4_button_4x",
 	ta4_sequencer = "techage:ta4_sequencer",
 	ta4_movecontroller = "techage:ta4_movecontroller",
+	ta4_movecontroller2 = "techage:ta4_movecontroller2",
 	ta4_turncontroller = "techage:ta4_turncontroller",
 	ta4_signallamp_2x = "techage:ta4_signallamp_2x",
 	ta4_signallamp_4x = "techage:ta4_signallamp_4x",
@@ -230,6 +234,7 @@ local items = {
 for name, image in pairs(items) do
 	doclib.add_manual_image("techage", "DE", name, image)
 	doclib.add_manual_image("techage", "EN", name, image)
+	doclib.add_manual_image("techage", "FR", name, image)
 	doclib.add_manual_image("techage", "pt-BR", name, image)
 	doclib.add_manual_image("techage", "RU", name, image)
 end

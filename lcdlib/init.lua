@@ -24,7 +24,7 @@ lcdlib = {}
 lcdlib.registered_fonts = {}
 
 -- Version for compatibility checks
-lcdlib.version = 1.03
+lcdlib.version = 1.04
 
 -- Local functions
 ------------------
@@ -215,7 +215,7 @@ function lcdlib.make_multiline_texture(font_name, text, width, height,
             y = y_offs or 0
         elseif valign == "bottom" then
             y = height - textheight
-        else		
+        else
             y = (height - textheight) / 2
         end
     end
@@ -294,5 +294,6 @@ function lcdlib.on_display_update(pos, objref)
 end
 
 dofile(minetest.get_modpath("lcdlib").."/font_default.lua")
+dofile(minetest.get_modpath("lcdlib").."/mono.lua")
 dofile(minetest.get_modpath("lcdlib").."/display.lua")
 

@@ -96,6 +96,23 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2025-03-14 V1.23**
+
+- Add Move Controller II
+- Improve Basic Terminal
+- Improve Lua Controller
+- Improve Fly Controller
+- Fix several issues
+
+**2025-02-14 V1.22**
+
+- Remove Lua controller batteries
+- Change the Lua controller from time-based to credit-based runtime control
+
+**2025-02-09 V1.21**
+
+- Add TA3 monitor and new TA4 dislays with fixed font (requires Minetest 5.7.0 or newer)
+
 **2025-01-08 V1.20**
 
 - Add Traffic Lights and accesories
@@ -106,7 +123,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **2024-12-31 V1.19**
 
 - Add Everness support #187 (ore sieving)
-- Add BASIC mode to TA3 terminal
+- Add BASIC mode to TA3 terminal (requires proper installation of nanobasic)
 - Improve russian translation (z-op)
 - Many bug fixes by Niklp09, joe7575, and others
 - Add pre-assignment menu to the furnace

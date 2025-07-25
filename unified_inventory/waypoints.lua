@@ -164,7 +164,8 @@ ui.register_page("waypoints", {
 			},
 			{
 				"toggle_display_pos",
-				waypoint.display_pos and "ui_green_icon_background.png^ui_xyz_icon.png" or "ui_red_icon_background.png^ui_xyz_icon.png^(ui_no.png^[transformR90)",
+				waypoint.display_pos and "ui_green_icon_background.png^ui_xyz_icon.png" or
+					"ui_red_icon_background.png^ui_xyz_icon.png^(ui_no.png^[transformR90)",
 				waypoint.display_pos and S("Hide coordinates") or S("Show coordinates")
 			},
 			{
@@ -254,7 +255,7 @@ local function update_hud(player, waypoints, temp, i)
 	end
 	if waypoint.active then
 		temp.hud = player:hud_add({
-			hud_elem_type = "waypoint",
+			[core.features.hud_def_type_field and "type" or "hud_elem_type"] = "waypoint",
 			number = hud_colors[waypoint.color or 1][2] ,
 			name = name,
 			text = "m",

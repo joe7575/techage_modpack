@@ -37,6 +37,11 @@ if techage.modified_recipes_enabled then
 		recipe = {"default:coal_lump", "default:iron_lump", "default:iron_lump", "default:iron_lump"},
 		time = 4,
 	})
+	techage.furnace.register_recipe({
+		output = "default:steel_ingot 4",
+		recipe = {"default:coal_lump", "techage:iron_ingot", "techage:iron_ingot", "techage:iron_ingot"},
+		time = 4,
+	})
 end
 
 if minetest.global_exists("wielded_light") then
@@ -58,6 +63,14 @@ local function node_group(group)
 	return tbl
 end
 
+local function get_waste(input)
+	local output, decremented_input = minetest.get_craft_result(input)
+	if decremented_input and decremented_input.items[1] and decremented_input.items[1]:get_name() ~= "" then
+		return decremented_input.items[1]:get_name()
+	end
+	return nil
+end
+
 minetest.after(1, function()
 	for key,_ in pairs(minetest.registered_items) do
 		if key ~= "" then
@@ -70,6 +83,7 @@ minetest.after(1, function()
 								techage.furnace.register_recipe({
 									output = recipe.output,
 									recipe = {item},
+									waste = get_waste(recipe),
 									time = math.floor((recipe.width + 1) / 2),
 								})
 							end
@@ -77,6 +91,7 @@ minetest.after(1, function()
 							techage.furnace.register_recipe({
 								output = recipe.output,
 								recipe = recipe.items,
+								waste = get_waste(recipe),
 								time = math.floor((recipe.width + 1) / 2),
 							})
 						end
@@ -155,11 +170,6 @@ if minetest.global_exists("moreores") then
 		minetest.clear_craft({
 			type = "cooking",
 			recipe = "moreores:mithril_lump",
-		})
-		-- delete cooking silver lumps into silver ingots
-		minetest.clear_craft({
-			type = "cooking",
-			recipe = "moreores:silver_lump",
 		})
 	end
 

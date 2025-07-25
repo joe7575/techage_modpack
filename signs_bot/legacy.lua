@@ -79,3 +79,20 @@ signs_bot.register_inventory({"xdecor:hive"}, {
 	},
 })
 
+signs_bot.register_inventory({"shop:shop"}, {
+	put = {
+		allow_inventory_put = function(pos, stack, player_name)
+			local owner = M(pos):get_string("owner")
+			return owner == player_name
+		end,
+		listname = "stock",
+	},
+	take = {
+		allow_inventory_take = function(pos, stack, player_name)
+			local owner = M(pos):get_string("owner")
+			return owner == player_name
+		end,
+		listname = "register",
+	},
+})
+

@@ -67,7 +67,7 @@ local function place_item(base_pos, robot_pos, param2, slot, route, level)
 				minetest.set_node(pos1, {name=name, param2=wdir})
 			else
 				minetest.set_node(pos1, {name=name, param2=p2})
-				--minetest.check_single_for_falling(pos1)
+				minetest.check_single_for_falling(pos1)
 			end
 		end
 	end

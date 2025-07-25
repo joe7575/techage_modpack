@@ -184,8 +184,8 @@ minetest.register_globalstep(function(dtime)
 		local player = minetest.get_player_by_name(name)
 		local fire = player:get_player_control().jump
 		local ctrl = player:get_player_control_bits()
-		local pos = player:getpos()
-		local vel = player:get_player_velocity()
+		local pos = player:get_pos()
+		local vel = player:get_velocity()
 		local item = player:get_wielded_item()
 		
 		-- The controller as wielded item prevents the player from using other blocks
@@ -244,7 +244,7 @@ minetest.register_globalstep(function(dtime)
 			-- control max height
 			if pos.y > MAX_HEIGHT then 
 				pos.y = MAX_HEIGHT - MAX_HEIGHT/10
-				player:setpos(pos)
+				player:set_pos(pos)
 			end
 			
 			-- control max speed

@@ -21,7 +21,7 @@ local S = signs_bot.S
 
 local lib = signs_bot.lib
 
-local CYCLE_TIME = 2
+local CYCLE_TIME = 4
 
 local function update_infotext(pos, dest_pos, cmnd)
 	M(pos):set_string("infotext", S("Node Sensor: Connected with ")..P2S(dest_pos).." / "..cmnd)
@@ -72,10 +72,10 @@ local function any_node_changed(pos)
 
 	if mem.num ~= num then
 		if mem.mode == 1 and num < mem.num then
-			mem.num = num
+			--mem.num = num
 			return true
 		elseif mem.mode == 2 and num > mem.num then
-			mem.num = num
+			--mem.num = num
 			return true
 		elseif mem.mode == 3 then
 			mem.num = num
@@ -95,6 +95,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.accept then
 		mem.mode = DropdownValues[fields.mode] or 3
 		mem.num = nil
+		any_node_changed(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		swap_node(pos, "signs_bot:node_sensor")
 	end

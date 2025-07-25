@@ -159,6 +159,7 @@ return {
     "Wenn der Slot vorkonfiguriert ist und zum Artikel passt\\, oder wenn der Slot\n"..
     "nicht konfiguriert und leer ist\\, oder nur teilweise mit dem Artikeltyp gefüllt ist\\,\n"..
     "der hinzugefügt werden soll\\, dann werden die oder der Artikel hinzugefügt.\n"..
+    "Dabei werden vorkonfigurierte Slots zuerst gefüllt\\, bevor leere Slots verwendet werden.\n"..
     "\n"..
     "Können nicht alle Artikel hinzugefügt werden\\, werden im Fall A die verbleibenden\n"..
     "Slots durchprobiert. Alles\\, was nicht zum eigenen Inventar hinzugefügt werden\n"..
@@ -267,7 +268,22 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Signal wird gesendet\\, wenn alle Eingangssignale empfangen wurden.\n"..
+    "Um mehrere Signale zu kombinieren\\, verwende den Signal AND Block.\n"..
+    "Dieser sendet erst ein Signal\\, wenn alle Eingangssignale empfangen wurden.\n"..
+    "(logisches UND). Der Block hat beliebig viele Eingänge und 1 Ausgang.\n"..
+    "Der Block hat drei Zustände\\, die er farblich anzeigt:\n"..
+    "\n"..
+    "  - Schwarzes &-Symbol: Es liegt kein Eingangssignal an\n"..
+    "  - Blaues &-Symbol: Es liegt mindestens ein Eingangssignal an\\, aber noch nicht alle\n"..
+    "  - Rotes &-Symbol: Alle Eingangssignale liegen an\\, der Block sendet ein Signal\nund löscht die Eingangssignale\\, so dass er wieder ein schwarzes Symbol anzeigt.\n"..
+    "\n"..
+    "Der Block arbeitet nur\\, wenn der Ausgangsaktor nicht in dem Zustand ist\\,\n"..
+    "in den er durch das Signal gesetzt werden soll.\n"..
+    "Ist also bspw. ein Bot bereits unterwegs und der AND-Block ist so progammiert\\,\n"..
+    "dass der Bot starten soll\\, werden Eingangsssignale nicht angenommen.\n"..
+    "\n"..
+    "Durch einen Schlag auf den Block werden ggf. anliegende Eingangssignale\n"..
+    "gelöscht\\, so dass der Block wieder auf den Ausgangszustand zurückfällt.\n"..
     "\n"..
     "\n"..
     "\n",

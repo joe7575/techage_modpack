@@ -1,8 +1,8 @@
 # TA3: Ölzeitalter
 
-Bei TA3 gilt es, die Dampf-betriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.
+Bei TA3 gilt es, die Dampfbetriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.
 
-Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen, dass dein Strombedarf nur mit Öl-betriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.
+Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen, dass dein Strombedarf nur mit ölbetriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.
 
 Das Industrielle Zeitalter ist auf seinem Höhepunkt.
 
@@ -11,7 +11,7 @@ Das Industrielle Zeitalter ist auf seinem Höhepunkt.
 
 ## Kohlekraftwerk / Ölkraftwerk
 
-Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
+Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
 
 Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.
 Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.
@@ -49,7 +49,7 @@ Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öl
 
 ### TA3 Boiler unten/oben
 
-Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
+Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
 Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.
 
 [ta3_boiler|image]
@@ -78,7 +78,7 @@ Dient zur Abkühlung des heißen Dampfs aus der Turbine.  Muss über Dampfleitun
 
 ## Elektrischer Strom
 
-In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen, Speichersysteme und Generatoren mit Stromkabel verbunden werden.  
+In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen, Speichersysteme und Generatoren mit Stromkabeln verbunden werden.  
 TA3 besitzt 2 Arten von Stromkabel:
 
 - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle "verputzt" werden).
@@ -648,6 +648,34 @@ Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden,
 
 [ta3_terminal|image]
 
+### TA3 Röhrenmonitor / TA3 CRT Monitor
+
+Passend zum TA3 Terminal im BASIC-Mode gibt es den Röhrenmonitor. Dieser kann die Ausgaben des BASIC-Programms anzeigen.
+Der Monitor kann aber auch als Anzeige für andere Blöcke genutzt werden, die Texte ausgeben (bspw. der Lua Controller).
+Der Monitor besitzt ein Gabelschlüssel-Menü, über das die Auflösung des Monitors sowie die Textfarbe eingestellt werden kann.
+Die Auflösung kann im Bereich von 16x8 bis 40x20 Zeichen x Zeilen eingestellt werden.
+
+Die Updaterate des Monitors ist direkt abhängig von der Auflösung und beträgt eine Sekunde bei 16x8 und ca. 6 Sekunden bei 40x20.
+
+Die Kommandos zur Ansteuerung im BASIC-Mode:
+
+```BASIC
+10 DCLR(num)              ' Lösche den Bildschirm mit der Nummer 'num'.
+20 DPUTS(num, row, text)  ' Textausgabe auf den Bildschirm in Zeile 'row' (1..n).
+                          ' Der Wert 0 für 'row' bedeutet, dass der Text nach der 
+                          ' letzten Zeile angehängt wird.
+```
+
+Die Kommandos zur Ansteuerung durch den Lua Controller:
+
+```lua
+$clear_screen(num)        -- Lösche den Bildschirm mit der Nummer 'num'.
+$display(num, row, text)  -- Textausgabe auf den Bildschirm in Zeile 'row' (1..n).
+                          -- Der Wert 0 für 'row' bedeutet, dass der Text nach der 
+                          -- letzten Zeile angehängt wird.
+```
+
+[ta3_monitor|image]
 
 ### TechAge Farblampe / Color Lamp
 
@@ -678,25 +706,27 @@ Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Co
 
 ### TA3 Tür Controller II / Door Controller II
 
-Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.
+Der Tür Controller II kann viele Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden. Es können bis zu 16 Blöcke ausgewählt werden.
 
- Über die Taste "Austauschen" kann die Funktion des Controllers von Hand getestet werden.
+Wird die Taste "Austauschen" gedrückt, werden die Blöcke an den angelernten Positionen entfernt und im Inventar des Controllers gespeichert.
+Die freigewordenen Positionen können auch wieder mit Blöcken belegt werden. Durch erneutes Drücken der "Austauschen" Taste werden die Blöcke mit den Blöcken im Inventar getauscht.
 
-Wird ein  `on` / `off` Kommando an den Tür Controller II gesendet, entfernt bzw. setzt er die Blöcke ebenfalls.
+Über die Taste "Rücksetzen" werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt. Damit ist die Anlernphase beendet und der Tür Controller II kann über Kommandos angesteuert werden.
 
-Mit `$send_cmnd(node_number, "exchange", 2)` können einzelne Böcke gesetzt, entfernt, bzw. durch andere Blöcke aus dem Inventar ersetzt werden. 
+Jede Position bzw. jeder Slot besitzt zwei Zustände:
 
-Mit `$send_cmnd(node_number, "set", 2)` kann ein Block aus dem Inventory explizit gesetzt werden, sofern der Inventory Slot nicht leer ist.
+1) Der Block befindet sich in der Welt (ein ggf. vorhandener Austauschblock ist im Inventar) = Ausgangszustand
+2) Der Block befindet sich im Inventar (ein ggf. vorhandener Austauschblock ist in der Welt) = Austauschzustand
 
-Mit `$send_cmnd(node_number, "dig", 2)` kann ein Block wieder entfernt werden, sofern der Inventory Slot leer ist. 
+- Über `on` / `off` Kommandos werden alle Blöcke an den angelernten Positionen mit denen im Inventar getauscht.
+- Über das `reset` Kommando werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt.
 
-Mit `$send_cmnd(node_number, "get", 2)` wird der Name des gesetzten Blocks zurückgeliefert. 
+Für alle folgenden Kommados muss zusätzlich die Slot-Nummer des Inventars als Parameter übergeben werden (1..16).
 
-Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.
-
-Mit `$send_cmnd(node_number, "reset")` wird der Tür Controller zurückgesetzt. 
-
-Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.
+- Über das `exc` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht.
+- Über das `to1` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht, sofern die Position im Zustand 2 war (Austauschzustand).
+- Über das `to2` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht, sofern die Position im Zustand 1 war (Ausgangszustand).
+- Über das `get` Kommando wird der der Zustand der Position zurückgeliefert, also die Werte 1 oder 2.
 
 [ta3_doorcontroller|image]
 
@@ -857,8 +887,11 @@ Die Verarbeitungsleistung beträgt bis zu 8 mal ein Item alle 4 Sekunden.
 
 [ta3_injector|image]
 
+### TA3 Beobachtungsfenster / TA3 Observation Window
 
-
+Das Beobachtungsfenster ist ein Block, der die Funktion eines Fensters in eine Röhre hat. Damit können Items in Röhren sichtbar gemacht werden.
+Der Fensterblock muss zwischen zwei Röhren gesetzt werden. Zwei oder mehr Fensterblöcke hintereinander sind nicht zulässig. Die Animation der Items
+findet nur statt, wenn ein Spieler in der Nähe ist (<=8 Blöcke). Items werden aber unabhängig von der Sichtbarkeit weitergegeben.
 
 ## Werkzeuge
 

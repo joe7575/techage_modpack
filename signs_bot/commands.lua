@@ -195,6 +195,7 @@ function signs_bot.run_next_command(base_pos, mem)
 		mem.bot_state = "nopower"
 		return bot_error(base_pos, mem, "No power")
 	end
+	mem.error = false
 	return true
 end
 
@@ -301,7 +302,7 @@ instead of spaces, like "Hello*world"]]),
 		return text ~= ""
 	end,
 	cmnd = function(base_pos, mem, text)
-		text = text:gsub("*", " ")
+		text = tostring(text):gsub("%*", " ")
 		local owner = M(base_pos):get_string("owner")
 		if owner ~= "" and text ~= "" then
 			minetest.chat_send_player(owner, "Bot: " .. text)

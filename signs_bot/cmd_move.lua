@@ -69,7 +69,7 @@ function signs_bot.move_robot(mem)
 			if node3.name == "signs_bot:robot_leg" then
 				return nil
 			elseif node3.name == "signs_bot:robot_foot" then
-				minetest.swap_node(pos3, {name="signs_bot:robot_leg"})
+				minetest.swap_node(pos, {name="signs_bot:robot_leg"})
 			else
 				minetest.swap_node(pos, {name="signs_bot:robot_foot"})
 			end

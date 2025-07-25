@@ -1,6 +1,6 @@
 unused_args = false
 allow_defined_top = true
-max_line_length = 999
+max_line_length = 131
 
 globals = {
 	"unified_inventory",
@@ -11,8 +11,9 @@ read_globals = {
 	table = {fields = {"copy", "getn"}},
 
 	"dump",
-	"minetest", "vector",
+	"core", "minetest",
 	"ItemStack", "datastorage",
+	"vector",
 
 	"hb",
 	"doors",

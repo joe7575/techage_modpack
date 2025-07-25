@@ -34,11 +34,12 @@ function signs_bot.get_node_type(pos)
 end
 
 -- Used by the pairing tool
-function signs_bot.get_signal(actuator_pos)
+function signs_bot.get_signal(actuator_pos, sensor_pos)
 	if actuator_pos then
 		local node = tubelib2.get_node_lvm(actuator_pos)
 		local ndef = minetest.registered_nodes[node.name]
 		if ndef	and ndef.signs_bot_get_signal then
+			node.hash = minetest.hash_node_position(sensor_pos)
 			return ndef.signs_bot_get_signal(actuator_pos, node)
 		end
 	end
@@ -65,9 +66,23 @@ function signs_bot.send_signal(sensor_pos)
 			local pos = S2P(dest_pos)
 			local node = tubelib2.get_node_lvm(pos)
 			local ndef = minetest.registered_nodes[node.name]
-			if ndef	and ndef.signs_bot_on_signal then
+			if ndef and ndef.signs_bot_on_signal then
 				ndef.signs_bot_on_signal(pos, node, signal)
 			end
 		end
+	end
+end
+
+-- Get the state from the bot box
+function signs_bot.get_state(sensor_pos)
+	local meta = sensor_pos and M(sensor_pos)
+	if meta then
+		local dest_pos = meta:get_string("signal_pos")
+		local pos = S2P(dest_pos)
+		if pos and pos.x then
+			local mem = tubelib2.get_mem(pos)
+			return mem.running
+		end
+		return false
 	end
 end

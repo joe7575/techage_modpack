@@ -13,42 +13,31 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.20
+techage.version = 1.23
 
-if minetest.global_exists("tubelib") then
-	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
-	return
-elseif minetest.global_exists("ironage") then
-	minetest.log("error", "[techage] Techage can't be used together with the mod ironage!")
-	return
-elseif minetest.global_exists("techpack") then
-	minetest.log("error", "[techage] Techage can't be used together with the modpack techpack!")
-	return
-elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
-	minetest.log("error", "[techage] Techage requires tubelib2 version 2.2 or newer!")
-	return
-elseif minetest.global_exists("minecart") and minecart.version < 2.04 then
-	minetest.log("error", "[techage] Techage requires minecart version 2.04 or newer!")
-	return
-elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.03 then
-	minetest.log("error", "[techage] Techage requires lcdlib version 1.03 or newer!")
-	return
-elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
-	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")
-	return
-elseif minetest.global_exists("networks") and networks.version < 0.13 then
-	minetest.log("error", "[techage] Techage requires networks version 0.13 or newer!")
-	return
-elseif minetest.global_exists("hyperloop") and hyperloop.version < 2.07 then
-	minetest.log("error", "[techage] Techage requires hyperloop version 2.07 or newer!")
-	return
+if minetest.get_modpath("tubelib") then
+	error("Techage can't be used together with the mod tubelib!")
+elseif minetest.get_modpath("ironage") then
+	error("Techage can't be used together with the mod ironage!")
+elseif minetest.get_modpath("techpack") then
+	error("Techage can't be used together with the modpack techpack!")
+elseif minetest.get_modpath("tubelib2") and tubelib2.version < 2.2 then
+	error("Techage requires tubelib2 version 2.2 or newer!")
+elseif minetest.get_modpath("minecart") and minecart.version < 2.04 then
+	error("Techage requires minecart version 2.04 or newer!")
+elseif minetest.get_modpath("lcdlib") and lcdlib.version < 1.04 then
+	error("Techage requires lcdlib version 1.04 or newer!")
+elseif minetest.get_modpath("safer_lua") and safer_lua.version < 1.04 then
+	error("Techage requires safer_lua version 1.04 or newer!")
+elseif minetest.get_modpath("networks") and networks.version < 0.13 then
+	error("Techage requires networks version 0.13 or newer!")
 end
 
 -- Test MT 5.4 new string mode
 techage.CLIP  = minetest.features.use_texture_alpha_string_modes and "clip" or false
 techage.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or true
 
-techage.NodeDef = {}		-- node registration info
+techage.NodeDef = {}  -- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
 
@@ -60,6 +49,7 @@ techage.stair_aliases_enabled = minetest.settings:get_bool("techage_stair_aliase
 techage.disable_lava_above_sea_level = minetest.settings:get_bool("techage_disable_lava_above_sea_level") ~= false
 techage.maximum_move_controller_distance = tonumber(minetest.settings:get("techage_maximum_move_controller_distance")) or 400
 techage.maximum_move_controller_blocks = tonumber(minetest.settings:get("techage_maximum_move_controller_blocks")) or 16
+techage.ammonia_recipes_enabled = minetest.settings:get_bool("techage_ammonia_recipes_enabled") ~= false
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
@@ -109,7 +99,9 @@ dofile(MP.."/basis/shared_inv.lua")
 dofile(MP.."/basis/shared_tank.lua")
 dofile(MP.."/basis/teleport.lua")
 dofile(MP.."/basis/fly_lib.lua")
+dofile(MP.."/basis/fly_lib2.lua")
 dofile(MP.."/basis/pack_lib.lua")
+dofile(MP.."/basis/color.lua")
 
 -- Main doc
 dofile(MP.."/doc/guide.lua")
@@ -317,7 +309,8 @@ dofile(MP.."/move_controller/gateblock.lua")
 dofile(MP.."/move_controller/doorblock.lua")
 dofile(MP.."/move_controller/doorcontroller.lua")  -- old
 dofile(MP.."/move_controller/doorcontroller2.lua")  -- new
-dofile(MP.."/move_controller/movecontroller.lua")
+dofile(MP.."/move_controller/movecontroller.lua")  -- old
+dofile(MP.."/move_controller/movecontroller2.lua")  -- new
 dofile(MP.."/move_controller/turncontroller.lua")
 dofile(MP.."/move_controller/flycontroller.lua")
 dofile(MP.."/move_controller/soundblock.lua")
@@ -360,6 +353,23 @@ dofile(MP.."/hydrogen/fuelcellstack.lua")
 dofile(MP.."/hydrogen/electrolyzer.lua")
 dofile(MP.."/hydrogen/fuelcell.lua")
 
+-- TNT recypes, ammonia
+if techage.ammonia_recipes_enabled then
+    dofile(MP.."/hydrogen/nitrogen.lua")
+    dofile(MP.."/liquids/nitrogen.lua")
+    dofile(MP.."/liquids/ammonia.lua")
+    if minetest.settings:get_bool("enable_tnt") then
+        dofile(MP.."/items/gunpowder.lua")
+    end
+end
+
+-- Displays
+dofile(MP.."/displays/display.lua")
+dofile(MP.."/displays/monitor.lua")
+if techage.newer_or_equal(core.get_version().string, "5.7.0") then
+	dofile(MP.."/displays/display2.lua")
+end
+
 -- ICTA Controller
 dofile(MP.."/icta_controller/submenu.lua")
 dofile(MP.."/icta_controller/condition.lua")
@@ -369,7 +379,6 @@ dofile(MP.."/icta_controller/controller.lua")
 dofile(MP.."/icta_controller/commands.lua")
 dofile(MP.."/icta_controller/edit.lua")
 dofile(MP.."/icta_controller/battery.lua")
-dofile(MP.."/icta_controller/display.lua")
 dofile(MP.."/icta_controller/signaltower.lua")
 
 -- Lua Controller
@@ -433,6 +442,9 @@ dofile(MP.."/fusion_reactor/ta5_pump.lua")
 
 -- Beduino extensions
 dofile(MP.."/beduino/kv_store.lua")
+
+-- Obverser
+dofile(MP.."/observer/observer.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil

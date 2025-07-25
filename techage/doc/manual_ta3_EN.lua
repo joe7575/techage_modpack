@@ -57,6 +57,7 @@ return {
     "3,TA3 Sequencer",
     "3,TA3 Timer",
     "3,TA3 Terminal",
+    "3,TA3 CRT Monitor",
     "3,TechAge Color Lamp",
     "3,Door/Gate Blocks",
     "3,TA3 Door Controller",
@@ -79,6 +80,7 @@ return {
     "3,TA3 Gravel Rinser",
     "3,TA3 Grinder",
     "3,TA3 Injector",
+    "3,TA3 Observation Window",
     "2,Tools",
     "3,Techage Info Tool",
     "3,TechAge Programmer",
@@ -575,6 +577,28 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The CRT monitor is available to match the TA3 terminal in BASIC mode. This can display the output of the BASIC program.\n"..
+    "The monitor can also be used as a display for other blocks that output text (e.g. the Lua controller).\n"..
+    "The monitor has a wrench menu that can be used to set the resolution of the monitor and the text color.\n"..
+    "The resolution can be set in the range of 16x8 to 40x20 characters x lines.\n"..
+    "The update rate of the monitor is directly dependent on the resolution and is one second at 16x8 and around 6 seconds at 40x20.\n"..
+    "\n"..
+    "The commands for controlling in BASIC mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Clear the screen with the number 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Text output to the screen in line 'row' (1..n).\n"..
+    "                              ' The value 0 for 'row' means that the text is\n"..
+    "                              ' appended after the last line.\n"..
+    "\n"..
+    "The commands for controlling by means of the Lua controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Clear the screen with the number 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Text output to the screen in line 'row' (1..n).\n"..
+    "                              -- The value 0 for 'row' means that the text is\n"..
+    "                              -- appended after the last line.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes\" and via Lua/Beduino commands.\n"..
     "\n"..
     "With the chat command '/ta_color' the color palette with the values for the Lua/Beduino commands is displayed and with '/ta_send color <num>' the color can be changed.\n"..
@@ -592,21 +616,28 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Exchange\" button. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
+    "The Door Controller II can remove and place many types of blocks. To teach the Door Controller II\\, press the \"Record\" button. Then\\, click on all the blocks that should be part of the door/gate. Then\\, press the \"Done\" button. Up to 16 blocks can be selected.\n"..
     "\n"..
-    "With '$send_cmnd(node_number\\, \"exchange\"\\, 2)' individual blocks can be set\\, removed or replaced by other blocks from the inventory. \n"..
+    "Pressing the \"Exchange\" button removes the blocks from the trained positions and saves them in the controller's inventory.\n"..
     "\n"..
-    "With '$send_cmnd(node_number\\, \"set\"\\, 2)' a block from the inventory can be set explicitly\\, as long as the inventory slot is not empty.\n"..
+    "Blocks can be reassigned to the vacated positions. Pressing the \"Exchange\" button again swaps the blocks with the blocks in the inventory.\n"..
     "\n"..
-    "A block can be removed again with '$send_cmnd(node_number\\, \"dig\"\\, 2)' if the inventory slot is empty. \n"..
+    "Pressing the \"Reset\" button resets all blocks to their initial state after teaching. This completes the teaching phase\\, and the Door Controller II can be controlled via commands.\n"..
     "\n"..
-    "The name of the set block is returned with '$send_cmnd(node_number\\, \"get\"\\, 2)'.\n"..
+    "Each position or slot has two states:\n"..
     "\n"..
-    "The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.\n"..
+    "1) The block is in the world (any existing exchange block is in the inventory) = Initial state\n"..
+    "2) The block is in the inventory (any existing exchange block is in the world) = Exchange state\n"..
     "\n"..
-    "With '$send_cmnd(node_number\\, \"reset\")' the door controller is reset.\n"..
+    "  - Using the 'on' / 'off' command\\, all blocks in the learned positions are swapped with those in the inventory.\n"..
+    "  - Using the 'reset' command\\, all blocks are reset to their initial state after learning.\n"..
     "\n"..
-    "This can also be used to simulate extendable stairs and the like. \n"..
+    "For all subsequent commands\\, the inventory slot number must also be passed as a parameter (1..16).\n"..
+    "\n"..
+    "  - Using the 'exc' command\\, a block in the world is swapped with the block in the inventory.\n"..
+    "  - The 'to1' command swaps a block in the inventory with the block in the world\\, provided the position was in state 2 (Exchange state).\n"..
+    "  - The 'to2' command swaps a block in the world with the block in the inventory\\, provided the position was in state 1 (Initial state).\n"..
+    "  - The 'get' command returns the state of the position\\, i.e. the values 1 or 2.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -716,6 +747,10 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The observation window is a block that functions as a window into a tube. It can be used to make items in tubes visible.\n"..
+    "The window block must be placed between two tubes. Two or more window blocks in a row are not permitted. The item animation\n"..
+    "only occurs when a player is nearby (<=8 blocks). However\\, items are passed regardless of visibility.\n"..
+    "\n",
     "",
     "The Techage Info Tool (open-ended wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
     "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
@@ -814,6 +849,7 @@ return {
     "ta3_sequencer",
     "ta3_timer",
     "ta3_terminal",
+    "ta3_monitor",
     "ta3_colorlamp",
     "ta3_doorblock",
     "ta3_doorcontroller",
@@ -836,6 +872,7 @@ return {
     "ta3_gravelrinser",
     "ta3_grinder",
     "ta3_injector",
+    "",
     "",
     "ta3_end_wrench",
     "ta3_programmer",
@@ -892,6 +929,8 @@ return {
     "",
     "",
     "ta3_distiller",
+    "",
+    "",
     "",
     "",
     "",

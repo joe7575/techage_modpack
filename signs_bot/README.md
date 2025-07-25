@@ -20,7 +20,7 @@ mod doclib.
 
 
 ### License
-Copyright (C) 2019-2023 Joachim Stolberg
+Copyright (C) 2019-2025 Joachim Stolberg
 Copyright (C) 2021 Michal 'Micu' Cieslakiewicz (soup commands)
 Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
 
@@ -59,6 +59,6 @@ optional: farming redo, node_io, doc, techage, minecart, xdecor, compost, doclib
 - 2022-09-11  V1.12  * Add commands `jump_low_batt` , `jump_check_item`, and `fall_down`
 - 2023-06-27  V1.13  * Add Beduino command support (see bep-006_sb_cmnd.md)
 - 2023-07-28  V1.13  * Introduction/manual restructured, doclib dependency added
-
+- 2025-02-16  V1.14  * Filling of slots changed. AND gate improved. Consider falling nodes.
 
 
