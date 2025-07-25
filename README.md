@@ -47,6 +47,60 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 ### History
 
+#### 2025-07-25
+
+Updated Mods:
+
+- techage:
+  - Fix misspelled words (ghost)
+  - Fix the recipe output name for aluminum handrail recipe (jfanjoy)
+  - Add CRT monitor
+  - TA4 Furnace Heater listed wrong on TA3 Power Terminal
+  - Add TA4 displays
+  - Update spelling of German manuals (mineplayer)
+  - Revise Lua controller
+  - Fixes gravel ore probability when using the everness mod (acarrico)
+  - Add a recipe to convert iron ingot to steel using the industrial furnace (jfanjoy)
+  - Add move2 command from move controller to fly controller (jfanjoy)
+  - Add new movecontroller2
+  - Fix bug with values and junctions behind the ta4_reactor
+  - Add ta1 iron block recipes and texture (jfanjoy)
+  - Improve Lua controller formspec
+  - Add NanoBasic daytime functions
+  - Add reset command to fly controller (jfanjoy)
+  - Improve movecontroller2
+  - Improve doorcontroller2
+  - Fix #199 (Everness gravel sieve not working)
+  - Add observation window block
+  - Adds nitrogen, ammonia, tnt chemistry (Evgeniy)
+  - Add French translation (François Delpierre)
+  - TA4 Doser: Fix farming:salt recipe
+
+- safer_lua:
+  - Add feature to control runtime via credits
+
+- signs_bot:
+  - Fix command crash when running "print <num>" (Niklp09)
+  - Add support for shop mod
+  - Fix bot command and status bugs
+  - Add support for shop mod
+  - Filling of bot slots improved
+  - Prevent the AND gate from accepting a signal while the bot is running
+  - Falling nodes don't fall when placed by signs bot
+
+- stamina:
+  - Fix Deprecated 'hud_elem_type' field warning
+  - Merge changes from minetest-mods/stamina
+
+- nanobasic:
+  - Chance trace mode
+  - Improve compiler
+  - Add SGN function
+  - Add ELSEIF statement
+
+- lcdlib:
+  - Fix bug when placeing wallmounted displays
+
 #### 2025-01-27
 
 Updated Mods:
