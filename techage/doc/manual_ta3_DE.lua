@@ -87,7 +87,7 @@ return {
     "3,TechAge Kelle / Trowel",
     "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
     "3,Techage Schraubendreher / Screwdriver",
-    "3,TechAge Montagewerkzeug / Assembly Tool",
+    "3,TechAge Akkuschrauber / Cordless Screwdriver",
   },
   texts = {
     "Bei TA3 gilt es\\, die Dampfbetriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
@@ -100,7 +100,7 @@ return {
     "\n",
     "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
     "\n"..
-    "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
+    "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen oder eine Flüssigkeitsleitung mit dem Boiler-Oberteil verbinden\\, um automatisch Wasser über eine Pumpe nachzufüllen.\n"..
     "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
     "Wenn das Wasser heiß ist\\, kann der Generator gestartet werden.\n"..
     "\n"..
@@ -126,7 +126,14 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
+    "Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. \n"..
+    "\n"..
+    "Der Boiler kann auf zwei Arten mit Wasser gefüllt werden:\n"..
+    "\n"..
+    "  - Manuell durch Anklicken des Boiler-Oberteils mit einem Wassereimer (bis zu 10 Eimer)\n"..
+    "  - Automatisch über eine Flüssigkeitsleitung\\, die mit dem Boiler-Oberteil verbunden ist\\, mittels einer TA3/TA4-Pumpe\n"..
+    "\n"..
+    "Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
     "Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.\n"..
     "\n"..
     "\n"..
@@ -780,12 +787,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das TechAge Montagewerkzeug dient zum Entfernen und wieder Setzen von Techage Blöcken\\, ohne dass diese Blöcke ihre Blocknummer verlieren\\, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich\\, da diese oft umgesetzt werden müssen.\n"..
+    "Das TechAge Akkuschrauber dient zum Entfernen und wieder Setzen von Techage Blöcken\\, ohne dass diese Blöcke ihre Blocknummer verlieren\\, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich\\, da diese oft umgesetzt werden müssen.\n"..
     "\n"..
     "  - Linke Taste: Entfernen eines Blocks\n"..
     "  - Rechte Taste: Setzen eines Blocks\n"..
     "\n"..
-    "Der Block\\, der zuvor mit dem Montagewerkzeug entfernt wurde und wieder gesetzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
+    "Der Block\\, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll\\, muss sich in Hotbar-Slot 1 (dem ganz linken Slot der Hotbar) befinden.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -878,7 +885,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",

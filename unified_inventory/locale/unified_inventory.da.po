@@ -1,0 +1,366 @@
+# LANGUAGE translation for the unified_inventory mod.
+# Copyright (C) 2018 Maciej Kasatkin (RealBadAngel)
+# This file is distributed under the same license as the unified_inventory package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: unified_inventory\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-02 03:34+0200\n"
+"PO-Revision-Date: 2025-09-06 23:13+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: da_DK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: api.lua register.lua
+msgid "Crafting"
+msgstr "Fremstilling"
+
+#: api.lua
+msgid "Mixing"
+msgstr "Mikse"
+
+#: api.lua
+msgid "Cooking"
+msgstr "Koge"
+
+#: api.lua
+msgid "Digging"
+msgstr "Grave"
+
+#: bags.lua
+msgid "Bags"
+msgstr "Tasker"
+
+#: bags.lua
+msgid "Bag @1"
+msgstr "Taske @1"
+
+#: bags.lua
+msgid "Small Bag"
+msgstr "Lille taske"
+
+#: bags.lua
+msgid "Medium Bag"
+msgstr "Mellem taske"
+
+#: bags.lua
+msgid "Large Bag"
+msgstr "Stor taske"
+
+#: group.lua
+msgid " and "
+msgstr " og "
+
+#: internal.lua
+msgid "First page"
+msgstr "Første side"
+
+#: internal.lua
+msgid "Back three pages"
+msgstr "Tilbage tre sider"
+
+#: internal.lua
+msgid "Back one page"
+msgstr "Tilbage en side"
+
+#: internal.lua
+msgid "Forward one page"
+msgstr "Frem en side"
+
+#: internal.lua
+msgid "Forward three pages"
+msgstr "Frem tre sider"
+
+#: internal.lua
+msgid "Last page"
+msgstr "Sidste side"
+
+#: internal.lua
+msgid "Search"
+msgstr "Søg"
+
+#: internal.lua
+msgid "Reset search and display everything"
+msgstr "Nulstil søgning og vis alting"
+
+#: internal.lua
+msgid "No matching items"
+msgstr "Ingen ting svarer til søgningen"
+
+#: internal.lua
+msgid "No matches."
+msgstr "Ingen resultater."
+
+#: internal.lua
+msgid "Page"
+msgstr "Side"
+
+#: internal.lua
+#, lua-format
+msgid "%s of %s"
+msgstr "%s af %s"
+
+#: internal.lua
+msgid "Filter"
+msgstr "Filter"
+
+#: register.lua
+msgid "Can use the creative inventory"
+msgstr "Kan bruge den kreative beholdning"
+
+#: register.lua
+msgid ""
+"Forces Unified Inventory to be displayed in Full mode if Lite mode is "
+"configured globally"
+msgstr ""
+"Tvinger Unified Inventory til at blive vist i fuld visning, hvis simpel "
+"visning er indstillet globalt"
+
+#: register.lua
+msgid "Crafting Grid"
+msgstr "Fremstillingsgitter"
+
+#: register.lua
+msgid "Crafting Guide"
+msgstr "Fremstillingsvejledning"
+
+#: register.lua
+msgid "Set home position"
+msgstr "Sæt position for hjem"
+
+#: register.lua
+#, lua-format
+msgid "Home position set to: %s"
+msgstr "Hjem-position sat til: %s"
+
+#: register.lua
+msgid "You don't have the \"home\" privilege!"
+msgstr "Du har ikke \"hjem\"-rettigheden!"
+
+#: register.lua
+msgid "Go home"
+msgstr "Gå hjem"
+
+#: register.lua
+msgid "Set time to day"
+msgstr "Sæt tiden til dag"
+
+#: register.lua
+msgid "Time of day set to 6am"
+msgstr "Sæt uret til kl. 6"
+
+#: register.lua
+msgid "You don't have the settime privilege!"
+msgstr "Du har ikke rettigheden til at sætte tiden!"
+
+#: register.lua
+msgid "Set time to night"
+msgstr "Sæt tiden til nat"
+
+#: register.lua
+msgid "Time of day set to 9pm"
+msgstr "Sæt uret til kl. 21"
+
+#: register.lua
+msgid "Clear inventory"
+msgstr "Ryd beholdningen"
+
+#: register.lua
+msgid ""
+"This button has been disabled outside of creative mode to prevent accidental "
+"inventory trashing.\n"
+"Use the trash slot instead."
+msgstr ""
+"Denne knap er deaktiveret uden for kreativ tilstand for at forhindre "
+"utilsigtet rydning af beholdningen.\n"
+"Brug skraldespanden i stedet."
+
+#: register.lua
+msgid "Inventory cleared!"
+msgstr "Beholdningen er ryddet!"
+
+#: register.lua
+msgid "Trash:"
+msgstr "Skraldespand:"
+
+#: register.lua
+msgid "Refill:"
+msgstr "Genopfyld:"
+
+#: register.lua
+#, lua-format
+msgid "Any item belonging to the %s group"
+msgstr "Hvilken som helst ting der hører til %s-gruppen"
+
+#: register.lua
+#, lua-format
+msgid "Any item belonging to the groups %s"
+msgstr "Hvilken som helst ting der hører til grupperne %s"
+
+#: register.lua
+#, lua-format
+msgid "Recipe %d of %d"
+msgstr "Opskrift %d af %d"
+
+#: register.lua
+#, lua-format
+msgid "Usage %d of %d"
+msgstr "Brug %d af %d"
+
+#: register.lua
+msgid "No recipes"
+msgstr "Ingen opskrifter"
+
+#: register.lua
+msgid "No usages"
+msgstr "Ingen brugt"
+
+#: register.lua
+msgid "Result"
+msgstr "Resultat"
+
+#: register.lua
+msgid "Ingredient"
+msgstr "Ingrediens"
+
+#: register.lua
+msgid "Show next recipe"
+msgstr "Vis næste opskrift"
+
+#: register.lua
+msgid "Show next usage"
+msgstr "Vis næste brug"
+
+#: register.lua
+msgid "Show previous recipe"
+msgstr "Vis foregående opskrift"
+
+#: register.lua
+msgid "Show previous usage"
+msgstr "Vis foregående brug"
+
+#: register.lua
+#, lua-format
+msgid "%s (%s)"
+msgstr "%s (%s)"
+
+#: register.lua
+msgid "Give me:"
+msgstr "Giv mig:"
+
+#: register.lua
+msgid ""
+"This recipe is too\n"
+"large to be displayed."
+msgstr ""
+"Denne opskrift er for\n"
+"stor til at blive vist."
+
+#: register.lua
+msgid "To craft grid:"
+msgstr "Fremstillingsgitteret:"
+
+#: register.lua
+msgid "All"
+msgstr "Alle"
+
+#: waypoints.lua
+msgid "White"
+msgstr "Hvid"
+
+#: waypoints.lua
+msgid "Yellow"
+msgstr "Gul"
+
+#: waypoints.lua
+msgid "Red"
+msgstr "Rød"
+
+#: waypoints.lua
+msgid "Green"
+msgstr "Grøn"
+
+#: waypoints.lua
+msgid "Blue"
+msgstr "Blå"
+
+#: waypoints.lua
+msgid "Waypoints"
+msgstr "Vigtige lokaliteter"
+
+#: waypoints.lua
+#, lua-format
+msgid "Select Waypoint #%d"
+msgstr "Vælg lokalitet #%d"
+
+#: waypoints.lua
+#, lua-format
+msgid "Waypoint %d"
+msgstr "Lokalitet %d"
+
+#: waypoints.lua
+msgid "Set waypoint to current location"
+msgstr "Angiv dette sted som vigtigt lokalitet"
+
+#: waypoints.lua
+msgid "invisible"
+msgstr "usynligt"
+
+#: waypoints.lua
+msgid "visible"
+msgstr "synligt"
+
+#: waypoints.lua
+msgid "Make waypoint @1"
+msgstr "Gør lokalitet @1"
+
+#: waypoints.lua
+msgid "Disable"
+msgstr "Slå fra"
+
+#: waypoints.lua
+msgid "Enable"
+msgstr "Slå til"
+
+#: waypoints.lua
+msgid "@1 display of waypoint coordinates"
+msgstr "@1 visning af vigtige lokaliteters koordinater"
+
+#: waypoints.lua
+msgid "Change color of waypoint display"
+msgstr "Ændr farven på visning af vigtige lokaliteter"
+
+#: waypoints.lua
+msgid "Edit waypoint name"
+msgstr "Rediger lokalitetens navn"
+
+#: waypoints.lua
+msgid "Waypoint active"
+msgstr "Lokaliteten aktiv"
+
+#: waypoints.lua
+msgid "Waypoint inactive"
+msgstr "Lokaliteten inaktiv"
+
+#: waypoints.lua
+msgid "Finish editing"
+msgstr "Afslut redigering"
+
+#: waypoints.lua
+msgid "World position"
+msgstr "Position i verdenen"
+
+#: waypoints.lua
+msgid "Name"
+msgstr "Navn"
+
+#: waypoints.lua
+msgid "HUD text color"
+msgstr "Farve på instrumentbrættet"

@@ -229,6 +229,9 @@ local items = {
 	ta5_fr_shell = "techage:ta5_fr_shell",
 	ta5_fr_nucleus = "techage:ta5_fr_nucleus",
 	ta5_fr_controller = "techage:ta5_fr_controller_pas",
+	ta5_digitizer = "techage:ta5_digitizer_pas",
+	ta5_controlunit = "techage:ta5_controlunit",
+	ta5_ssd = "techage:ta5_ssd",
 }
 
 for name, image in pairs(items) do

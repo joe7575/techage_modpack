@@ -12,7 +12,7 @@ A era industrial está em seu auge.
 
 A usina termelétrica a carvão é composta por vários blocos e deve ser montada conforme mostrado no plano à direita. São necessários os blocos Fornalha(Firebox) TA3, Topo da Caldeira TA3, Base da Caldeira TA3, Turbina TA3, Gerador TA3 e Resfriador TA3.
 
-A caldeira deve ser preenchida com água. Encha até 10 baldes de água na caldeira.
+A caldeira deve ser preenchida com água. Encha até 10 baldes de água na caldeira ou conecte um tubo de líquido ao topo da caldeira para fornecer água automaticamente via bomba.
 A caixa de fogo deve ser preenchida com carvão ou carvão vegetal.
 Quando a água estiver quente, o gerador pode ser iniciado.
 
@@ -45,6 +45,10 @@ O queimador de óleo pode armazenar apenas 50 unidades de combustível. Recomend
 ### TA3 Base / Topo da Caldeira
 
 Parte da usina de energia. Deve ser preenchida com água. Se não houver mais água ou a temperatura diminuir muito, a usina desliga.
+
+A caldeira pode ser preenchida com água de duas maneiras:
+- Manualmente clicando no topo da caldeira com um balde de água (até 10 baldes)
+- Automaticamente através de um tubo de líquido conectado ao topo da caldeira usando uma bomba TA3/TA4
 
 O consumo de água da caldeira TA3 é muito menor do que o da máquina a vapor devido ao circuito de vapor fechado.
 Com a máquina a vapor, parte da água é perdida como vapor a cada curso do pistão.
@@ -848,16 +852,16 @@ A chave de fenda Techage serve como substituto da chave de fenda normal. Ela pos
 
 [ta3_screwdriver|image] 
 
-### TechAge Assembly Tool
+### TechAge Cordless Screwdriver
 
-A TechAge Assembly Tool é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil, por exemplo, para pedreiras, já que muitas vezes precisam ser movidas.
+A TechAge Cordless Screwdriver é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil, por exemplo, para pedreiras, já que muitas vezes precisam ser movidas.
 
 - Botão esquerdo: remover um bloco
 - Botão direito: configurar um bloco
 
-O bloco que foi removido anteriormente com a ferramenta de montagem e que será colocado novamente deve estar no extremo esquerdo do inventário do jogador.
+O bloco que foi removido anteriormente com a Chave de Fenda sem fio e que será colocado novamente deve estar no slot 1 da barra de atalhos (o slot mais à esquerda da hotbar).
 
-[techage:assembly_tool|image]
+[techage:cordless_screwdriver|image]
 
 
 

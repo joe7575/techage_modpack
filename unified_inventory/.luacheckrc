@@ -19,5 +19,5 @@ read_globals = {
 	"doors",
 }
 
-files["callbacks.lua"].ignore = { "player", "draw_lite_mode" }
+files["callbacks.lua"].ignore = { "player" }
 files["bags.lua"].ignore = { "player" }

@@ -178,6 +178,9 @@ end
 local function exchange_nodes(pos, nvm, slot, force)
 	local inv = M(pos):get_inventory()
 	local item_list = inv:get_list("main")
+	if item_list == nil then
+		return false
+	end
 	local res = false
 	nvm.config = nvm.config or {}
 	local len = #nvm.config

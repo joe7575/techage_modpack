@@ -41,17 +41,17 @@ function signs_bot.move_robot(mem)
 	if lib.check_pos(pos1, node1, node2, param2) or
 			lib.check_pos(pos1, node1, node3, param2) then
 		if node3.name == "signs_bot:robot_foot" then
-			minetest.swap_node(pos3, mem.stored_node or {name = "air"})
+			lib.swap_node(pos3, mem.stored_node or {name = "air"})
 			minetest.remove_node(pos)
 		elseif node3.name == "signs_bot:robot_leg" then
 			local node4, pos4 = node_and_pos({x=pos.x, y=pos.y-2, z=pos.z})
 			if node4.name == "signs_bot:robot_foot" then
-				minetest.swap_node(pos4, mem.stored_node or {name = "air"})
+				lib.swap_node(pos4, mem.stored_node or {name = "air"})
 			end
 			minetest.swap_node(pos3, {name = "air"})
 			minetest.remove_node(pos)
 		else
-			minetest.swap_node(pos, mem.stored_node or {name = "air"})
+			lib.swap_node(pos, mem.stored_node or {name = "air"})
 		end
 		mem.stored_node = node1
 		minetest.set_node(pos1, {name="signs_bot:robot", param2=param2})
@@ -118,7 +118,7 @@ local function backward_robot(mem)
 				minetest.remove_node(pos4)
 			end
 		end
-		minetest.swap_node(pos, mem.stored_node or {name = "air"})
+		lib.swap_node(pos, mem.stored_node or {name = "air"})
 		minetest.set_node(pos1, {name="signs_bot:robot", param2=param2})
 		minetest.sound_play('signs_bot_step', {pos = pos1})
 		mem.stored_node = node1

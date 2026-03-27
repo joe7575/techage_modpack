@@ -55,6 +55,7 @@ minetest.register_node("techage:ta4_pipe_inlet", {
 })
 
 Pipe:add_secondary_node_names({"techage:ta4_pipe_inlet"})
+Pipe:set_valid_sides("techage:ta4_pipe_inlet", {"F", "B"})
 
 local Numbers = {
 	shell = {
@@ -142,12 +143,69 @@ local function check_volume(pos, in_dir, owner)
 				{"default:gravel", "techage:ta4_pipe_inlet",
 				"basic_materials:concrete_block", "default:obsidian_glass",
 				"techage:glow_gravel"})
+		local shell_found = node_tbl["default:obsidian_glass"] + node_tbl["basic_materials:concrete_block"]
+		local fill_found  = node_tbl["default:gravel"] + node_tbl["techage:glow_gravel"]
 		if node_tbl["default:obsidian_glass"] > 1 then
 			return S("one window maximum")
-		elseif node_tbl["default:obsidian_glass"] + node_tbl["basic_materials:concrete_block"] ~= Numbers.shell[radius] then
-			return S("wrong number of shell nodes")
-		elseif node_tbl["default:gravel"] + node_tbl["techage:glow_gravel"] ~= Numbers.filling[radius] then
-			return S("wrong number of gravel nodes")
+		end
+		local errors = {}
+		if shell_found ~= Numbers.shell[radius] then
+			local diff = Numbers.shell[radius] - shell_found
+			local hint = diff > 0
+				and string.format(" (%d missing)", diff)
+				or  string.format(" (%d too many)", -diff)
+			if owner and owner ~= "" then
+				minetest.chat_send_player(owner,
+					string.format("[Thermal Storage] wrong number of shell nodes%s:\n"..
+						"  need %d, found %d (concrete_block=%d, obsidian_glass=%d)\n"..
+						"  cube size %dx%dx%d at %s",
+						hint,
+						Numbers.shell[radius], shell_found,
+						node_tbl["basic_materials:concrete_block"],
+						node_tbl["default:obsidian_glass"],
+						diameter, diameter, diameter,
+						P2S(pos)))
+				-- if too many concrete: find misplaced blocks inside the inner region
+				if diff < 0 then
+					local r = radius - 1
+					local inner1 = {x = cpos.x - r, y = cpos.y - r, z = cpos.z - r}
+					local inner2 = {x = cpos.x + r, y = cpos.y + r, z = cpos.z + r}
+					local bad = minetest.find_nodes_in_area(inner1, inner2,
+						{"basic_materials:concrete_block"})
+					if #bad > 0 then
+						local pstrs = {}
+						for _, p in ipairs(bad) do pstrs[#pstrs+1] = P2S(p) end
+						minetest.chat_send_player(owner,
+							"[Thermal Storage] misplaced concrete block(s) inside:\n  " ..
+							table.concat(pstrs, "\n  "))
+					end
+				end
+			end
+			errors[#errors+1] = S("wrong number of shell nodes") .. hint ..
+				(owner and owner ~= "" and " (see chat)" or "")
+		end
+		if fill_found ~= Numbers.filling[radius] then
+			local diff = Numbers.filling[radius] - fill_found
+			local hint = diff > 0
+				and string.format(" (%d missing)", diff)
+				or  string.format(" (%d too many)", -diff)
+			if owner and owner ~= "" then
+				minetest.chat_send_player(owner,
+					string.format("[Thermal Storage] wrong number of gravel nodes%s:\n"..
+						"  need %d, found %d (gravel=%d, glow_gravel=%d)\n"..
+						"  cube size %dx%dx%d at %s",
+						hint,
+						Numbers.filling[radius], fill_found,
+						node_tbl["default:gravel"],
+						node_tbl["techage:glow_gravel"],
+						diameter-2, diameter-2, diameter-2,
+						P2S(pos)))
+			end
+			errors[#errors+1] = S("wrong number of gravel nodes") .. hint ..
+				(owner and owner ~= "" and " (see chat)" or "")
+		end
+		if #errors > 0 then
+			return table.concat(errors, ", ")
 		end
 	else
 		return S("wrong diameter (should be 5, 7, or 9)")

@@ -128,6 +128,11 @@ local function subtract_fuel_value(name, value)
 			meta:set_float("fuel", amount - value)
 			inv:set_stack("armor", index, stack)
 			return amount - value
+		else
+			-- Not enough fuel left, set to 0
+			meta:set_float("fuel", 0)
+			inv:set_stack("armor", index, stack)
+			return 0
 		end
 	end
 	return 0

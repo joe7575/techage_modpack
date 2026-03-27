@@ -1,11 +1,16 @@
 # Maximim number of Forceload Blocks per player (default 20)
 techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 20
 
+# Maximum number of simultaneously active Quarries per player (0 = no limit, default 0)
+techage_max_active_quarries (Max. number of active Quarries per player, 0 = no limit) int 0
+
 # Rarity factor to find ores when sieving with the Gravel Sieve
 # 1.0 is according to the mapgen generator 
 # 2.0 means half as many ores as result
 # 0.5 means twice as many ores as result
 techage_ore_rarity (Rarity factor to find ores) float 1.0
+
+techage_basalt_sieve_chance (Chance to get iron or coal when sieveng basalt gravel) int 40
 
 # Enable alternative recipes for steel and bronze.
 # Instead of the furnace the player has to use the Coal Burner.
@@ -63,3 +68,19 @@ techage_luacontroller_max_table_size (Lua controller table size) int 1000
 
 # Average maximum execution time per call of the Lua controller
 techage_luacontroller_slot_exe_time (Lua controller execution time) int 200
+
+# Barrel volumes in volume units
+techage_barrel_volume (Volume of a Barrel) int 10
+
+# Canister volumes in volume units
+techage_canister_volume (Volume of a Canister) int 1
+
+# Big Gas cylinder in volume units
+techage_big_gascylinder_volume (Volume in liter) int 6
+
+# Small Gas cylinder in volume units
+techage_small_gascylinder_volume (Volume in liter) int 1
+
+# Required experience points to use the TA5 Digitizer (0 = no restriction)
+techage_ta5_digitizer_expoints (Required experience points for TA5 Digitizer, 0 = no restriction) int 50
+

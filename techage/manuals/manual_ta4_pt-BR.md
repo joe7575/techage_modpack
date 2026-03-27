@@ -234,10 +234,10 @@ Os blocos de laser em si não requerem eletricidade.
 
 ## Hidrogênio
 
-A eletrólise pode ser usada para dividir a eletricidade em hidrogênio e oxigênio. Por outro lado, o hidrogênio pode ser convertido novamente em eletricidade com o oxigênio do ar usando uma célula de combustível.
+A eletrólise pode ser usada para dividir a água em hidrogênio e oxigênio usando eletricidade. Por outro lado, o hidrogênio pode ser convertido novamente em eletricidade com o oxigênio do ar usando uma célula de combustível.
 Isso permite que os picos de corrente ou um excesso de fornecimento de eletricidade sejam convertidos em hidrogênio e, portanto, armazenados.
 
-No jogo, a eletricidade pode ser convertida novamente em eletricidade por meio da célula de combustível usando o eletrolisador em hidrogênio e hidrogênio.
+No jogo, a eletricidade pode ser convertida em hidrogênio usando o eletrolisador e água. O hidrogênio pode então ser convertido novamente em eletricidade por meio da célula de combustível.
 Isso significa que a eletricidade (na forma de hidrogênio) pode não apenas ser armazenada em tanques, mas também transportada por meio do carrinho-tanque.
 
 No entanto, a conversão de eletricidade em hidrogênio e vice-versa é deficitária. De 100 unidades de eletricidade, apenas 95 unidades de eletricidade saem após a conversão em hidrogênio e vice-versa.
@@ -247,8 +247,8 @@ No entanto, a conversão de eletricidade em hidrogênio e vice-versa é deficit�
 
 ### Eletrolisador
 
-O eletrolisador converte eletricidade em hidrogênio.
-Ele deve ser alimentado pela esquerda. À direita, o hidrogênio pode ser extraído por meio de tubos e bombas.
+O eletrolisador converte eletricidade e água em hidrogênio.
+Ele deve ser alimentado pela esquerda. A água deve ser fornecida por tubos. À direita, o hidrogênio pode ser extraído por meio de tubos e bombas.
 
 O eletrolisador pode consumir até 35 ku de eletricidade e, em seguida, gera um item de hidrogênio a cada 4 s.
 200 unidades de hidrogênio cabem no eletrolisador.
@@ -513,6 +513,7 @@ Esse bloco tem quatro lâmpadas que podem ser controladas individualmente. Cada 
 ### Detector de jogadores TA4
 
 Apenas a aparência do detector de player TA4 foi alterada. A funcionalidade é a mesma do detector de player TA3.
+Além disso, o raio de busca pode ser configurado pelo menu da chave inglesa. O raio pode ser definido de 1 a 8 blocos (padrão: 4).
 
 [ta4_playerdetector|image]
 

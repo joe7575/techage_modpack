@@ -87,7 +87,7 @@ return {
     "3,TechAge Trowel / Trowel",
     "3,TA3 drill pipe wrench",
     "3,Techage Screwdriver",
-    "3,TechAge Assembly Tool",
+    "3,TechAge Cordless Screwdriver",
   },
   texts = {
     "At TA3 it is important to replace the steam-powered machines with more powerful and electric-powered machines.\n"..
@@ -100,7 +100,7 @@ return {
     "\n",
     "The coal-fired power plant consists of several blocks and must be assembled as shown in the plan on the right. The blocks TA3 power station fire box\\, TA3 boiler top\\, TA3 boiler base\\, TA3 turbine\\, TA3 generator and TA3 cooler are required.\n"..
     "\n"..
-    "The boiler must be filled with water. Fill up to 10 buckets of water in the boiler.\n"..
+    "The boiler must be filled with water. Fill up to 10 buckets of water in the boiler or connect a liquid pipe to the boiler top to automatically supply water via pump.\n"..
     "The fire box must be filled with coal or charcoal.\n"..
     "When the water is hot\\, the generator can then be started.\n"..
     "\n"..
@@ -127,6 +127,11 @@ return {
     "\n"..
     "\n",
     "Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low\\, the power plant switches off.\n"..
+    "\n"..
+    "The boiler can be filled with water in two ways:\n"..
+    "\n"..
+    "  - Manually by clicking on the boiler top with a water bucket (up to 10 buckets)\n"..
+    "  - Automatically via a liquid pipe connected to the boiler top using a TA3/TA4 pump\n"..
     "\n"..
     "The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.\n"..
     "With the steam engine\\, some water is lost as steam with each piston stroke.\n"..
@@ -781,12 +786,12 @@ return {
     "\n"..
     " \n"..
     "\n",
-    "The TechAge Assembly Tool is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful\\, for example\\, for quarries\\, as they often have to be moved.\n"..
+    "The TechAge Cordless Screwdriver is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful\\, for example\\, for quarries\\, as they often have to be moved.\n"..
     "\n"..
     "  - Left button: Remove a block\n"..
     "  - Right button: Set a block\n"..
     "\n"..
-    "The block that was previously removed with the assembly tool and is to be placed again must be on the far left of the player inventory.\n"..
+    "The block that was previously removed with the Cordless Screwdriver and is to be placed again must be in hotbar slot 1 (the leftmost slot of the hotbar).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -879,7 +884,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",

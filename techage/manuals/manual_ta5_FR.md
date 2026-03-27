@@ -38,7 +38,16 @@ Pour les aimants d'angle à l'intérieur de l'anneau, un côté de connexion est
 
 La pompe est nécessaire pour remplir le circuit de refroidissement avec de l'isobutane. Environ 350 unités d'isobutane sont nécessaires.
 
+La pompe a deux côtés de connexion :
+
+- Côté gauche : connecteur jaune (GasPipe) – connecter le réservoir d'isobutane ici
+- Côté droit : connecteur bleu (LiquidPipe) – connecter le circuit de refroidissement ici
+
+Par défaut, la pompe déplace le liquide de gauche (jaune) vers la droite (bleu), c'est-à-dire du réservoir vers le circuit de refroidissement. La direction de la pompe peut être changée en « reverse » via le menu clé.
+
 Remarque : La pompe TA5 ne peut être utilisée que pour remplir le circuit de refroidissement, il n'est pas possible de pomper le liquide de refroidissement. Par conséquent, la pompe ne doit être allumée que lorsque les aimants sont correctement placés et que tous les câbles électriques et les conduites de refroidissement sont connectés.
+
+Si la pompe affiche « blocked », la destination est pleine ou non connectée.
 
 [ta5_pump|image]
 
@@ -46,15 +55,33 @@ Remarque : La pompe TA5 ne peut être utilisée que pour remplir le circuit de r
 
 L'échangeur de chaleur TA5 est nécessaire pour convertir d'abord la chaleur générée dans le réacteur à fusion en vapeur, puis en électricité. L'échangeur de chaleur lui-même nécessite 5 ku d'électricité. La construction est similaire à l'échangeur de chaleur du stockage d'énergie de TA4.
 
-Remarque : L'échangeur de chaleur TA5 a deux connexions (bleu et vert) pour le circuit de refroidissement. Via les tuyaux verts et bleus, l'échangeur de chaleur et tous les aimants doivent être connectés à un circuit de refroidissement.
+L'échangeur de chaleur se compose de 3 parties (de bas en haut : 1, 2, 3). Les parties 1 et 3 ont chacune deux côtés de connexion :
 
-Via le bouton de démarrage de l'échangeur de chaleur, le circuit de refroidissement peut être vérifié pour son intégralité, même si aucun liquide de refroidissement n'a encore été rempli.
+- Côté droit : connecteur jaune – connexion à la turbine (partie 1) ou au refroidisseur (partie 3)
+- Côté gauche de la partie 1 : connecteur bleu – circuit de refroidissement vers l'anneau inférieur d'aimants (56 aimants)
+- Côté gauche de la partie 3 : connecteur vert – circuit de refroidissement vers l'anneau supérieur (52 aimants)
+
+Via le bouton de démarrage de l'échangeur de chaleur (partie 2), le circuit de refroidissement peut être vérifié pour son intégralité, même si aucun liquide de refroidissement n'a encore été rempli. Messages d'erreur possibles :
+
+- "Turbine error" / "Cooler error" : Turbine ou refroidisseur non connecté via tuyau jaune
+- "Blue/Green pipe connection error" : Aimants non correctement connectés via tuyaux bleus/verts
+- "Blue/Green pipe coolant missing" : Aimants pas encore remplis d'isobutane (6 unités par aimant)
 
 [ta5_heatexchanger|plan]
 
 #### TA5 Contrôleur du réacteur à fusion
 
-Via le contrôleur TA5 Fusionreaktor, le réacteur à fusion est allumé. Pour cela, le refroidissement/échangeur de chaleur doit d'abord être allumé, puis le contrôleur. Il faut environ 2 min pour que le réacteur se mette en marche et fournisse de l'électricité. Le réacteur à fusion et donc le contrôleur nécessite 400 ku d'électricité pour maintenir le plasma.
+Via le contrôleur TA5 Fusionreaktor, le réacteur à fusion est allumé. Le réacteur à fusion et donc le contrôleur nécessite 400 ku d'électricité pour maintenir le plasma.
+
+**Séquence de démarrage :**
+
+1. Tous les aimants doivent être correctement placés et remplis d'isobutane
+2. Circuit de refroidissement (tuyaux verts/jaunes) et conduites de vapeur (tuyaux bleus) doivent être complètement connectés
+3. D'abord, allumer l'échangeur de chaleur (partie 2)
+4. Puis allumer le contrôleur
+5. Il faut environ 2 minutes pour que le réacteur atteigne 80° et produise de la vapeur/électricité
+
+**Important :** L'échangeur de chaleur et le contrôleur doivent fonctionner en même temps.
 
 [ta5_fr_controller|image]
 
@@ -155,6 +182,58 @@ Pour l'utilisation des blocs de téléportation, 30 points d'expérience sont n�
 Les blocs de téléportation Hyperloop permettent la construction d'un réseau Hyperloop sans tubes Hyperloop.
 
 L'utilisation des blocs de téléportation Hyperloop nécessite 60 points d'expérience.
+
+## TA5 Numériseur / TA5 Digitizer
+
+### TA5 Numériseur / TA5 Digitizer
+
+Le TA5 Digitizer est un bloc de stockage d'objets haute capacité qui stocke numériquement les objets prélevés dans des inventaires adjacents. Il peut fonctionner dans deux modes (pull/push) et gère jusqu'à 8 types d'objets différents avec jusqu'à 100 000 objets par slot.
+
+Le Digitizer dispose d'une connexion tube sur le côté droit et peut également être contrôlé via le réseau Techage. En mode pull, il prélève jusqu'à 50 objets par cycle d'un coffre connecté. En mode push, il restitue les objets stockés dans les inventaires adjacents.
+
+Seuls les objets empilables sans métadonnées et sans usure peuvent être stockés. Les objets tels que les livres signés ou les outils usés sont rejetés.
+
+Le Digitizer ne peut être retiré à la pioche que si le stockage interne est complètement vide. Utilisez le tournevis sans fil pour le retirer lorsqu'il est à l'arrêt - les objets stockés sont conservés en tant que métadonnées et restaurés automatiquement lors de la repose avec le tournevis sans fil.
+
+Le TA5 Digitizer nécessite 24 ku d'électricité.
+
+50 points d'expérience sont requis pour utiliser le TA5 Digitizer (configurable via `techage_ta5_digitizer_expoints`).
+
+Le Digitizer peut également être configuré et démarré à l'aide d'un contrôleur Lua ou Beduino.
+
+Voici les commandes supplémentaires pour le contrôleur Lua :
+
+- `on` / `off` - Démarrer ou arrêter le Digitizer
+- `state` - Interroger l'état actuel (ex. "running", "stopped")
+- `pull` - Démarrer en mode pull ; prélève les objets du coffre adjacent
+- `push` - Démarrer en mode push ; restitue les objets stockés dans le coffre adjacent
+- `stop` - Arrêter le Digitizer
+- `config` définit le type d'objet cible (arrête d'abord le Digitizer).
+  Exemple : `$send_cmnd(NUM, "config", "default:stone")`
+- `count` interroge le nombre total d'objets stockés.
+  Exemple : `$send_cmnd(NUM, "count")` retourne un nombre
+- `itemstring` interroge le type d'objet configuré.
+  Exemple : `$send_cmnd(NUM, "itemstring")` retourne le nom de l'objet
+- `mode` lit ou définit le mode de fonctionnement (1 = pull, 2 = push).
+  Exemple : `$send_cmnd(NUM, "mode")` retourne 1 ou 2
+  Exemple : `$send_cmnd(NUM, "mode", 2)` définit le mode push
+
+Topics Beduino (cmnd) : 65 = définir le type d'objet, 67 = définir le mode (1=pull, 2=push)
+Topics Beduino (request) : 154 = nombre total d'objets stockés, 155 = type d'objet configuré
+
+[ta5_digitizer|image]
+
+### TA5 Unité de contrôle / TA5 Control Unit
+
+L'unité de contrôle TA5 est nécessaire pour fabriquer le TA5 Digitizer. Elle ne peut être fabriquée qu'à la Fab Électronique TA4 et nécessite 50 points d'expérience.
+
+[ta5_controlunit|image]
+
+### TA5 SSD
+
+Le TA5 SSD est un composant intermédiaire nécessaire à la fabrication du TA5 Digitizer. Il ne peut être fabriqué qu'à la Fab Électronique TA4 à partir de 16 puces RAM TA4, d'un wafer silicium TA4, d'une feuille plastique et d'un profilé acier.
+
+[ta5_ssd|image]
 
 ## Autres blocs/objets TA5
 

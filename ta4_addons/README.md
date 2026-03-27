@@ -5,6 +5,7 @@ An extension mod for Minetest's [techage](https://github.com/joe7575/techage) mo
 Currently, the following devices are implemented:
 
 - Touchscreen
+- Matrix Screen
 
 ## License
 
