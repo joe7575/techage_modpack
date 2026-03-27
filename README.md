@@ -47,6 +47,90 @@ ta4_jetpack requires the modpack 3d_armor. 3d_armor is itself a modpack and can'
 
 ### History
 
+#### 2026-03-27
+
+Updated Mods:
+
+- techage:
+  - Bump version to V1.24
+  - Add TA5 Digitizer and TA5 Control Unit with Lua/Beduino command interface
+  - Add TA5 Cordless Screwdriver with preserve/restore feature
+  - Add TA5 SSD as intermediate Digitizer ingredient
+  - Add per-player active quarry limit (#65)
+  - Add binary AND, OR, and XOR operators for NanoBasic
+  - Add support for the mod too_many_stones
+  - Add configurable basalt gravel sieving (Evgeniy)
+  - Add Smartshop mod compatibility (Evgeniy)
+  - Add no_silktouch group to burning lighters (Niklp09)
+  - Display names for connected TA5 Teleport Blocks
+  - Allow to take all items from a chest
+  - Settable volumes for oven (acmgit)
+  - Changed capacity of oven (acmgit)
+  - Ensure generators are oriented correctly (Thomas--S)
+  - Add missing valid sides registrations (Thomas--S)
+  - Fix flywheel texture (Thomas--S)
+  - Avoid unnecessary texture alpha blend for reactor shell (Thomas--S)
+  - Fix injector issues (Thomas--S)
+  - Replace square brackets with parenthesis for formspec image (Thomas--S)
+  - Update translation script for stable sort order (Thomas--S)
+  - Translation maintenance: add missing German translations (Thomas--S)
+  - doorcontroller2: check node inventory before use (standmit)
+  - Fix smartshop compatibility (standmit)
+  - Restore French manual files (François Delpierre)
+  - Improve TA5 fusion reactor error messages, manuals, and pump wrench menu
+  - Thermal Storage: improve validation error messages
+  - Controller: show error on insufficient experience points, add /help descriptions
+  - Improve shell shape error message: show number of magnets with complete shell
+  - Fix #215 (ta4_movecontroller stuck)
+  - Fix #232 (Displays unable to write to row 10+ with string-type payload)
+  - Fix #233 (Unable to read state of buttons 1 or 2 of 4x button using Beduino)
+  - Fix #234 (Digging a pole-mounted yellow traffic light drops a black one)
+  - Fix #242 (Nitrogencylinder = Hydrogencylinder)
+  - Fix #245 (Pipe and pump water to boiler for TA3 Coal Power Station)
+  - Fix #246 (TA4 Fuel Cell loses H2 charge when moved)
+  - Fix #247 (TA2 Quarry sound keeps playing after turned off)
+  - Fix #248 (TA4 Manual typos about Hydrogen)
+  - Fix #249 (TA3 Chest + Injector + Furnace items lost)
+  - Fix #250 (TA3 Booster name missing in Power Terminal)
+  - Fix #157 (Admin Forceload Block Overview)
+  - Fix #264 (Document ability to change radius of ta4 player detector)
+  - Fix #267 (Crash: remove dofile of .test/ files not present in repo)
+  - Fix everness bug (#27)
+  - Fix growlight bug
+  - Fix: re-register node number after cordless screwdriver placement
+  - Fix: remove semicolons from textarea formspec strings in TA5 manuals
+
+- signs_bot:
+  - Fix farming crop grow bug
+  - Fix compatibility with everness mod hammer functionality (François Delpierre)
+  - Bugfix
+
+- minecart:
+  - Add Russian translation (randomei)
+
+- hyperloop:
+  - Prevent deprecation warning (use initial_properties)
+
+- ta4_jetpack:
+  - Fix bug with almost empty fuel tank
+
+- ta4_addons:
+  - Use \[png for matrix screen (Thomas--S)
+
+- towercrane:
+  - Add support for non-default games using xcompat (maplemedley)
+
+- unified_inventory:
+  - Support multiple craft outputs
+  - Preserve metadata when using "Give me:"
+  - Fix accessibility of the first and second inventory categories (z-op)
+  - Include implicit tools in tools category (The4codeblocks)
+  - Multiple bug fixes and improvements
+  - Extend and improve the API documentation
+  - Log warning for recipes that were registered too late
+  - Update translation files
+  - Add Danish translation (jeppebundsgaard)
+
 #### 2025-07-25
 
 Updated Mods:
