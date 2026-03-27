@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -32,19 +32,24 @@ local sHELP = [[TA4 Lua Controller
 
 techage.lua_ctlr = {}
 
-local BATTERY_CAPA = 10000000
-
 local Cache = {}
 
 local STATE_STOPPED = 0
 local STATE_RUNNING = 1
 local CYCLE_TIME = 1
+local CREDITS = 10
+local MAX_CREDITS = 100
 
 local tCommands = {}
 local tFunctions = {" Overview", " Data structures"}
 local tHelpTexts = {[" Overview"] = sHELP, [" Data structures"] = safer_lua.DataStructHelp}
 local sFunctionList = ""
 local tFunctionIndex = {}
+
+local MaxCodeSize = tonumber(minetest.settings:get("techage_luacontroller_max_code_size")) or safer_lua.MaxCodeSize * 4
+local MaxTableSize = tonumber(minetest.settings:get("techage_luacontroller_max_table_size")) or safer_lua.MaxTableSize
+local SlotExeTime = tonumber(minetest.settings:get("techage_luacontroller_slot_exe_time")) or 200
+safer_lua.config(MaxCodeSize, MaxTableSize, safer_lua.MaxExeTime * 10)
 
 minetest.after(2, function()
 	sFunctionList = table.concat(tFunctions, ",")
@@ -54,7 +59,7 @@ minetest.after(2, function()
 end)
 
 local function output(pos, text)
-	local meta = minetest.get_meta(pos)
+	local meta = M(pos)
 	text = meta:get_string("output") .. "\n" .. (text or "")
 	text = text:sub(-500,-1)
 	meta:set_string("output", text)
@@ -82,6 +87,13 @@ local function merge(dest, keys, values)
   return dest
 end
 
+local function restart_timer(pos, cycletime)
+	minetest.get_node_timer(pos):stop()
+	if cycletime > 0 then
+		minetest.get_node_timer(pos):start(cycletime)
+	end
+end
+
 techage.lua_ctlr.register_action("print", {
 	cmnd = function(self, text)
 		local pos = self.meta.pos
@@ -97,9 +109,8 @@ techage.lua_ctlr.register_action("print", {
 techage.lua_ctlr.register_action("loopcycle", {
 	cmnd = function(self, cycletime)
 		cycletime = math.floor(tonumber(cycletime) or 0)
-		local meta = minetest.get_meta(self.meta.pos)
-		meta:set_int("cycletime", cycletime)
-		meta:set_int("cyclecount", 0)
+		local pos = self.meta.pos
+		minetest.after(0, restart_timer, pos, cycletime)
 	end,
 	help = "$loopcycle(seconds)\n"..
 		" This function allows to change the\n"..
@@ -144,33 +155,6 @@ techage.lua_ctlr.register_function("position", {
 	help = " pos = $position(number)\n"..
 		" returns the position '(x,y,z)' of the device\n with given number."
 })
-
-techage.lua_ctlr.register_action("battery", {
-	cmnd = function(self)
-		local meta = minetest.get_meta(self.meta.pos)
-		local batpos = minetest.string_to_pos(meta:get_string("battery"))
-		local batmeta = minetest.get_meta(batpos)
-		local val = (BATTERY_CAPA - math.min(batmeta:get_int("content") or 0, BATTERY_CAPA))
-		return 100 - math.floor((val * 100.0 / BATTERY_CAPA))
-	end,
-	help =  " lvl = $battery()\n"..
-		" Get charge level of battery connected to Controller.\n"..
-		" Function returns percent number (0-100) where 100 means full.\n"..
-		" example: battery_percent = $battery()"
-})
-
-
-local function formspec0(meta)
-	local state = meta:get_int("state") == techage.RUNNING
-	local init = meta:get_string("init")
-	init = minetest.formspec_escape(init)
-	return "size[4,3]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"label[0,0;No Battery?]"..
-	"button[1,2;1.8,1;start;Start]"
-end
 
 local function formspec1(meta)
 	local state = meta:get_int("state") == techage.RUNNING
@@ -293,8 +277,25 @@ local function patch_error_string(err, line_offs)
 	return table.concat(tbl, "\n")
 end
 
+-- Credit-based runtime environment
+local function add_credits(number, credits)
+	local tbl = Cache[number]
+	tbl.credits = (tbl.credits or 0) + math.floor(credits + 0.5)
+	if tbl.credits > MAX_CREDITS then
+		tbl.credits = MAX_CREDITS
+	end
+	if tbl.credits < -MAX_CREDITS then
+		tbl.credits = MAX_CREDITS
+	end
+	return tbl.credits
+end
+
+local function get_credits(number)
+	return Cache[number].credits or 0
+end
+
 local function error(pos, err)
-	local meta = minetest.get_meta(pos)
+	local meta = M(pos)
 	local func = meta:get_string("func")
 	local _,line_offs = string.gsub(func, "\n", "\n")
 	line_offs = line_offs + 1
@@ -303,7 +304,6 @@ local function error(pos, err)
 	local number = meta:get_string("number")
 	meta:set_string("infotext", "Controller "..number..": error")
 	meta:set_int("state", techage.STOPPED)
-	meta:set_int("running", STATE_STOPPED)
 	meta:set_string("formspec", formspec4(meta))
 	minetest.get_node_timer(pos):stop()
 	return false
@@ -322,37 +322,19 @@ local function compile(pos, meta, number)
 		Cache[number] = {code=code, inputs={}, events=env.meta.events}
 		Cache[number].inputs.term = nil  -- terminal inputs
 		Cache[number].inputs.msg = {}  -- message queue
-		return true
-	end
-	return false
-end
-
-local function battery(pos)
-	local battery_pos = minetest.find_node_near(pos, 1, {"techage:ta4_battery"})
-	if battery_pos then
-		local meta = minetest.get_meta(pos)
-		meta:set_string("battery", minetest.pos_to_string(battery_pos))
+		Cache[number].credits = MAX_CREDITS
 		return true
 	end
 	return false
 end
 
 local function start_controller(pos)
-	local meta = minetest.get_meta(pos)
+	local meta = M(pos)
 	local number = meta:get_string("number")
-	if not battery(pos) then
-		meta:set_string("formspec", formspec0(meta))
-		return false
-	end
-
 	meta:set_string("output", "")
-	meta:set_int("cycletime", 1)
-	meta:set_int("cyclecount", 0)
-	meta:set_int("cpu", 0)
 
 	if compile(pos, meta, number) then
 		meta:set_int("state", techage.RUNNING)
-		meta:set_int("running", STATE_RUNNING)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		meta:set_string("formspec", formspec4(meta))
 		meta:set_string("infotext", "Controller "..number..": running")
@@ -362,90 +344,58 @@ local function start_controller(pos)
 end
 
 local function stop_controller(pos)
-	local meta = minetest.get_meta(pos)
+	local meta = M(pos)
 	local number = meta:get_string("number")
 	meta:set_int("state", techage.STOPPED)
-	meta:set_int("running", STATE_STOPPED)
 	minetest.get_node_timer(pos):stop()
 	meta:set_string("infotext", "Controller "..number..": stopped")
 	meta:set_string("formspec", formspec3(meta))
 end
 
-local function no_battery(pos)
-	local meta = minetest.get_meta(pos)
+local function call_loop(pos, elapsed)
+	local meta = M(pos)
 	local number = meta:get_string("number")
-	meta:set_int("state", techage.STOPPED)
-	meta:set_int("running", STATE_STOPPED)
-	minetest.get_node_timer(pos):stop()
-	meta:set_string("infotext", "Controller "..number..": No battery")
-	meta:set_string("formspec", formspec0(meta))
-end
-
-local function update_battery(meta, cpu)
-	local pos = minetest.string_to_pos(meta:get_string("battery"))
-	if pos then
-		meta = minetest.get_meta(pos)
-		local content = meta:get_int("content") - cpu
-		if content <= 0 then
-			meta:set_int("content", 0)
-			return false
-		end
-		meta:set_int("content", content)
-		return true
-	end
-end
-
-local function call_loop(pos, meta, elapsed)
-	local t = minetest.get_us_time()
-	local number = meta:get_string("number")
-	if meta:get_int("running") == STATE_RUNNING then
+	if meta:get_int("state") == techage.RUNNING then
 		if Cache[number] or compile(pos, meta, number) then
-			local cpu = meta:get_int("cpu") or 0
-			local code = Cache[number].code
-			local res = safer_lua.run_loop(pos, elapsed, code, error)
-			if res then
-				-- Don't count thread changes
-				t = math.min(minetest.get_us_time() - t, 1000)
-				cpu = math.floor(((cpu * 20) + t) / 21)
-				meta:set_int("cpu", cpu)
-				meta:set_string("infotext", "Controller "..number..": running ("..cpu.."us)")
-				if not update_battery(meta, cpu) then
-					no_battery(pos)
-					return false
-				end
+			Cache[number].event_pending = false
+			local dt = minetest.get_gametime() - (Cache[number].last_time or 0)
+			local credits = add_credits(number, CREDITS * dt)
+			Cache[number].last_time = minetest.get_gametime()
+			if credits > 0 then
+				local code = Cache[number].code
+				local t = minetest.get_us_time()
+				local res = safer_lua.run_loop(pos, elapsed, code, error)
+				-- Consider the time used for running the code and calculate the credits spent
+				local spent = math.floor((minetest.get_us_time() - t) / SlotExeTime) -- in credits
+				add_credits(number, -spent)
+				local state = res and "running" or "stopped"
+				meta:set_string("infotext", "Controller "..number..": "..state.." ("..credits.." credits)")
+				return res
 			end
-			-- further messages available?
-			return res
+			meta:set_string("infotext", "Controller "..number..": running ("..credits.." credits)")
+			return true
 		end
 	end
 	return false
 end
 
 local function on_timer(pos, elapsed)
-	local meta = minetest.get_meta(pos)
-	-- considering cycle frequency
-	local cycletime = meta:get_int("cycletime") or 1
-	local cyclecount = (meta:get_int("cyclecount") or 0) + 1
-	if cycletime == 0 or cyclecount < cycletime then
-		meta:set_int("cyclecount", cyclecount)
-		return true
-	end
-	meta:set_int("cyclecount", 0)
-
 	if techage.is_activeformspec(pos) then
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
 		meta:set_string("formspec", formspec4(meta))
 	end
-	return call_loop(pos, meta, elapsed)
+	return call_loop(pos, elapsed, CREDITS)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local meta = minetest.get_meta(pos)
+	local meta = M(pos)
 
 	--print(dump(fields))
+	techage.reset_activeformspec(pos, player)
+	
 	if fields.cancel == nil then
 		if fields.init then
 			meta:set_string("init", fields.init)
@@ -475,6 +425,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	elseif fields.tab == "3" then
 		meta:set_string("formspec", formspec3(meta))
 	elseif fields.tab == "4" then
+		techage.set_activeformspec(pos, player)
 		meta:set_string("formspec", formspec4(meta))
 	elseif fields.tab == "5" then
 		meta:set_string("formspec", formspec5(meta))
@@ -518,12 +469,11 @@ minetest.register_node("techage:ta4_lua_controller", {
 	},
 
 	after_place_node = function(pos, placer)
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
 		local number = techage.add_node(pos, "techage:ta4_lua_controller")
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("number", number)
 		meta:set_int("state", techage.STOPPED)
-		meta:set_int("running", STATE_STOPPED)
 		meta:set_string("init", "-- called only once")
 		meta:set_string("func", "-- for your functions")
 		meta:set_string("loop", "-- called every second")
@@ -540,7 +490,7 @@ minetest.register_node("techage:ta4_lua_controller", {
 
 	on_rightclick = function(pos, node, clicker)
 		local meta = M(pos)
-		if meta:get_int("running") == STATE_RUNNING then
+		if meta:get_int("state") == techage.RUNNING then
 			techage.set_activeformspec(pos, clicker)
 			meta:set_string("formspec", formspec4(meta))
 		end
@@ -583,13 +533,9 @@ local function set_input(pos, number, input, val)
 			else
 				Cache[number].inputs[input] = val
 			end
-			if Cache[number].events then  -- events enabled?
-				local t = minetest.get_us_time()
-				 if not Cache[number].last_event or Cache[number].last_event < t then
-					local meta = minetest.get_meta(pos)
-					minetest.after(0.01, call_loop, pos, meta, -1)
-					Cache[number].last_event = t + 100000 -- add 100 ms
-				end
+			if Cache[number].events and not Cache[number].event_pending then  -- events enabled
+				Cache[number].event_pending = true
+				minetest.after(0, call_loop, pos, -1, CREDITS)
 			end
 		end
 	end
@@ -635,7 +581,7 @@ end
 
 techage.register_node({"techage:ta4_lua_controller"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
 		local number = meta:get_string("number")
 
 		if topic == "on" then
@@ -647,14 +593,14 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 		elseif topic == "msg" then
 			set_input(pos, number, "msg", {src = src, data = payload})
 		elseif topic == "state" then
-			local running = meta:get_int("running") or STATE_STOPPED
-			return techage.StateStrings[running] or "stopped"
+			local state = meta:get_int("state") or techage.STOPPED
+			return techage.StateStrings[state] or "stopped"
 		else
 			return "unsupported"
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
 		local number = meta:get_string("number")
 
 		if topic == 1 and payload[1] == 1 then
@@ -667,11 +613,11 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 		return 0
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
 
 		if topic == 142 then
-			local running = meta:get_int("running") or STATE_STOPPED
-			return 0, {running}
+			local state = meta:get_int("stage") == techage.RUNNING and STATE_RUNNING or STATE_STOPPED
+			return 0, {state}
 		else
 			return 2, ""
 		end

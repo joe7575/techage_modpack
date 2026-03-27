@@ -34,15 +34,19 @@ end
 
 local function play_sound(pos)
 	local mem = techage.get_mem(pos)
-	if not mem.handle or mem.handle == -1 then
-		mem.handle = minetest.sound_play("techage_steamengine", {
-			pos = pos,
-			gain = 0.5,
-			max_hear_distance = 8,
-			loop = true})
-		if mem.handle == -1 then
-			minetest.after(1, play_sound, pos)
-		end
+	-- Stop any lingering handle first, so newly arrived clients get the fresh sound
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+	mem.handle = minetest.sound_play("techage_steamengine", {
+		pos = pos,
+		gain = 0.5,
+		max_hear_distance = 8,
+		loop = true})
+	if mem.handle == -1 then
+		mem.handle = nil
+		minetest.after(1, play_sound, pos)
 	end
 end
 
@@ -50,7 +54,7 @@ local function stop_sound(pos)
 	local mem = techage.get_mem(pos)
 	if mem.handle then
 		minetest.sound_stop(mem.handle)
-		mem.handle = nil
+		-- Keep handle: on_node_load can re-send stop to clients that came back in range
 	end
 end
 
@@ -133,6 +137,8 @@ minetest.register_node("techage:cylinder_on", {
 })
 
 Pipe:add_secondary_node_names({"techage:cylinder", "techage:cylinder_on"})
+Pipe:set_valid_sides("techage:cylinder", {"L"})
+Pipe:set_valid_sides("techage:cylinder_on", {"L"})
 
 techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
@@ -161,7 +167,9 @@ techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 	on_node_load = function(pos, node)
 		--print("on_node_load", node.name)
 		if node.name == "techage:cylinder_on" then
-			play_sound(pos)
+			play_sound(pos)  -- stops lingering handle and restarts fresh
+		else
+			stop_sound(pos)  -- re-send stop to clients that came back in range
 		end
 	end,
 })

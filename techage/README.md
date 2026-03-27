@@ -71,6 +71,13 @@ More recommended Techage related mods by other authors:
 * [ts_vehicles](https://github.com/Thomas--S/ts_vehicles) from Thomas--S: A mod to provide cars and other vehicles for Minetest.
 * [ta_apiary](https://gitlab.com/lesya_minetest_mods/ta_apiary) from Olesya Sibidanova: TechAge Machines for beekeeping
 
+To be able to use many Forceload blocks (especially on public servers), you need to adjust the server settings
+in the `minetest.conf` file. The default value (16) is usually too low for most setups:
+
+    max_forceloaded_blocks = 200  
+
+The appropriate value depends on the number of players and your setting for `techage_max_num_forceload_blocks`.
+
 For large servers with many players, the following packages are recommended:
 
 * lua-mashal for faster serialization/deserialization of data
@@ -96,6 +103,32 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2026-03-14 V1.24**
+
+- Add TA5 Digitizer (high-capacity item storage, up to 8 slots × 100,000 items)
+- Add TA5 Control Unit (crafting ingredient for Digitizer)
+- Replace Assembly Tool with TechAge Cordless Screwdriver
+- Cordless Screwdriver preserves node data and item contents on removal
+- Add server-side logging of Digitizer pack/unpack events
+- Fix various Digitizer edge cases (nil-guard, state checks, locale)
+
+**2025-03-14 V1.23**
+
+- Add Move Controller II
+- Improve Basic Terminal
+- Improve Lua Controller
+- Improve Fly Controller
+- Fix several issues
+
+**2025-02-14 V1.22**
+
+- Remove Lua controller batteries
+- Change the Lua controller from time-based to credit-based runtime control
+
+**2025-02-09 V1.21**
+
+- Add TA3 monitor and new TA4 dislays with fixed font (requires Minetest 5.7.0 or newer)
+
 **2025-01-08 V1.20**
 
 - Add Traffic Lights and accesories
@@ -106,7 +139,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **2024-12-31 V1.19**
 
 - Add Everness support #187 (ore sieving)
-- Add BASIC mode to TA3 terminal
+- Add BASIC mode to TA3 terminal (requires proper installation of nanobasic)
 - Improve russian translation (z-op)
 - Many bug fixes by Niklp09, joe7575, and others
 - Add pre-assignment menu to the furnace

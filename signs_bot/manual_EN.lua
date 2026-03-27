@@ -154,6 +154,7 @@ return {
     "then the item(s) will be added.\n"..
     "If not all items can be added\\, in case A the remaining slots are tried. \n"..
     "Anything that couldn't be added to your inventory will go back or be dropped.\n"..
+    "Preconfigured slots are filled first before empty slots are used.\n"..
     "\n"..
     "The following applies to all commands that are used to take items from the bot inventory\\, like:\n"..
     "\n"..
@@ -242,7 +243,22 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Signal is sent\\, if all input signals are received.\n"..
+    "To combine multiple signals\\, use the Signal AND block.\n"..
+    "This only sends a signal when all input signals have been received.\n"..
+    "(logical AND). The block has any number of inputs and 1 output.\n"..
+    "The block has three states\\, which it displays in color:\n"..
+    "\n"..
+    "  - Black '&' symbol: There is no input signal\n"..
+    "  - Blue '&' symbol: There is at least one input signal\\, but not all of them\n"..
+    "  - Red '&' symbol: All input signals are present\\, the block sends a signal\nand deletes the input signals so that it displays a black symbol again.\n"..
+    "\n"..
+    "The block only works if the output actuator is not in the state\n"..
+    "that it should be set to by the signal.\n"..
+    "For example\\, if a bot is already on the move and the AND block is programmed so\n"..
+    "that the bot should start\\, input signals are not accepted.\n"..
+    "\n"..
+    "By hitting the block\\, any input signals present are deleted so that the block\n"..
+    "returns to its initial state.\n"..
     "\n"..
     "\n"..
     "\n",

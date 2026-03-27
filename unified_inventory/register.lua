@@ -48,19 +48,13 @@ ui.register_button("home_gui_set", {
 	hide_lite=true,
 	action = function(player)
 		local player_name = player:get_player_name()
-		if minetest.check_player_privs(player_name, {home=true}) then
-			ui.set_home(player, player:get_pos())
-			local home = ui.home_pos[player_name]
-			if home ~= nil then
-				minetest.sound_play("dingdong",
-						{to_player=player_name, gain = 1.0})
-				minetest.chat_send_player(player_name,
-					S("Home position set to: @1", minetest.pos_to_string(home)))
-			end
-		else
+		ui.set_home(player, player:get_pos())
+		local home = ui.home_pos[player_name]
+		if home ~= nil then
+			minetest.sound_play("dingdong",
+					{to_player=player_name, gain = 1.0})
 			minetest.chat_send_player(player_name,
-				S("You don't have the \"home\" privilege!"))
-			ui.set_inventory_formspec(player, ui.current_page[player_name])
+				S("Home position set to: @1", minetest.pos_to_string(home)))
 		end
 	end,
 	condition = function(player)
@@ -75,14 +69,8 @@ ui.register_button("home_gui_go", {
 	hide_lite=true,
 	action = function(player)
 		local player_name = player:get_player_name()
-		if minetest.check_player_privs(player_name, {home=true}) then
-			if ui.go_home(player) then
-				minetest.sound_play("teleport", {to_player = player_name})
-			end
-		else
-			minetest.chat_send_player(player_name,
-				S("You don't have the \"home\" privilege!"))
-			ui.set_inventory_formspec(player, ui.current_page[player_name])
+		if ui.go_home(player) then
+			minetest.sound_play("teleport", {to_player = player_name})
 		end
 	end,
 	condition = function(player)
@@ -97,17 +85,11 @@ ui.register_button("misc_set_day", {
 	hide_lite=true,
 	action = function(player)
 		local player_name = player:get_player_name()
-		if minetest.check_player_privs(player_name, {settime=true}) then
-			minetest.sound_play("ui_morning",
-					{to_player=player_name, gain = 1.0})
-			minetest.set_timeofday((6000 % 24000) / 24000)
-			minetest.chat_send_player(player_name,
-				S("Time of day set to 6am"))
-		else
-			minetest.chat_send_player(player_name,
-				S("You don't have the settime privilege!"))
-			ui.set_inventory_formspec(player, ui.current_page[player_name])
-		end
+		minetest.sound_play("ui_morning",
+				{to_player=player_name, gain = 1.0})
+		minetest.set_timeofday((6000 % 24000) / 24000)
+		minetest.chat_send_player(player_name,
+			S("Time of day set to 6am"))
 	end,
 	condition = function(player)
 		return minetest.check_player_privs(player:get_player_name(), {settime=true})
@@ -121,17 +103,11 @@ ui.register_button("misc_set_night", {
 	hide_lite=true,
 	action = function(player)
 		local player_name = player:get_player_name()
-		if minetest.check_player_privs(player_name, {settime=true}) then
-			minetest.sound_play("ui_owl",
-					{to_player=player_name, gain = 1.0})
-			minetest.set_timeofday((21000 % 24000) / 24000)
-			minetest.chat_send_player(player_name,
-					S("Time of day set to 9pm"))
-		else
-			minetest.chat_send_player(player_name,
-					S("You don't have the settime privilege!"))
-			ui.set_inventory_formspec(player, ui.current_page[player_name])
-		end
+		minetest.sound_play("ui_owl",
+				{to_player=player_name, gain = 1.0})
+		minetest.set_timeofday((21000 % 24000) / 24000)
+		minetest.chat_send_player(player_name,
+				S("Time of day set to 9pm"))
 	end,
 	condition = function(player)
 		return minetest.check_player_privs(player:get_player_name(), {settime=true})
@@ -144,21 +120,13 @@ ui.register_button("clear_inv", {
 	tooltip = S("Clear inventory"),
 	action = function(player)
 		local player_name = player:get_player_name()
-		if not ui.is_creative(player_name) then
-			minetest.chat_send_player(player_name,
-					S("This button has been disabled outside"
-					.." of creative mode to prevent"
-					.." accidental inventory trashing."
-					.."\nUse the trash slot instead."))
-			ui.set_inventory_formspec(player, ui.current_page[player_name])
-			return
-		end
 		player:get_inventory():set_list("main", {})
 		minetest.chat_send_player(player_name, S('Inventory cleared!'))
 		minetest.sound_play("trash_all",
 				{to_player=player_name, gain = 1.0})
 	end,
 	condition = function(player)
+		-- Disabled to prevent accidental inventory trashing.
 		return ui.is_creative(player:get_player_name())
 	end,
 })
@@ -176,7 +144,6 @@ ui.register_page("craft", {
 			perplayer_formspec.standard_inv_bg,
 			perplayer_formspec.craft_grid,
 			"label["..formheaderx..","..formheadery..";" ..F(S("Crafting")).."]",
-			"listcolors[#00000000;#00000000]",
 			"listring[current_name;craft]",
 			"listring[current_player;main]"
 		}
@@ -266,10 +233,6 @@ local prev_alt_text = {
 	recipe = S("Show previous recipe"),
 	usage = S("Show previous usage"),
 }
-local other_dir = {
-	recipe = "usage",
-	usage = "recipe",
-}
 
 ui.register_page("craftguide", {
 	get_formspec = function(player, perplayer_formspec)
@@ -287,17 +250,15 @@ ui.register_page("craftguide", {
 
 		local formspec = {
 			perplayer_formspec.standard_inv_bg,
-			"label["..formheaderx..","..formheadery..";" .. F(S("Crafting Guide")) .. "]",
-			"listcolors[#00000000;#00000000]"
+			"label["..formheaderx..","..formheadery..";" .. F(S("Crafting Guide")) .. "]"
 		}
 
-		local item_name = ui.current_item[player_name]
-		if not item_name then
+		local selected_stack = ui.current_item[player_name]
+		if not selected_stack then
 			return { formspec = table.concat(formspec) }
 		end
 
-		local n = 4
-
+		local item_name = selected_stack:get_name()
 		local item_def = minetest.registered_items[item_name]
 		local item_name_shown
 		if item_def and item_def.description then
@@ -307,8 +268,6 @@ ui.register_page("craftguide", {
 		end
 
 		local dir = ui.current_craft_direction[player_name]
-		local rdir = dir == "recipe" and "usage" or "recipe"
-
 		local crafts = ui.crafts_for[dir][item_name]
 		local alternate = ui.alternate[player_name]
 		local alternates, craft
@@ -318,6 +277,7 @@ ui.register_page("craftguide", {
 		end
 		local has_give = player_privs.give or ui.is_creative(player_name)
 
+		local n = #formspec + 1
 		formspec[n] = string.format("image[%f,%f;%f,%f;ui_crafting_arrow.png]",
 	                            craftguidearrowx, craftguidey, ui.imgscale, ui.imgscale)
 
@@ -342,15 +302,25 @@ ui.register_page("craftguide", {
 			local item_pos = dir == "recipe" and craftguideresultx or (craftguidex+2.5)
 			formspec[n+1] = "image["..no_pos..","..craftguidey..";1.2,1.2;ui_no.png]"
 			formspec[n+2] = stack_image_button(item_pos, craftguidey, 1.2, 1.2,
-				"item_button_" .. other_dir[dir] .. "_", ItemStack(item_name))
+				"item_button_", ItemStack(item_name))
 			if has_give then
 				formspec[n+3] = giveme_form
 			end
 			return { formspec = table.concat(formspec) }
-		else
-			formspec[n] = stack_image_button(craftguideresultx, craftguidey, 1.2, 1.2,
-					"item_button_" .. rdir .. "_", ItemStack(craft.output))
+		end
+
+		-- List all recipes
+		for i = #craft.output, 1, -1 do
+			-- Go in reverse to not overlap the stack count
+			local itemstack = craft.output[i]
+			formspec[n] = stack_image_button(craftguideresultx + (i - 1) * 0.8, craftguidey, 1.2, 1.2,
+					"item_button_", itemstack)
 			n = n + 1
+
+			if itemstack:get_name() == item_name then
+				-- Update selected item to contain metadata
+				ui.current_item[player_name] = itemstack
+			end
 		end
 
 		local craft_type = ui.registered_craft_types[craft.type] or
@@ -392,30 +362,30 @@ ui.register_page("craftguide", {
 			bsize = 0.8 * sf
 		end
 		if (bsize > 0.35 and display_size.width) then
-		for y = 1, display_size.height do
-		for x = 1, display_size.width do
-			local item
-			if craft and x <= craft_width then
-				item = craft.items[(y-1) * craft_width + x]
+			for y = 1, display_size.height do
+			for x = 1, display_size.width do
+				local item
+				if craft and x <= craft_width then
+					item = craft.items[(y-1) * craft_width + x]
+				end
+				-- Flipped x, used to build formspec buttons from right to left
+				local fx = display_size.width - (x-1)
+				-- x offset, y offset
+				local xof = ((fx-1) * of + of) * bspc
+				local yof = ((y-1) * of + 1) * bspc
+				if item then
+					formspec[n] = stack_image_button(
+							xoffset - xof, craftguidey - 1.25 + yof, bsize, bsize,
+							"item_button_",
+							ItemStack(item))
+				else
+					-- Fake buttons just to make grid
+					formspec[n] = string.format("image_button[%f,%f;%f,%f;ui_blank_image.png;;]",
+							xoffset - xof, craftguidey - 1.25 + yof, bsize, bsize)
+				end
+				n = n + 1
 			end
-			-- Flipped x, used to build formspec buttons from right to left
-			local fx = display_size.width - (x-1)
-			-- x offset, y offset
-			local xof = ((fx-1) * of + of) * bspc
-			local yof = ((y-1) * of + 1) * bspc
-			if item then
-				formspec[n] = stack_image_button(
-						xoffset - xof, craftguidey - 1.25 + yof, bsize, bsize,
-						"item_button_recipe_",
-						ItemStack(item))
-			else
-				-- Fake buttons just to make grid
-				formspec[n] = string.format("image_button[%f,%f;%f,%f;ui_blank_image.png;;]",
-						xoffset - xof, craftguidey - 1.25 + yof, bsize, bsize)
 			end
-			n = n + 1
-		end
-		end
 		else
 			-- Error
 			formspec[n] = string.format("label[2,%f;%s]",
@@ -451,7 +421,7 @@ ui.register_page("craftguide", {
 	end,
 })
 
-local function craftguide_giveme(player, formname, fields)
+local function craftguide_giveme(player, field_name)
 	local player_name = player:get_player_name()
 	local player_privs = minetest.get_player_privs(player_name)
 	if not player_privs.give and
@@ -461,21 +431,16 @@ local function craftguide_giveme(player, formname, fields)
 		return
 	end
 
-	local amount
-	for k, v in pairs(fields) do
-		amount = k:match("craftguide_giveme_(.*)")
-		if amount then break end
-	end
-
+	local amount = field_name:match("craftguide_giveme_(.*)")
 	amount = tonumber(amount) or 0
 	if amount == 0 then return end
 
-	local output = ui.current_item[player_name]
-	if (not output) or (output == "") then return end
+	local selected_stack = ui.current_item[player_name]
+	if not selected_stack then return end
 
-	local player_inv = player:get_inventory()
-
-	player_inv:add_item("main", {name = output, count = amount})
+	local to_give = ItemStack(selected_stack)
+	to_give:set_count(amount)
+	player:get_inventory():add_item("main", to_give)
 end
 
 local function craftguide_craft(player, formname, fields)
@@ -491,11 +456,11 @@ local function craftguide_craft(player, formname, fields)
 
 	local player_name = player:get_player_name()
 
-	local output = ui.current_item[player_name] or ""
-	if output == "" then return end
+	local selected_stack = ui.current_item[player_name]
+	if not selected_stack then return end
 
 	local crafts = ui.crafts_for[
-		ui.current_craft_direction[player_name]][output] or {}
+		ui.current_craft_direction[player_name]][selected_stack:get_name()] or {}
 	if #crafts == 0 then return end
 
 	local alternate = ui.alternate[player_name]
@@ -527,7 +492,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			return
 		end
 		if k:match("craftguide_giveme_") then
-			craftguide_giveme(player, formname, fields)
+			craftguide_giveme(player, k)
 			return
 		end
 	end

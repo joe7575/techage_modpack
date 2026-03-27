@@ -185,6 +185,7 @@ send_cmnd 3465 pull*default:dirt*2]]),
 			return address ~= nil and command ~= nil and command ~= ""
 		end,
 		cmnd = function(base_pos, mem, address, command)
+			command = tostring(command)
 			command = command:gsub("*", " ")
 			address = tostring(tonumber(address))
 			local meta = minetest.get_meta(base_pos)
@@ -302,7 +303,7 @@ send_cmnd 3465 pull*default:dirt*2]]),
 		end,
 		on_beduino_request_data = function(pos, src, topic, payload)
 			local mem = tubelib2.get_mem(pos)
-			if topic == 128 then -- state
+			if topic == 129 then -- state
 				if mem.error then
 					return 0, {5}
 				elseif mem.running then

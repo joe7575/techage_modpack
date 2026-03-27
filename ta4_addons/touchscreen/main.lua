@@ -85,7 +85,7 @@ local function parse_payload(payload)
     elseif element_type == "field_close_on_enter" then
         local name = get_value(payload, "name", "field")
         local close_on_enter = get_value(payload, "close_on_enter", "false")
-        return "field_close_on_enter["..name..";"..close_on_enter"]"
+        return "field_close_on_enter["..name..";"..close_on_enter.."]"
     elseif element_type == "textarea" then
         local x = get_value(payload, "x", 1)
         local y = get_value(payload, "y", 1)
@@ -323,11 +323,11 @@ minetest.register_craft({
 techage.register_node({"ta4_addons:touchscreen"}, {
     on_recv_message = function(pos, src, topic, payload)
         if topic == "add" then  -- add one line and scroll if necessary
-            techage.display.add_line(pos, payload, 1)
+            techage.display.add_line(pos, payload)
         elseif topic == "set" then  -- overwrite the given row
-            techage.display.write_row(pos, payload, 1)
+            techage.display.write_row(pos, payload)
         elseif topic == "clear" then  -- clear the screen
-            techage.display.clear_screen(pos, 1)
+            techage.display.clear_screen(pos)
         elseif topic == "add_content" then
             M(pos):set_string("ctrl", src)
             return add_content(pos, payload)

@@ -19,6 +19,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --]]
 
+local RADIUS = 10
+
 -- Miscelaneous values depending on wallmounted param2
 local wallmounted_values = {
 	[0]={dx=0,  dz=0,  rx=0,  rz=0,  yaw=0,          rotate=0}, -- Should never be used
@@ -34,7 +36,7 @@ local facedir_values = {
 	[0]={dx=0,  dz=-1, rx=1,  rz=0,  yaw=0,          rotate=1},
 	    {dx=-1, dz=0,  rx=0,  rz=-1, yaw=-math.pi/2, rotate=2},
 	    {dx=0,  dz=1,  rx=-1, rz=0,  yaw=math.pi,    rotate=3},
-		{dx=1,  dz=0,  rx=0,  rz=1,  yaw=math.pi/2,  rotate=0},
+	    {dx=1,  dz=0,  rx=0,  rz=1,  yaw=math.pi/2,  rotate=0},
 	    -- Forbiden values :
 	    {dx=0, dz=0, rx=0, rz=0, yaw=0, rotate=0},
 	    {dx=0, dz=0, rx=0, rz=0, yaw=0, rotate=0},
@@ -71,6 +73,9 @@ local function get_values(node)
 		if ndef.paramtype2 == "facedir" then
 			return facedir_values[node.param2]
 		end
+		if ndef.paramtype2 == "color4dir" then
+			return facedir_values[node.param2 % 4]
+		end
 	end
 end
 
@@ -79,7 +84,7 @@ local function get_entities(pos)
 	local objrefs = {}
 	local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
 	if ndef and ndef.display_entities then
-		for _, objref in ipairs(minetest.get_objects_inside_radius(pos, 0.5)) do
+		for _, objref in ipairs(minetest.get_objects_inside_radius(pos, 0.52)) do
 			local entity = objref:get_luaentity()
 		    if entity and ndef.display_entities[entity.name] then
 				if objrefs[entity.name] then
@@ -93,9 +98,20 @@ local function get_entities(pos)
 	return objrefs
 end
 
+local function get_dir(node)
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef.paramtype2 == "wallmounted" then
+		return vector.multiply(minetest.wallmounted_to_dir(node.param2), -1)
+	elseif ndef.paramtype2 == "color4dir" then
+		return vector.multiply(minetest.fourdir_to_dir(node.param2), -1)
+	else
+		return vector.multiply(minetest.facedir_to_dir(node.param2), -1)
+	end
+end
+
 local function clip_pos_prop(posprop)
 	if posprop then
-		return math.max(-0.5, math.min(0.5, posprop))
+		return math.max(-0.51, math.min(0.51, posprop))
 	else
 		return 0
 	end
@@ -114,13 +130,14 @@ local function place_entities(pos)
 			local depth = clip_pos_prop(props.depth)
 			local height = clip_pos_prop(props.height)
 			local right = clip_pos_prop(props.right)
+			local yoffs = clip_pos_prop(props.yoffs)
 			if not objrefs[entity_name] then
 				objrefs[entity_name] = minetest.add_entity(pos, entity_name)
 			end
 
 			objrefs[entity_name]:set_pos({
 				x = pos.x - values.dx * depth + values.rx * right,
-				y = pos.y + height,
+				y = pos.y + height + yoffs,
 				z = pos.z - values.dz * depth + values.rz * right})
 
 			objrefs[entity_name]:set_yaw(values.yaw)
@@ -140,10 +157,22 @@ end
 
 --- Force entity update
 function lcdlib.update_entities(pos)
-	local objrefs = place_entities(pos)
-	for _, objref in pairs(objrefs) do
-		call_node_on_display_update(pos, objref)
-    end
+	local node = minetest.get_node(pos)
+	-- check if display is loaded and a player in front of the display
+	if node.name ~= "ignore" then
+		local dir = get_dir(node)
+		dir.y = 0
+		local pos2 = vector.add(pos, vector.multiply(dir, RADIUS))
+		for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
+			if obj:is_player() then
+				local objrefs = place_entities(pos)
+				for _, objref in pairs(objrefs) do
+					call_node_on_display_update(pos, objref)
+				end
+				break
+			end
+		end
+	end
 end
 
 --- On_activate callback for lcdlib entities. Calls on_display_update callbacks 

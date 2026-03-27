@@ -1,14 +1,15 @@
 # textdomain: unified_inventory
 # api.lua
-Mixing=Mezclar
-Cooking=Hornear
-Digging=Recoger
 # bags.lua
 Bags=Bolsos
 Bag @1=Bolso @1
 Small Bag=Bolso Pequeño
 Medium Bag=Bolso Mediano
 Large Bag=Bolso Grande
+Mixing=Mezclar
+Cooking=Hornear
+Digging=Recoger
+Crafting=Elaboración
 All Items=
 Misc. Items=
 Plant Life=
@@ -19,10 +20,12 @@ Environment and Worldgen=
 Lighting=
 # group.lua
  and = y
+Category:=
 Scroll categories left=
 Scroll categories right=
 Search=Buscar
 Reset search and display everything=Limpiar la busqueda y mostrar todo
+Filter=Filtro
 # internal.lua
 First page=Primera página
 Back three pages=Volver tres páginas
@@ -34,7 +37,7 @@ No matching items=No se encontraron elementos
 No matches.=No hay resultados.
 Page=Página
 @1 of @2=@1 de @2
-Filter=Filtro
+Unified Inventory: Your Luanti/Minetest is no longer supported. You might experience visual issues.=
 # register.lua
 Can use the creative inventory=Puede usar el inventario creativo
 Forces Unified Inventory to be displayed in Full mode if Lite mode is configured globally=Obliga al Inventario Unificado a mostrarse en modo Completo si el modo Simple está configurado globalmente
@@ -68,10 +71,9 @@ Show previous recipe=Mostrar la receta anterior
 Show previous usage=Mostrar el uso anterior
 @1 (@2)=@1 (@2)
 Give me:=Dame:
-This recipe is too@@large to be displayed.=
+This recipe is too@nlarge to be displayed.=Esta receta es demasiado@ngrande para ser mostrada.
 To craft grid:=Construir:
 All=Todos
-Crafting=Elaboración
 White=Blanco
 Yellow=Amarillo
 Red=Rojo
@@ -80,13 +82,14 @@ Blue=Azul
 Waypoints=Puntos
 Select Waypoint #@1=Seleccionar Punto #@1
 Waypoint @1=Punto @1
-Set waypoint to current location=Establecer el punto a la ubicación actual
 Hide waypoint=
 Show waypoint=
+Edit waypoint name=Editar nombre del punto
+Set waypoint to current location=Establecer el punto a la ubicación actual
 Hide coordinates=
 Show coordinates=
 Change color of waypoint display=Cambiar el color del punto
-Edit waypoint name=Editar nombre del punto
+Teleport to waypoint=
 Waypoint active=Punto activo
 Waypoint inactive=Punto inactivo
 Finish editing=Terminar edición
@@ -105,4 +108,3 @@ Disable=Deshabilitado
 Enable=Habilitado
 You don't have the \"home\" privilege!=¡No tienes el privilegio \"home\"!
 This button has been disabled outside=Este botón ha sido deshabilitado
-This recipe is too@nlarge to be displayed.=Esta receta es demasiado@ngrande para ser mostrada.

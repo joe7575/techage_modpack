@@ -118,7 +118,8 @@ function signs_bot.lib.is_simple_node(node)
 		if not ndef or node.name == "air" then return false end
 		if ndef.drop == "" then return false end
 		if ndef.diggable == false then return false end
-		if ndef.after_dig_node then return false end
+		-- Allow digging nodes with after_dig_node only when everness is loaded
+		if ndef.after_dig_node and not minetest.get_modpath("everness") then return false end
 	end
 	if type(ndef.drop) == "table" then
 		return handle_drop(ndef.drop)
@@ -304,6 +305,14 @@ function signs_bot.lib.fake_player(name)
 		get_player_name = function() return name end,
 		is_player = function() return false end,
 	}
+end
+
+function signs_bot.lib.swap_node(pos, node_name)
+	minetest.swap_node(pos, node_name)
+	local mod = node_name.name:match("(.*):")
+	if mod == "farming" and farming.start_seed_timer then
+		farming.start_seed_timer(pos)
+	end
 end
 
 signs_bot.lib.register_node_to_be_dug("default:cactus")

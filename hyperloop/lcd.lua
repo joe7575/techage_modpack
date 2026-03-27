@@ -188,10 +188,11 @@ minetest.register_node("hyperloop:lcd", {
 })
 
 minetest.register_entity(":hyperloop_lcd:text", {
-	collisionbox = { 0, 0, 0, 0, 0, 0 },
-	visual = "upright_sprite",
-	textures = {},
-
+	initial_properties = {
+		collisionbox = { 0, 0, 0, 0, 0, 0 },
+		visual = "upright_sprite",
+		textures = {},
+	},
 	on_activate = function(self)
 		local meta = minetest.get_meta(self.object:get_pos())
 		local text = meta:get_string("text")

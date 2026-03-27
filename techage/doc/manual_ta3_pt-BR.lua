@@ -86,7 +86,7 @@ return {
     "3,TechAge Trowel / Trowel",
     "3,TA3 chave de cano",
     "3,Techage Screwdriver",
-    "3,TechAge Assembly Tool",
+    "3,TechAge Cordless Screwdriver",
   },
   texts = {
     "Na TA3\\, é importante substituir as máquinas a vapor por máquinas mais potentes movidas a eletricidade.\n"..
@@ -99,7 +99,7 @@ return {
     "\n",
     "A usina termelétrica a carvão é composta por vários blocos e deve ser montada conforme mostrado no plano à direita. São necessários os blocos Fornalha(Firebox) TA3\\, Topo da Caldeira TA3\\, Base da Caldeira TA3\\, Turbina TA3\\, Gerador TA3 e Resfriador TA3.\n"..
     "\n"..
-    "A caldeira deve ser preenchida com água. Encha até 10 baldes de água na caldeira.\n"..
+    "A caldeira deve ser preenchida com água. Encha até 10 baldes de água na caldeira ou conecte um tubo de líquido ao topo da caldeira para fornecer água automaticamente via bomba.\n"..
     "A caixa de fogo deve ser preenchida com carvão ou carvão vegetal.\n"..
     "Quando a água estiver quente\\, o gerador pode ser iniciado.\n"..
     "\n"..
@@ -125,6 +125,11 @@ return {
     "\n"..
     "\n",
     "Parte da usina de energia. Deve ser preenchida com água. Se não houver mais água ou a temperatura diminuir muito\\, a usina desliga.\n"..
+    "\n"..
+    "A caldeira pode ser preenchida com água de duas maneiras:\n"..
+    "\n"..
+    "  - Manualmente clicando no topo da caldeira com um balde de água (até 10 baldes)\n"..
+    "  - Automaticamente através de um tubo de líquido conectado ao topo da caldeira usando uma bomba TA3/TA4\n"..
     "\n"..
     "O consumo de água da caldeira TA3 é muito menor do que o da máquina a vapor devido ao circuito de vapor fechado.\n"..
     "Com a máquina a vapor\\, parte da água é perdida como vapor a cada curso do pistão.\n"..
@@ -751,12 +756,12 @@ return {
     "\n"..
     " \n"..
     "\n",
-    "A TechAge Assembly Tool é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil\\, por exemplo\\, para pedreiras\\, já que muitas vezes precisam ser movidas.\n"..
+    "A TechAge Cordless Screwdriver é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil\\, por exemplo\\, para pedreiras\\, já que muitas vezes precisam ser movidas.\n"..
     "\n"..
     "  - Botão esquerdo: remover um bloco\n"..
     "  - Botão direito: configurar um bloco\n"..
     "\n"..
-    "O bloco que foi removido anteriormente com a ferramenta de montagem e que será colocado novamente deve estar no extremo esquerdo do inventário do jogador.\n"..
+    "O bloco que foi removido anteriormente com a Chave de Fenda sem fio e que será colocado novamente deve estar no slot 1 da barra de atalhos (o slot mais à esquerda da hotbar).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -848,7 +853,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",

@@ -28,7 +28,7 @@ local function letter_to_idx(letter)
 end
 
 local palettes = {
-    "rgb6bit",-- "resurrect64", "aap64", "sweet_canyon_extended", "endesga64"
+    "rgb6bit", "resurrect64", "aap64", "sweet_canyon_extended", "endesga64"
 }
 
 local palettes_to_idx = {}
@@ -38,62 +38,62 @@ for k,v in ipairs(palettes) do
 end
 
 local rgb6bit_palette = {
-    "000000", "000055", "0000aa", "0000ff", "550000", "550055", "5500aa", "5500ff",
-    "aa0000", "aa0055", "aa00aa", "aa00ff", "ff0000", "ff0055", "ff00aa", "ff00ff",
-    "005500", "005555", "0055aa", "0055ff", "555500", "555555", "5555aa", "5555ff",
-    "aa5500", "aa5555", "aa55aa", "aa55ff", "ff5500", "ff5555", "ff55aa", "ff55ff",
-    "00aa00", "00aa55", "00aaaa", "00aaff", "55aa00", "55aa55", "55aaaa", "55aaff",
-    "aaaa00", "aaaa55", "aaaaaa", "aaaaff", "ffaa00", "ffaa55", "ffaaaa", "ffaaff",
-    "00ff00", "00ff55", "00ffaa", "00ffff", "55ff00", "55ff55", "55ffaa", "55ffff",
-    "aaff00", "aaff55", "aaffaa", "aaffff", "ffff00", "ffff55", "ffffaa", "ffffff",
+    "#000000", "#000055", "#0000aa", "#0000ff", "#550000", "#550055", "#5500aa", "#5500ff",
+    "#aa0000", "#aa0055", "#aa00aa", "#aa00ff", "#ff0000", "#ff0055", "#ff00aa", "#ff00ff",
+    "#005500", "#005555", "#0055aa", "#0055ff", "#555500", "#555555", "#5555aa", "#5555ff",
+    "#aa5500", "#aa5555", "#aa55aa", "#aa55ff", "#ff5500", "#ff5555", "#ff55aa", "#ff55ff",
+    "#00aa00", "#00aa55", "#00aaaa", "#00aaff", "#55aa00", "#55aa55", "#55aaaa", "#55aaff",
+    "#aaaa00", "#aaaa55", "#aaaaaa", "#aaaaff", "#ffaa00", "#ffaa55", "#ffaaaa", "#ffaaff",
+    "#00ff00", "#00ff55", "#00ffaa", "#00ffff", "#55ff00", "#55ff55", "#55ffaa", "#55ffff",
+    "#aaff00", "#aaff55", "#aaffaa", "#aaffff", "#ffff00", "#ffff55", "#ffffaa", "#ffffff",
 }
 
 -- Source: https://lospec.com/palette-list/resurrect-64
 local resurrect64_palette = {
-    "2e222f", "3e3546", "625565", "966c6c", "ab947a", "694f62", "7f708a", "9babb2",
-    "c7dcd0", "ffffff", "6e2727", "b33831", "ea4f36", "f57d4a", "ae2334", "e83b3b",
-    "fb6b1d", "f79617", "f9c22b", "7a3045", "9e4539", "cd683d", "e6904e", "fbb954",
-    "4c3e24", "676633", "a2a947", "d5e04b", "fbff86", "165a4c", "239063", "1ebc73",
-    "91db69", "cddf6c", "313638", "374e4a", "547e64", "92a984", "b2ba90", "0b5e65",
-    "0b8a8f", "0eaf9b", "30e1b9", "8ff8e2", "323353", "484a77", "4d65b4", "4d9be6",
-    "8fd3ff", "45293f", "6b3e75", "905ea9", "a884f3", "eaaded", "753c54", "a24b6f",
-    "cf657f", "ed8099", "831c5d", "c32454", "f04f78", "f68181", "fca790", "fdcbb0",
+    "#2e222f", "#3e3546", "#625565", "#966c6c", "#ab947a", "#694f62", "#7f708a", "#9babb2",
+    "#c7dcd0", "#ffffff", "#6e2727", "#b33831", "#ea4f36", "#f57d4a", "#ae2334", "#e83b3b",
+    "#fb6b1d", "#f79617", "#f9c22b", "#7a3045", "#9e4539", "#cd683d", "#e6904e", "#fbb954",
+    "#4c3e24", "#676633", "#a2a947", "#d5e04b", "#fbff86", "#165a4c", "#239063", "#1ebc73",
+    "#91db69", "#cddf6c", "#313638", "#374e4a", "#547e64", "#92a984", "#b2ba90", "#0b5e65",
+    "#0b8a8f", "#0eaf9b", "#30e1b9", "#8ff8e2", "#323353", "#484a77", "#4d65b4", "#4d9be6",
+    "#8fd3ff", "#45293f", "#6b3e75", "#905ea9", "#a884f3", "#eaaded", "#753c54", "#a24b6f",
+    "#cf657f", "#ed8099", "#831c5d", "#c32454", "#f04f78", "#f68181", "#fca790", "#fdcbb0",
 }
 
 -- Source: https://lospec.com/palette-list/aap-64
 local aap64_palette = {
-    "060608", "141013", "3b1725", "73172d", "b4202a", "df3e23", "fa6a0a", "f9a31b",
-    "ffd541", "fffc40", "d6f264", "9cdb43", "59c135", "14a02e", "1a7a3e", "24523b",
-    "122020", "143464", "285cc4", "249fde", "20d6c7", "a6fcdb", "ffffff", "fef3c0",
-    "fad6b8", "f5a097", "e86a73", "bc4a9b", "793a80", "403353", "242234", "221c1a",
-    "322b28", "71413b", "bb7547", "dba463", "f4d29c", "dae0ea", "b3b9d1", "8b93af",
-    "6d758d", "4a5462", "333941", "422433", "5b3138", "8e5252", "ba756a", "e9b5a3",
-    "e3e6ff", "b9bffb", "849be4", "588dbe", "477d85", "23674e", "328464", "5daf8d",
-    "92dcba", "cdf7e2", "e4d2aa", "c7b08b", "a08662", "796755", "5a4e44", "423934",
+    "#060608", "#141013", "#3b1725", "#73172d", "#b4202a", "#df3e23", "#fa6a0a", "#f9a31b",
+    "#ffd541", "#fffc40", "#d6f264", "#9cdb43", "#59c135", "#14a02e", "#1a7a3e", "#24523b",
+    "#122020", "#143464", "#285cc4", "#249fde", "#20d6c7", "#a6fcdb", "#ffffff", "#fef3c0",
+    "#fad6b8", "#f5a097", "#e86a73", "#bc4a9b", "#793a80", "#403353", "#242234", "#221c1a",
+    "#322b28", "#71413b", "#bb7547", "#dba463", "#f4d29c", "#dae0ea", "#b3b9d1", "#8b93af",
+    "#6d758d", "#4a5462", "#333941", "#422433", "#5b3138", "#8e5252", "#ba756a", "#e9b5a3",
+    "#e3e6ff", "#b9bffb", "#849be4", "#588dbe", "#477d85", "#23674e", "#328464", "#5daf8d",
+    "#92dcba", "#cdf7e2", "#e4d2aa", "#c7b08b", "#a08662", "#796755", "#5a4e44", "#423934",
 }
 
 -- Source: https://lospec.com/palette-list/sweet-canyon-extended-64
 local sweet_canyon_extended_palette = {
-    "0f0e11", "2d2c33", "40404a", "51545c", "6b7179", "7c8389", "a8b2b6", "d5d5d5",
-    "eeebe0", "f1dbb1", "eec99f", "e1a17e", "cc9562", "ab7b49", "9a643a", "86482f",
-    "783a29", "6a3328", "541d29", "42192c", "512240", "782349", "8b2e5d", "a93e89",
-    "d062c8", "ec94ea", "f2bdfc", "eaebff", "a2fafa", "64e7e7", "54cfd8", "2fb6c3",
-    "2c89af", "25739d", "2a5684", "214574", "1f2966", "101445", "3c0d3b", "66164c",
-    "901f3d", "bb3030", "dc473c", "ec6a45", "fb9b41", "f0c04c", "f4d66e", "fffb76",
-    "ccf17a", "97d948", "6fba3b", "229443", "1d7e45", "116548", "0c4f3f", "0a3639",
-    "251746", "48246d", "69189c", "9f20c0", "e527d2", "ff51cf", "ff7ada", "ff9edb",
+    "#0f0e11", "#2d2c33", "#40404a", "#51545c", "#6b7179", "#7c8389", "#a8b2b6", "#d5d5d5",
+    "#eeebe0", "#f1dbb1", "#eec99f", "#e1a17e", "#cc9562", "#ab7b49", "#9a643a", "#86482f",
+    "#783a29", "#6a3328", "#541d29", "#42192c", "#512240", "#782349", "#8b2e5d", "#a93e89",
+    "#d062c8", "#ec94ea", "#f2bdfc", "#eaebff", "#a2fafa", "#64e7e7", "#54cfd8", "#2fb6c3",
+    "#2c89af", "#25739d", "#2a5684", "#214574", "#1f2966", "#101445", "#3c0d3b", "#66164c",
+    "#901f3d", "#bb3030", "#dc473c", "#ec6a45", "#fb9b41", "#f0c04c", "#f4d66e", "#fffb76",
+    "#ccf17a", "#97d948", "#6fba3b", "#229443", "#1d7e45", "#116548", "#0c4f3f", "#0a3639",
+    "#251746", "#48246d", "#69189c", "#9f20c0", "#e527d2", "#ff51cf", "#ff7ada", "#ff9edb",
 }
 
 -- Source: https://lospec.com/palette-list/endesga-64
 local endesga64_palette = {
-    "ff0040", "131313", "1b1b1b", "272727", "3d3d3d", "5d5d5d", "858585", "b4b4b4",
-    "ffffff", "c7cfdd", "92a1b9", "657392", "424c6e", "2a2f4e", "1a1932", "0e071b",
-    "1c121c", "391f21", "5d2c28", "8a4836", "bf6f4a", "e69c69", "f6ca9f", "f9e6cf",
-    "edab50", "e07438", "c64524", "8e251d", "ff5000", "ed7614", "ffa214", "ffc825",
-    "ffeb57", "d3fc7e", "99e65f", "5ac54f", "33984b", "1e6f50", "134c4c", "0c2e44",
-    "00396d", "0069aa", "0098dc", "00cdf9", "0cf1ff", "94fdff", "fdd2ed", "f389f5",
-    "db3ffd", "7a09fa", "3003d9", "0c0293", "03193f", "3b1443", "622461", "93388f",
-    "ca52c9", "c85086", "f68187", "f5555d", "ea323c", "c42430", "891e2b", "571c27",
+    "#ff0040", "#131313", "#1b1b1b", "#272727", "#3d3d3d", "#5d5d5d", "#858585", "#b4b4b4",
+    "#ffffff", "#c7cfdd", "#92a1b9", "#657392", "#424c6e", "#2a2f4e", "#1a1932", "#0e071b",
+    "#1c121c", "#391f21", "#5d2c28", "#8a4836", "#bf6f4a", "#e69c69", "#f6ca9f", "#f9e6cf",
+    "#edab50", "#e07438", "#c64524", "#8e251d", "#ff5000", "#ed7614", "#ffa214", "#ffc825",
+    "#ffeb57", "#d3fc7e", "#99e65f", "#5ac54f", "#33984b", "#1e6f50", "#134c4c", "#0c2e44",
+    "#00396d", "#0069aa", "#0098dc", "#00cdf9", "#0cf1ff", "#94fdff", "#fdd2ed", "#f389f5",
+    "#db3ffd", "#7a09fa", "#3003d9", "#0c0293", "#03193f", "#3b1443", "#622461", "#93388f",
+    "#ca52c9", "#c85086", "#f68187", "#f5555d", "#ea323c", "#c42430", "#891e2b", "#571c27",
 }
 
 local function rgb6bit(idx)
@@ -117,15 +117,15 @@ local function endesga64(idx)
 end
 
 local function get_palette(palette_name)
-    --if palette_name == "resurrect64" then
-    --    return resurrect64
-    --elseif palette_name == "aap64" then
-    --    return aap64
-    --elseif palette_name == "sweet_canyon_extended" then
-    --    return sweet_canyon_extended
-    --elseif palette_name == "endesga64" then
-    --    return endesga64
-    --end
+    if palette_name == "resurrect64" then
+        return resurrect64
+    elseif palette_name == "aap64" then
+        return aap64
+    elseif palette_name == "sweet_canyon_extended" then
+        return sweet_canyon_extended
+    elseif palette_name == "endesga64" then
+        return endesga64
+    end
     return rgb6bit
 end
 
@@ -151,46 +151,8 @@ local function string_to_colors(input_string, palette_name)
 end
 
 local function generate_texture_from_color_list(colors)
-    local texture = {"[combine:16x16"}
-    local x, y = 0, 0
-    for _,color in ipairs(colors) do
-        texture[#texture+1] = ":"
-        texture[#texture+1] = x
-        texture[#texture+1] = ","
-        texture[#texture+1] = y
-        texture[#texture+1] = "=px.png\\^[colorize\\:#"
-        texture[#texture+1] = color
-        x = x + 1
-        if x >= 16 then
-            x = 0
-            y = y + 1
-        end
-    end
-    texture[#texture+1] = "^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
-    return table.concat(texture, "")
-end
-
-local function generate_texture_from_indices(indices)
-    local texture = {"[combine:16x16:0,0=px_bg.png"}
-    local x, y = 0, 0
-    for _,index in ipairs(indices) do
-        if index ~=1 then
-            texture[#texture+1] = ":"
-            texture[#texture+1] = x
-            texture[#texture+1] = ","
-            texture[#texture+1] = y
-            texture[#texture+1] = "=px"
-            texture[#texture+1] = index
-            texture[#texture+1] = ".png"
-        end
-        x = x + 1
-        if x >= 16 then
-            x = 0
-            y = y + 1
-        end
-    end
-    texture[#texture+1] = "^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
-    return table.concat(texture, "")
+    local image_data = core.encode_base64(core.encode_png(16, 16, colors))
+    return "[png:" .. image_data .. "^[resize:128x128^ta4_addons_matrix_screen_overlay.png"
 end
 
 local function string_to_table(input_string)
@@ -210,8 +172,7 @@ local function string_to_table(input_string)
 end
 
 ta4_addons.base64_to_texture = function(color_string, palette)
-    --return generate_texture_from_color_list(string_to_colors(color_string, palette))
-    return generate_texture_from_indices(string_to_indices(color_string))
+    return generate_texture_from_color_list(string_to_colors(color_string, palette))
 end
 
 local function update_matrix_display(pos, objref)
@@ -285,11 +246,7 @@ minetest.register_craft({
 techage.register_node({"ta4_addons:matrix_screen"}, {
     on_recv_message = function(pos, src, topic, payload)
         local mem = techage.get_mem(pos)
-        mem.ticks = mem.ticks or 0
-
-        if mem.ticks == 0 then
-            mem.ticks = 1
-        end
+        mem.update = true
 
         if topic == "pixels" then
             N(pos).color_string = tostring(payload)
@@ -300,7 +257,7 @@ techage.register_node({"ta4_addons:matrix_screen"}, {
 })
 
 local function generate_px_button(x, y, i, palette_func, name)
-    return "image_button["..x..","..y..";.5,.5;px.png^[colorize:#"..palette_func(i)..";"..name..";"..letters:sub(i,i).."]"
+    return "image_button["..x..","..y..";.5,.5;px.png^[colorize:"..palette_func(i)..";"..name..";"..letters:sub(i,i).."]"
 end
 
 local function get_px_val(nvm, x, y)

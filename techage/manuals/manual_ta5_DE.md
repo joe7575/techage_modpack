@@ -12,7 +12,7 @@ Für die Herstellung und Nutzung von TA5 Maschinen und Blöcken sind Erfahrungsp
 
 Kernfusion bedeutet das Verschmelzen zweier Atomkerne. Dabei können, je nach Reaktion, große Mengen von Energie freigesetzt werden. Kernfusionen, bei denen Energie frei wird, laufen in Form von Kettenreaktionen ab. Sie sind die Quelle der Energie der Sterne, zum Beispiel auch unserer Sonne. Ein Fusionsreaktor wandelt die Energie, die bei einer kontrollierten Kernfusion frei wird, in elektrischen Strom um.
 
-**Wie funktionieren ein Fusionsreaktor?**
+**Wie funktioniert ein Fusionsreaktor?**
 
 Ein Fusionsreaktor funktioniert nach dem klassischen Prinzip eines Wärmekraftwerks: Wasser wird erhitzt und treibt eine Dampfturbine an, deren Bewegungsenergie von einem Generator in Strom gewandelt wird.
 
@@ -20,15 +20,15 @@ Ein Fusionskraftwerk benötigt zunächst eine hohe Menge an Energie, da ein Plas
 
 Der Plan rechts zeigt einen Schnitt durch den Fusionsreaktor.
 
-Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der Fusionsreaktur muss komplett in einem Forceload Block Bereich aufgebaut werden.
+Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der Fusionsreaktor muss komplett in einem Forceload Block Bereich aufgebaut werden.
 
 [ta5_fusion_reactor|plan]
 
 #### TA5 Fusionreaktor Magnet
 
-Für den Aufbau des Fusionsreaktor werden insgesamt 60 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.
+Für den Aufbau des Fusionsreaktors werden insgesamt 60 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.
 
-Es gibt zwei Typen von Magneten, so dass auch alle Seiten des Magnets, die zum Plasmaring zeigen, mit einem Hitzeschild geschützt werden können.
+Es gibt zwei Typen von Magneten, so dass auch alle Seiten der Magnete, die zum Plasmaring zeigen, mit einem Hitzeschild geschützt werden können.
 
 Bei den Eckmagneten auf der Innenseite des Rings ist jeweils eine Anschlussseite verdeckt (Strom oder Kühlung) und kann daher nicht angeschlossen werden. Dies ist technisch nicht machbar und hat daher keinen Einfluß auf die Funktion des Fusionsreaktor. 
 
@@ -38,7 +38,16 @@ Bei den Eckmagneten auf der Innenseite des Rings ist jeweils eine Anschlussseite
 
 Die Pumpe wird benötigt, um den Kühlkreislauf mit Isobutan zu füllen. Es werden ca. 350 Einheiten Isobutan benötigt.
 
+Die Pumpe hat zwei Anschlussseiten:
+
+- Linke Seite: gelber Anschluss (GasPipe) – hier wird der Isobutan-Tank angeschlossen
+- Rechte Seite: blauer Anschluss (LiquidPipe) – hier wird der Kühlkreislauf angeschlossen
+
+In der Grundeinstellung pumpt die Pumpe von links (gelb) nach rechts (blau), also vom Tank in den Kühlkreislauf. Über das Schraubenschlüssel-Menü kann die Pumprichtung auf "reverse" umgestellt werden.
+
 Hinweis: Die TA5 Pumpe kann nur zum Füllen des Kühlkreislaufs genutzt werden, ein Abpumpen des Kühlmittels ist nicht möglich. Daher sollte die Pumpe erst eingeschaltet werden, wenn die Magnete korrekt platziert und alle Strom- und Kühlleitungen angeschlossen sind.
+
+Wenn die Pumpe "blocked" anzeigt, ist das Ziel voll oder nicht verbunden.
 
 [ta5_pump|image]
 
@@ -46,15 +55,41 @@ Hinweis: Die TA5 Pumpe kann nur zum Füllen des Kühlkreislaufs genutzt werden, 
 
 Der TA5 Wärmetauscher wird benötigt, um die im Fusionsreaktor erzeugte Hitze zuerst in Dampf und dann in Strom umzuwandeln. Der Wärmetauscher selbst benötigt dazu 5 ku Strom. Der Aufbau gleicht dem Wärmetauscher des Energiespeichers aus TA4.
 
-Hinweis: Der TA5 Wärmetauscher hat zwei Anschlüsse (blau und grün) für den Kühlkreislauf. Über die grünen und blauen Röhren müssen der Wärmetauscher und alle Magnete zu einem Kühlkreislauf verbunden werden.
+Der Wärmetauscher besteht aus 3 Teilen (von unten nach oben: 1, 2, 3). Die Teile 1 und 3 haben jeweils zwei Anschlussseiten:
 
-Über den Start-Button des Wärmetauschers kann der Kühlkreislauf auf Vollständigkeit geprüft werden, auch wenn noch kein Kühlmittel eingefüllt wurde.
+- Rechte Seite: gelber Anschluss – Anschluss an Turbine (Teil 1) bzw. Kühler (Teil 3)
+- Linke Seite von Teil 1: blauer Anschluss – Kühlkreislauf zum unteren Magnetring (56 Magnete)
+- Linke Seite von Teil 3: grüner Anschluss – Kühlkreislauf zum oberen Magnetring (52 Magnete)
+
+Über den Start-Button des Wärmetauschers (Teil 2) kann der Kühlkreislauf auf Vollständigkeit geprüft werden, auch wenn noch kein Kühlmittel eingefüllt wurde. Mögliche Fehlermeldungen:
+
+- "Turbine error" / "Cooler error": Turbine oder Kühler nicht über gelbe Leitung verbunden
+- "Blue/Green pipe connection error": Magnete nicht korrekt über blaue/grüne Rohre verbunden
+- "Blue/Green pipe coolant missing": Magnete noch nicht mit Isobutan gefüllt (je Magnet 6 Einheiten)
 
 [ta5_heatexchanger|plan]
 
 #### TA5 Fusionreaktor Controller
 
-Über den TA5 Fusionreaktor Controller wird der Fusionreaktors eingeschaltet. Dabei muss zuerst die Kühlung/Wärmetauscher und dann der Controller eingeschaltet werden. Es dauert ca. 2 min, bis der Reaktor in Gang kommt und Strom liefert. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom, um das Plasma aufrecht zu erhalten.
+Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom, um das Plasma aufrecht zu erhalten.
+
+**Startreihenfolge:**
+
+1. Alle Magnete müssen korrekt platziert und mit Isobutan gefüllt sein
+2. Kühlkreislauf (blaue und grüne Rohre) und Dampfleitungen (gelbe Rohre) müssen vollständig angeschlossen sein
+3. Zuerst den Wärmetauscher (Teil 2) einschalten
+4. Dann den Controller einschalten
+5. Es dauert ca. 2 Minuten, bis der Reaktor 80° erreicht und Dampf/Strom liefert
+
+**Wichtig:** Beide – Wärmetauscher und Controller – müssen gleichzeitig laufen. Der Controller heizt die Magnete auf (inc_power), der Wärmetauscher kühlt sie ab (dec_power). Ohne das Zusammenspiel beider Teile wird die Betriebstemperatur nicht erreicht.
+
+Mögliche Fehlermeldungen des Controllers:
+
+- "Magnet detection error": Nicht alle 56 Magnete per Stromkabel erreichbar
+- "Plasma ring shape error": Innenraum des Plasmarings nicht frei (Luft)
+- "Shell shape error": Hülle um die Magnete unvollständig (zeigt, bei wie vielen Magneten die Hülle komplett ist)
+- "Nucleus detection error": Kern fehlt oder nicht korrekt platziert
+- "Cooling failed": Wärmetauscher läuft nicht oder Magnete werden nicht gekühlt
 
 [ta5_fr_controller|image]
 
@@ -110,7 +145,7 @@ Die Nutzung der TA5 Hyperloop Kiste benötigt 15 Erfahrungspunkte.
 
 Der TA5 Hyperloop Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.
 
-Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank  besitzt ein spezielles Menü, mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten, die in dem Tank sind, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.
+Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank besitzt ein spezielles Menü, mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten, die in dem Tank sind, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.
 
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank eingeben, dann kannst du bei dem anderen Tank diesen Namen auswählen und so die beiden Blöcke verbinden.
 
@@ -155,6 +190,58 @@ Für die Nutzung der Teleport-Blöcke werden 30 Erfahrungspunkte benötigt.
 Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne Hyperloop-Röhren.
 
 Die Nutzung der Hyperloop Teleport Blöcke benötigt 60 Erfahrungspunkte.
+
+## TA5 Digitizer
+
+### TA5 Digitizer
+
+Der TA5 Digitizer ist ein Hochkapazitäts-Itemspeicher, der Items aus benachbarten Inventaren digital speichert. Er kann in zwei Modi betrieben werden (pull/push) und verwaltet bis zu 8 verschiedene Item-Typen mit je bis zu 100.000 Items pro Slot.
+
+Der Digitizer hat einen Tube-Anschluss auf der rechten Seite und kann auch über das Techage-Netzwerk gesteuert werden. Im Pull-Modus zieht er bis zu 50 Items pro Takt aus einer verbundenen Kiste. Im Push-Modus schiebt er gespeicherte Items zurück in benachbarte Inventare.
+
+Es können nur stapelbare Items ohne Metadaten und ohne Verschleiß gespeichert werden. Items wie beschriftete Bücher oder abgenutzte Werkzeuge werden abgelehnt.
+
+Der Digitizer kann nur mit der Spitzhacke abgebaut werden, wenn der interne Speicher vollständig leer ist. Mit dem Akkuschrauber kann er im gestoppten Zustand entfernt werden – die gespeicherten Items werden als Item-Metadaten erhalten und automatisch wiederhergestellt, wenn der Block mit dem Akkuschrauber wieder gesetzt wird.
+
+Der TA5 Digitizer benötigt 24 ku Strom.
+
+Für die Nutzung des TA5 Digitizers sind 50 Erfahrungspunkte erforderlich (konfigurierbar über `techage_ta5_digitizer_expoints`).
+
+Der Digitizer kann auch über einen Lua- oder Beduino-Controller konfiguriert und gestartet werden.
+
+Hier sind die zusätzlichen Kommandos für den Lua-Controller:
+
+- `on` / `off` - Digitizer starten oder stoppen
+- `state` - Aktuellen Zustand abfragen (z.B. "running", "stopped")
+- `pull` - Im Pull-Modus starten; zieht Items aus der benachbarten Kiste
+- `push` - Im Push-Modus starten; schiebt gespeicherte Items in die benachbarte Kiste
+- `stop` - Digitizer stoppen
+- `config` setzt den Ziel-Item-Typ (stoppt den Digitizer zuerst).
+  Beispiel: `$send_cmnd(NUM, "config", "default:stone")`
+- `count` fragt die Gesamtanzahl der gespeicherten Items ab.
+  Beispiel: `$send_cmnd(NUM, "count")` gibt eine Zahl zurück
+- `itemstring` fragt den konfigurierten Item-Typ ab.
+  Beispiel: `$send_cmnd(NUM, "itemstring")` gibt den Item-Namen zurück
+- `mode` liest oder setzt den Betriebsmodus (1 = pull, 2 = push).
+  Beispiel: `$send_cmnd(NUM, "mode")` gibt 1 oder 2 zurück
+  Beispiel: `$send_cmnd(NUM, "mode", 2)` setzt Push-Modus
+
+Beduino-Themen (cmnd): 65 = Item-Typ setzen, 67 = Modus setzen (1=pull, 2=push)
+Beduino-Themen (request): 154 = Gesamt-Item-Anzahl, 155 = konfigurierter Item-Typ
+
+[ta5_digitizer|image]
+
+### TA5 Steuereinheit
+
+Die TA5 Steuereinheit wird für die Herstellung des TA5 Digitizers benötigt. Sie kann nur an der TA4-Elektronikfabrik hergestellt werden und erfordert 50 Erfahrungspunkte.
+
+[ta5_controlunit|image]
+
+### TA5 SSD
+
+Die TA5 SSD ist ein Zwischenprodukt, das für die Herstellung des TA5 Digitizers benötigt wird. Sie kann nur an der TA4-Elektronikfabrik aus 16 TA4 RAM-Chips, 1 TA4 Silizium-Wafer, 1 Kunststoffplatte und 1 Stahlstreifen hergestellt werden.
+
+[ta5_ssd|image]
 
 ## Weitere TA5 Blöcke/Items
 

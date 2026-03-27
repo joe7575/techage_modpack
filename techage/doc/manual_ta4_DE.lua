@@ -36,13 +36,16 @@ return {
     "2,ICTA Controller",
     "3,TA4 ICTA Controller",
     "3,Batterie",
-    "3,TA4 Display",
-    "3,TA4 Display XL",
     "3,TA4 Signal Tower",
     "2,TA4 Lua Controller",
     "3,TA4 Lua Server",
     "3,TA4 Sensor Kiste/Chest",
     "3,TA4 Lua Controller Terminal",
+    "2,TA4 Displays",
+    "3,TA4 Display",
+    "3,TA4 Display XL",
+    "3,TA4 Display II",
+    "3,TA4 Display II XXL",
     "2,TA4 Logik-/Schalt-Module",
     "3,TA4 Taster/Schalter / Button/Switch",
     "3,TA4 2x Taster / 2x Button",
@@ -57,7 +60,8 @@ return {
     "3,TA4 Blicksensor / Gaze Sensor",
     "3,TA4 Sequenzer",
     "2,Move/Dreh-Controller",
-    "3,TA4 Move Controller",
+    "3,TA4 Move Controller (Veraltet)",
+    "3,TA4 Move Controller II",
     "3,TA4 Drehcontroller / Turn Controller",
     "2,TA4 Lampen",
     "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
@@ -102,11 +106,11 @@ return {
     "\n",
     "Eine Windkraftanlage liefern immer dann Strom\\, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind\\, aber die Mod simuliert dies dadurch\\, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen. Eine Windkraftanlage liefert nur dann Strom\\, wenn sie an einer geeigneten Stelle aufgestellt ist.\n"..
     "\n"..
-    "Die TA Windkraftanlagen sind reine Offshore Anlagen\\, das heißt\\, die müssen im Meer errichtet werden. Dies bedeutet\\, dass Windkraftanlagen nur in einem Meer (occean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.\n"..
+    "Die TA Windkraftanlagen sind reine Offshore Anlagen\\, das heißt\\, die müssen im Meer errichtet werden. Dies bedeutet\\, dass Windkraftanlagen nur in einem Meer (ocean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.\n"..
     "\n"..
     "Um eine geeignete Stelle zu finden\\, musst du mit dem Schraubenschlüssel (TechAge Info Werkzeug)  auf das Wasser klicken. Ob diese Stelle für den Mast der Windkraftanlage geeignet ist\\, wird dir als Chat Nachricht angezeigt.\n"..
     "\n"..
-    "Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke \"verputzen\". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.\n"..
+    "Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcken \"verputzen\". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.\n"..
     "\n"..
     "Die Windkraftanlage liefert eine Leistung von 70 ku\\, aber dies nur 8 Stunden am Tag (siehe oben).\n"..
     "\n"..
@@ -125,14 +129,14 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt sondern müssen mit Hilfe der Kelle gesetzt werden\\, so dass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).\n"..
+    "Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt\\, sondern müssen mithilfe der Kelle gesetzt werden\\, sodass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).\n"..
     "\n"..
     "\n"..
     "\n",
     "Die Solaranlage produziert nur Strom\\, wenn die Sonne scheint. Im Spiel ist das jeder Spieltag von morgens 6:00 bis abends 18:00.\n"..
     "In dieser Zeit steht immer die gleiche Leistung zur Verfügung. Nach 18:00 schalten die Solarmodule komplett ab.\n"..
     "\n"..
-    "Für die Leistung der Solarmodule ist die Biome Temperatur entscheidend. Je heißer die Temperatur\\, um so höher der Ertrag.\n"..
+    "Für die Leistung der Solarmodule ist die Biomtemperatur entscheidend. Je größer die Temperatur\\, umso höher der Ertrag.\n"..
     "Die Biome Temperatur kann mit dem Techage Info Tool (Schraubenschlüssel) bestimmt werden. Sie schwankt typischerweise zwischen 0 und 100:\n"..
     "\n"..
     "  - bei 100 steht die volle Leistung zur Verfügung\n"..
@@ -155,7 +159,7 @@ return {
     "\n",
     "Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.\n"..
     "Im Paar leisten die Solarmodule bis 3 ku\\, je nach Temperatur.\n"..
-    "Bei den Solarmodul muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).\n"..
+    "Bei den Solarmodulen muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -215,7 +219,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
+    "Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damit die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
     "\n"..
     "Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!\n"..
     "\n"..
@@ -262,18 +266,18 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.\n"..
+    "Wasser kann mittels Elektrolyse unter Verwendung von Strom in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.\n"..
     "Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.\n"..
     "\n"..
-    "Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
+    "Im Spiel kann Strom mit Hilfe des Elektrolyseurs und Wasser in Wasserstoff umgewandelt werden. Dieser Wasserstoff kann dann über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
     "Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert\\, sonder mit dem Tankwagen auch transportiert werden.\n"..
     "\n"..
     "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 95 Einheiten Strom wieder raus.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Der Elektrolyseur wandelt Strom in Wasserstoff um.\n"..
-    "Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.\n"..
+    "Der Elektrolyseur wandelt Strom und Wasser in Wasserstoff um.\n"..
+    "Es muss von links mit Strom versorgt werden. Wasser muss über Röhren zugeführt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.\n"..
     "\n"..
     "Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
     "In den Elektrolyseur passen 200 Einheiten Wasserstoff.\n"..
@@ -346,7 +350,7 @@ return {
     "\n",
     "Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.\n"..
     "\n"..
-    "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechst für das primäre Ausgabeprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
+    "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechts für das primäre Ausgabeprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -375,7 +379,7 @@ return {
     "\n"..
     "Der Controller prüft diese Regeln zyklisch. Dazu muss pro Regel eine Zykluszeit in Sekunden ('Cycle/s') angegeben werden (1..1000). \n"..
     "\n"..
-    "Für Regeln die einen on/off Eingang auswerten\\, bspw. von einen Schalter oder Detektor\\, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet\\, dass diese Regel immer dann ausgeführt werden soll\\, wenn sich das Eingangssignal geändert hat\\, also bspw. der Button einen neuen Wert gesendet hat.\n"..
+    "Für Regeln die einen on/off Eingang auswerten\\, bspw. von einem Schalter oder Detektor\\, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet\\, dass diese Regel immer dann ausgeführt werden soll\\, wenn sich das Eingangssignal geändert hat\\, also bspw. der Button einen neuen Wert gesendet hat.\n"..
     "\n"..
     "Alle Regeln sollten nur so oft wie notwendig ausgeführt werden. Dies hat zwei Vorteile:\n"..
     "\n"..
@@ -389,22 +393,6 @@ return {
     "\n"..
     "\n",
     "Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden\\, also an einer der 26 Positionen um den Controller herum.\n"..
-    "\n"..
-    "\n"..
-    "\n",
-    "Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.\n"..
-    "\n"..
-    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
-    "\n"..
-    "Das Display wird maximal ein mal pro Sekunde aktualisiert.\n"..
-    "\n"..
-    "\n"..
-    "\n",
-    "Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.\n"..
-    "\n"..
-    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
-    "\n"..
-    "Das Display wird maximal alle zwei Sekunden aktualisiert.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -441,6 +429,65 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Techage bietet verschiedene Displays\\, die zur Anzeige von Texten genutzt werden können. Die Displays können bspw. über den Lua Controller\\,\n"..
+    "aber auch über den ICTA Controller\\, oder über das TA3 Terminal angesprochen werden.\n"..
+    "\n"..
+    "  - TA4 Display / TA4 Display XL: Anzeige von 5 Textzeilen in Proportionalschrift. Durch die flexible Zeichenbreite können unterschiedlich viele Zeichen pro Zeile dargestellt werden.\n"..
+    "  - TA4 Display II / TA4 Display II XXL: Anzeige von bis zu 20 Textzeilen in Festbreitenschriften. Die maximal darstellbare Zeichenanzahl pro Zeile ist hier fest definiert.\n"..
+    "\n"..
+    "Alle Displays zeigen nach dem Platzieren eine Nummer an. Über diese Nummer können die Displays angesprochen werden. Alle Displays besitzen dazu die gleichen Kommandos.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung im BASIC-Mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              ' Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              ' letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung durch den Lua Controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              -- Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              -- letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen darstellen kann.\n"..
+    "\n"..
+    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
+    "\n"..
+    "Das Display wird maximal ein mal pro Sekunde aktualisiert.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Das TA4 Display XL hat die doppelte Größe wie das TA4 Display.\n"..
+    "\n"..
+    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
+    "\n"..
+    "Das Display wird maximal alle zwei Sekunden aktualisiert.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Das Display ist flexibel konfigurierbar. Über das Schraubenschlüssel-Menü können die Anzahl der Zeilen und Zeichen pro Zeile\\,\n"..
+    "sowie die Text- und Hintergrundfarbe eingestellt werden:\n"..
+    "\n"..
+    "  - Die Bildschirmauflösung kann im Bereich von 16x8 bis 40x20 Zeichen x Zeilen eingestellt werden.\n"..
+    "  - Die Textfarbe kann als Farbcode im Bereich von 0 bis 63 eingestellt werden.\n"..
+    "  - Die Hintergrundfarbe kann ebenfalls als Farbcode im Bereich von 0 bis 63 eingestellt werden.\n"..
+    "\n"..
+    "Das Chat-Kommando `/ta_color64' zeigt die Farbpallette mit den Farbcodes an.\n"..
+    "\n"..
+    "Die Updaterate des Displays ist direkt abhängig von der Auflösung und beträgt eine Sekunde bei 16x8 und ca. 6 Sekunden bei 40x20.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Für das XXL Display gelten die gleichen Einstellungen wie für das Display II. Das XXL Display hat aber die 9-fache Größe des Display II\n"..
+    "und besteht daher aus einem zentralem \"TA4 Display II XXL innen\" Block und weiteren 8 \"TA4 Display II XXL außen\" Blöcken\\, die\n"..
+    "entsprechend um den zentralen Block platziert werden müssen.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "",
     "Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter. Mit dem Schraubenschlüssel-Menü können die Daten aber nachträglich geändert werden.\n"..
     "\n"..
@@ -473,6 +520,7 @@ return {
     "\n"..
     "\n",
     "Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Spieler Detektor.\n"..
+    "Zusätzlich kann der Suchradius über das Schraubenschlüsselmenü konfiguriert werden. Der Radius kann auf 1 bis 8 Blöcke eingestellt werden (Standard: 4).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -510,9 +558,9 @@ return {
     "über den TA4 Sequenzer können ganze Abläufe programmiert werden. Hier ein Beispiel:\n"..
     "\n"..
     "    -- this is a comment\n"..
-    "    \\[1\\] send 1234 a2b\n"..
-    "    \\[30\\] send 1234 b2a\n"..
-    "    \\[60\\] goto 1\n"..
+    "    \\[1\\] send 188 reset\n"..
+    "    \\[50\\] send 188 moveto 771\\,19\\,-280\n"..
+    "    \\[100\\] goto 1\n"..
     "\n"..
     "  - Jede Zeile beginnt mit einem Nummer\\, welche einem Zeitpunkt entspricht '\\[<num>\\]'\n"..
     "  - Für Zeitpunkte sind Werte von 1 bis 50000 zulässig\n"..
@@ -541,10 +589,10 @@ return {
     "Anleitung:\n"..
     "\n"..
     "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü (Taste \"Aufzeichnen\") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
-    "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)\n"..
-    "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
-    "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
-    "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
+    "  - Die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)\n"..
+    "  - Mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
+    "  - Man kann auch durch Wände oder andere Blöcke fliegen\n"..
+    "  - Die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
     "\n"..
     "Der Move Controller unterstützt folgende techage Kommandos:\n"..
     "\n"..
@@ -562,7 +610,32 @@ return {
     "\n"..
     "  - Sofern mehrere Blöcke bewegt werden sollen\\, muss der Block\\, der die Spieler/Mobs mitnehmen soll\\, beim Antrainieren als erstes angeklickt werden.\n"..
     "  - Wird das 'moveto' Kommando genutzt\\, so gilt die angegebene Zielposition für den Block\\, der beim Antrainieren als erstes angeklickt wird.\n"..
-    "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
+    "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5).\nAnsonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Der TA4 Move Controller II ist eine Weiterentwicklung des TA4 Move Controllers. Er kann bis zu 16 Blöcke bewegen und unterstützt nur noch die 'moveto' und 'reset' Kommandos.\n"..
+    "Außerdem besitzt er ein Inventar\\, in dem die Blöcke gespeichert werden\\, sofern sie nicht platziert werden können\\, da die Position bereits belegt ist.\n"..
+    "Im Falle eines Server-Crashs oder eines Neustarts können die Blöcke ggf. aus dem Inventar wiederhergestellt werden.\n"..
+    "\n"..
+    "Anleitung:\n"..
+    "\n"..
+    "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü (Taste \"Aufzeichnen\") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+    "  - Mit den Menü-Tasten \"Teste Bewegung\" sowie \"Rücksetzen\" kann die Bewegung getestet werden\n"..
+    "  - Man kann auch durch Wände oder andere Blöcke fliegen\n"..
+    "  - Die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle im Block-Inventar gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
+    "\n"..
+    "Der Move Controller II unterstützt folgende techage Kommandos:\n"..
+    "\n"..
+    "  - 'moveto' verschiebt Block an die angegebene Zielposition (die Zielposition bezieht sich auf den ersten markierten Block\\, die weiteren Blöcke werden relativ zu dieser Position verschoben)\n"..
+    "  - 'reset' Block/Blöcke zurück in Startposition bewegen\n"..
+    "\n"..
+    "Beispiel Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"moveto\"\\, \"1234\\,12\\,-567\")'\n"..
+    "\n"..
+    "*Wichtige Hinweise:*\n"..
+    "\n"..
+    "  - Sofern mehrere Blöcke bewegt werden sollen\\, bezieht sich die angegebene Zielposition auf den Block\\, der beim Antrainieren als erstes angeklickt wurde.\nDie anderen Blöcke werden relativ zu dieser Position verschoben.\n"..
+    "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5).\nAnsonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -788,7 +861,7 @@ return {
     "Hier die zusätzlichen Kommandos für den Lua Controller:\n"..
     "\n"..
     "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\nMit '$send_cmnd(1234\\, \"config\"\\, \"\")' wird die Konfiguration gelöscht\n"..
-    "  - 'limit' dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:\nBeispiel: '$send_cmnd(1234\\, \"init\"\\, 7)'\n"..
+    "  - 'limit' dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:\nBeispiel: '$send_cmnd(1234\\, \"limit\"\\, 7)'\n"..
     "\n"..
     "\n"..
     "\n",
@@ -798,7 +871,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
+    "Die TA4 8x2000 Kiste hat kein normales Inventar wie andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
     "\n"..
     "Wird die Kiste mit einem Schieber gefüllt\\, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden\\, so werden weitere Items werden abgewiesen.\n"..
     "\n"..
@@ -927,13 +1000,16 @@ return {
     "ta4_icta_controller",
     "ta4_icta_controller",
     "ta4_battery",
-    "ta4_display",
-    "ta4_displayXL",
     "ta4_signaltower",
     "ta4_lua_controller",
     "ta4_lua_server",
     "ta4_sensor_chest",
     "ta4_terminal",
+    "ta4_display2",
+    "ta4_display",
+    "ta4_displayXL",
+    "ta4_display2",
+    "ta4_displayXXL",
     "",
     "ta4_button",
     "ta4_button_2x",
@@ -949,6 +1025,7 @@ return {
     "ta4_sequencer",
     "",
     "ta4_movecontroller",
+    "ta4_movecontroller2",
     "ta4_turncontroller",
     "",
     "ta4_growlight",
@@ -1014,6 +1091,10 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",

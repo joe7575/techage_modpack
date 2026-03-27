@@ -244,7 +244,7 @@ signs_bot.register_botcommand("pickup_items", {
 	cmnd = function(base_pos, mem, slot)
 		slot = tonumber(slot) or 0
 		local pos = lib.dest_pos(mem.robot_pos, mem.robot_param2, {0,0})
-		for _, object in pairs(minetest.get_objects_inside_radius(pos, 2)) do
+		for _, object in pairs(minetest.get_objects_inside_radius(pos, 2.5)) do
 			local lua_entity = object:get_luaentity()
 			if not object:is_player() and lua_entity and lua_entity.name == "__builtin:item" then
 				local item = ItemStack(lua_entity.itemstring)

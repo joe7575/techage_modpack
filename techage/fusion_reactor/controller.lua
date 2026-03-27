@@ -70,7 +70,7 @@ sched.register(tSched, CALL_RATE1, 1, function(pos, outdir)
 		local resp = control.request(pos, Cable, outdir, "con", "test_plasma")
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECTED_PLASMA_NUM then
-			return S("Plasma ring shape error")
+			return S("Plasma ring shape error\n(@1% found / 100% expected)", math.floor(cnt * 100 / EXPECTED_PLASMA_NUM))
 		end
 		return true
 	end)
@@ -79,7 +79,7 @@ sched.register(tSched, CALL_RATE1, 2, function(pos, outdir)
 		local resp = control.request(pos, Cable, outdir, "con", "test_shell")
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECTED_SHELL_NUM then
-			return S("Shell shape error\n(@1% found / 100% expected)", math.floor(cnt* 100 / EXPECTED_SHELL_NUM))
+			return S("Shell shape error\n(@1 of @2 magnets OK)", cnt, EXPECTED_SHELL_NUM)
 		end
 		return true
 	end)
@@ -94,7 +94,7 @@ sched.register(tSched, CALL_RATE2, 4, function(pos, outdir)
 		local cnt = count_trues(resp)
 		--print("inc_power", cnt)
 		if cnt < 52 then
-			return S("Cooling failed")
+			return S("Cooling failed\n(@1 found / @2 expected)", cnt, 52)
 		end
 		return true
 	end)
@@ -195,10 +195,12 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 
+	local nvm = techage.get_nvm(pos)
 	if techage.get_expoints(player) >= EX_POINTS then
-		local nvm = techage.get_nvm(pos)
 		State:state_button_event(pos, nvm, fields)
-		--M(pos):set_string("formspec", formspec(State, pos, nvm))
+	else
+		State:fault(pos, nvm, S("Ex-points missing (@1 < @2)", techage.get_expoints(player), EX_POINTS))
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
 end
 
@@ -259,6 +261,7 @@ minetest.register_node("techage:ta5_fr_controller_act", {
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	drop = "",
+	diggable = false,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })

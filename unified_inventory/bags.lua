@@ -2,7 +2,8 @@
 Bags for Minetest
 
 Copyright (c) 2012 cornernote, Brett O'Donnell <cornernote@gmail.com>
-License: GPLv3
+Relicensed under LGPL 2 (from GPLv3) as permitted by cornernote (2026-03-14).
+Approval: https://github.com/minetest-mods/unified_inventory/issues/266#issuecomment-4060493213
 --]]
 
 local S = minetest.get_translator("unified_inventory")
@@ -17,7 +18,6 @@ ui.register_page("bags", {
 			perplayer_formspec.standard_inv_bg,
 			"label[", perplayer_formspec.form_header_x, ",",
 				perplayer_formspec.form_header_y, ";", F(S("Bags")), "]",
-			"listcolors[#00000000;#00000000]",
 		}
 
 		for i = 1, 4 do
@@ -62,15 +62,16 @@ for bag_i = 1, 4 do
 				header_y = perplayer_formspec.form_header_y
 			end
 
+			-- TODO: Add a scroll container
+			local bag_rows = math.ceil(slots / 8)
 			local formspec = {
 				perplayer_formspec.standard_inv_bg,
-				ui.make_inv_img_grid(std_inv_x, bag_inv_y, 8, slots/8),
 				"label[", header_x, ",", header_y, ";", F(S("Bag @1", bag_i)), "]",
-				"listcolors[#00000000;#00000000]",
-				"listring[current_player;main]",
-				string.format("list[current_player;bag%icontents;%f,%f;8,3;]",
-				    bag_i, std_inv_x + ui.list_img_offset, bag_inv_y + ui.list_img_offset),
+				ui.make_inv_img_grid(std_inv_x, bag_inv_y, 8, bag_rows),
+				string.format("list[current_player;bag%icontents;%f,%f;8,%d;]",
+				    bag_i, std_inv_x + ui.list_img_offset, bag_inv_y + ui.list_img_offset, bag_rows),
 				"listring[current_name;bag", bag_i, "contents]",
+				"listring[current_player;main]",
 			}
 
 			if lite_mode then

@@ -209,6 +209,33 @@ function techage.rotate_wallmounted(param2)
 	return offs + rot
 end
 
+-- Returns true if ver1 is newer or equal to ver2
+function techage.newer_or_equal(ver1, ver2)
+    local t1 = {}
+    local t2 = {}
+    for i in string.gmatch(ver1, "%d+") do
+        table.insert(t1, tonumber(i))
+    end
+    for i in string.gmatch(ver2, "%d+") do
+        table.insert(t2, tonumber(i))
+    end
+    for i = 1, math.max(#t1, #t2) do
+        if t1[i] == nil then
+            t1[i] = 0
+        end
+        if t2[i] == nil then
+            t2[i] = 0
+        end
+        if t1[i] > t2[i] then
+            return true
+        elseif t1[i] < t2[i] then
+            return false
+        end
+    end
+    return true
+end
+
+
 function techage.in_range(val, min, max)
 	val = tonumber(val)
 	if val < min then return min end
@@ -282,6 +309,19 @@ function techage.is_air_like(name)
 	return false
 end
 
+-- everness oill drilling fix
+local GroundNodes = {}
+if minetest.get_modpath("everness") then
+	minetest.register_on_mods_loaded(function()
+		for _, item in pairs(core.registered_ores) do
+			GroundNodes[item.ore] = true
+			if item.wherein then
+				GroundNodes[item.wherein] = true
+			end
+		end
+	end)
+end
+
 -- returns true, if node can be dug, otherwise false
 function techage.can_dig_node(name, ndef)
 	if not ndef then return false end
@@ -302,6 +342,18 @@ function techage.can_dig_node(name, ndef)
 		return true
 	end
 	if ndef.buildable_to == true then
+		SimpleNodes[name] = true
+		return true
+	end
+	-- everness oill drilling fix
+	if minetest.get_modpath("everness") then
+		if GroundNodes[name] then
+			SimpleNodes[name] = true
+			return true
+		end
+	end
+	-- underch oil drilling fix
+	if ndef.groups['jit_shadow'] == 1 then
 		SimpleNodes[name] = true
 		return true
 	end
@@ -329,6 +381,11 @@ function techage.register_simple_nodes(node_names, is_valid)
 	for _,name in ipairs(node_names or {}) do
 		SimpleNodes[name] = is_valid
 	end
+end
+
+
+function techage.node_is_ore(name)
+	return Ores[name]
 end
 
 techage.dig_states = {

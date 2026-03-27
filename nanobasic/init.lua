@@ -197,7 +197,7 @@ end
 -- @param number: push number on the parameter stack
 function nanobasic.push_num(pos, number)
 	local hash = nblib.hash_node_position(pos)
-	return VMList[hash] and nblib.push_num(VMList[hash], number)
+	return VMList[hash] and nblib.push_num(VMList[hash], number or 0)
 end
 
 -- @param pos: node position

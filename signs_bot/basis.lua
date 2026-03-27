@@ -53,7 +53,16 @@ function signs_bot.bot_inv_put_item(pos, slot, items)
 	else
 		for idx = 1,8 do
 			local name = inv:get_stack("filter", idx):get_name()
-			if name == "" or name == items:get_name() then
+			if name == items:get_name() then
+				local stack = inv:get_stack("main", idx)
+				items = stack:add_item(items)
+				inv:set_stack("main", idx, stack)
+				if items:get_count() == 0 then return items end
+			end
+		end
+		for idx = 1,8 do
+			local name = inv:get_stack("filter", idx):get_name()
+			if name == "" then
 				local stack = inv:get_stack("main", idx)
 				items = stack:add_item(items)
 				inv:set_stack("main", idx, stack)
@@ -212,6 +221,7 @@ local function reset_robot(pos, mem)
 	mem.robot_pos = lib.next_pos(pos, mem.robot_param2, 1)
 	local pos_below = {x=mem.robot_pos.x, y=mem.robot_pos.y-1, z=mem.robot_pos.z}
 	signs_bot.place_robot(mem.robot_pos, pos_below, mem.robot_param2)
+	mem.error = false
 end
 
 function signs_bot.start_robot(base_pos)
@@ -242,6 +252,7 @@ function signs_bot.stop_robot(base_pos, mem)
 	local meta = M(base_pos)
 	if mem.signal_request ~= true then
 		mem.running = false
+		mem.error = false
 		if minetest.global_exists("techage") then
 			minetest.get_node_timer(base_pos):start(CYCLE_TIME2)
 			mem.charging = true

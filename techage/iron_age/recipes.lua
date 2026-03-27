@@ -38,6 +38,28 @@ minetest.register_craftitem("techage:iron_ingot", {
 	use_texture_alpha = techage.CLIP,
 })
 
+minetest.register_node('techage:iron_block', {
+	description = S('TA1 Iron Block'),
+	tiles = {'techage_iron_block.png'},
+	is_ground_content = false,
+	groups = { cracky = 1 },
+	sounds = default.node_sound_metal_defaults()
+})
+
+minetest.register_craft({
+  output = 'techage:iron_block 1',
+	recipe = {
+		{'techage:iron_ingot','techage:iron_ingot','techage:iron_ingot'},
+		{'techage:iron_ingot','techage:iron_ingot','techage:iron_ingot'},
+		{'techage:iron_ingot','techage:iron_ingot','techage:iron_ingot'},
+	}
+})
+
+minetest.register_craft({
+  output = 'techage:iron_ingot 9',
+	recipe = {{'techage:iron_block'}}
+})
+
 local function check_protection(pos, name, text)
 	if minetest.is_protected(pos, name) then
 		minetest.log("action", (name ~= "" and name or "A mod")
@@ -155,12 +177,6 @@ if techage.modified_recipes_enabled then
 	})
 	minetest.clear_craft({output = "fire:flint_and_steel"})
 	minetest.clear_craft({output = "bucket:bucket_empty"})
-	if minetest.global_exists("moreores") then
-		minetest.clear_craft({
-			recipe = "moreores:silver_lump",
-			type = "cooking",
-		})
-	end
 
 	techage.ironage_register_recipe({
 		output = "default:bronze_ingot 4",

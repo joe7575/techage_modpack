@@ -254,7 +254,7 @@ minetest.register_node("towercrane:base", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
-	sounds = default.node_sound_metal_defaults(),
+	sounds = xcompat.sounds.node_sound_metal_defaults(),
 	is_ground_content = false,
 	groups = {cracky=2},
 
@@ -402,9 +402,9 @@ if towercrane.recipe then
 	minetest.register_craft({
 		output = "towercrane:base",
 		recipe = {
-			{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
-			{"default:steel_ingot", "", ""},
-			{"default:steel_ingot", "dye:yellow", ""}
+			{xcompat.materials.steel_ingot, xcompat.materials.steel_ingot, xcompat.materials.steel_ingot},
+			{xcompat.materials.steel_ingot, "", ""},
+			{xcompat.materials.steel_ingot, xcompat.materials.dye_yellow, ""}
 		}
 	})
 end

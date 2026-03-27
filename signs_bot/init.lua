@@ -15,7 +15,7 @@
 signs_bot = {}
 
 -- Version for compatibility checks, see readme.md/history
-signs_bot.version = 1.13
+signs_bot.version = 1.14
 
 -- Test for MT 5.4 new string mode
 signs_bot.CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true

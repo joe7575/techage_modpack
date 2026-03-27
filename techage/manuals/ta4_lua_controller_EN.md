@@ -21,7 +21,6 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
   - [Table of Contents](#table-of-contents)
   - [TA4 Lua Controller Blocks](#ta4-lua-controller-blocks)
     - [TA4 Lua Controller](#ta4-lua-controller-1)
-    - [Battery](#battery)
     - [TA4 Lua Server](#ta4-lua-server)
     - [TA4 Lua Controller Terminal](#ta4-lua-controller-terminal)
     - [TA4 Sensor Chest](#ta4-sensor-chest)
@@ -35,6 +34,7 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
       - [Initialization](#initialization)
       - [Cyclic Task](#cyclic-task)
       - [Events](#events)
+      - [Credit-based Runtime Environment](#credit-based-runtime-environment)
   - [Lua Controller Functions](#lua-controller-functions)
     - [Controller local Functions](#controller-local-functions)
       - [Input Example](#input-example)
@@ -67,14 +67,6 @@ The controller block has a menu form with the following tabs:
 - the `outp` tab for debugging outputs via `$print()`
 - the `notes` tab for your code snippets or other notes (like a clipboard)
 - the `help` tab with information to the available functions
-
-The controller needs power to work. A battery pack has to be placed nearby.
-
-### Battery
-
-The battery pack has to be placed near the controller (1 block distance).
-The needed battery power is directly dependent on the CPU time the controller consumes.
-Because of that, it is important to optimize the execution time of the code (which helps the admin to keep server lags down :))
 
 The controller will be restarted (init() is called) every time the Minetest server starts again.
 To store data non-volatile (to pass a server restart), the "TA4 Lua Server" block has to be used.
@@ -155,6 +147,12 @@ For own function definitions, the menu tab 'func' can be used. Here you write yo
 function foo(a, b)
     return a + b
 end
+```
+
+Don't forget to add the '$' sign before the function name in the main code block:
+
+```lua
+$foo(1, 2)
 ```
 
 Each SaferLua program has access to the following system variables:
@@ -331,6 +329,11 @@ end
 
 The first occurred event will directly be processed, further events may be delayed. The TA4 Lua Controller allows a maximum of one event every 100 ms.
 
+#### Credit-based Runtime Environment
+
+The TA4 Lua Controller uses a credit-based runtime environment. Each Lua instruction consumes a certain amount of credits. The credits are refilled every loop cyle (normally every second) with an amount of 10 credits. The maximum amount of credits is limited to 100. If the credits are used up, the Lua program is paused until the credits are refilled. The credits are used for all Lua instructions, including the execution of the `events` and `loops` functions.
+
+The former used time-based runtime environment is still available, but only used to prevent endless loops.
 
 ## Lua Controller Functions
 
@@ -364,10 +367,18 @@ Please note, that this is not a technical distinction, only a logical.
 
 **Reading data**
 
+- _num_ is the number of the remote block, like "1234"
 - _ident_ specifies the data to be read. 
 -  _add_data_ is for additional data and normally not needed. 
 -  The result is block dependent (see table below)
 
+Example:
+
+```Lua
+$print($send_cmnd("1234", "state"))  -- read the state of the block with the number "1234"
+
+> stopped
+```
 
 | ident         | returned data                                                | comment                                                      |
 | ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -385,7 +396,8 @@ Please note, that this is not a technical distinction, only a logical.
 | "action"      | player-name, action-string                                   | Only for Sensor Chests                                       |
 | "stacks"      | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
 | "count"       | number                                                       | Read the item counter of the TA4 Item Detector block         |
-| "count"       | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
+| "count"       | number of items                                              | Read the total amount of TA4 (8x2000) chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
+| "count"       | number of items                                              | Read the number of items in the TA3/TA4/TA5 Chest or shop.<br /> `add_data` is the name or a substring of the item name.<br />Example: s = $send_cmnd("223", "count", "dirt") |
 | "count"       | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
 | "count"       | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
 | "itemstring"  | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
@@ -396,6 +408,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "consumption" | number                                                       | TA4 Electric Meter: Amount of electrical energy passed through |
 | "countdown"   | number                                                       | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
 | "current"     | number                                                       | TA4 Electric Meter: Current flow of electricity (current)    |
+| "get"         | state (1 = Initial state, 2 = Exchange state)                | TA3 Door Controller II: State of the specified inventory slot. The number is provided as `add_data` |
 
 
 
@@ -404,6 +417,12 @@ Please note, that this is not a technical distinction, only a logical.
 - _num_ is the number of the remote block, like "1234"
 - _cmnd_ is the command
 - _data_ is additional data (see table below)
+
+Example:
+
+```lua
+$send_cmnd("1234", "on")  -- turn on the block with the number "1234"
+```
 
 | cmnd                             | data         | comment                                                      |
 | -------------------------------- | ------------ | ------------------------------------------------------------ |
@@ -418,15 +437,16 @@ Please note, that this is not a technical distinction, only a logical.
 | "limit"                       | number | Configure a TA4 Pusher with the number of items that are allowed to be pushed ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
 | "limit" | number | Configure a TA4 Pump with the number of liquid units that are allowed to be pumped ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
 | "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |
-| "exchange" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Exchange a block<br />*idx* is the inventory slot number (1..n) of/for the block to be exchanged |
-| "set" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Set/add a block<br />*idx* is the inventory slot number (1..n) with the block to be set |
-| "dig" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Dig/remove a block<br />*idx* is the empty inventory slot number (1..n) for the block |
+| "exc" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Exchange a block in the world with the block in the inventory. |
+| "to1" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Swap a block in the inventory with the block in the world, provided the position was in state 2 (Exchange state). |
+| "to2" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Swap a block in the inventory with the block in the world, provided the position was in state 1 (Initial state). |
+| "get" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Returns the state of the position, i.e. the values 1 or 2. |
 | "a2b" | nil | TA4 Move Controller command to move the block(s) from position A to B |
 | "b2a" | nil | TA4 Move Controller command to move the block(s) from position B to A |
 | "move" | nil | TA4 Move Controller command to move the block(s) to the opposite position |
 | "move2" | x,y,z | TA4 Move Controller command to move the block(s) by the given<br /> x/y/z-distance. Valid ranges for x, y, and z are -100 to 100.<br />Example: `$send_cmnd("1674", "move2", "0,4,0")` |
-| "moveto" | x,y,z | TA4 Move Controller command to move the block(s) to the given<br /> absolute x/y/z-position. |
-| "reset" | nil | Reset TA4 Move Controller (move block(s) to start position) |
+| "moveto" | x,y,z | TA4 Move Controller / TA4 Move Controller II  command to move the block(s) to the given<br /> absolute x/y/z-position. |
+| "reset" | nil | Reset TA4 Move Controller / TA4 Move Controller II  (move block(s) to start position) |
 | "left" | nil | TA4 Turn Controller command to turn the block(s) to the left |
 | "right" | nil | TA4 Turn Controller command to turn the block(s) to the right |
 | "uturn" | nil | TA4 Turn Controller command to turn the block(s) 180 degrees |

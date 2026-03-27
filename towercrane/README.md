@@ -1,4 +1,5 @@
 # Tower Crane Mod
+
 In order to simplify the construction of buildings, the crane forms a construction area in which the player gets fly privs.
 
 Browse on: ![GitHub](https://github.com/minetest-mods/towercrane)
@@ -12,6 +13,10 @@ The size of the crane (which is the construction area) and the rope length can b
 
 
 ## Introduction
+
+* Craft the crane base block with 5 steel/iron ingots, filling the top row and leftmost column, 
+  and a yellow dye in the bottom middle slot. The materials may differ between games.
+
 * Place the crane base block.
   The crane arm will later be built in the same direction the player is looking.
 
@@ -22,22 +27,29 @@ The size of the crane (which is the construction area) and the rope length can b
 
 * Right-click the crane switch block to start the crane (get fly privs). The player is placed in front of the crane.
 
+* Right-click the crane switch block to stop the crane and leave the crane area. The player is placed in front of the crane.
+
 * To remove the crane, destroy the base block.  
+
+
+## Dependencies
 
 **Minetest v5.0+ is required!**
 
-## Dependencies
-default  
+xcompat - For recipe & sound compatibility. (The last version without xcompat is `2024-04-26`)
 
 
 # License
+
 Copyright (C) 2017-2020 Joachim Stolberg  
 Code: Licensed under the GNU LGPL version 2.1 or later. See LICENSE.txt and http://www.gnu.org/licenses/lgpl-2.1.txt  
 Textures: Mostly CC0 (by Ammoth)
 
- * `morelights_extras_blocklight.png`: CC BY-SA 4.0 (by random-geek)
+* `morelights_extras_blocklight.png`: CC BY-SA 4.0 (by random-geek)
+
 
 # History:
+
 * 2017-06-04  v0.01  first version
 * 2017-06-06  v0.02  Hook bugfix
 * 2017-06-07  v0.03  fixed 2 bugs, added config.lua and sound
@@ -60,3 +72,5 @@ Textures: Mostly CC0 (by Ammoth)
 * 2019-12-03  v2.1 Bugfix issue #2 (Some players still have "fly" after detaching)
 * 2020-01-03  V2.2 dying player bugfix (when fly mode is disabled)
 * 2020-03-16  V2.3 switched to 16 bit textures (by tuedel/Ammoth) and crane upright time increased to 5 real days
+* Further updates: https://github.com/minetest-mods/towercrane/commits/master/
+

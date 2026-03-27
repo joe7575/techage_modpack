@@ -57,6 +57,7 @@ return {
     "3,TA3 Sequencer",
     "3,TA3 Timer",
     "3,TA3 Terminal",
+    "3,TA3 CRT Monitor",
     "3,TechAge Color Lamp",
     "3,Door/Gate Blocks",
     "3,TA3 Door Controller",
@@ -79,13 +80,14 @@ return {
     "3,TA3 Gravel Rinser",
     "3,TA3 Grinder",
     "3,TA3 Injector",
+    "3,TA3 Observation Window",
     "2,Tools",
     "3,Techage Info Tool",
     "3,TechAge Programmer",
     "3,TechAge Trowel / Trowel",
     "3,TA3 drill pipe wrench",
     "3,Techage Screwdriver",
-    "3,TechAge Assembly Tool",
+    "3,TechAge Cordless Screwdriver",
   },
   texts = {
     "At TA3 it is important to replace the steam-powered machines with more powerful and electric-powered machines.\n"..
@@ -98,7 +100,7 @@ return {
     "\n",
     "The coal-fired power plant consists of several blocks and must be assembled as shown in the plan on the right. The blocks TA3 power station fire box\\, TA3 boiler top\\, TA3 boiler base\\, TA3 turbine\\, TA3 generator and TA3 cooler are required.\n"..
     "\n"..
-    "The boiler must be filled with water. Fill up to 10 buckets of water in the boiler.\n"..
+    "The boiler must be filled with water. Fill up to 10 buckets of water in the boiler or connect a liquid pipe to the boiler top to automatically supply water via pump.\n"..
     "The fire box must be filled with coal or charcoal.\n"..
     "When the water is hot\\, the generator can then be started.\n"..
     "\n"..
@@ -125,6 +127,11 @@ return {
     "\n"..
     "\n",
     "Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low\\, the power plant switches off.\n"..
+    "\n"..
+    "The boiler can be filled with water in two ways:\n"..
+    "\n"..
+    "  - Manually by clicking on the boiler top with a water bucket (up to 10 buckets)\n"..
+    "  - Automatically via a liquid pipe connected to the boiler top using a TA3/TA4 pump\n"..
     "\n"..
     "The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.\n"..
     "With the steam engine\\, some water is lost as steam with each piston stroke.\n"..
@@ -575,6 +582,28 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The CRT monitor is available to match the TA3 terminal in BASIC mode. This can display the output of the BASIC program.\n"..
+    "The monitor can also be used as a display for other blocks that output text (e.g. the Lua controller).\n"..
+    "The monitor has a wrench menu that can be used to set the resolution of the monitor and the text color.\n"..
+    "The resolution can be set in the range of 16x8 to 40x20 characters x lines.\n"..
+    "The update rate of the monitor is directly dependent on the resolution and is one second at 16x8 and around 6 seconds at 40x20.\n"..
+    "\n"..
+    "The commands for controlling in BASIC mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Clear the screen with the number 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Text output to the screen in line 'row' (1..n).\n"..
+    "                              ' The value 0 for 'row' means that the text is\n"..
+    "                              ' appended after the last line.\n"..
+    "\n"..
+    "The commands for controlling by means of the Lua controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Clear the screen with the number 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Text output to the screen in line 'row' (1..n).\n"..
+    "                              -- The value 0 for 'row' means that the text is\n"..
+    "                              -- appended after the last line.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes\" and via Lua/Beduino commands.\n"..
     "\n"..
     "With the chat command '/ta_color' the color palette with the values for the Lua/Beduino commands is displayed and with '/ta_send color <num>' the color can be changed.\n"..
@@ -592,21 +621,28 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Exchange\" button. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
+    "The Door Controller II can remove and place many types of blocks. To teach the Door Controller II\\, press the \"Record\" button. Then\\, click on all the blocks that should be part of the door/gate. Then\\, press the \"Done\" button. Up to 16 blocks can be selected.\n"..
     "\n"..
-    "With '$send_cmnd(node_number\\, \"exchange\"\\, 2)' individual blocks can be set\\, removed or replaced by other blocks from the inventory. \n"..
+    "Pressing the \"Exchange\" button removes the blocks from the trained positions and saves them in the controller's inventory.\n"..
     "\n"..
-    "With '$send_cmnd(node_number\\, \"set\"\\, 2)' a block from the inventory can be set explicitly\\, as long as the inventory slot is not empty.\n"..
+    "Blocks can be reassigned to the vacated positions. Pressing the \"Exchange\" button again swaps the blocks with the blocks in the inventory.\n"..
     "\n"..
-    "A block can be removed again with '$send_cmnd(node_number\\, \"dig\"\\, 2)' if the inventory slot is empty. \n"..
+    "Pressing the \"Reset\" button resets all blocks to their initial state after teaching. This completes the teaching phase\\, and the Door Controller II can be controlled via commands.\n"..
     "\n"..
-    "The name of the set block is returned with '$send_cmnd(node_number\\, \"get\"\\, 2)'.\n"..
+    "Each position or slot has two states:\n"..
     "\n"..
-    "The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.\n"..
+    "1) The block is in the world (any existing exchange block is in the inventory) = Initial state\n"..
+    "2) The block is in the inventory (any existing exchange block is in the world) = Exchange state\n"..
     "\n"..
-    "With '$send_cmnd(node_number\\, \"reset\")' the door controller is reset.\n"..
+    "  - Using the 'on' / 'off' command\\, all blocks in the learned positions are swapped with those in the inventory.\n"..
+    "  - Using the 'reset' command\\, all blocks are reset to their initial state after learning.\n"..
     "\n"..
-    "This can also be used to simulate extendable stairs and the like. \n"..
+    "For all subsequent commands\\, the inventory slot number must also be passed as a parameter (1..16).\n"..
+    "\n"..
+    "  - Using the 'exc' command\\, a block in the world is swapped with the block in the inventory.\n"..
+    "  - The 'to1' command swaps a block in the inventory with the block in the world\\, provided the position was in state 2 (Exchange state).\n"..
+    "  - The 'to2' command swaps a block in the world with the block in the inventory\\, provided the position was in state 1 (Initial state).\n"..
+    "  - The 'get' command returns the state of the position\\, i.e. the values 1 or 2.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -716,6 +752,10 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The observation window is a block that functions as a window into a tube. It can be used to make items in tubes visible.\n"..
+    "The window block must be placed between two tubes. Two or more window blocks in a row are not permitted. The item animation\n"..
+    "only occurs when a player is nearby (<=8 blocks). However\\, items are passed regardless of visibility.\n"..
+    "\n",
     "",
     "The Techage Info Tool (open-ended wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
     "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
@@ -746,12 +786,12 @@ return {
     "\n"..
     " \n"..
     "\n",
-    "The TechAge Assembly Tool is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful\\, for example\\, for quarries\\, as they often have to be moved.\n"..
+    "The TechAge Cordless Screwdriver is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful\\, for example\\, for quarries\\, as they often have to be moved.\n"..
     "\n"..
     "  - Left button: Remove a block\n"..
     "  - Right button: Set a block\n"..
     "\n"..
-    "The block that was previously removed with the assembly tool and is to be placed again must be on the far left of the player inventory.\n"..
+    "The block that was previously removed with the Cordless Screwdriver and is to be placed again must be in hotbar slot 1 (the leftmost slot of the hotbar).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -814,6 +854,7 @@ return {
     "ta3_sequencer",
     "ta3_timer",
     "ta3_terminal",
+    "ta3_monitor",
     "ta3_colorlamp",
     "ta3_doorblock",
     "ta3_doorcontroller",
@@ -837,12 +878,13 @@ return {
     "ta3_grinder",
     "ta3_injector",
     "",
+    "",
     "ta3_end_wrench",
     "ta3_programmer",
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",
@@ -892,6 +934,8 @@ return {
     "",
     "",
     "ta3_distiller",
+    "",
+    "",
     "",
     "",
     "",

@@ -1,6 +1,6 @@
 # NanoBasic<!-- omit from toc -->
 
-## Reference Manual<!-- omit from toc -->
+## Reference Manual v1.0.4<!-- omit from toc -->
 
 ## Table of Contents<!-- omit from toc -->
 
@@ -56,10 +56,15 @@
 	- [STR$](#str)
 	- [STRING$](#string)
 	- [TIME](#time)
+	- [DAYTIME](#daytime)
+	- [DAYTIME$](#daytime-1)
 	- [VAL](#val)
 - [Techage Functions](#techage-functions)
 	- [Error Handling](#error-handling)
 	- [Mapblock Loading](#mapblock-loading)
+	- [Hold / Release of techage commands](#hold--release-of-techage-commands)
+	- [HOLD](#hold)
+	- [RELEASE](#release)
 	- [CMD](#cmd)
 	- [CMD$](#cmd-1)
 	- [CHAT](#chat)
@@ -199,7 +204,9 @@ The following table lists the operators in each category:
 |             | *        | Multiplication |
 |             | /        | Division    |
 |             | MOD      | Modulus     |
-|             | ^        | Exponentiation |
+|             | &        | Binary AND  |
+|             | \|       | Binary OR   |
+|             | ^        | Binary XOR  |
 | Relational  | =        | Equal       |
 |             | <>       | Not equal   |
 |             | <        | Less than   |
@@ -225,10 +232,13 @@ The precedence of operators is as follows:
 
 1. Multiplication (*), Division (/), Modulus (MOD)
 2. Addition (+), Subtraction (-)
-3. Relational operators (=, <>, <, <=, >, >=)
-4. Logical NOT operator
-5. Logical AND operator
-6. Logical OR operator
+3. Bitwise AND (&)
+4. Bitwise OR (|)
+5. Bitwise XOR (^)
+6. Relational operators (=, <>, <, <=, >, >=)
+7. Logical NOT operator
+8. Logical AND operator
+9. Logical OR operator
 
 If, during the evaluation of an expression, division by zero is encountered,
 the "Division by zero" error message is displayed and the program is terminated.
@@ -485,20 +495,39 @@ IF expression THEN
 ENDIF
 ```
 
-The IF statement is used to make a decision based on the value of an expression.
+Or:
+
+```text
+IF expression THEN
+    statement
+    .
+    .
+[ELSEIF expression THEN
+    statement
+    .
+    .]
+[ELSE
+    statement
+    .
+    .]
+ENDIF
+```
+
+The IF and the ELSEIF statements are used to make a decision based on the value of an expression.
 If the expression is true (nonzero), the THEN or GOTO clause is executed.
 If the expression is false (zero), the statement following the ELSE keyword is executed.
 
-The ELSE clause is optional.
+The ELSEIF and ELSE clauses are optional.
 
 Example:
 
 ```text
-10 IF A=0 THEN 100
-20 PRINT "A<>0"
-30 END
-100 PRINT "A=0"
-110 END
+10 IF A=0 THEN
+20   PRINT "A=0"
+30 ELSE
+40   PRINT "A<>0"
+50 ENDIF
+60 END
 ```
 
 ### LET
@@ -1139,6 +1168,30 @@ TIME()
 
 The TIME function is used to return the current time in seconds since start of the Minetest server.
 
+### DAYTIME
+
+Format:
+
+```text
+t = DAYTIME()
+```
+
+The DAYTIME function is used to return the daytime in minutes (0-1440).
+
+### DAYTIME$
+
+Format:
+
+```text
+t$ = DAYTIME$(format)
+```
+
+The DAYTIME$ function is used to return the daytime as string.
+`format` is used to specify the time format:
+
+- 0 = 24 hours format (0-23)
+- 1 = 12 hour format with AM/PM
+
 ### VAL
 
 Format:
@@ -1227,6 +1280,44 @@ The `RESET` function is used to reset the program to the first line.
 64000 PRINT "Mapblock loaded"
 64010 RESET()
 ```
+
+### Hold / Release of techage commands
+
+Techage commands can be held and released. This is useful when a sequence of commands should
+be executed at once. Normally, the commands are executed once per cycle, which is 0.1 seconds.
+By means of the `HOLD` and `RELEASE` functions, the commands are executed at once.
+The `HOLD` function is used to hold the commands and the `RELEASE` function is used to release
+and execute the commands.
+
+Example:
+
+```text
+10 HOLD()
+20 CMD(1234, 1, 1)
+30 CMD(1234, 2, 1)
+40 CMD(1234, 3, 1)
+50 RELEASE()   ' <= Execute the commands
+```
+
+### HOLD
+
+Format:
+
+```text
+HOLD()
+```
+
+The `HOLD` function is used to hold Techage commands.
+
+### RELEASE
+
+Format:
+
+```text
+RELEASE()
+```
+
+The `RELEASE` function is used to release and execute Techage commands.
 
 ### CMD
 
@@ -1503,10 +1594,10 @@ As payload data, these commands may require numeric values or a string value.
 | Detector Block Countdown | 5  | counter    | Set countdown counter of the TA4 Item Detector block to the given value and start countdown mode. |
 | Detector Block Reset     | 6  | -          | Reset the item counter of the TA4 Item Detector block        |
 | TA3 Sequenzer            | 7  | state      | Turn the TA3 Sequencer on/off<br>`state`: 0 = "off", 1 = "on", 2 = "pause" |
-| DC2 Exchange Block       | 9  | 0, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Exchange a block<br>`idx` is the inventory slot number (1..n) |
-| DC2 Set Block            | 9  | 1, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Set/add a block<br>`idx` is the inventory slot number (1..n) with the block to be set |
-| DC2 Dig Block            | 9  | 2, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Dig/remove a block<br>`idx` is the empty inventory slot number (1..n) for the block |
-| DC2 Reset                | 9  | 3          | TA3 Door Controller II (techage:ta3_doorcontroller2). Reset the door controller |
+| DC2 Exchange Block       | 9  | 0, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Exchange a block in the world<br /> with the block in the inventory.<br>`idx` is the inventory slot number (1..n) |
+| DC2 Set to1   | 9  | 4, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Swaps a block in the inventory <br />with the block in the world, provided the position was in state 2 (Exchange state).<br>`idx` is the inventory slot number (1..n) |
+| DC2 Set to2     | 9  | 5, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Swaps a block in the inventory <br />with the block in the world, provided the position was in state 1 (Initial state).<b<br />`idx` is the inventory slot number (1..n) |
+| DC2 Reset                | 9  | 3          | TA3 Door Controller II (techage:ta3_doorcontroller2). Using the reset command,<br />all blocks are reset to their initial state after learning. |
 | Autocrafter              | 10 | num, idx   | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br>`num` is the TA4 Recipe Block number<br>`idx` is the number of the recipe in the TA4 Recipe Block |
 | Autocrafter              | 11 | -          | Move all items from input inventory to output inventory. Returns 1 if the input inventory was emptied in the process. Otherwise return 0 |
 | Move Contr. 1            | 11 | 1          | TA4 Move Controller command to move the block(s) from position A to B |
@@ -1514,7 +1605,9 @@ As payload data, these commands may require numeric values or a string value.
 | Move Contr. 3            | 11 | 3          | TA4 Move Controller command to move the block(s) to the opposite position |
 | Move Contr. `move xyz`   | 18 | x, y, z    | TA4 Move Controller command to move the block(s) by the given<br>x/y/z-distance. Valid ranges for x, y, and z are -100 to 100 |
 | Move Contr. `moveto`     | 24 | x, y, z    | TA4 Move Controller command to move the block(s) to the given absolute x/y/z-position. |
-| Move Contr. reset        | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
+| Move Contr. `reset`      | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
+| Move Contr. II `moveto`  | 24 | x, y, z    | TA4 Move Controller command to move the block(s) to the given absolute x/y/z-position. |
+| Move Contr. II `reset`   | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
 | Turn Contr. 1            | 12 | 1          | TA4 Turn Controller command to turn the block(s) to the left |
 | Turn Contr. 2            | 12 | 2          | TA4 Turn Controller command to turn the block(s) to the right |
 | Turn Contr. 3            | 12 | 3          | TA4 Turn Controller command to turn the block(s) 180 degrees |
@@ -1541,7 +1634,7 @@ corresponds to the error from previous chapter.
 
 | Command                    | Topic (num) | Payload (number(s)) | Response (number) | Remarks to the response                                      |
 | -------------------------- | ----------- | ------------------- | ----------------------- | ------------------------------------------------------------ |
-| Signs Bot State            | 128 | -    | state | Returns: 1 = RUNNING, 2 = BLOCKED, 3 = STOPPED, 4 = NO_POPWER, 5 = ERROR, 6 = FULL, 7 = CHARGING |
+| Signs Bot State            | 129 | -    | state | Returns: 1 = RUNNING, 2 = BLOCKED, 3 = STOPPED, 4 = NO_POPWER, 5 = ERROR, 6 = FULL, 7 = CHARGING |
 | State for Techage Machines | 129 | -    | state | RUNNING = 1, BLOCKED = 2, STANDBY = 3, NOPOWER = 4, FAULT = 5, STOPPED = 6, UNLOADED = 7, INACTIVE = 8 |
 | Minecart State (Cart Terminal)   | 129 | cart-id | state    | Returns 0 = UNKNOWN, 1 = STOPPED, 2 = RUNNING           |
 | Minecart Distance (Cart Terminal)| 130 | cart-id | distance | Returns the distance from the cart to the Cart Terminal in meters |
@@ -1568,11 +1661,14 @@ corresponds to the error from previous chapter.
 | Consumption                | 146 | 0    | value   | TA4 Electric Meter: Amount of electrical energy passed through |
 | Countdown                  | 146 | 1    | value   | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
 | Current                    | 146 | 2    | value   | TA4 Electric Meter: Current flow of electricity (current)    |
+| Door Controller II State   | 147 | idx  | state   | State of the specified inventory slot (1..n). Returns: 1 = Initial state (reset), 2 = Exchange state |
 | Time Stamp                 | 149 | -    | time    | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
 | TA4 Pusher Counter         | 150 | -    | number  | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
 | TA4 Pump Counter           | 151 | -    | number  | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
 | Multi Button State         | 152 | num  | state   | Read the button state (TA4 2x Button, TA4 4x Button)<br>`num` is the button number (1..4), `state`: 0 = "off", 1 = "on" |
 | Water Remover Depth        | 153 | -    | depth   | Current depth value of a remover (1..80)                |
+| **--------------------------** | **---** | **----** | **-------** | **Payload as string** |
+| Chest Item Count           | 192 | "item" | count   | Amount of items in a TA3/TA4/TA5 chest or shop. `item` is the item name or<br>a substring of the item name, e.g. "dirt". |
 
 ### CMD$ Commands with Response as String Value
 
@@ -1589,5 +1685,4 @@ In case of an error, the error subroutine is called and the response string is "
 | Inventory Item Name   | 140  | 2, idx | "\<node name>"   | Name of TA4 8x2000 Chest items<br>`idx` is the inventory slot number (1..8 from left to right) |
 | Furnace Output        | 141  | -      | "\<node name>"   | Node name of the Industrial Furnace output. <br>Returns "none", if no recipe is active |
 | Player Name           | 144  | -      | "\<player name>" | Player name of the TA3/TA4 Player Detector or TA4 Button     |
-| DC2 Block Name        | 147  | idx    | "\<node name>"   | Name of the placed block<br>`idx` is the inventory slot number (1..n) of the related the block position |
 | Distri. Filter Get    | 148  | idx    | "\<item list>"   | `idx` is the slot number: 1 = "red", 2 = "green", 3 = "blue", 4 = "yellow"<br>Returns a string like: "default:dirt dye:blue" |

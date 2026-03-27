@@ -12,7 +12,7 @@
 
 ]]--
 
-safer_lua.MaxCodeSize = 5000    -- size if source code in bytes
+safer_lua.MaxCodeSize = 5000    -- size of source code in bytes
 safer_lua.MaxTableSize = 1000   -- sum over all table sizes
 safer_lua.MaxExeTime = 20000    -- max. execution time in us
 
@@ -114,9 +114,10 @@ local function calc_used_mem_size(env)
 	return size
 end
 
-function safer_lua.config(max_code_size, max_table_size)
+function safer_lua.config(max_code_size, max_table_size, max_exe_time)
 	safer_lua.MaxCodeSize = max_code_size
 	safer_lua.MaxTableSize = max_table_size
+	safer_lua.MaxExeTime = max_exe_time or safer_lua.MaxExeTime
 end	
 
 local function format_error_str(str, label)
@@ -160,13 +161,16 @@ end
 
 local function runtime_delimiter(code)
 	local time = minetest.get_us_time()
+	local env = getfenv(code)
+	env.credits = env.credits or 0
 	local timeout = function ()
+		env.credits = env.credits - 1
 		if minetest.get_us_time() - time > safer_lua.MaxExeTime then
 			debug.sethook()
 			error("Runtime limit exceeded")
 		end
 	end
-	debug.sethook(timeout, "c")
+	debug.sethook(timeout, "", 500)
 	code()
 	debug.sethook()
 end
@@ -256,4 +260,20 @@ function safer_lua.co_resume(pos, co, code, err_clbk)
 		return false
 	end
 	return true
+end
+
+function safer_lua.get_credits(code)
+	local env = getfenv(code)
+	return env.credits
+end
+
+function safer_lua.set_credits(code, credits)
+	local env = getfenv(code)
+	env.credits = credits
+end
+
+function safer_lua.add_credits(code, credits)
+	local env = getfenv(code)
+	env.credits = env.credits + credits
+	return env.credits
 end

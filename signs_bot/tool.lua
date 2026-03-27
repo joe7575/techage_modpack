@@ -46,7 +46,7 @@ end
 
 -- Write actuator_pos data to sensor_pos
 local function pairing(actuator_pos, sensor_pos, invert)
-	local signal = signs_bot.get_signal(actuator_pos)
+	local signal = signs_bot.get_signal(actuator_pos, sensor_pos)
 	if invert then
 		signal = ({on = "off", off = "on"})[signal]
 	end

@@ -57,6 +57,7 @@ return {
     "3,TA3 Sequenzer / Sequencer",
     "3,TA3 Timer",
     "3,TA3 Terminal",
+    "3,TA3 Röhrenmonitor / TA3 CRT Monitor",
     "3,TechAge Farblampe / Color Lamp",
     "3,Tür/Tor Blöcke / Door/Gate Blocks",
     "3,TA3 Tür Controller / Door Controller",
@@ -79,26 +80,27 @@ return {
     "3,TA3 Kieswaschanlage / Gravel Rinser",
     "3,TA3 Mühle / Grinder",
     "3,TA3 Injektor / Injector",
+    "3,TA3 Beobachtungsfenster / TA3 Observation Window",
     "2,Werkzeuge",
     "3,Techage Info Tool",
     "3,TechAge Programmer",
     "3,TechAge Kelle / Trowel",
     "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
     "3,Techage Schraubendreher / Screwdriver",
-    "3,TechAge Montagewerkzeug / Assembly Tool",
+    "3,TechAge Akkuschrauber / Cordless Screwdriver",
   },
   texts = {
-    "Bei TA3 gilt es\\, die Dampf-betriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
+    "Bei TA3 gilt es\\, die Dampfbetriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
     "\n"..
-    "Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen\\, dass dein Strombedarf nur mit Öl-betriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die\\, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.\n"..
+    "Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen\\, dass dein Strombedarf nur mit ölbetriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die\\, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.\n"..
     "\n"..
     "Das Industrielle Zeitalter ist auf seinem Höhepunkt.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
+    "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
     "\n"..
-    "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
+    "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen oder eine Flüssigkeitsleitung mit dem Boiler-Oberteil verbinden\\, um automatisch Wasser über eine Pumpe nachzufüllen.\n"..
     "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
     "Wenn das Wasser heiß ist\\, kann der Generator gestartet werden.\n"..
     "\n"..
@@ -124,7 +126,14 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
+    "Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. \n"..
+    "\n"..
+    "Der Boiler kann auf zwei Arten mit Wasser gefüllt werden:\n"..
+    "\n"..
+    "  - Manuell durch Anklicken des Boiler-Oberteils mit einem Wassereimer (bis zu 10 Eimer)\n"..
+    "  - Automatisch über eine Flüssigkeitsleitung\\, die mit dem Boiler-Oberteil verbunden ist\\, mittels einer TA3/TA4-Pumpe\n"..
+    "\n"..
+    "Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
     "Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.\n"..
     "\n"..
     "\n"..
@@ -141,7 +150,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen\\, Speichersysteme und Generatoren mit Stromkabel verbunden werden.\n"..
+    "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen\\, Speichersysteme und Generatoren mit Stromkabeln verbunden werden.\n"..
     "TA3 besitzt 2 Arten von Stromkabel:\n"..
     "\n"..
     "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
@@ -573,6 +582,29 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Passend zum TA3 Terminal im BASIC-Mode gibt es den Röhrenmonitor. Dieser kann die Ausgaben des BASIC-Programms anzeigen.\n"..
+    "Der Monitor kann aber auch als Anzeige für andere Blöcke genutzt werden\\, die Texte ausgeben (bspw. der Lua Controller).\n"..
+    "Der Monitor besitzt ein Gabelschlüssel-Menü\\, über das die Auflösung des Monitors sowie die Textfarbe eingestellt werden kann.\n"..
+    "Die Auflösung kann im Bereich von 16x8 bis 40x20 Zeichen x Zeilen eingestellt werden.\n"..
+    "\n"..
+    "Die Updaterate des Monitors ist direkt abhängig von der Auflösung und beträgt eine Sekunde bei 16x8 und ca. 6 Sekunden bei 40x20.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung im BASIC-Mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              ' Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              ' letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung durch den Lua Controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              -- Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              -- letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "Die Farblampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
     "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" und über Lua/Beduino Kommandos eingefärbt werden.\n"..
     "\n"..
@@ -591,25 +623,27 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.\n"..
+    "Der Tür Controller II kann viele Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden. Es können bis zu 16 Blöcke ausgewählt werden.\n"..
     "\n"..
-    " Über die Taste \"Austauschen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
+    "Wird die Taste \"Austauschen\" gedrückt\\, werden die Blöcke an den angelernten Positionen entfernt und im Inventar des Controllers gespeichert.\n"..
+    "Die freigewordenen Positionen können auch wieder mit Blöcken belegt werden. Durch erneutes Drücken der \"Austauschen\" Taste werden die Blöcke mit den Blöcken im Inventar getauscht.\n"..
     "\n"..
-    "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
+    "Über die Taste \"Rücksetzen\" werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt. Damit ist die Anlernphase beendet und der Tür Controller II kann über Kommandos angesteuert werden.\n"..
     "\n"..
-    "Mit '$send_cmnd(node_number\\, \"exchange\"\\, 2)' können einzelne Böcke gesetzt\\, entfernt\\, bzw. durch andere Blöcke aus dem Inventar ersetzt werden. \n"..
+    "Jede Position bzw. jeder Slot besitzt zwei Zustände:\n"..
     "\n"..
-    "Mit '$send_cmnd(node_number\\, \"set\"\\, 2)' kann ein Block aus dem Inventory explizit gesetzt werden\\, sofern der Inventory Slot nicht leer ist.\n"..
+    "1) Der Block befindet sich in der Welt (ein ggf. vorhandener Austauschblock ist im Inventar) = Ausgangszustand\n"..
+    "2) Der Block befindet sich im Inventar (ein ggf. vorhandener Austauschblock ist in der Welt) = Austauschzustand\n"..
     "\n"..
-    "Mit '$send_cmnd(node_number\\, \"dig\"\\, 2)' kann ein Block wieder entfernt werden\\, sofern der Inventory Slot leer ist. \n"..
+    "  - Über 'on' / 'off' Kommandos werden alle Blöcke an den angelernten Positionen mit denen im Inventar getauscht.\n"..
+    "  - Über das 'reset' Kommando werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt.\n"..
     "\n"..
-    "Mit '$send_cmnd(node_number\\, \"get\"\\, 2)' wird der Name des gesetzten Blocks zurückgeliefert. \n"..
+    "Für alle folgenden Kommados muss zusätzlich die Slot-Nummer des Inventars als Parameter übergeben werden (1..16).\n"..
     "\n"..
-    "Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.\n"..
-    "\n"..
-    "Mit '$send_cmnd(node_number\\, \"reset\")' wird der Tür Controller zurückgesetzt. \n"..
-    "\n"..
-    "Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.\n"..
+    "  - Über das 'exc' Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht.\n"..
+    "  - Über das 'to1' Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht\\, sofern die Position im Zustand 2 war (Austauschzustand).\n"..
+    "  - Über das 'to2' Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht\\, sofern die Position im Zustand 1 war (Ausgangszustand).\n"..
+    "  - Über das 'get' Kommando wird der der Zustand der Position zurückgeliefert\\, also die Werte 1 oder 2.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -719,6 +753,10 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Das Beobachtungsfenster ist ein Block\\, der die Funktion eines Fensters in eine Röhre hat. Damit können Items in Röhren sichtbar gemacht werden.\n"..
+    "Der Fensterblock muss zwischen zwei Röhren gesetzt werden. Zwei oder mehr Fensterblöcke hintereinander sind nicht zulässig. Die Animation der Items\n"..
+    "findet nur statt\\, wenn ein Spieler in der Nähe ist (<=8 Blöcke). Items werden aber unabhängig von der Sichtbarkeit weitergegeben.\n"..
+    "\n",
     "",
     "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
     "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
@@ -749,12 +787,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das TechAge Montagewerkzeug dient zum Entfernen und wieder Setzen von Techage Blöcken\\, ohne dass diese Blöcke ihre Blocknummer verlieren\\, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich\\, da diese oft umgesetzt werden müssen.\n"..
+    "Das TechAge Akkuschrauber dient zum Entfernen und wieder Setzen von Techage Blöcken\\, ohne dass diese Blöcke ihre Blocknummer verlieren\\, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich\\, da diese oft umgesetzt werden müssen.\n"..
     "\n"..
     "  - Linke Taste: Entfernen eines Blocks\n"..
     "  - Rechte Taste: Setzen eines Blocks\n"..
     "\n"..
-    "Der Block\\, der zuvor mit dem Montagewerkzeug entfernt wurde und wieder gesetzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
+    "Der Block\\, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll\\, muss sich in Hotbar-Slot 1 (dem ganz linken Slot der Hotbar) befinden.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -817,6 +855,7 @@ return {
     "ta3_sequencer",
     "ta3_timer",
     "ta3_terminal",
+    "ta3_monitor",
     "ta3_colorlamp",
     "ta3_doorblock",
     "ta3_doorcontroller",
@@ -840,12 +879,13 @@ return {
     "ta3_grinder",
     "ta3_injector",
     "",
+    "",
     "ta3_end_wrench",
     "ta3_programmer",
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",
@@ -895,6 +935,8 @@ return {
     "",
     "",
     "ta3_distiller",
+    "",
+    "",
     "",
     "",
     "",

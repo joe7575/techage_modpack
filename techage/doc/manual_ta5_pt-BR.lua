@@ -20,6 +20,10 @@ return {
     "3,Itens do bloco de teletransporte TA5",
     "3,Líquidos do bloco de teletransporte TA5",
     "3,Blocos de teletransporte Hyperloop (planejados)",
+    "2,TA5 Digitalizador / TA5 Digitizer",
+    "3,TA5 Digitalizador / TA5 Digitizer",
+    "3,TA5 Unidade de Controle / TA5 Control Unit",
+    "3,TA5 SSD",
     "2,Mais blocos/itens TA5",
     "3,Contêiner TA5 (planejado)",
     "3,Chip TA5 AI",
@@ -57,19 +61,42 @@ return {
     "\n",
     "A bomba é necessária para encher o circuito de resfriamento com isobutano. São necessárias cerca de 350 unidades de isobutano.\n"..
     "\n"..
+    "A bomba tem dois lados de conexão:\n"..
+    "\n"..
+    "  - Lado esquerdo: conector amarelo (GasPipe) – conecte o tanque de isobutano aqui\n"..
+    "  - Lado direito: conector azul (LiquidPipe) – conecte o circuito de resfriamento aqui\n"..
+    "\n"..
+    "Por padrão\\, a bomba move líquido da esquerda (amarelo) para a direita (azul)\\, ou seja\\, do tanque para o circuito de resfriamento. A direção pode ser alterada para \"reverse\" no menu da chave inglesa.\n"..
+    "\n"..
     "Observação: A bomba TA5 só pode ser usada para encher o circuito de resfriamento\\; não é possível bombear o líquido de arrefecimento para fora. Portanto\\, a bomba não deve ser ligada até que os ímãs estejam corretamente posicionados e todas as linhas de alimentação e resfriamento estejam conectadas.\n"..
+    "\n"..
+    "Se a bomba mostrar \"blocked\"\\, o destino está cheio ou não conectado.\n"..
     "\n"..
     "\n"..
     "\n",
     "O trocador de calor TA5 é necessário para converter o calor gerado no reator de fusão primeiro em vapor e depois em eletricidade. O próprio trocador de calor requer 5 ku de eletricidade. A estrutura é semelhante à do trocador de calor do depósito de energia do TA4.\n"..
     "\n"..
-    "Observação: O trocador de calor TA5 tem duas conexões (azul e verde) para o circuito de resfriamento. O trocador de calor e todos os ímãs devem ser conectados para formar um circuito de resfriamento por meio dos tubos verde e azul.\n"..
+    "O trocador de calor consiste em 3 partes (de baixo para cima: 1\\, 2\\, 3). As partes 1 e 3 têm dois lados de conexão cada:\n"..
     "\n"..
-    "É possível verificar se o circuito de resfriamento está completo usando o botão de partida no trocador de calor\\, mesmo que o líquido de arrefecimento ainda não tenha sido abastecido.\n"..
+    "  - Lado direito: conector amarelo – conexão com a turbina (parte 1) ou o resfriador (parte 3)\n"..
+    "  - Lado esquerdo da parte 1: conector azul – circuito de resfriamento para o anel inferior de ímãs (56 ímãs)\n"..
+    "  - Lado esquerdo da parte 3: conector verde – circuito de resfriamento para o anel superior (52 ímãs)\n"..
+    "\n"..
+    "É possível verificar se o circuito de resfriamento está completo usando o botão de partida no trocador de calor (parte 2)\\, mesmo que o líquido de arrefecimento ainda não tenha sido abastecido.\n"..
     "\n"..
     "\n"..
     "\n",
-    "O reator de fusão é ligado por meio do controlador do reator de fusão TA5. O resfriamento/trocador de calor deve ser ligado primeiro e depois o controlador. Leva cerca de 2 minutos para o reator iniciar e fornecer eletricidade. O reator de fusão e\\, portanto\\, o controlador requerem 400 ku de eletricidade para manter o plasma.\n"..
+    "O reator de fusão é ligado por meio do controlador do reator de fusão TA5. O reator de fusão e\\, portanto\\, o controlador requerem 400 ku de eletricidade para manter o plasma.\n"..
+    "\n"..
+    "*Sequência de inicialização:*\n"..
+    "\n"..
+    "  - Todos os ímãs devem estar corretamente posicionados e preenchidos com isobutano\n"..
+    "  - Circuito de resfriamento (tubos azuis e verdes) e tubulações de vapor (tubos amarelos) devem estar totalmente conectados\n"..
+    "  - Primeiro\\, ligue o trocador de calor (parte 2)\n"..
+    "  - Depois ligue o controlador\n"..
+    "  - Leva cerca de 2 minutos para atingir 80° e produzir vapor/eletricidade\n"..
+    "\n"..
+    "*Importante:* O trocador de calor e o controlador devem funcionar ao mesmo tempo.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -146,6 +173,46 @@ return {
     "O uso dos blocos de teletransporte Hyperloop requer 60 pontos de experiência.\n"..
     "\n",
     "",
+    "O TA5 Digitizer é um bloco de armazenamento de itens de alta capacidade que armazena digitalmente itens retirados de inventários adjacentes. Ele pode operar em dois modos (pull/push) e gerencia até 8 tipos de itens diferentes com até 100.000 itens por slot.\n"..
+    "\n"..
+    "O Digitizer tem uma conexão de tubo no lado direito e também pode ser controlado pela rede Techage. No modo pull\\, ele retira até 50 itens por ciclo de um baú conectado. No modo push\\, ele empurra os itens armazenados de volta para inventários adjacentes.\n"..
+    "\n"..
+    "Apenas itens empilháveis sem metadados e sem desgaste podem ser armazenados. Itens como livros assinados ou ferramentas desgastadas são rejeitados.\n"..
+    "\n"..
+    "O Digitizer só pode ser removido com uma picareta se o armazenamento interno estiver completamente vazio. Use a chave de fenda sem fio para removê-lo quando parado - os itens armazenados são preservados como metadados do item e restaurados automaticamente quando o bloco é recolocado com a chave de fenda sem fio.\n"..
+    "\n"..
+    "O TA5 Digitizer requer 24 ku de energia.\n"..
+    "\n"..
+    "São necessários 50 pontos de experiência para usar o TA5 Digitizer (configurável via 'techage_ta5_digitizer_expoints').\n"..
+    "\n"..
+    "O Digitizer também pode ser configurado e iniciado usando um controlador Lua ou Beduino.\n"..
+    "\n"..
+    "Aqui estão os comandos adicionais para o controlador Lua:\n"..
+    "\n"..
+    "  - 'on' / 'off' - Iniciar ou parar o Digitizer\n"..
+    "  - 'state' - Consultar o estado atual (ex. \"running\"\\, \"stopped\")\n"..
+    "  - 'pull' - Iniciar no modo pull\\; retira itens do baú adjacente\n"..
+    "  - 'push' - Iniciar no modo push\\; empurra itens armazenados para o baú adjacente\n"..
+    "  - 'stop' - Parar o Digitizer\n"..
+    "  - 'config' define o tipo de item alvo (para o Digitizer primeiro).\nExemplo: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' consulta o número total de itens armazenados.\nExemplo: '$send_cmnd(NUM\\, \"count\")' retorna um número\n"..
+    "  - 'itemstring' consulta o tipo de item configurado.\nExemplo: '$send_cmnd(NUM\\, \"itemstring\")' retorna o nome do item\n"..
+    "  - 'mode' lê ou define o modo de operação (1 = pull\\, 2 = push).\nExemplo: '$send_cmnd(NUM\\, \"mode\")' retorna 1 ou 2\nExemplo: '$send_cmnd(NUM\\, \"mode\"\\, 2)' define o modo push\n"..
+    "\n"..
+    "Tópicos Beduino (cmnd): 65 = definir tipo de item\\, 67 = definir modo (1=pull\\, 2=push)\n"..
+    "Tópicos Beduino (request): 154 = contagem total de itens\\, 155 = tipo de item configurado\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "A Unidade de Controle TA5 é necessária para fabricar o TA5 Digitizer. Ela só pode ser fabricada na Fábrica de Eletrônicos TA4 e requer 50 pontos de experiência.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. Ele só pode ser fabricado na Fábrica de Eletrônicos TA4 a partir de 16 chips de RAM TA4\\, 1 Wafer de Silício TA4\\, 1 Folha de Plástico e 1 Tira de Aço.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "",
     "O contêiner TA5 permite que os sistemas Techage sejam embalados e desembalados em outro local.\n"..
     "\n"..
     "São necessários 80 pontos de experiência para usar o contêiner TA5.\n"..
@@ -181,6 +248,10 @@ return {
     "ta5_tele_pipe",
     "",
     "",
+    "ta5_digitizer",
+    "ta5_controlunit",
+    "ta5_ssd",
+    "",
     "",
     "ta5_aichip",
     "ta5_aichip2",
@@ -203,6 +274,10 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",

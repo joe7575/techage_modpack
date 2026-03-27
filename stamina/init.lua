@@ -7,6 +7,7 @@ stamina = {}
 local modname = minetest.get_current_modname()
 local armor_mod = minetest.get_modpath("3d_armor") and minetest.global_exists("armor") and armor.def
 local player_monoids_mod = minetest.get_modpath("player_monoids") and minetest.global_exists("player_monoids")
+local pova_mod = minetest.get_modpath("pova") and minetest.global_exists("pova")
 
 function stamina.log(level, message, ...)
 	return minetest.log(level, ("[%s] %s"):format(modname, message:format(...)))
@@ -65,25 +66,17 @@ local function is_player(player)
 end
 
 local function set_player_attribute(player, key, value)
-	if player.get_meta then
-		local meta = player:get_meta()
-		if meta and value == nil then
-			meta:set_string(key, "")
-		elseif meta then
-			meta:set_string(key, tostring(value))
-		end
+	local meta = player:get_meta()
+	if value == nil then
+		meta:set_string(key, "")
 	else
-		player:set_attribute(key, value)
+		meta:set_string(key, tostring(value))
 	end
 end
 
 local function get_player_attribute(player, key)
-	if player.get_meta then
-		local meta = player:get_meta()
-		return meta and meta:get_string(key) or ""
-	else
-		return player:get_attribute(key)
-	end
+	local meta = player:get_meta()
+	return meta:get_string(key)
 end
 
 local hud_ids_by_player_name = {}
@@ -125,7 +118,7 @@ function stamina.update_saturation(player, level)
 
 	local old = stamina.get_saturation(player)
 
-	if level == old then  -- To suppress HUD update
+	if level == old then -- To suppress HUD update
 		return
 	end
 
@@ -162,7 +155,7 @@ function stamina.set_poisoned(player, poisoned)
 		set_player_attribute(player, attribute.poisoned, "yes")
 	else
 		player:hud_change(hud_id, "text", "stamina_hud_fg.png")
-		set_player_attribute(player, attribute.poisoned, "no")
+		set_player_attribute(player, attribute.poisoned, nil)
 	end
 end
 
@@ -175,7 +168,7 @@ local function poison_tick(player_name, ticks, interval, elapsed)
 	else
 		local hp = player:get_hp() - 1
 		if hp > 0 then
-			player:set_hp(hp)
+			player:set_hp(hp, {type = "set_hp", cause = "stamina:poison"})
 		end
 		minetest.after(interval, poison_tick, player_name, ticks, interval, elapsed + 1)
 	end
@@ -244,7 +237,7 @@ function stamina.exhaust_player(player, change, cause)
 
 	if exhaustion >= settings.exhaust_lvl then
 		exhaustion = exhaustion - settings.exhaust_lvl
-		stamina.change(player, -1)
+		stamina.change_saturation(player, -1)
 	end
 
 	stamina.set_exhaustion(player, exhaustion)
@@ -276,6 +269,15 @@ function stamina.set_sprinting(player, sprinting)
 			player_monoids.speed:del_change(player, "stamina:physics")
 			player_monoids.jump:del_change(player, "stamina:physics")
 		end
+	elseif pova_mod then
+		if sprinting then
+			pova.add_override(player:get_player_name(), "stamina:physics",
+					{speed = settings.sprint_speed, jump = settings.sprint_jump})
+			pova.do_override(player)
+		else
+			pova.del_override(player:get_player_name(), "stamina:physics")
+			pova.do_override(player)
+		end
 	else
 		local def
 		if armor_mod then
@@ -303,7 +305,7 @@ function stamina.set_sprinting(player, sprinting)
 	end
 
 	if settings.sprint_particles and sprinting then
-		local pos = player:getpos()
+		local pos = player:get_pos()
 		local node = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
 		local def = minetest.registered_nodes[node.name] or {}
 		local drawtype = def.drawtype
@@ -381,12 +383,13 @@ local function health_tick()
 	for _,player in ipairs(minetest.get_connected_players()) do
 		local air = player:get_breath() or 0
 		local hp = player:get_hp()
+		local hp_max = player:get_properties().hp_max
 		local saturation = stamina.get_saturation(player)
 
 		-- don't heal if dead, drowning, or poisoned
 		local should_heal = (
 			saturation >= settings.heal_lvl and
-			saturation >= hp and
+			hp < hp_max and
 			hp > 0 and
 			air > 0
 			and not stamina.is_poisoned(player)
@@ -398,10 +401,10 @@ local function health_tick()
 		)
 
 		if should_heal then
-			player:set_hp(hp + settings.heal)
+			player:set_hp(hp + settings.heal, {type = "set_hp", cause = "stamina:heal"})
 			stamina.exhaust_player(player, settings.exhaust_lvl, stamina.exhaustion_reasons.heal)
 		elseif is_starving then
-			player:set_hp(hp - settings.starve)
+			player:set_hp(hp - settings.starve, {type = "set_hp", cause = "stamina:starve"})
 		end
 	end
 end
@@ -431,6 +434,43 @@ local function stamina_globaltimer(dtime)
 	end
 end
 
+local function show_eat_particles(player, itemname)
+	-- particle effect when eating
+	local pos = player:get_pos()
+	pos.y = pos.y + (player:get_properties().eye_height * .923) -- assume mouth is slightly below eye_height
+	local dir = player:get_look_dir()
+
+	local def = minetest.registered_items[itemname]
+	local texture = def.inventory_image or def.wield_image
+
+	local particle_def = {
+		amount = 5,
+		time = 0.1,
+		minpos = pos,
+		maxpos = pos,
+		minvel = {x = dir.x - 1, y = dir.y, z = dir.z - 1},
+		maxvel = {x = dir.x + 1, y = dir.y, z = dir.z + 1},
+		minacc = {x = 0, y = -5, z = 0},
+		maxacc = {x = 0, y = -9, z = 0},
+		minexptime = 1,
+		maxexptime = 1,
+		minsize = 1,
+		maxsize = 2,
+	}
+
+	if texture and texture ~= "" then
+		particle_def.texture = texture
+
+	elseif def.type == "node" then
+		particle_def.node = {name = itemname, param2 = 0}
+
+	else
+		particle_def.texture = "blank.png"
+	end
+
+	minetest.add_particlespawner(particle_def)
+end
+
 -- override minetest.do_item_eat() so we can redirect hp_change to stamina
 stamina.core_item_eat = minetest.do_item_eat
 function minetest.do_item_eat(hp_change, replace_with_item, itemstack, player, pointed_thing)
@@ -446,8 +486,8 @@ function minetest.do_item_eat(hp_change, replace_with_item, itemstack, player, p
 	end
 
 	local level = stamina.get_saturation(player) or 0
-	if level >= settings.visual_max then
-		-- don't eat if player is full
+	if level >= settings.visual_max and hp_change > 0 then
+		-- don't eat if player is full and item provides saturation
 		return itemstack
 	end
 
@@ -459,65 +499,40 @@ function minetest.do_item_eat(hp_change, replace_with_item, itemstack, player, p
 		stamina.log("action", "%s eats %s for %s stamina",
 			player:get_player_name(), itemname, hp_change)
 	end
-	minetest.sound_play("stamina_eat", {to_player = player:get_player_name(), gain = 0.7})
+	minetest.sound_play("stamina_eat", {to_player = player:get_player_name(), gain = 0.7}, true)
 
 	if hp_change > 0 then
 		stamina.change_saturation(player, hp_change)
 		stamina.set_exhaustion(player, 0)
-	else
-		-- assume hp_change < 0.
+	elseif hp_change < 0 then
 		stamina.poison(player, -hp_change, settings.poison_tick)
 	end
 
 	if settings.eat_particles then
-		-- particle effect when eating
-		local pos = player:getpos()
-		pos.y = pos.y + 1.5 -- mouth level
-		local texture  = minetest.registered_items[itemname].inventory_image
-		local dir = player:get_look_dir()
-
-		minetest.add_particlespawner({
-			amount = 5,
-			time = 0.1,
-			minpos = pos,
-			maxpos = pos,
-			minvel = {x = dir.x - 1, y = dir.y, z = dir.z - 1},
-			maxvel = {x = dir.x + 1, y = dir.y, z = dir.z + 1},
-			minacc = {x = 0, y = -5, z = 0},
-			maxacc = {x = 0, y = -9, z = 0},
-			minexptime = 1,
-			maxexptime = 1,
-			minsize = 1,
-			maxsize = 2,
-			texture = texture,
-		})
+		show_eat_particles(player, itemname)
 	end
 
 	itemstack:take_item()
-
-	if replace_with_item then
-		if itemstack:is_empty() then
-			itemstack:add_item(replace_with_item)
-		else
-			local inv = player:get_inventory()
-			if inv:room_for_item("main", {name=replace_with_item}) then
-				inv:add_item("main", replace_with_item)
-			else
-				local pos = player:getpos()
-				pos.y = math.floor(pos.y - 1.0)
-				minetest.add_item(pos, replace_with_item)
-			end
+	player:set_wielded_item(itemstack)
+	replace_with_item = ItemStack(replace_with_item)
+	if not replace_with_item:is_empty() then
+		local inv = player:get_inventory()
+		replace_with_item = inv:add_item("main", replace_with_item)
+		if not replace_with_item:is_empty() then
+			local pos = player:get_pos()
+			pos.y = math.floor(pos.y - 1.0)
+			minetest.add_item(pos, replace_with_item)
 		end
 	end
 
-	return itemstack
+	return nil -- don't overwrite wield item a second time
 end
 
 minetest.register_on_joinplayer(function(player)
 	local level = stamina.get_saturation(player) or settings.visual_max
 	local id = player:hud_add({
 		name = "stamina",
-		hud_elem_type = "statbar",
+		type = "statbar",
 		position = {x = 0.5, y = 1},
 		size = {x = 24, y = 24},
 		text = "stamina_hud_fg.png",

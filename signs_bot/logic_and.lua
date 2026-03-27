@@ -86,10 +86,14 @@ end
 -- Used by the pairing tool
 local function signs_bot_get_signal(pos, node)
 	local mem = tubelib2.get_mem(pos)
-	mem.inputs = mem.inputs or {}
-	mem.inputs[#mem.inputs + 1] = false
-	clear_inputs(mem)
-	infotext(pos)
+	mem.known_sensors = mem.known_sensors or {}
+	if not mem.known_sensors[node.hash] then
+		mem.known_sensors[node.hash] = true
+		mem.inputs = mem.inputs or {}
+		mem.inputs[#mem.inputs + 1] = false
+		clear_inputs(mem)
+		infotext(pos)
+	end
 	return #mem.inputs
 end
 
@@ -127,17 +131,26 @@ local function send_signal(pos)
 	infotext(pos)
 end
 
+local function valid_state(pos)
+	local signal = M(pos):get_string("signal_data")
+	local state = signs_bot.get_state(pos)
+	-- Signs box must be in the opposite state
+	return state == nil or (signal == "on" and state == false) or (signal == "off" and state == true)
+end
+
 -- To be called from sensors
 local function signs_bot_on_signal(pos, node, signal)
 	local mem = tubelib2.get_mem(pos)
 	signal = tonumber(signal) or 1
-	mem.inputs = mem.inputs or {}
-	mem.inputs[signal] = true
+	if valid_state(pos) then
+		mem.inputs = mem.inputs or {}
+		mem.inputs[signal] = true
 
-	if all_inputs(mem) then
-		send_signal(pos)
-	else
-		not_zero(pos)
+		if all_inputs(mem) then
+			send_signal(pos)
+		else
+			not_zero(pos)
+		end
 	end
 end
 
@@ -192,6 +205,12 @@ minetest.register_node("signs_bot:and2", {
 		"signs_bot_sensor2.png",
 	},
 
+	on_punch = function(pos, node, puncher, pointed_thing)
+		local mem = tubelib2.get_mem(pos)
+		clear_inputs(mem)
+		turn_off(pos)
+		infotext(pos)
+	end,
 	signs_bot_get_signal = signs_bot_get_signal,
 	signs_bot_on_signal = signs_bot_on_signal,
 	update_infotext = update_infotext,
