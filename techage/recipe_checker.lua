@@ -24,7 +24,7 @@ minetest.after(1, function()
 						local key = recipe_key(recipe.items)
 						if Recipes[key] then
 							if not string.find(name, "slab") and not string.find(name, "stair") then
-								local text = Recipes[key].." and "..name.." have the same incredients"
+								local text = Recipes[key].." and "..name.." have the same ingredients"
 								minetest.log("error", text)
 							end
 						end
