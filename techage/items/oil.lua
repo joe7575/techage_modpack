@@ -136,4 +136,4 @@ techage.register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", te
 techage.register_liquid("techage:ta3_canister_oil", "techage:ta3_canister_empty", techage.volume_canister, "techage:oil_source")
 
 core.register_alias_force('multidecor:oil_source', 'techage:oil_source')
-core.register_alias_force('craft_incredients:oil_bucket', 'techage:bucket_oil')
+core.register_alias_force('craft_ingredients:oil_bucket', 'techage:bucket_oil')
