@@ -1,5 +1,7 @@
 # Modpack Tech Age [techage]
 
+**This repo is a collection only – please submit changes to the upstream mods**
+
 This modpack covers all necessary and useful mods to be able to use techage.
 All mods have their own README.txt. For further information please consult these files.
 
